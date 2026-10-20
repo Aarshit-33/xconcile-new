@@ -1,0 +1,1405 @@
+<!DOCTYPE html>
+
+<html class="scroll-smooth" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Xconcile | Outsourced Accounting &amp; CPA Back-Office Solutions</title>
+    <!-- Tailwind CSS CDN with Forms & Container Queries -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        obsidian: {
+                            950: '#03060c',
+                            900: '#060a14',
+                            850: '#090e1c',
+                            800: '#0d1424',
+                            700: '#141e33',
+                        },
+                        emerald: {
+                            400: '#34d399',
+                            500: '#10b981',
+                            600: '#059669',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'sans-serif'],
+                    },
+                    boxShadow: {
+                        'glow-emerald': '0 0 35px -5px rgba(16, 185, 129, 0.25)',
+                        'glow-cyan': '0 0 35px -5px rgba(56, 189, 248, 0.20)',
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Google Font Inter -->
+    <link href="https://fonts.googleapis.com" rel="preconnect" />
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&amp;display=swap"
+        rel="stylesheet" />
+    <style data-purpose="custom-utilities">
+        /* Subtle radial gradient background effect */
+        .bg-mesh-dark {
+            background-color: #03060c;
+            background-image:
+                radial-gradient(at 0% 0%, rgba(16, 185, 129, 0.08) 0px, transparent 50%),
+                radial-gradient(at 100% 0%, rgba(14, 165, 233, 0.08) 0px, transparent 50%),
+                radial-gradient(at 50% 100%, rgba(16, 185, 129, 0.05) 0px, transparent 50%);
+        }
+
+        /* Glassmorphism surfaces */
+        .glass-card {
+            background: rgba(13, 20, 36, 0.72);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .glass-card-hover {
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .glass-card-hover:hover {
+            border-color: rgba(52, 211, 153, 0.35);
+            transform: translateY(-3px);
+            box-shadow: 0 12px 30px -10px rgba(0, 0, 0, 0.7), 0 0 20px -3px rgba(16, 185, 129, 0.2);
+        }
+
+        /* Text Over Image Gradient Scrims */
+        .scrim-dark-top {
+            background: linear-gradient(180deg, rgba(6, 10, 20, 0.95) 0%, rgba(6, 10, 20, 0.5) 45%, rgba(6, 10, 20, 0.95) 100%);
+        }
+
+        .scrim-bottom-heavy {
+            background: linear-gradient(0deg, #060a14 10%, rgba(6, 10, 20, 0.85) 45%, rgba(6, 10, 20, 0.2) 100%);
+        }
+    </style>
+</head>
+
+<body class="bg-obsidian-950 text-slate-200 font-sans antialiased selection:bg-emerald-500 selection:text-white">
+    <!-- BEGIN: SiteNavigation -->
+    <header class="sticky top-0 z-50 border-b border-white/10 bg-obsidian-950/80 backdrop-blur-xl">
+        <!-- Quick notification ticker -->
+        <div
+            class="hidden md:flex items-center justify-between px-6 py-1.5 text-xs border-b border-white/5 bg-obsidian-900/60 text-slate-400">
+            <div class="flex items-center space-x-6 mx-auto max-w-7xl w-full">
+                <span class="flex items-center gap-1.5 text-emerald-400">
+                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                    Now Onboarding for US Tax Year 2024–2025
+                </span>
+                <span class="text-slate-500">|</span>
+                <span>US GAAP Compliant</span>
+                <span class="text-slate-500">•</span>
+                <span>SOC 2 Type II Certified</span>
+                <span class="text-slate-500">•</span>
+                <span>ISO/IEC 27001 Certified</span>
+                <div class="ml-auto flex items-center space-x-4">
+                    <a class="hover:text-emerald-400 transition-colors" href="tel:+18005550199">+1 (888) XCONCILE</a>
+                    <span>contact@xconcile.com</span>
+                </div>
+            </div>
+        </div>
+        <!-- Main Navigation Bar -->
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                <!-- Brand Logo -->
+                <a class="flex items-center gap-3 group" data-purpose="brand-logo" href="#">
+                    <div
+                        class="w-10 h-10 rounded-xl bg-gradient-to-tr from-emerald-500 to-teal-400 p-0.5 shadow-glow-emerald">
+                        <div class="w-full h-full bg-obsidian-900 rounded-[10px] flex items-center justify-center">
+                            <span
+                                class="text-xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-teal-200">X</span>
+                        </div>
+                    </div>
+                    <span class="text-2xl font-bold tracking-tight text-white">Xconcile<span
+                            class="text-emerald-400">.</span></span>
+                </a>
+                <!-- Desktop Navigation Links -->
+                <nav class="hidden lg:flex items-center space-x-8 text-sm font-medium text-slate-300">
+                    <a class="hover:text-emerald-400 transition-colors" href="#services">Services</a>
+                    <a class="hover:text-emerald-400 transition-colors" href="#cpa-solutions">CPA Support</a>
+                    <a class="hover:text-emerald-400 transition-colors" href="#process">Our Process</a>
+                    <a class="hover:text-emerald-400 transition-colors" href="#why-us">Why Xconcile</a>
+                    <a class="hover:text-emerald-400 transition-colors" href="#tech-stack">Software</a>
+                    <a class="hover:text-emerald-400 transition-colors" href="#faqs">FAQ</a>
+                </nav>
+                <!-- CTA Action Area -->
+                <div class="flex items-center gap-4">
+                    <div
+                        class="hidden sm:flex items-center gap-1.5 px-3 py-1 rounded-full border border-emerald-500/30 bg-emerald-500/10 text-emerald-400 text-xs font-semibold">
+                        <svg class="w-3.5 h-3.5 fill-current" viewbox="0 0 20 20">
+                            <path
+                                d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z">
+                            </path>
+                        </svg>
+                        <span>4.9 / 5 (120+ Reviews)</span>
+                    </div>
+                    <a class="px-5 py-2.5 rounded-lg bg-emerald-500 hover:bg-emerald-400 text-obsidian-950 font-bold text-sm tracking-wide shadow-glow-emerald transition-all duration-200"
+                        href="#consultation">
+                        Book Free Consultation
+                    </a>
+                </div>
+            </div>
+        </div>
+    </header>
+    <!-- END: SiteNavigation -->
+    <main>
+        <!-- BEGIN: HeroSection -->
+        <section class="relative pt-12 pb-24 overflow-hidden bg-mesh-dark">
+            <!-- Glow ambient light -->
+            <div
+                class="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[350px] bg-emerald-500/10 blur-[130px] rounded-full pointer-events-none">
+            </div>
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+                    <!-- Left Column: Copy & Trust signals -->
+                    <div class="lg:col-span-7 space-y-8 text-left">
+                        <div
+                            class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-emerald-500/30 bg-emerald-950/40 text-emerald-300 text-xs font-medium">
+                            <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+                            Dedicated US Back-Office Accounting Infrastructure
+                        </div>
+                        <h1
+                            class="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-white tracking-tight leading-[1.12]">
+                            Outsourced <span
+                                class="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-teal-300">Accounting</span>
+                            Services for US Businesses
+                        </h1>
+                        <p class="text-lg sm:text-xl text-slate-300 max-w-2xl font-normal leading-relaxed">
+                            We provide end-to-end back-office support exclusively for US SMBs and growing CPA practices.
+                            Eliminate high payroll costs, scale with certified bookkeepers, and never miss tax filing
+                            deadlines again.
+                        </p>
+                        <!-- CTA Actions -->
+                        <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 pt-2">
+                            <a class="px-8 py-4 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-obsidian-950 font-bold text-base shadow-glow-emerald text-center transition-all"
+                                href="#consultation">
+                                Schedule Discovery Call →
+                            </a>
+                            <a class="px-7 py-4 rounded-xl glass-card hover:bg-white/10 text-white font-semibold text-base border border-white/15 text-center transition-all"
+                                href="#services">
+                                Explore Services
+                            </a>
+                        </div>
+                        <!-- Hero Feature Badges -->
+                        <div
+                            class="grid grid-cols-3 gap-4 pt-4 border-t border-white/10 max-w-xl text-xs sm:text-sm text-slate-300">
+                            <div class="flex items-center gap-2">
+                                <svg class="w-4 h-4 text-emerald-400 shrink-0" fill="none" stroke="currentColor"
+                                    stroke-width="2" viewbox="0 0 24 24">
+                                    <path d="M5 13l4 4L19 7" stroke-linecap="round" stroke-linejoin="round"></path>
+                                </svg>
+                                <span>Zero Onboarding Fee</span>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <svg class="w-4 h-4 text-emerald-400 shrink-0" fill="none" stroke="currentColor"
+                                    stroke-width="2" viewbox="0 0 24 24">
+                                    <path d="M5 13l4 4L19 7" stroke-linecap="round" stroke-linejoin="round"></path>
+                                </svg>
+                                <span>14-Day Free Pilot</span>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <svg class="w-4 h-4 text-emerald-400 shrink-0" fill="none" stroke="currentColor"
+                                    stroke-width="2" viewbox="0 0 24 24">
+                                    <path d="M5 13l4 4L19 7" stroke-linecap="round" stroke-linejoin="round"></path>
+                                </svg>
+                                <span>100% US Timezone</span>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Right Column: Text-Over-Image Visual Bento Card -->
+                    <div class="lg:col-span-5 relative">
+                        <div
+                            class="relative rounded-2xl overflow-hidden border border-white/15 shadow-2xl bg-obsidian-900 group">
+                            <!-- Visual Image Representation -->
+                            <img alt="Xconcile dedicated US accounting team operating in high-security environment"
+                                class="w-full h-[520px] object-cover filter brightness-[0.70] contrast-125 group-hover:scale-105 transition-transform duration-700 ease-out"
+                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuDZ8zlvdTi2rXlreMLz9-U-oHV4sUeWH3mNrzv2jfujgQ7-J6RKjtBajNnI5_PBYuPd-9GjWeXceGswkWGPLB1hDHTQ2tcmDGOnLJykeYY4uICTp2kxBIFvLwVup9WxDoDhkvZeyvBsrtyOS03zeuzUMUBD9yF9MBJ6rSgzMUAXFI8BacRmqQ2XeW2Ki611LxCpn4j-dVR0YNcf9vhO57ifmnwnfCAOew52rVwhrbY_RBI3G1K6iYvvtg" />
+                            <!-- Gradient overlay to guarantee high-contrast text readability -->
+                            <div class="absolute inset-0 scrim-dark-top pointer-events-none"></div>
+                            <!-- Top Floating Pill -->
+                            <div class="absolute top-5 left-5 right-5 flex justify-between items-center">
+                                <div
+                                    class="glass-card px-3.5 py-1.5 rounded-full border border-white/20 flex items-center gap-2">
+                                    <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-ping"></span>
+                                    <span class="text-xs font-semibold text-white tracking-wider">LIVE BACK-OFFICE
+                                        POD</span>
+                                </div>
+                                <div
+                                    class="glass-card px-3 py-1 rounded-lg border border-white/10 text-emerald-400 text-xs font-bold">
+                                    99.98% Accuracy
+                                </div>
+                            </div>
+                            <!-- Middle Layer: Real-time Stats Overlay -->
+                            <div class="absolute bottom-32 left-5 right-5">
+                                <div
+                                    class="glass-card p-4 rounded-xl border border-white/20 shadow-2xl backdrop-blur-xl">
+                                    <div
+                                        class="flex items-center justify-between text-xs text-slate-300 pb-2 border-b border-white/10">
+                                        <span class="font-medium text-white">US GAAP Year-End Close</span>
+                                        <span class="text-emerald-400 font-bold">Completed in 48 Hrs</span>
+                                    </div>
+                                    <div class="mt-3 flex items-center justify-between text-xs">
+                                        <div>
+                                            <p class="text-slate-400 text-[11px]">Ledger Reconciliation</p>
+                                            <p class="text-white font-bold text-sm">$4.8M Cleaned</p>
+                                        </div>
+                                        <div class="text-right">
+                                            <p class="text-slate-400 text-[11px]">Saved Overhead</p>
+                                            <p class="text-emerald-400 font-bold text-sm">62% Cost Cut</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Bottom Content directly anchored ON image -->
+                            <div
+                                class="absolute bottom-0 inset-x-0 p-5 bg-gradient-to-t from-obsidian-950 via-obsidian-950/90 to-transparent">
+                                <div class="flex items-center gap-3">
+                                    <div
+                                        class="w-10 h-10 rounded-full bg-emerald-500/20 border border-emerald-400/30 flex items-center justify-center shrink-0">
+                                        <svg class="w-5 h-5 text-emerald-400" fill="none" stroke="currentColor"
+                                            stroke-width="2" viewbox="0 0 24 24">
+                                            <path
+                                                d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"
+                                                stroke-linecap="round" stroke-linejoin="round"></path>
+                                        </svg>
+                                    </div>
+                                    <div>
+                                        <h4 class="text-white font-bold text-sm">Dedicated Controller Oversight</h4>
+                                        <p class="text-xs text-slate-300">Every pod is steered by senior US-trained
+                                            accounting leads.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Metric KPI Cards Bar -->
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-16 pt-10 border-t border-white/10"
+                    data-purpose="kpi-banner">
+                    <div class="glass-card p-6 rounded-xl border border-white/10 text-center">
+                        <span class="text-3xl sm:text-4xl font-extrabold text-white block">10+</span>
+                        <span
+                            class="text-xs sm:text-sm text-emerald-400 font-semibold tracking-wide uppercase mt-1 block">Years
+                            Experience</span>
+                    </div>
+                    <div class="glass-card p-6 rounded-xl border border-white/10 text-center">
+                        <span class="text-3xl sm:text-4xl font-extrabold text-white block">1,200+</span>
+                        <span
+                            class="text-xs sm:text-sm text-emerald-400 font-semibold tracking-wide uppercase mt-1 block">US
+                            Businesses Supported</span>
+                    </div>
+                    <div class="glass-card p-6 rounded-xl border border-white/10 text-center">
+                        <span class="text-3xl sm:text-4xl font-extrabold text-white block">65+</span>
+                        <span
+                            class="text-xs sm:text-sm text-emerald-400 font-semibold tracking-wide uppercase mt-1 block">Certified
+                            Accounting Pros</span>
+                    </div>
+                    <div class="glass-card p-6 rounded-xl border border-white/10 text-center">
+                        <span class="text-3xl sm:text-4xl font-extrabold text-white block">98.4%</span>
+                        <span
+                            class="text-xs sm:text-sm text-emerald-400 font-semibold tracking-wide uppercase mt-1 block">Client
+                            Retention Rate</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- END: HeroSection -->
+        <!-- BEGIN: BigHeroShowcaseCard -->
+        <section class="py-16 bg-obsidian-900 border-y border-white/5">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <!-- Large Hero Card with Text Layered on Cinematic Team Photo -->
+                <div
+                    class="relative rounded-3xl overflow-hidden border border-white/15 min-h-[460px] flex items-center shadow-2xl">
+                    <img alt="Corporate accounting operations center"
+                        class="absolute inset-0 w-full h-full object-cover filter brightness-[0.4] contrast-125"
+                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuAxtSYTw_rMEQOj3W9Eqhr5yWwz_ZpoaE7JHKwCxJARA3Rtv8kYIlUi74BYRWbpHzNbx5y62y6cXlSF0XpFc7M0KXiVNKPwBnGnZjOFf4YnVZOC30h-GR5SxA3-jR_46P3kbaF5DJ2rm8r03NvyUbqMwrtDSeKKVdf61WALGN3kUt8dGug4oCF7U0INEZqPx1sRLVRZOPFpT8Z-WuD-98vowfH1pJLMXqXUwKXgbW3NBWqd-SuEDGTKhA" />
+                    <!-- Multi-gradient Scrim for maximum contrast -->
+                    <div class="absolute inset-0 bg-gradient-to-r from-obsidian-950 via-obsidian-950/85 to-transparent">
+                    </div>
+                    <div class="absolute inset-0 bg-gradient-to-t from-obsidian-950/90 via-transparent to-transparent">
+                    </div>
+                    <!-- Layered Content Box -->
+                    <div class="relative z-10 max-w-3xl p-8 sm:p-14 space-y-6">
+                        <div
+                            class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/20 border border-emerald-400/40 text-emerald-300 text-xs font-semibold uppercase tracking-wider">
+                            No Local Recruitment Headaches
+                        </div>
+                        <h2
+                            class="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white tracking-tight leading-tight">
+                            Your Complete Accounting Team, <br />
+                            <span
+                                class="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-teal-300">Without
+                                the US Overhead.</span>
+                        </h2>
+                        <p class="text-slate-200 text-base sm:text-lg leading-relaxed max-w-2xl">
+                            Scale your firm seamlessly. Access full-time, dedicated bookkeepers, payroll experts, and
+                            tax seniors at a fraction of in-house salary expectations, while eliminating recruiting
+                            fees, PTO friction, and employee churn.
+                        </p>
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-4">
+                            <div class="glass-card p-4 rounded-xl border border-white/10">
+                                <span class="text-emerald-400 font-bold text-lg block">60–70%</span>
+                                <span class="text-xs text-slate-300 uppercase font-semibold">Cost Reduction</span>
+                            </div>
+                            <div class="glass-card p-4 rounded-xl border border-white/10">
+                                <span class="text-emerald-400 font-bold text-lg block">48 Hours</span>
+                                <span class="text-xs text-slate-300 uppercase font-semibold">Deployment Time</span>
+                            </div>
+                            <div class="glass-card p-4 rounded-xl border border-white/10">
+                                <span class="text-emerald-400 font-bold text-lg block">100%</span>
+                                <span class="text-xs text-slate-300 uppercase font-semibold">Data Encryption</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- END: BigHeroShowcaseCard -->
+        <!-- BEGIN: AccountingChallengesSection -->
+        <section class="py-20 bg-obsidian-950" id="challenges">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center max-w-3xl mx-auto mb-16 space-y-4">
+                    <span
+                        class="text-xs font-bold uppercase tracking-widest text-emerald-400 bg-emerald-950/60 px-3 py-1 rounded-full border border-emerald-800/40">Pain
+                        Points We Solve</span>
+                    <h2 class="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
+                        Common Accounting Challenges Faced by US Companies
+                    </h2>
+                    <p class="text-slate-400 text-base">
+                        Managing an internal accounting department in the US is expensive, slow, and prone to turnover.
+                        Here is how bottlenecks slow your growth:
+                    </p>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <!-- Card 1 -->
+                    <div class="glass-card p-7 rounded-2xl glass-card-hover flex flex-col justify-between">
+                        <div>
+                            <div
+                                class="w-12 h-12 rounded-xl bg-red-500/10 border border-red-500/20 text-red-400 flex items-center justify-center mb-6">
+                                <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2"
+                                    viewbox="0 0 24 24">
+                                    <path
+                                        d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636"
+                                        stroke-linecap="round" stroke-linejoin="round"></path>
+                                </svg>
+                            </div>
+                            <h3 class="text-lg font-bold text-white mb-2">Hiring Bottlenecks</h3>
+                            <p class="text-sm text-slate-300 leading-relaxed">
+                                Finding qualified US CPAs and bookkeepers takes months. Recruiting fees and sign-on
+                                bonuses cripple budget agility.
+                            </p>
+                        </div>
+                        <div class="mt-6 pt-4 border-t border-white/5 text-xs font-medium text-emerald-400">
+                            Solution: Ready-to-deploy talent pods
+                        </div>
+                    </div>
+                    <!-- Card 2 -->
+                    <div class="glass-card p-7 rounded-2xl glass-card-hover flex flex-col justify-between">
+                        <div>
+                            <div
+                                class="w-12 h-12 rounded-xl bg-amber-500/10 border border-amber-500/20 text-amber-400 flex items-center justify-center mb-6">
+                                <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2"
+                                    viewbox="0 0 24 24">
+                                    <path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" stroke-linecap="round"
+                                        stroke-linejoin="round"></path>
+                                </svg>
+                            </div>
+                            <h3 class="text-lg font-bold text-white mb-2">Month-End Close Delays</h3>
+                            <p class="text-sm text-slate-300 leading-relaxed">
+                                Unreconciled merchant accounts and messy ledgers push reports back weeks, blocking
+                                executive financial decisions.
+                            </p>
+                        </div>
+                        <div class="mt-6 pt-4 border-t border-white/5 text-xs font-medium text-emerald-400">
+                            Solution: Guaranteed 5th-of-month close
+                        </div>
+                    </div>
+                    <!-- Card 3 -->
+                    <div class="glass-card p-7 rounded-2xl glass-card-hover flex flex-col justify-between">
+                        <div>
+                            <div
+                                class="w-12 h-12 rounded-xl bg-blue-500/10 border border-blue-500/20 text-blue-400 flex items-center justify-center mb-6">
+                                <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2"
+                                    viewbox="0 0 24 24">
+                                    <path d="M13 17h8m0 0V9m0 8l-8-8-4 4-6-6" stroke-linecap="round"
+                                        stroke-linejoin="round"></path>
+                                </svg>
+                            </div>
+                            <h3 class="text-lg font-bold text-white mb-2">High Operational Costs</h3>
+                            <p class="text-sm text-slate-300 leading-relaxed">
+                                Paying $85k+ median US salaries plus health insurance, office software licenses, and
+                                401(k) matches drains cash flow.
+                            </p>
+                        </div>
+                        <div class="mt-6 pt-4 border-t border-white/5 text-xs font-medium text-emerald-400">
+                            Solution: Fixed, predictable monthly billing
+                        </div>
+                    </div>
+                    <!-- Card 4 -->
+                    <div class="glass-card p-7 rounded-2xl glass-card-hover flex flex-col justify-between">
+                        <div>
+                            <div
+                                class="w-12 h-12 rounded-xl bg-purple-500/10 border border-purple-500/20 text-purple-400 flex items-center justify-center mb-6">
+                                <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2"
+                                    viewbox="0 0 24 24">
+                                    <path
+                                        d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+                                        stroke-linecap="round" stroke-linejoin="round"></path>
+                                </svg>
+                            </div>
+                            <h3 class="text-lg font-bold text-white mb-2">Multi-State Nexus &amp; Tax</h3>
+                            <p class="text-sm text-slate-300 leading-relaxed">
+                                Ever-changing economic nexus and state payroll filings create severe IRS and state tax
+                                penalty risks for growing firms.
+                            </p>
+                        </div>
+                        <div class="mt-6 pt-4 border-t border-white/5 text-xs font-medium text-emerald-400">
+                            Solution: 50-state tax compliance tracking
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- END: AccountingChallengesSection -->
+        <!-- BEGIN: CoreServicesSection -->
+        <section class="py-20 bg-obsidian-900 relative" id="services">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
+                    <div class="space-y-3">
+                        <span
+                            class="text-xs font-bold uppercase tracking-widest text-emerald-400 bg-emerald-950/60 px-3 py-1 rounded-full border border-emerald-800/40">Full-Cycle
+                            Capabilities</span>
+                        <h2 class="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
+                            Our Accounting <span class="text-emerald-400">Outsourcing</span> Services
+                        </h2>
+                        <p class="text-slate-400 max-w-xl text-base">
+                            From daily transaction coding to complex year-end filings, our specialists handle your
+                            entire accounting workflow.
+                        </p>
+                    </div>
+                    <a class="inline-flex items-center gap-2 text-emerald-400 font-semibold hover:text-emerald-300 transition-colors text-sm"
+                        href="#consultation">
+                        <span>View All Custom Engagements</span>
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24">
+                            <path d="M14 5l7 7m0 0l-7 7m7-7H3" stroke-linecap="round" stroke-linejoin="round"></path>
+                        </svg>
+                    </a>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <!-- Service 1 -->
+                    <div class="glass-card p-8 rounded-2xl glass-card-hover border-t-2 border-t-emerald-500">
+                        <div class="text-emerald-400 mb-5">
+                            <svg class="w-8 h-8" fill="none" stroke="currentColor" stroke-width="1.8"
+                                viewbox="0 0 24 24">
+                                <path
+                                    d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"
+                                    stroke-linecap="round" stroke-linejoin="round"></path>
+                            </svg>
+                        </div>
+                        <h3 class="text-xl font-bold text-white mb-3">General Bookkeeping</h3>
+                        <p class="text-slate-300 text-sm leading-relaxed mb-6">
+                            Daily entries, bank and credit card reconciliations, vendor payables (AP), and customer
+                            invoicing (AR) on QuickBooks and Xero.
+                        </p>
+                        <ul class="text-xs text-slate-400 space-y-2 border-t border-white/5 pt-4">
+                            <li class="flex items-center gap-2"><span
+                                    class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span> Daily ledger entry &amp;
+                                clearing</li>
+                            <li class="flex items-center gap-2"><span
+                                    class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span> Strict month-end cutoffs
+                            </li>
+                        </ul>
+                    </div>
+                    <!-- Service 2 -->
+                    <div class="glass-card p-8 rounded-2xl glass-card-hover border-t-2 border-t-teal-500">
+                        <div class="text-teal-400 mb-5">
+                            <svg class="w-8 h-8" fill="none" stroke="currentColor" stroke-width="1.8"
+                                viewbox="0 0 24 24">
+                                <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" stroke-linecap="round"
+                                    stroke-linejoin="round"></path>
+                            </svg>
+                        </div>
+                        <h3 class="text-xl font-bold text-white mb-3">Audit &amp; Assurance Support</h3>
+                        <p class="text-slate-300 text-sm leading-relaxed mb-6">
+                            Assisting US CPA firms with audit schedules, PBC list preparation, substantiation
+                            workpapers, and sampling verifications.
+                        </p>
+                        <ul class="text-xs text-slate-400 space-y-2 border-t border-white/5 pt-4">
+                            <li class="flex items-center gap-2"><span
+                                    class="w-1.5 h-1.5 rounded-full bg-teal-400"></span> GAAP audit workpaper creation
+                            </li>
+                            <li class="flex items-center gap-2"><span
+                                    class="w-1.5 h-1.5 rounded-full bg-teal-400"></span> Fixed asset depreciation
+                                testing</li>
+                        </ul>
+                    </div>
+                    <!-- Service 3 -->
+                    <div class="glass-card p-8 rounded-2xl glass-card-hover border-t-2 border-t-cyan-500">
+                        <div class="text-cyan-400 mb-5">
+                            <svg class="w-8 h-8" fill="none" stroke="currentColor" stroke-width="1.8"
+                                viewbox="0 0 24 24">
+                                <path
+                                    d="M9 14l6-6m-5.5.5h.01m4.99 5h.01M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16l3.5-2 3.5 2 3.5-2 3.5 2z"
+                                    stroke-linecap="round" stroke-linejoin="round"></path>
+                            </svg>
+                        </div>
+                        <h3 class="text-xl font-bold text-white mb-3">US Tax Preparation</h3>
+                        <p class="text-slate-300 text-sm leading-relaxed mb-6">
+                            Preparation of Federal &amp; State tax workpapers for Form 1120, 1120-S, 1065, and Form 1040
+                            returns with full tie-out documentation.
+                        </p>
+                        <ul class="text-xs text-slate-400 space-y-2 border-t border-white/5 pt-4">
+                            <li class="flex items-center gap-2"><span
+                                    class="w-1.5 h-1.5 rounded-full bg-cyan-400"></span> Drake, ProConnect, UltraTax
+                                ready</li>
+                            <li class="flex items-center gap-2"><span
+                                    class="w-1.5 h-1.5 rounded-full bg-cyan-400"></span> M-1 &amp; M-2 reconciliation
+                                adjustments</li>
+                        </ul>
+                    </div>
+                    <!-- Service 4 -->
+                    <div class="glass-card p-8 rounded-2xl glass-card-hover border-t-2 border-t-emerald-400">
+                        <div class="text-emerald-400 mb-5">
+                            <svg class="w-8 h-8" fill="none" stroke="currentColor" stroke-width="1.8"
+                                viewbox="0 0 24 24">
+                                <path
+                                    d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                                    stroke-linecap="round" stroke-linejoin="round"></path>
+                            </svg>
+                        </div>
+                        <h3 class="text-xl font-bold text-white mb-3">Multi-State Sales Tax</h3>
+                        <p class="text-slate-300 text-sm leading-relaxed mb-6">
+                            Economic nexus analysis, registration, and monthly/quarterly sales tax return filings via
+                            Avalara, TaxJar, or state portals.
+                        </p>
+                        <ul class="text-xs text-slate-400 space-y-2 border-t border-white/5 pt-4">
+                            <li class="flex items-center gap-2"><span
+                                    class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span> Wayfair compliance
+                                thresholds</li>
+                            <li class="flex items-center gap-2"><span
+                                    class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span> E-commerce store
+                                cross-checking</li>
+                        </ul>
+                    </div>
+                    <!-- Service 5 -->
+                    <div class="glass-card p-8 rounded-2xl glass-card-hover border-t-2 border-t-emerald-500">
+                        <div class="text-emerald-400 mb-5">
+                            <svg class="w-8 h-8" fill="none" stroke="currentColor" stroke-width="1.8"
+                                viewbox="0 0 24 24">
+                                <path
+                                    d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"
+                                    stroke-linecap="round" stroke-linejoin="round"></path>
+                            </svg>
+                        </div>
+                        <h3 class="text-xl font-bold text-white mb-3">Payroll &amp; Compliance</h3>
+                        <p class="text-slate-300 text-sm leading-relaxed mb-6">
+                            Complete payroll management on Gusto, ADP, and Rippling. Quarterly 941 filings, W-2s,
+                            1099-NEC contractor forms, and local withholding.
+                        </p>
+                        <ul class="text-xs text-slate-400 space-y-2 border-t border-white/5 pt-4">
+                            <li class="flex items-center gap-2"><span
+                                    class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span> Multi-state withholding
+                                setups</li>
+                            <li class="flex items-center gap-2"><span
+                                    class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span> Annual 1099 e-file
+                                submissions</li>
+                        </ul>
+                    </div>
+                    <!-- Service 6 -->
+                    <div class="glass-card p-8 rounded-2xl glass-card-hover border-t-2 border-t-teal-400">
+                        <div class="text-teal-400 mb-5">
+                            <svg class="w-8 h-8" fill="none" stroke="currentColor" stroke-width="1.8"
+                                viewbox="0 0 24 24">
+                                <path
+                                    d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"
+                                    stroke-linecap="round" stroke-linejoin="round"></path>
+                            </svg>
+                        </div>
+                        <h3 class="text-xl font-bold text-white mb-3">Virtual CFO &amp; Advisory</h3>
+                        <p class="text-slate-300 text-sm leading-relaxed mb-6">
+                            Cash flow runway analysis, unit-economic modeling, budget-versus-actual variance tracking,
+                            and tailored executive board decks.
+                        </p>
+                        <ul class="text-xs text-slate-400 space-y-2 border-t border-white/5 pt-4">
+                            <li class="flex items-center gap-2"><span
+                                    class="w-1.5 h-1.5 rounded-full bg-teal-400"></span> 13-week rolling cash forecasts
+                            </li>
+                            <li class="flex items-center gap-2"><span
+                                    class="w-1.5 h-1.5 rounded-full bg-teal-400"></span> Custom KPI dashboarding</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- END: CoreServicesSection -->
+        <!-- BEGIN: CPAPartnerSpotlightSection -->
+        <section class="py-20 bg-obsidian-950" id="cpa-solutions">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="glass-card rounded-3xl overflow-hidden border border-white/10 shadow-2xl">
+                    <div class="grid grid-cols-1 lg:grid-cols-12">
+                        <!-- Left Info Panel -->
+                        <div class="lg:col-span-6 p-8 sm:p-12 lg:p-14 flex flex-col justify-between space-y-8">
+                            <div class="space-y-4">
+                                <span
+                                    class="text-xs font-bold uppercase tracking-widest text-emerald-400 bg-emerald-950/60 px-3 py-1 rounded-full border border-emerald-800/40">
+                                    Built For Accounting Practitioners
+                                </span>
+                                <h2 class="text-3xl sm:text-4xl font-extrabold text-white tracking-tight leading-snug">
+                                    Trusted Partner for US CPA Firms &amp; Enrolled Agents
+                                </h2>
+                                <p class="text-slate-300 text-sm sm:text-base leading-relaxed">
+                                    Struggling with the US accountant shortage during busy tax seasons? We function as
+                                    your white-label offshore backroom team. You manage client relationships, and we
+                                    deliver rock-solid, review-ready working papers.
+                                </p>
+                            </div>
+                            <div class="space-y-4 border-y border-white/10 py-6">
+                                <div class="flex items-start gap-3">
+                                    <div
+                                        class="w-6 h-6 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center shrink-0 mt-0.5">
+                                        ✓</div>
+                                    <div>
+                                        <h4 class="text-sm font-semibold text-white">100% White-Labeled Working Files
+                                        </h4>
+                                        <p class="text-xs text-slate-400">We work in your practice management software
+                                            and brand guidelines under strict non-disclosure.</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-start gap-3">
+                                    <div
+                                        class="w-6 h-6 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center shrink-0 mt-0.5">
+                                        ✓</div>
+                                    <div>
+                                        <h4 class="text-sm font-semibold text-white">Peak-Season Elastic Scaling</h4>
+                                        <p class="text-xs text-slate-400">Scale from 2 full-time bookkeepers to 15 tax
+                                            reviewers during January–April with zero permanent liability.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                <a class="inline-flex items-center gap-2 px-6 py-3.5 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-obsidian-950 font-bold text-sm shadow-glow-emerald transition-all"
+                                    href="#consultation">
+                                    Get CPA Partnership Deck
+                                </a>
+                            </div>
+                        </div>
+                        <!-- Right Visual: Photo with Overlaid Interactive Badges -->
+                        <div class="lg:col-span-6 relative min-h-[420px] lg:min-h-full">
+                            <img alt="Accounting desk with dual monitors reviewing balance sheet audit"
+                                class="absolute inset-0 w-full h-full object-cover filter brightness-[0.65] contrast-110"
+                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuAIRUp3qbMEoGlHuVtwEauWIco4Y2cqQzpextx44Zx4I0s-entBt4xc4ECvJArDhvrR6FX7ZmFrT-rm7gZ-dXriLWP67BBIpWkz-ViyYPe9uJWBz2tza46I_9gtTvx3XZ4ri1QcCMEXlCYKkWLQxwb3vqkohYN2dPk7v9HFt5JT6AJ9866a0R4VfH3bA2wxgKBcmVucYD0puHQ_GV4A5qJ84V8sQt6kCfxEraE6NG3XeThJZ1hXrgDqfA" />
+                            <div
+                                class="absolute inset-0 bg-gradient-to-t from-obsidian-950 via-obsidian-950/40 to-transparent">
+                            </div>
+                            <!-- Overlaid Testimonial Quote On Image -->
+                            <div class="absolute bottom-6 left-6 right-6">
+                                <div
+                                    class="glass-card p-6 rounded-2xl border border-white/20 shadow-2xl backdrop-blur-xl">
+                                    <div class="flex items-center gap-1 text-emerald-400 mb-2">
+                                        <svg class="w-4 h-4 fill-current" viewbox="0 0 20 20">
+                                            <path
+                                                d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z">
+                                            </path>
+                                        </svg>
+                                        <svg class="w-4 h-4 fill-current" viewbox="0 0 20 20">
+                                            <path
+                                                d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z">
+                                            </path>
+                                        </svg>
+                                        <svg class="w-4 h-4 fill-current" viewbox="0 0 20 20">
+                                            <path
+                                                d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z">
+                                            </path>
+                                        </svg>
+                                        <svg class="w-4 h-4 fill-current" viewbox="0 0 20 20">
+                                            <path
+                                                d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z">
+                                            </path>
+                                        </svg>
+                                        <svg class="w-4 h-4 fill-current" viewbox="0 0 20 20">
+                                            <path
+                                                d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z">
+                                            </path>
+                                        </svg>
+                                    </div>
+                                    <p class="text-xs sm:text-sm text-slate-200 italic mb-3">
+                                        "Xconcile integrated right into our Thomson Reuters suite in 4 business days. We
+                                        doubled our client intake during Q1 without working 80-hour weeks."
+                                    </p>
+                                    <div class="flex items-center justify-between">
+                                        <div>
+                                            <p class="text-xs font-bold text-white">David K., CPA</p>
+                                            <p class="text-[11px] text-slate-400">Managing Partner, Texas Regional CPA
+                                                Firm</p>
+                                        </div>
+                                        <span
+                                            class="text-xs text-emerald-400 font-semibold px-2 py-1 rounded bg-emerald-500/10">340+
+                                            Tax Returns Filed</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- END: CPAPartnerSpotlightSection -->
+        <!-- BEGIN: SimpleProcessSection -->
+        <section class="py-20 bg-obsidian-900 border-t border-white/5" id="process">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center max-w-2xl mx-auto mb-16 space-y-3">
+                    <span
+                        class="text-xs font-bold uppercase tracking-widest text-emerald-400 bg-emerald-950/60 px-3 py-1 rounded-full border border-emerald-800/40">Frictionless
+                        Transition</span>
+                    <h2 class="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">Our Simple 5-Step Process
+                    </h2>
+                    <p class="text-slate-400 text-sm sm:text-base">From exploratory call to an autonomous, daily updated
+                        accounting ledger in under 7 days.</p>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-5 gap-4 relative">
+                    <!-- Step 1 -->
+                    <div class="glass-card p-6 rounded-2xl relative border-t-2 border-t-emerald-400">
+                        <span class="text-4xl font-black text-white/20 mb-3 block">01</span>
+                        <h4 class="text-base font-bold text-white mb-2">Understand</h4>
+                        <p class="text-xs text-slate-300 leading-relaxed">
+                            We review your current chart of accounts, software subscriptions, past tax returns, and pain
+                            points.
+                        </p>
+                    </div>
+                    <!-- Step 2 -->
+                    <div class="glass-card p-6 rounded-2xl relative border-t-2 border-t-emerald-400">
+                        <span class="text-4xl font-black text-white/20 mb-3 block">02</span>
+                        <h4 class="text-base font-bold text-white mb-2">Plan</h4>
+                        <p class="text-xs text-slate-300 leading-relaxed">
+                            We architect custom Standard Operating Procedures (SOPs), role requirements, and close
+                            schedules.
+                        </p>
+                    </div>
+                    <!-- Step 3 -->
+                    <div class="glass-card p-6 rounded-2xl relative border-t-2 border-t-emerald-400">
+                        <span class="text-4xl font-black text-white/20 mb-3 block">03</span>
+                        <h4 class="text-base font-bold text-white mb-2">Onboard</h4>
+                        <p class="text-xs text-slate-300 leading-relaxed">
+                            Secure multi-factor access setup in your software. Pod matching and shadow audit run in week
+                            one.
+                        </p>
+                    </div>
+                    <!-- Step 4 -->
+                    <div class="glass-card p-6 rounded-2xl relative border-t-2 border-t-emerald-400">
+                        <span class="text-4xl font-black text-white/20 mb-3 block">04</span>
+                        <h4 class="text-base font-bold text-white mb-2">Manage</h4>
+                        <p class="text-xs text-slate-300 leading-relaxed">
+                            Daily transaction matching, real-time AP clearing, and timely month-end financial delivery
+                            with US reviews.
+                        </p>
+                    </div>
+                    <!-- Step 5 -->
+                    <div class="glass-card p-6 rounded-2xl relative border-t-2 border-t-emerald-400">
+                        <span class="text-4xl font-black text-white/20 mb-3 block">05</span>
+                        <h4 class="text-base font-bold text-white mb-2">Scale</h4>
+                        <p class="text-xs text-slate-300 leading-relaxed">
+                            Instantly spin up extra capacity or Virtual CFO modeling as your US business or client
+                            roster doubles.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- END: SimpleProcessSection -->
+        <!-- BEGIN: IndustriesGridWithTextOverImage -->
+        <section class="py-20 bg-obsidian-950">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
+                    <div class="space-y-3">
+                        <span
+                            class="text-xs font-bold uppercase tracking-widest text-emerald-400 bg-emerald-950/60 px-3 py-1 rounded-full border border-emerald-800/40">Domain
+                            Expertise</span>
+                        <h2 class="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
+                            Accounting Services for Specialized US Industries
+                        </h2>
+                        <p class="text-slate-400 text-sm sm:text-base max-w-xl">
+                            Tailored workflow rules adapted to the strict documentation standards of your specific
+                            sector.
+                        </p>
+                    </div>
+                    <a class="text-sm font-semibold text-emerald-400 hover:text-emerald-300 transition-colors"
+                        href="#consultation">
+                        Explore all 14 supported verticals →
+                    </a>
+                </div>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <!-- Industry 1: CPA Firms -->
+                    <div class="group relative rounded-2xl overflow-hidden h-80 border border-white/10 shadow-lg">
+                        <img alt="CPA and Accounting Firms"
+                            class="w-full h-full object-cover filter brightness-[0.55] group-hover:scale-110 transition-transform duration-500"
+                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuDTM6tGMUZrmUXyhWA95zQHKxegKRcTWNqpGFaZFzb2gksysRB7wzMIpRKBniwyZhLWuDmI9T4lBGg3BmLPnCAv6qdjnN8Xv9MAtsSBx834ImWYZIK9zx2EOz13we6Nm-LdfqdgN4IesBOjxBUSS6IS9C-d7ejflPRUSkcmY5q2cCOp6PBrwBY4fM15YmcsVWj662yKZ7I6PxPD8U9kAVszPDRpTQOa6ijb-wJ1e-z1J4wn-cEWG7w3pA" />
+                        <div class="absolute inset-0 scrim-bottom-heavy"></div>
+                        <div class="absolute inset-0 p-6 flex flex-col justify-end">
+                            <span class="text-emerald-400 text-xs font-bold uppercase tracking-wider mb-1">Scale
+                                Practice</span>
+                            <h3 class="text-xl font-bold text-white mb-2">CPA &amp; Accounting Firms</h3>
+                            <p class="text-xs text-slate-300 line-clamp-2">Tax season overflow, audit file assembly, and
+                                white-label client bookkeeping pods.</p>
+                        </div>
+                    </div>
+                    <!-- Industry 2: Healthcare -->
+                    <div class="group relative rounded-2xl overflow-hidden h-80 border border-white/10 shadow-lg">
+                        <img alt="Healthcare and Medical Practices"
+                            class="w-full h-full object-cover filter brightness-[0.55] group-hover:scale-110 transition-transform duration-500"
+                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuCvthGJXnGIpYP65CLXJNqyGJM7N5b618e15cAAxdQ6VjlXjiqz7HDcPi3Cs6tl2thI_O59ejodD0wZef6tC7YzWFj-YecHc5KBPzV9UoiiBDhaWm26nilC0dQG_gdFzSMkU06RrINOsZT5k8vleXElgcyhBldu262szrT_K4eTkvC66rlPGKvMrUC2pd2uLSMNafRxJVvZ87pDbs0sNXQ6csvSHrN_F0wX_8rNIw3O76bqpFsYN2480g" />
+                        <div class="absolute inset-0 scrim-bottom-heavy"></div>
+                        <div class="absolute inset-0 p-6 flex flex-col justify-end">
+                            <span class="text-emerald-400 text-xs font-bold uppercase tracking-wider mb-1">HIPAA
+                                Compliant</span>
+                            <h3 class="text-xl font-bold text-white mb-2">Healthcare &amp; Clinics</h3>
+                            <p class="text-xs text-slate-300 line-clamp-2">Insurance claim clearing, multi-location
+                                physician payroll, and medical billing reconciliation.</p>
+                        </div>
+                    </div>
+                    <!-- Industry 3: Real Estate -->
+                    <div class="group relative rounded-2xl overflow-hidden h-80 border border-white/10 shadow-lg">
+                        <img alt="Real Estate and Property Management"
+                            class="w-full h-full object-cover filter brightness-[0.55] group-hover:scale-110 transition-transform duration-500"
+                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuAHi79bKl4-TjPDyHz-uinQcnsBhsttudk8y0rlfVo7rMsysmuZO_QdaWJcyY-xfEsdo2O2btWhAQbeUNayfsqpMWCzgcYp89m8kihqojnpYFHZehrGhnoSjALK15ZfUyom3vRzpgOeTPLzCCAUiLK9T6hcBqM3Wny5RHn9ZEscfBhCqiHLMMzCOoMwURn4kxgOArKj0t_eMmLpv6fRbPOjl8jd6MbQtNs51MRIF9gobJsv6C5qZnX7gw" />
+                        <div class="absolute inset-0 scrim-bottom-heavy"></div>
+                        <div class="absolute inset-0 p-6 flex flex-col justify-end">
+                            <span class="text-emerald-400 text-xs font-bold uppercase tracking-wider mb-1">AppFolio /
+                                Buildium</span>
+                            <h3 class="text-xl font-bold text-white mb-2">Real Estate &amp; Developers</h3>
+                            <p class="text-xs text-slate-300 line-clamp-2">CAM reconciliations, 1031 exchange audit
+                                tracking, tenant security deposit ledgers.</p>
+                        </div>
+                    </div>
+                    <!-- Industry 4: Retail & E-Commerce -->
+                    <div class="group relative rounded-2xl overflow-hidden h-80 border border-white/10 shadow-lg">
+                        <img alt="Retail and E-commerce brands"
+                            class="w-full h-full object-cover filter brightness-[0.55] group-hover:scale-110 transition-transform duration-500"
+                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuDx94GVYHxuwSyECV2fnCzERn1vcnDVnyhRUuUsvvs3IkAddDsqk1ZWn5VT58AM0KMEDhGUyc3pSBG8vDo9CvaYNhQhEN2YonXlbC3J3cuRY3IYs19aKC5WNlFiYof7qchos3Cw-MTtiDBN49Q9RiKCxlnLBNfJCPR3gWPCy7rXVR207PQBttuPH7pfF2hCw5MyYHi0CaJAeyECFCbho0ABvp_-CRsht_7VGyzv3nIe4ryZX4ifYWJZbQ" />
+                        <div class="absolute inset-0 scrim-bottom-heavy"></div>
+                        <div class="absolute inset-0 p-6 flex flex-col justify-end">
+                            <span class="text-emerald-400 text-xs font-bold uppercase tracking-wider mb-1">Shopify &amp;
+                                Amazon FBA</span>
+                            <h3 class="text-xl font-bold text-white mb-2">Retail &amp; E-Commerce</h3>
+                            <p class="text-xs text-slate-300 line-clamp-2">Multi-channel inventory COGS accounting, A2X
+                                sync, and 50-state sales tax returns.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- END: IndustriesGridWithTextOverImage -->
+        <!-- BEGIN: WhyChooseXconcileSection -->
+        <section class="py-20 bg-obsidian-900 border-t border-white/5" id="why-us">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+                    <div class="lg:col-span-6 space-y-6">
+                        <span
+                            class="text-xs font-bold uppercase tracking-widest text-emerald-400 bg-emerald-950/60 px-3 py-1 rounded-full border border-emerald-800/40">
+                            The Xconcile Advantage
+                        </span>
+                        <h2
+                            class="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white tracking-tight leading-tight">
+                            Why Businesses &amp; CPAs Choose <span class="text-emerald-400">Xconcile</span>
+                        </h2>
+                        <p class="text-slate-300 text-base leading-relaxed">
+                            We combine enterprise-level data security with certified US-trained accounting talent. Never
+                            worry about missed payroll windows, delayed books, or unfiled returns again.
+                        </p>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-5 pt-2">
+                            <div class="glass-card p-5 rounded-xl border border-white/10">
+                                <div
+                                    class="w-8 h-8 rounded-lg bg-emerald-500/20 text-emerald-400 flex items-center justify-center font-bold text-sm mb-3">
+                                    ✓</div>
+                                <h4 class="text-white font-bold text-sm mb-1">US Accounting Standards</h4>
+                                <p class="text-xs text-slate-400">100% compliant with US GAAP, IRS mandates, and state
+                                    revenue frameworks.</p>
+                            </div>
+                            <div class="glass-card p-5 rounded-xl border border-white/10">
+                                <div
+                                    class="w-8 h-8 rounded-lg bg-emerald-500/20 text-emerald-400 flex items-center justify-center font-bold text-sm mb-3">
+                                    ✓</div>
+                                <h4 class="text-white font-bold text-sm mb-1">Experienced Professionals</h4>
+                                <p class="text-xs text-slate-400">Experienced CPAs, certified public bookkeepers, and
+                                    dedicated controller oversight.</p>
+                            </div>
+                            <div class="glass-card p-5 rounded-xl border border-white/10">
+                                <div
+                                    class="w-8 h-8 rounded-lg bg-emerald-500/20 text-emerald-400 flex items-center justify-center font-bold text-sm mb-3">
+                                    ✓</div>
+                                <h4 class="text-white font-bold text-sm mb-1">Bank-Grade Security</h4>
+                                <p class="text-xs text-slate-400">SOC 2 Type II compliant, ISO 27001 certified, and
+                                    encrypted remote desktop access.</p>
+                            </div>
+                            <div class="glass-card p-5 rounded-xl border border-white/10">
+                                <div
+                                    class="w-8 h-8 rounded-lg bg-emerald-500/20 text-emerald-400 flex items-center justify-center font-bold text-sm mb-3">
+                                    ✓</div>
+                                <h4 class="text-white font-bold text-sm mb-1">Zero Overhead / Scalable</h4>
+                                <p class="text-xs text-slate-400">No benefits, payroll tax, recruiting fees, or
+                                    long-term binding lock-ins.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Mosaic Photo Bento Grid with Text-on-Image details -->
+                    <div class="lg:col-span-6 grid grid-cols-2 gap-4">
+                        <div class="relative rounded-2xl overflow-hidden h-64 border border-white/10 shadow-xl group">
+                            <img alt="High security accounting workstation"
+                                class="w-full h-full object-cover filter brightness-[0.6] group-hover:scale-105 transition-transform duration-500"
+                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuD1gNVL2fWpn3hdHJ5KZJZeuoxmFjuiKAfmncjhZnr8WfVVsU_z1DlAJUevr_vPCXcwHfsEOFUx0ytr4YyWfMseP8RRBDHhY1gIFv_pNJLl7e-xRx6wLsqHlkwm0hzlEwXGnMGSvd5NoSre9cIpJa5i76j9aAUt3zoMA5Ete2nlmOZE3NTNg0S3wckVH3l5vXE1WFZK7EUqjYk_uBk_9bvozW82wJU-vk3_CTDS0Wm4vyAKrdx-HtTKoQ" />
+                            <div
+                                class="absolute inset-0 bg-gradient-to-t from-obsidian-950 via-obsidian-950/40 to-transparent">
+                            </div>
+                            <div class="absolute bottom-4 left-4 right-4">
+                                <span class="text-emerald-400 text-[10px] font-bold uppercase tracking-wider">ISO 27001
+                                    / SOC 2</span>
+                                <p class="text-white font-bold text-sm">Protected Multi-Tenant Cloud</p>
+                            </div>
+                        </div>
+                        <div class="relative rounded-2xl overflow-hidden h-64 border border-white/10 shadow-xl group">
+                            <img alt="Client handshake business partnership"
+                                class="w-full h-full object-cover filter brightness-[0.6] group-hover:scale-105 transition-transform duration-500"
+                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuC0ScOtyK2u7CNXUe3RxGi6GkTLJu6I2kYz0GSY1Hk88YFdSaU2pgmS0RLZKn2kuntSHMNHUGek7-dg7-AHbzLC_rE77mDhADaOXgFIiRFE-896CVsi00qdAElJ8YfFMKg9guIjJYLJR_XgIfuO17UQJW7zeda_1lARvP7DvQyun_8Q2IqT7773vwcizoKv0vgnrvkEtbAVb55iFPfM1r2ddq9BpWBR-v9M8R8p9D-nq-NSYIwpa7UNNQ" />
+                            <div
+                                class="absolute inset-0 bg-gradient-to-t from-obsidian-950 via-obsidian-950/40 to-transparent">
+                            </div>
+                            <div class="absolute bottom-4 left-4 right-4">
+                                <span class="text-emerald-400 text-[10px] font-bold uppercase tracking-wider">Over
+                                    1,200+ Clients</span>
+                                <p class="text-white font-bold text-sm">Trusted US Partner</p>
+                            </div>
+                        </div>
+                        <div
+                            class="relative rounded-2xl overflow-hidden h-64 border border-white/10 shadow-xl col-span-2 group">
+                            <img alt="Financial analysts working simultaneously"
+                                class="w-full h-full object-cover filter brightness-[0.55] group-hover:scale-105 transition-transform duration-500"
+                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuBKMpfIQziXj494KNhnm8XsIGU8mA7jDndrdzMr4xglv9Aa3FjFPeHHXsRfUCiPat3S-VEEjMb0lZciz9G22zPKGz3DKtkZwLXnwn8ZrX_R5VbB_7rWBiWhz5wSbd7_JiJNtn7vlIeFCWDh3s00t0RyM8t-MaVhs5rgQC728c77bHs06csGmBCAThvjBLHwPGkRUyDA1Pk9letPNiWWIzd8IDuc4gfA0r99YwzJqz0GMgbervnW0D0q6w" />
+                            <div
+                                class="absolute inset-0 bg-gradient-to-t from-obsidian-950 via-obsidian-950/30 to-transparent">
+                            </div>
+                            <div class="absolute bottom-5 left-5 right-5 flex justify-between items-end">
+                                <div>
+                                    <span class="text-emerald-400 text-xs font-bold uppercase">Dedicated POD
+                                        Model</span>
+                                    <h4 class="text-white font-bold text-base">Direct Slack &amp; Teams Communication
+                                    </h4>
+                                    <p class="text-xs text-slate-300">Your offshore team responds during your normal US
+                                        business hours.</p>
+                                </div>
+                                <div class="hidden sm:block text-right">
+                                    <span class="text-2xl font-black text-white block">15 Min</span>
+                                    <span class="text-[11px] text-slate-400 uppercase">Avg Response Time</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- END: WhyChooseXconcileSection -->
+        <!-- BEGIN: ToolsWeWorkWithSection -->
+        <section class="py-16 bg-obsidian-950 border-t border-white/5" id="tech-stack">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center max-w-xl mx-auto mb-10 space-y-2">
+                    <span
+                        class="text-xs font-bold uppercase tracking-widest text-emerald-400 bg-emerald-950/60 px-3 py-1 rounded-full border border-emerald-800/40">Integrations</span>
+                    <h2 class="text-2xl sm:text-3xl font-extrabold text-white">Accounting Platforms We Master</h2>
+                    <p class="text-slate-400 text-xs sm:text-sm">We adapt seamlessly to your existing accounting
+                        ecosystem. No migrations required.</p>
+                </div>
+                <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
+                    <div
+                        class="glass-card p-5 rounded-xl border border-white/10 text-center flex flex-col items-center justify-center hover:border-emerald-500/40 transition-colors">
+                        <span class="text-emerald-400 font-extrabold text-lg tracking-tight">QuickBooks</span>
+                        <span class="text-[10px] text-slate-400 uppercase mt-1">Online &amp; Enterprise</span>
+                    </div>
+                    <div
+                        class="glass-card p-5 rounded-xl border border-white/10 text-center flex flex-col items-center justify-center hover:border-emerald-500/40 transition-colors">
+                        <span class="text-cyan-400 font-extrabold text-lg tracking-tight">Xero</span>
+                        <span class="text-[10px] text-slate-400 uppercase mt-1">Certified Advisor</span>
+                    </div>
+                    <div
+                        class="glass-card p-5 rounded-xl border border-white/10 text-center flex flex-col items-center justify-center hover:border-emerald-500/40 transition-colors">
+                        <span class="text-blue-400 font-extrabold text-lg tracking-tight">NetSuite</span>
+                        <span class="text-[10px] text-slate-400 uppercase mt-1">Oracle ERP</span>
+                    </div>
+                    <div
+                        class="glass-card p-5 rounded-xl border border-white/10 text-center flex flex-col items-center justify-center hover:border-emerald-500/40 transition-colors">
+                        <span class="text-emerald-300 font-extrabold text-lg tracking-tight">Sage Intacct</span>
+                        <span class="text-[10px] text-slate-400 uppercase mt-1">Mid-Market Standard</span>
+                    </div>
+                    <div
+                        class="glass-card p-5 rounded-xl border border-white/10 text-center flex flex-col items-center justify-center hover:border-emerald-500/40 transition-colors">
+                        <span class="text-amber-400 font-extrabold text-lg tracking-tight">Bill.com</span>
+                        <span class="text-[10px] text-slate-400 uppercase mt-1">AP/AR Automation</span>
+                    </div>
+                    <div
+                        class="glass-card p-5 rounded-xl border border-white/10 text-center flex flex-col items-center justify-center hover:border-emerald-500/40 transition-colors">
+                        <span class="text-red-400 font-extrabold text-lg tracking-tight">Gusto / ADP</span>
+                        <span class="text-[10px] text-slate-400 uppercase mt-1">Payroll Platforms</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- END: ToolsWeWorkWithSection -->
+        <!-- BEGIN: ClientTestimonialsVideoSection -->
+        <section class="py-20 bg-obsidian-900 border-t border-white/5">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center max-w-2xl mx-auto mb-14 space-y-3">
+                    <span
+                        class="text-xs font-bold uppercase tracking-widest text-emerald-400 bg-emerald-950/60 px-3 py-1 rounded-full border border-emerald-800/40">Verified
+                        Client Video Feedback</span>
+                    <h2 class="text-3xl sm:text-4xl font-extrabold text-white">What Our US Clients Say</h2>
+                    <p class="text-slate-400 text-sm">Hear from CEO &amp; CFO leaders about the accuracy and
+                        communication speed of Xconcile.</p>
+                </div>
+                <!-- Featured Video Testimonial Card with Text Layered Over Still -->
+                <div
+                    class="max-w-4xl mx-auto relative rounded-3xl overflow-hidden border border-white/20 shadow-2xl group">
+                    <img alt="Client video testimonial interview frame"
+                        class="w-full h-[400px] sm:h-[480px] object-cover filter brightness-[0.6] group-hover:scale-102 transition-transform duration-500"
+                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuBhlIJo32o7PWxe8np4YPRw65Na8ktGkugbumcZ9f5vSWPkK8hKceZfcoCAqWOgKFpYi4sAGBLh_kE9S_jp-ZYVFHxuVe6XpiF1xzEKRYPfjyPizNZQedRvl7-VbOlkowHm72E9vjEYPM6s66cHO8DkP6FNhey6h_0PeBXAGKYgFKiNMuxOWwFptd6aU_pzRTL-dNHUqBZDlWohdjhFhaCms4nyEnnYB5WZTpk-RtC1Oj5Wxjj5zZgFtQ" />
+                    <div class="absolute inset-0 bg-gradient-to-t from-obsidian-950 via-obsidian-950/30 to-transparent">
+                    </div>
+                    <!-- Play Button Overlay -->
+                    <div class="absolute inset-0 flex items-center justify-center">
+                        <button aria-label="Play Client Video Testimonial"
+                            class="w-20 h-20 rounded-full bg-emerald-500/90 hover:bg-emerald-400 text-obsidian-950 flex items-center justify-center shadow-glow-emerald transition-all transform hover:scale-110">
+                            <svg class="w-8 h-8 fill-current ml-1" viewbox="0 0 24 24">
+                                <path d="M8 5v14l11-7z"></path>
+                            </svg>
+                        </button>
+                    </div>
+                    <!-- Bottom Text Layered ON the Video Surface -->
+                    <div
+                        class="absolute bottom-6 left-6 right-6 flex flex-col sm:flex-row items-start sm:items-end justify-between gap-4">
+                        <div class="glass-card p-5 rounded-2xl border border-white/20 backdrop-blur-xl max-w-xl">
+                            <p class="text-white text-sm sm:text-base font-medium italic mb-2">
+                                "Our US tax practice was drowning in data entry each October. Xconcile provided 4
+                                certified accountants who cleaned 80+ multi-entity balance sheets before deadline."
+                            </p>
+                            <div class="flex items-center gap-3">
+                                <span class="text-xs font-bold text-emerald-400">Rosanne Mallozzi</span>
+                                <span class="text-slate-400 text-xs">Managing Partner, Tax Advisory Group (Florida,
+                                    USA)</span>
+                            </div>
+                        </div>
+                        <div class="hidden sm:block">
+                            <div class="glass-card px-4 py-2 rounded-xl border border-white/15 text-xs text-slate-300">
+                                Verified Clutch Review ★★★★★
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- END: ClientTestimonialsVideoSection -->
+        <!-- BEGIN: FAQSection -->
+        <section class="py-20 bg-obsidian-950" id="faqs">
+            <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-14 space-y-3">
+                    <span
+                        class="text-xs font-bold uppercase tracking-widest text-emerald-400 bg-emerald-950/60 px-3 py-1 rounded-full border border-emerald-800/40">Clear
+                        Answers</span>
+                    <h2 class="text-3xl sm:text-4xl font-extrabold text-white">Frequently Asked Questions</h2>
+                    <p class="text-slate-400 text-sm">Everything you need to know about working with an outsourced
+                        accounting partner.</p>
+                </div>
+                <div class="space-y-4" data-purpose="faq-accordion">
+                    <!-- FAQ Item 1 -->
+                    <details class="glass-card rounded-2xl border border-white/10 p-6 group cursor-pointer" open="">
+                        <summary
+                            class="flex items-center justify-between font-bold text-white text-base sm:text-lg list-none select-none">
+                            <span>Why should we choose Xconcile over hiring locally in the US?</span>
+                            <span class="text-emerald-400 group-open:rotate-180 transition-transform duration-200">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2"
+                                    viewbox="0 0 24 24">
+                                    <path d="M19 9l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round"></path>
+                                </svg>
+                            </span>
+                        </summary>
+                        <div class="mt-4 text-slate-300 text-sm leading-relaxed border-t border-white/5 pt-4">
+                            Local US accounting hires command $75k–$95k base salaries, plus recruitment commissions,
+                            payroll taxes, healthcare, and software overhead. With Xconcile, you save up to 65% in
+                            overhead while gaining seasoned accountants trained in US GAAP, all working strictly within
+                            your US time zone.
+                        </div>
+                    </details>
+                    <!-- FAQ Item 2 -->
+                    <details class="glass-card rounded-2xl border border-white/10 p-6 group cursor-pointer">
+                        <summary
+                            class="flex items-center justify-between font-bold text-white text-base sm:text-lg list-none select-none">
+                            <span>How secure is our client and business financial data?</span>
+                            <span class="text-emerald-400 group-open:rotate-180 transition-transform duration-200">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2"
+                                    viewbox="0 0 24 24">
+                                    <path d="M19 9l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round"></path>
+                                </svg>
+                            </span>
+                        </summary>
+                        <div class="mt-4 text-slate-300 text-sm leading-relaxed border-t border-white/5 pt-4">
+                            We enforce enterprise security standards: ISO 27001 certified, SOC 2 Type II compliant
+                            facilities, restricted remote virtual desktops (zero local saving), encrypted 256-bit VPNs,
+                            and strict role-based multi-factor authentication. Your files never leave your approved
+                            secure environment.
+                        </div>
+                    </details>
+                    <!-- FAQ Item 3 -->
+                    <details class="glass-card rounded-2xl border border-white/10 p-6 group cursor-pointer">
+                        <summary
+                            class="flex items-center justify-between font-bold text-white text-base sm:text-lg list-none select-none">
+                            <span>Can Xconcile work inside our existing QuickBooks or Xero files?</span>
+                            <span class="text-emerald-400 group-open:rotate-180 transition-transform duration-200">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2"
+                                    viewbox="0 0 24 24">
+                                    <path d="M19 9l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round"></path>
+                                </svg>
+                            </span>
+                        </summary>
+                        <div class="mt-4 text-slate-300 text-sm leading-relaxed border-t border-white/5 pt-4">
+                            Yes, 100%. We operate directly in your existing QuickBooks Online/Desktop, Xero, Sage, or
+                            NetSuite environments. You maintain master administrative control and simply issue us user
+                            accounts with granular permissions.
+                        </div>
+                    </details>
+                    <!-- FAQ Item 4 -->
+                    <details class="glass-card rounded-2xl border border-white/10 p-6 group cursor-pointer">
+                        <summary
+                            class="flex items-center justify-between font-bold text-white text-base sm:text-lg list-none select-none">
+                            <span>How long does onboarding take before work starts?</span>
+                            <span class="text-emerald-400 group-open:rotate-180 transition-transform duration-200">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2"
+                                    viewbox="0 0 24 24">
+                                    <path d="M19 9l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round"></path>
+                                </svg>
+                            </span>
+                        </summary>
+                        <div class="mt-4 text-slate-300 text-sm leading-relaxed border-t border-white/5 pt-4">
+                            Our standard onboarding sprint takes just 48 to 72 hours. Once we conclude the scope
+                            alignment call and establish system access, your assigned pod starts transaction clearing
+                            and catch-up bookkeeping immediately.
+                        </div>
+                    </details>
+                </div>
+            </div>
+        </section>
+        <!-- END: FAQSection -->
+        <!-- BEGIN: ConsultationFormSection -->
+        <section class="py-24 bg-obsidian-900 border-t border-white/5 relative" id="consultation">
+            <!-- Glow decoration -->
+            <div
+                class="absolute bottom-0 right-10 w-[500px] h-[300px] bg-emerald-500/10 blur-[140px] rounded-full pointer-events-none">
+            </div>
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+                    <div class="lg:col-span-5 space-y-6">
+                        <span
+                            class="text-xs font-bold uppercase tracking-widest text-emerald-400 bg-emerald-950/60 px-3 py-1 rounded-full border border-emerald-800/40">
+                            Zero Commitment Consultation
+                        </span>
+                        <h2
+                            class="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white tracking-tight leading-tight">
+                            Ready to Simplify Your <span class="text-emerald-400">Accounting?</span>
+                        </h2>
+                        <p class="text-slate-300 text-base leading-relaxed">
+                            Schedule a 20-minute discovery session with our senior accounting director. We will evaluate
+                            your current books and map out an exact cost-saving pod structure.
+                        </p>
+                        <div class="space-y-4 pt-2">
+                            <div class="flex items-center gap-3 text-sm text-slate-300">
+                                <div
+                                    class="w-5 h-5 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center font-bold text-xs">
+                                    ✓</div>
+                                <span>Free 30-day scope &amp; ledger diagnostic</span>
+                            </div>
+                            <div class="flex items-center gap-3 text-sm text-slate-300">
+                                <div
+                                    class="w-5 h-5 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center font-bold text-xs">
+                                    ✓</div>
+                                <span>Custom fixed-monthly pricing proposal within 24 hours</span>
+                            </div>
+                            <div class="flex items-center gap-3 text-sm text-slate-300">
+                                <div
+                                    class="w-5 h-5 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center font-bold text-xs">
+                                    ✓</div>
+                                <span>14-day zero-risk trial period</span>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Form Card -->
+                    <div class="lg:col-span-7">
+                        <div class="glass-card p-8 sm:p-10 rounded-3xl border border-white/15 shadow-2xl">
+                            <form action="#" class="space-y-5" method="POST"
+                                onsubmit="event.preventDefault(); alert('Thank you! Our US Accounting Director will contact you within 2 hours.');">
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                                    <div>
+                                        <label
+                                            class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-2">First
+                                            &amp; Last Name *</label>
+                                        <input
+                                            class="w-full bg-obsidian-950 border border-white/15 rounded-xl px-4 py-3 text-white placeholder-slate-500 focus:outline-none focus:border-emerald-400 focus:ring-1 focus:ring-emerald-400 text-sm transition-all"
+                                            placeholder="e.g. John Miller" required="" type="text" />
+                                    </div>
+                                    <div>
+                                        <label
+                                            class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-2">Corporate
+                                            Email *</label>
+                                        <input
+                                            class="w-full bg-obsidian-950 border border-white/15 rounded-xl px-4 py-3 text-white placeholder-slate-500 focus:outline-none focus:border-emerald-400 focus:ring-1 focus:ring-emerald-400 text-sm transition-all"
+                                            placeholder="john@yourfirm.com" required="" type="email" />
+                                    </div>
+                                </div>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                                    <div>
+                                        <label
+                                            class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-2">Company
+                                            / Firm Name *</label>
+                                        <input
+                                            class="w-full bg-obsidian-950 border border-white/15 rounded-xl px-4 py-3 text-white placeholder-slate-500 focus:outline-none focus:border-emerald-400 focus:ring-1 focus:ring-emerald-400 text-sm transition-all"
+                                            placeholder="e.g. Miller &amp; Partners CPA" required="" type="text" />
+                                    </div>
+                                    <div>
+                                        <label
+                                            class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-2">Service
+                                            of Interest</label>
+                                        <select
+                                            class="w-full bg-obsidian-950 border border-white/15 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-emerald-400 focus:ring-1 focus:ring-emerald-400 text-sm transition-all">
+                                            <option>Bookkeeping &amp; Month-End Close</option>
+                                            <option>CPA Firm White-Label Pod</option>
+                                            <option>Tax Preparation (1065 / 1120 / 1040)</option>
+                                            <option>Audit &amp; Assurance Support</option>
+                                            <option>Multi-State Payroll &amp; Sales Tax</option>
+                                            <option>Virtual CFO / Advisory</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div>
+                                    <label
+                                        class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-2">Current
+                                        Software Stack &amp; Needs</label>
+                                    <textarea
+                                        class="w-full bg-obsidian-950 border border-white/15 rounded-xl px-4 py-3 text-white placeholder-slate-500 focus:outline-none focus:border-emerald-400 focus:ring-1 focus:ring-emerald-400 text-sm transition-all"
+                                        placeholder="Tell us what software you currently use (QuickBooks, Xero, UltraTax, etc.) and your primary accounting challenge..."
+                                        rows="3"></textarea>
+                                </div>
+                                <button
+                                    class="w-full py-4 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-obsidian-950 font-extrabold text-base shadow-glow-emerald transition-all duration-200 mt-2"
+                                    type="submit">
+                                    Schedule Free Discovery Consultation →
+                                </button>
+                                <p class="text-center text-[11px] text-slate-400 mt-2">
+                                    🔒 Strictly confidential. Protected by mutual NDA and US data privacy regulations.
+                                </p>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- END: ConsultationFormSection -->
+    </main>
+    <!-- BEGIN: MainFooter -->
+    <footer class="bg-obsidian-950 border-t border-white/10 pt-16 pb-12 text-slate-400 text-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10 pb-12 border-b border-white/10">
+                <!-- Brand Summary -->
+                <div class="lg:col-span-2 space-y-4">
+                    <a class="flex items-center gap-3" href="#">
+                        <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-emerald-500 to-teal-400 p-0.5">
+                            <div class="w-full h-full bg-obsidian-900 rounded-[10px] flex items-center justify-center">
+                                <span class="text-lg font-black text-emerald-400">X</span>
+                            </div>
+                        </div>
+                        <span class="text-2xl font-bold text-white tracking-tight">Xconcile<span
+                                class="text-emerald-400">.</span></span>
+                    </a>
+                    <p class="text-slate-400 text-xs sm:text-sm leading-relaxed max-w-sm">
+                        Premium outsourced accounting, CPA white-label support, and tax workflow scaling designed
+                        specifically for United States businesses and public accounting firms.
+                    </p>
+                    <div class="flex items-center gap-3 pt-2">
+                        <span
+                            class="px-2.5 py-1 rounded bg-white/5 border border-white/10 text-[11px] font-semibold text-slate-300">SOC
+                            2 Type II</span>
+                        <span
+                            class="px-2.5 py-1 rounded bg-white/5 border border-white/10 text-[11px] font-semibold text-slate-300">ISO
+                            27001</span>
+                        <span
+                            class="px-2.5 py-1 rounded bg-white/5 border border-white/10 text-[11px] font-semibold text-slate-300">US
+                            GAAP</span>
+                    </div>
+                </div>
+                <!-- Quick Links: Services -->
+                <div class="space-y-3">
+                    <h4 class="text-white font-bold text-sm tracking-wider uppercase">Services</h4>
+                    <ul class="space-y-2 text-xs">
+                        <li><a class="hover:text-emerald-400 transition-colors" href="#services">Bookkeeping &amp;
+                                Reconciliations</a></li>
+                        <li><a class="hover:text-emerald-400 transition-colors" href="#services">US Tax Preparation
+                                (1120/1065)</a></li>
+                        <li><a class="hover:text-emerald-400 transition-colors" href="#services">Audit &amp; Assurance
+                                Support</a></li>
+                        <li><a class="hover:text-emerald-400 transition-colors" href="#services">Payroll &amp;
+                                Multi-State Tax</a></li>
+                        <li><a class="hover:text-emerald-400 transition-colors" href="#services">Virtual CFO &amp;
+                                Financial Advisory</a></li>
+                    </ul>
+                </div>
+                <!-- Quick Links: CPA Solutions -->
+                <div class="space-y-3">
+                    <h4 class="text-white font-bold text-sm tracking-wider uppercase">CPA Solutions</h4>
+                    <ul class="space-y-2 text-xs">
+                        <li><a class="hover:text-emerald-400 transition-colors" href="#cpa-solutions">Tax Season Staff
+                                Augmentation</a></li>
+                        <li><a class="hover:text-emerald-400 transition-colors" href="#cpa-solutions">White-Label Client
+                                Pods</a></li>
+                        <li><a class="hover:text-emerald-400 transition-colors" href="#tech-stack">QuickBooks / Xero
+                                Management</a></li>
+                        <li><a class="hover:text-emerald-400 transition-colors" href="#why-us">Security &amp; SOC
+                                Compliance</a></li>
+                        <li><a class="hover:text-emerald-400 transition-colors" href="#consultation">Partner Pilot
+                                Program</a></li>
+                    </ul>
+                </div>
+                <!-- Global Operating Centers -->
+                <div class="space-y-3">
+                    <h4 class="text-white font-bold text-sm tracking-wider uppercase">Locations</h4>
+                    <div class="space-y-3 text-xs">
+                        <div>
+                            <p class="text-white font-semibold flex items-center gap-1.5">
+                                <span>🇺🇸</span> United States Operations
+                            </p>
+                            <p class="text-slate-400 mt-0.5">530 5th Avenue, Suite 1200<br />New York, NY 10036</p>
+                        </div>
+                        <div>
+                            <p class="text-white font-semibold flex items-center gap-1.5">
+                                <span>🇮🇳</span> Global Delivery Hub
+                            </p>
+                            <p class="text-slate-400 mt-0.5">Infotech Tower, SEZ Zone<br />Financial District, Sector 48
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Copyright & Legal -->
+            <div class="pt-8 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-500 gap-4">
+                <p>© 2025 Xconcile Financial Technologies LLC. All rights reserved.</p>
+                <div class="flex space-x-6">
+                    <a class="hover:text-slate-300" href="#">Privacy Policy</a>
+                    <a class="hover:text-slate-300" href="#">Terms of Service</a>
+                    <a class="hover:text-slate-300" href="#">Security Architecture</a>
+                    <a class="hover:text-slate-300" href="#">GDPR / CCPA Notice</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <!-- END: MainFooter -->
+</body>
+
+</html>
