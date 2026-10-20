@@ -1,0 +1,94 @@
+import { InquiryForm } from "@/components/forms/inquiry-form";
+import { CheckCircleIcon, ElectricBoltIcon, LockIcon } from "@/components/icons/material-symbols";
+import { FadeUp } from "@/components/motion/fade-up";
+import { RevealText } from "@/components/motion/reveal-text";
+import type { home } from "@/content/home";
+import { cn } from "@/lib/utils";
+import { sectionId } from "@/lib/section-ids";
+
+const trustIcons = { bolt: ElectricBoltIcon, lock: LockIcon, check: CheckCircleIcon };
+
+/**
+ * Home contact section in the OLD SITE's look (client request 2026-10-15): dark teal gradient,
+ * copy + trust signals left, white "Send Us a Message" card right. Port of
+ * old-code/xconcile-website/components/services/ServiceInquiryForm.tsx.
+ * Colors are the old site's Tailwind values (primary-950/900/800/700/500/300/200,
+ * secondary-500/400), not Figma tokens. Anchor: #contact (hero / challenges CTAs).
+ */
+export function InquirySection({
+  data,
+  contactEmail,
+  className,
+}: {
+  data: typeof home.inquiry;
+  /** Shown in the form's error message (Site Settings → Contact). */
+  contactEmail?: string;
+  className?: string;
+}) {
+  return (
+    <section id={sectionId(data, "contact")}
+      aria-labelledby="inquiry-title"
+      className={cn(
+        // md:py-12: 48px on tablets like the other sections; 96px from lg (audit L7c).
+        "relative overflow-hidden bg-gradient-to-br from-[#020b0d] via-[#05161a] to-[#0b2d35] py-8 md:py-12 lg:py-24",
+        className,
+      )}
+    >
+      {/* Decorative blobs */}
+      <div aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden">
+        <div className="absolute -top-48 -right-48 size-[32rem] rounded-full bg-[#71b751]/10 blur-3xl" />
+        <div className="absolute -bottom-48 -left-48 size-[32rem] rounded-full bg-[#1c7185]/20 blur-3xl" />
+        <div className="absolute top-1/2 left-1/2 h-[20rem] w-[60rem] max-w-full -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#10434f]/10 blur-3xl" />
+      </div>
+
+      <div className="relative z-10 container-site grid grid-cols-1 items-center gap-16 lg:grid-cols-2">
+        {/* Left: copy & trust signals */}
+        <div className="text-white">
+          {/* Same entrance as every other section (2026-10-18): eyebrow + body fade up, the H2
+              reveals line by line. */}
+          <FadeUp className="mb-6">
+            <span className="inline-block text-xs font-bold tracking-[0.2em] text-[#8dc573] uppercase">
+              {data.eyebrow}
+            </span>
+          </FadeUp>
+
+          <RevealText
+            as="h2"
+            id="inquiry-title"
+            className="mb-6 text-4xl leading-[1.1] font-bold tracking-tight text-white md:text-5xl"
+          >
+            {data.title.before} <span className="text-[#8dc573]">{data.title.highlight}</span>
+          </RevealText>
+
+          <FadeUp as="p" delay={0.12} className="mb-12 text-lg leading-relaxed text-[#a4c6ce]">
+            {data.body}
+          </FadeUp>
+
+          <ul className="space-y-6">
+            {data.trust.map((item) => {
+              const Icon = trustIcons[item.icon];
+              return (
+                <li key={item.label} className="flex items-start gap-5">
+                  <span className="flex size-12 shrink-0 items-center justify-center rounded-2xl border border-white/10 bg-white/10 text-[#8dc573]">
+                    <Icon className="size-5" />
+                  </span>
+                  <span>
+                    <span className="block text-base font-bold text-white">{item.label}</span>
+                    <span className="mt-0.5 block text-sm text-[#76a9b5]">{item.desc}</span>
+                  </span>
+                </li>
+              );
+            })}
+          </ul>
+
+          <div className="mt-12 border-t border-white/10 pt-10">
+            <p className="text-sm text-[#76a9b5]">{data.tagline}</p>
+          </div>
+        </div>
+
+        {/* Right: form card */}
+        <InquiryForm copy={data.form} contactEmail={contactEmail} />
+      </div>
+    </section>
+  );
+}

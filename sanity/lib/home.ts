@@ -1,0 +1,163 @@
+import "server-only";
+
+import { home } from "@/content/home";
+import type {
+  BlogContent,
+  CaseStudiesContent,
+  ChallengesContent,
+  FaqContent,
+  HeadingTitle,
+  HeroContent,
+  IndustriesContent,
+  IntroContent,
+  ProcessContent,
+  ServicesContent,
+  StatsContent,
+  TestimonialsContent,
+  ToolsContent,
+  WhyChooseContent,
+} from "@/content/types";
+
+import { sanityFetch } from "./fetch";
+import {
+  mapBlog,
+  mapCaseStudies,
+  mapChallenges,
+  mapFaq,
+  mapHero,
+  mapIndustries,
+  mapIntro,
+  mapProcess,
+  mapServices,
+  mapStats,
+  mapTestimonials,
+  mapTools,
+  mapWhyChoose,
+  type Raw,
+  SECTION_PROJECTION as P,
+} from "./sections";
+
+/** Home page data: the shared section shapes the components accept (content/types.ts). */
+export type HomeContent = {
+  seo: { title: string; description: string };
+  hero: HeroContent;
+  stats: StatsContent;
+  intro: IntroContent;
+  challenges: ChallengesContent;
+  services: ServicesContent;
+  caseStudies: CaseStudiesContent;
+  process: ProcessContent;
+  industries: IndustriesContent;
+  whyChoose: WhyChooseContent;
+  tools: ToolsContent;
+  testimonials: TestimonialsContent;
+  blog: BlogContent;
+  faq: FaqContent;
+  contact: typeof home.contact;
+  inquiry: typeof home.inquiry;
+};
+
+const fallback: HomeContent = home;
+
+const HOME_QUERY = /* groq */ `*[_id == "home"][0]{
+  seo, hero, stats, challenges, services, process, blog, faq, contact,
+  ${P.intro},
+  ${P.caseStudies},
+  ${P.industries},
+  ${P.whyChoose},
+  ${P.tools},
+  ${P.testimonials}
+}`;
+
+/**
+ * Last space of the lead-in becomes a no-break space, so its last two words share a line and no
+ * word is left alone before the highlight ("…Xconcile / for / Outsourced…" at 1280/1366, audit M2).
+ */
+const glueLastWord = (t: HeadingTitle): HeadingTitle =>
+  typeof t !== "string" && t.before ? { ...t, before: t.before.replace(/ (\S+)$/, "\u00A0$1") } : t;
+
+/**
+ * Home page content from the Sanity `home` singleton, in the exact shape of content/home.ts so
+ * the section components stay unchanged. Any section or field that is empty in Sanity falls back
+ * to content/home.ts (also used when Sanity is not configured). Cache tag: `home`.
+ * Each section's Studio "Section ID" becomes its `anchorId` (the section's #id, lib/section-ids.ts).
+ */
+export async function getHome(): Promise<HomeContent> {
+  const d: Raw = await sanityFetch({ query: HOME_QUERY, tags: ["home"] });
+  if (!d) return fallback;
+  const f = fallback;
+
+  return {
+    seo: {
+      title: d.seo?.title ?? f.seo.title,
+      description: d.seo?.description ?? f.seo.description,
+    },
+
+    // Same mapper per section type on every page (./sections.ts).
+    hero: mapHero(d.hero, f.hero),
+    stats: mapStats(d.stats, f.stats),
+    intro: mapIntro(d.intro, f.intro),
+    challenges: mapChallenges(d.challenges, f.challenges),
+    services: mapServices(d.services, f.services),
+    caseStudies: mapCaseStudies(d.caseStudies, f.caseStudies),
+    process: mapProcess(d.process, f.process),
+    industries: mapIndustries(d.industries, f.industries),
+    whyChoose: (() => {
+      const whyChoose = mapWhyChoose(d.whyChoose, f.whyChoose);
+      return d.whyChoose ? { ...whyChoose, title: glueLastWord(whyChoose.title) } : whyChoose;
+    })(),
+    tools: mapTools(d.tools, f.tools),
+    testimonials: mapTestimonials(d.testimonials, f.testimonials),
+    blog: mapBlog(d.blog, f.blog),
+    faq: mapFaq(d.faq, f.faq),
+
+    // Figma contact section: not used on Home (see app/(website)/page.tsx), stays code-driven.
+    contact: f.contact,
+
+    inquiry: d.contact
+      ? {
+          ...f.inquiry,
+          // Section ID from Studio wins over the code default (#contact, used by hero/challenges CTAs).
+          id: d.contact.anchorId || f.inquiry.id,
+          eyebrow: d.contact.eyebrow ?? f.inquiry.eyebrow,
+          title: d.contact.title?.before
+            ? { before: d.contact.title.before, highlight: d.contact.title.highlight ?? "" }
+            : f.inquiry.title,
+          body: d.contact.body ?? f.inquiry.body,
+          trust:
+            d.contact.trust?.map((t: Raw) => ({
+              icon: t.icon,
+              label: t.label,
+              desc: t.desc ?? "",
+            })) ?? f.inquiry.trust,
+          tagline: d.contact.tagline ?? f.inquiry.tagline,
+          form: (() => {
+            const sf = d.contact.form ?? {};
+            const ff = f.inquiry.form;
+            // Labels/placeholders from Sanity; `required` always from code (server validation).
+            const field = <K extends keyof typeof ff.fields>(k: K) => ({
+              ...ff.fields[k],
+              ...(sf.fields?.[k]?.label ? { label: sf.fields[k].label } : {}),
+              ...(sf.fields?.[k]?.placeholder ? { placeholder: sf.fields[k].placeholder } : {}),
+            });
+            return {
+              title: sf.title ?? ff.title,
+              note: sf.note ?? ff.note,
+              fields: {
+                name: field("name"),
+                email: field("email"),
+                phone: field("phone"),
+                company: field("company"),
+                service: field("service"),
+                message: field("message"),
+              },
+              submit: sf.submit ?? ff.submit,
+              submitting: sf.submitting ?? ff.submitting,
+              success: sf.success ?? ff.success,
+              error: sf.error ?? ff.error,
+            };
+          })(),
+        }
+      : f.inquiry,
+  };
+}

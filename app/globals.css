@@ -1,0 +1,452 @@
+@import "tailwindcss" source(none);
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+@plugin "@tailwindcss/typography";
+
+/* Scan only the app's own code. Automatic detection also read the agent-skill docs in
+   .agents/ and docs/ (thousands of example classes) and inflated the CSS from ~40KB to 170KB.
+   Add a folder here if it starts containing className strings. */
+@source "../app";
+@source "../components";
+@source "../content";
+@source "../lib";
+
+/* The site has no dark mode. Tailwind's default `dark:` follows the visitor's OS setting, which
+   let shadcn's `dark:*` styles leak in for dark-mode users (e.g. Button `dark:hover:bg-muted/50`
+   made the navbar CTA hover 50% transparent). Bind it to a `.dark` class that is never set. */
+@custom-variant dark (&:is(.dark *));
+
+
+/*
+ * Xconcile design tokens
+ * Source of truth: ../pages svg, css & png/ (page.svg + page.css per page) and
+ * docs/design/xconcile_redesign_report.md §2 + docs/design/design_normalization_spec.md.
+ * Do NOT invent new colors/sizes; add a token here only if it exists in the Figma CSS.
+ *
+ * Breakpoints: base = mobile (390 design), lg = desktop layout (1440 design).
+ * The design has no dark mode. Dark *sections* use the `bg-dark-gradient` utility.
+ */
+
+@theme inline {
+  /* ---- Fonts (next/font variables set in app/layout.tsx) ---- */
+  --font-sans: var(--font-manrope), ui-sans-serif, system-ui, sans-serif;
+  --font-heading: var(--font-manrope), ui-sans-serif, system-ui, sans-serif;
+  /* Outfit: footer, process card titles, blog titles, case-study copy (per Figma) */
+  --font-display: var(--font-outfit), var(--font-manrope), ui-sans-serif, sans-serif;
+
+  /* ---- shadcn semantic colors (mapped below in :root) ---- */
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  /* ---- Radius ---- */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  /* cards, images (most common in Figma) */
+  --radius-lg: var(--radius);
+  --radius-xl: 16px;
+  /* nav dropdown */
+  --radius-2xl: 20px;
+  --radius-3xl: 24px;
+  --radius-4xl: 32px;
+  --radius-pill: 30px;
+  /* pill buttons, badges, tabs */
+}
+
+@theme {
+  /* ---- Brand palette (exact Figma values) ---- */
+  --color-brand: #6abe52;
+  /* primary green */
+  --color-brand-50: #f3f8f2;
+  /* badges, active tab bg, process icon tile */
+  --color-brand-100: #e7f6e2;
+  /* icon chips */
+  --color-brand-tile: #e6fae1;
+  /* challenge card 5 icon tile */
+  --color-brand-border: rgb(106 190 82 / 0.2);
+  /* badge border */
+  --color-brand-faint: rgb(106 190 82 / 0.1);
+  /* hero badge border */
+  --color-brand-tile-dark: rgb(106 190 82 / 0.16);
+  /* icon tile on dark cards */
+
+  --color-heading: #28272a;
+  --color-heading-alt: #2a2d31;
+  /* case-study title, industry cards, FAQ */
+  --color-body: #54515c;
+  --color-body-alt: #4d5560;
+  /* industry card copy, FAQ intro */
+  --color-meta: #73707b;
+  /* blog meta */
+  --color-ink: #1c1b1f;
+  /* arrow inside white CTA circle */
+  --color-line: #d5d4d8;
+  /* borders */
+  --color-hairline: rgb(14 23 20 / 0.078);
+  /* card borders, dividers */
+  --color-input-line: #dee2e6;
+  /* form fields */
+  --color-placeholder: #898989;
+  --color-surface-muted: #fafafa;
+  /* grey sections */
+  --color-surface-alt: #f5f7f8;
+  /* contact section, mobile blog */
+
+  --color-navy: #13212c;
+  --color-navy-2: #173345;
+  /* mobile footer */
+  --color-navy-3: #163142;
+  /* mobile video section */
+  --color-footer: #012b35;
+  /* desktop footer */
+  --color-teal: #165a6a;
+  /* DEPRECATED: only non-main CTA bands used it; main uses cta-overlay */
+
+  --color-danger: #e11d48;
+  --color-star: #f9bc04;
+
+  /* Challenge card tints: bg / border+tile / icon */
+  --color-tint-rose: #fff9fa;
+  --color-tint-rose-line: #ffe4e6;
+  --color-tint-rose-ink: #e11d48;
+  --color-tint-rose-accent: #ff4b55;
+  /* Hire security controls (2026-10-17 design): badge text, icons */
+  --color-tint-amber: #fffdf7;
+  --color-tint-amber-line: #fef3c7;
+  --color-tint-amber-ink: #d97706;
+  --color-tint-blue: #f9fbff;
+  --color-tint-blue-line: #dbeafe;
+  --color-tint-blue-ink: #2563eb;
+  --color-tint-purple: #fdfbff;
+  --color-tint-purple-line: #f3e8ff;
+  --color-tint-purple-ink: #9333ea;
+  --color-tint-green: #fcfffb;
+
+  /* On-dark helpers */
+  --color-dark-card: rgb(255 255 255 / 0.04);
+  --color-dark-border: rgb(255 255 255 / 0.1);
+  --color-on-dark: rgb(255 255 255 / 0.8);
+  --color-on-dark-muted: rgb(255 255 255 / 0.7);
+  --color-footer-text: rgb(245 245 245 / 0.8);
+
+  /* ---- Typography scale (Figma: size / line-height / weight) ---- */
+  --text-h1: 56px;
+  --text-h1--line-height: 72px;
+  --text-h1--font-weight: 700;
+  --text-h1-m: 36px;
+  --text-h1-m--line-height: 42px;
+  --text-h1-m--font-weight: 700;
+
+  --text-h2: 40px;
+  --text-h2--line-height: 48px;
+  --text-h2--font-weight: 700;
+  --text-h2-m: 28px;
+  --text-h2-m--line-height: 36px;
+  --text-h2-m--font-weight: 700;
+
+  --text-h3: 24px;
+  /* case-study title, tool names */
+  --text-h3--line-height: 32px;
+  --text-h3--font-weight: 600;
+
+  --text-h4-m: 18px;
+  /* mobile challenge card title */
+  --text-h4-m--line-height: 24px;
+  --text-h4-m--font-weight: 600;
+
+  --text-h5: 20px;
+  /* card title */
+  --text-h5--line-height: 28px;
+  --text-h5--font-weight: 600;
+
+  --text-stat: 40px;
+  /* stats bar numbers */
+  --text-stat--line-height: 56px;
+  --text-stat--font-weight: 700;
+  --text-stat-sm: 32px;
+  /* why-choose stats, video name, office titles */
+  --text-stat-sm--line-height: 40px;
+  --text-stat-sm--font-weight: 700;
+
+  --text-b3: 18px;
+  /* section subtitles */
+  --text-b3--line-height: 28px;
+  --text-b3-tight: 18px;
+  /* hero subtitle, challenges/contact copy */
+  --text-b3-tight--line-height: 24px;
+  --text-b1: 16px;
+  --text-b1--line-height: 24px;
+  --text-b2: 14px;
+  --text-b2--line-height: 20px;
+  --text-eyebrow: 14px;
+  --text-eyebrow--line-height: 24px;
+
+  /* ---- Layout ---- */
+  --container-site: 1440px;
+  /* 1296 content + 2×72 gutters */
+  --spacing-section: 80px;
+  /* Desktop fixed header clearance: pill top 32 + 68 tall + 16 gap. Use for anything that sticks
+     or scrolls to the top on lg+ (`lg:top-header-offset`, `scroll-padding-top`), or the pill
+     covers it (it hid the sticky Challenges badge). */
+  --spacing-header-offset: 116px;
+
+  /* ---- Motion ---- */
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  /* Hero entrance: 0.9s in the original build, +0.5s per client request 2026-10-16
+     (same rule as the GSAP presets in lib/motion.ts). */
+  --animate-hero-rise: hero-rise 1.4s var(--ease-out-expo) both;
+  /* LCP heading: transform only. An opacity-0 start isn't "painted" for LCP until the fade
+     shows, which pushed mobile LCP to 7.6s in Lighthouse. */
+  --animate-hero-lift: hero-lift 1.4s var(--ease-out-expo) both;
+
+  @keyframes hero-rise {
+    from {
+      opacity: 0;
+      transform: translateY(24px);
+    }
+
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes hero-lift {
+    from {
+      transform: translateY(16px);
+    }
+
+    to {
+      transform: translateY(0);
+    }
+  }
+}
+
+/* ---- Utilities ---- */
+
+/* Content container: 16px gutters (mobile) → 32px (tablet) → 72px (desktop), 1296px content max */
+@utility container-site {
+  width: 100%;
+  margin-inline: auto;
+  max-width: var(--container-site);
+  padding-inline: 16px;
+
+  @media (width >=48rem) {
+    padding-inline: 32px;
+  }
+
+  @media (width >=80rem) {
+    padding-inline: 72px;
+  }
+}
+
+/* Section vertical rhythm: 48px (mobile design) → 80px (desktop design) */
+@utility section-y {
+  padding-block: 48px;
+
+  @media (width >=64rem) {
+    padding-block: var(--spacing-section);
+  }
+}
+
+/* Hero, dark Services, Why Choose, Video testimonials */
+@utility bg-dark-gradient {
+  background-image: linear-gradient(270deg, #090e12 0%, #00263e 100%)
+}
+
+/* Final CTA band (inner pages): photo + navy overlay. Set the photo via --cta-image */
+@utility bg-cta-overlay {
+  background-image: linear-gradient(rgb(19 33 44 / 0.9), rgb(19 33 44 / 0.9)), var(--cta-image, none);
+  background-size: cover;
+  background-position: center;
+}
+
+/* Horizontal scrollers (mobile tab bars) */
+@utility no-scrollbar {
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+/* Inline links inside body copy. Design used #2C00A1; the normalization spec replaces it
+   with the brand link style (dark text, green underline) for contrast on every background. */
+@utility link-inline {
+  color: inherit;
+  text-decoration-line: underline;
+  text-decoration-color: var(--color-brand);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+  transition: color 150ms;
+
+  &:hover {
+    color: var(--color-brand);
+  }
+}
+
+/* Image hover splash (under review on the Home intro image via `<Intro imageSplash />`, 2026-10-18;
+   matches the client's reference sketch). Put on a `relative overflow-hidden` image frame.
+   On hover-in, two plain thin brand-green lines start together on the diagonal (bottom-left →
+   top-right corner) and move apart in opposite directions: ::before to the top-left corner,
+   ::after to the bottom-right corner, fading out as they arrive.
+   Angle = the frame's own diagonal (atan2 of its height/width via container units), so the lines
+   run exactly corner to corner on any aspect ratio. Travel = the distance from the diagonal to
+   those corners (w·sinθ). Transform + opacity only (compositor). The frame gets
+   `container-type: size`, safe because its size comes from width + aspect/height, never content.
+   Hover-out drops the animation, so it resets instantly. Touch devices skip it (no hover);
+   reduced-motion jumps to the hidden end via the base rule below.
+   Tune: --splash-duration, --splash-color, --splash-thickness.
+   Dev note: Turbopack has been serving this file one save behind; if an edit doesn't show, save
+   once more (any real change) and hard-refresh. */
+@utility img-splash {
+  container-type: size;
+  --splash-duration: 0.9s;
+  --splash-color: var(--color-brand);
+  --splash-thickness: 2px;
+
+  &::before,
+  &::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    /* 2× the diagonal, so the line still spans the frame at every point on its way to a corner. */
+    width: calc(2 * hypot(100cqw, 100cqh));
+    height: var(--splash-thickness);
+    z-index: 1;
+    pointer-events: none;
+    background-color: var(--splash-color);
+    opacity: 0;
+    /* Bottom-left → top-right corner: negative (counter-clockwise) angle from horizontal. */
+    --splash-angle: calc(atan2(100cqh, 100cqw) * -1);
+    /* Perpendicular distance from the diagonal to the far corners. */
+    --splash-reach: calc(100cqw * sin(atan2(100cqh, 100cqw)));
+    transform: translate(-50%, -50%) rotate(var(--splash-angle));
+  }
+
+  /* In the rotated frame, -Y points to the top-left corner and +Y to the bottom-right. */
+  &::before {
+    --splash-dir: -1;
+  }
+
+  &::after {
+    --splash-dir: 1;
+  }
+
+  @media (hover: hover) {
+
+    &:hover::before,
+    &:hover::after {
+      animation: img-splash var(--splash-duration) ease-in-out both;
+    }
+  }
+}
+
+@keyframes img-splash {
+  0% {
+    opacity: 1;
+    transform: translate(-50%, -50%) rotate(var(--splash-angle)) translateY(0);
+  }
+
+  75% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -50%) rotate(var(--splash-angle)) translateY(calc(var(--splash-dir) * var(--splash-reach)));
+  }
+}
+
+:root {
+  --radius: 8px;
+
+  --background: #ffffff;
+  --foreground: #28272a;
+  --card: #ffffff;
+  --card-foreground: #28272a;
+  --popover: #ffffff;
+  --popover-foreground: #28272a;
+  /* OPEN DECISION (report §2 Accessibility): #6ABE52 on white is 2.3:1. Kept as drawn
+     until the designer approves a darker text-green or dark text on green buttons. */
+  --primary: #6abe52;
+  --primary-foreground: #ffffff;
+  --secondary: #f3f8f2;
+  --secondary-foreground: #28272a;
+  --muted: #fafafa;
+  --muted-foreground: #54515c;
+  --accent: #f3f8f2;
+  --accent-foreground: #28272a;
+  --destructive: #e11d48;
+  --border: #d5d4d8;
+  --input: #dee2e6;
+  --ring: #6abe52;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+
+  html {
+    @apply font-sans;
+    -webkit-text-size-adjust: 100%;
+    scroll-behavior: smooth;
+    /* Leaves room for the header when jumping to #anchors: 68px sticky bar (mobile), fixed
+       pill at top 32 + 68px tall (desktop) */
+    scroll-padding-top: 88px;
+
+    @media (width >=64rem) {
+      scroll-padding-top: var(--spacing-header-offset);
+    }
+  }
+
+  body {
+    @apply bg-background text-b1 font-medium text-body antialiased;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply font-heading text-heading;
+  }
+
+  button:not(:disabled),
+  [role="button"]:not(:disabled) {
+    cursor: pointer;
+  }
+
+  /* Respect reduced-motion for CSS animations; GSAP checks this in lib/gsap.ts */
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}

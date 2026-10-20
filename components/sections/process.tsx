@@ -1,0 +1,53 @@
+import { Icon } from "@/components/icons/registry";
+import { Rail } from "@/components/shared/rail";
+import { SectionHeading } from "@/components/shared/section-heading";
+import type { ProcessContent } from "@/content/types";
+import { cn } from "@/lib/utils";
+import { sectionId } from "@/lib/section-ids";
+
+/**
+ * B10 Process steps. Mobile: centred heading, snap rail of 264px cards + progress bar.
+ * Desktop: five equal cards (240×238). Faded step numbers are decorative (aria-hidden);
+ * the ordered list carries the sequence for assistive tech.
+ */
+/** `subtitleClassName`: per-design subtitle width (audit: 666px). */
+export function Process({ data, subtitleClassName }: { data: ProcessContent; subtitleClassName?: string }) {
+  return (
+    <section id={sectionId(data, "process")} aria-labelledby="process-title" className="bg-[rgb(250_250_250/0.6)] section-y">
+      <div className="container-site flex flex-col gap-6 lg:gap-12">
+        <SectionHeading
+          eyebrow={data.badge}
+          title={data.title}
+          titleId="process-title"
+          subtitle={data.subtitle}
+          className="mx-auto max-w-[880px]"
+          titleClassName="max-w-[290px] md:max-w-none"
+          subtitleClassName={cn("max-w-[326px] md:max-w-[880px]", subtitleClassName)}
+        />
+
+        {/* Card reveal on every page (option B, 2026-10-18). */}
+        <Rail label={data.title} as="ol" listClassName="lg:grid lg:grid-cols-5 lg:gap-6" reveal>
+          {data.steps.map((step, i) => (
+            <li
+              key={step.title}
+              className="flex w-[264px] shrink-0 snap-start flex-col gap-6 overflow-hidden rounded-md border border-hairline bg-white p-6 lg:w-auto"
+            >
+              <div className="flex items-start justify-between gap-4">
+                <span className="flex size-12 shrink-0 items-center justify-center rounded-md bg-brand-50">
+                  <Icon name={step.icon} className="size-6 text-brand" />
+                </span>
+                <span aria-hidden className="text-[40px] leading-12 font-bold text-hairline">
+                  {String(i + 1).padStart(2, "0")}
+                </span>
+              </div>
+              <div className="flex flex-col gap-4">
+                <h3 className="font-display text-h5 font-medium text-heading">{step.title}</h3>
+                <p className="text-b1 text-body">{step.body}</p>
+              </div>
+            </li>
+          ))}
+        </Rail>
+      </div>
+    </section>
+  );
+}

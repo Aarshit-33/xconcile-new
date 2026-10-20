@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="1086.0 322.0 282.0 254.0" fill="none" width="282.0" height="254.0"><defs><linearGradient id="paint1_linear_751_4128" x1="1108.09" y1="613.208" x2="1192.15" y2="474.937" gradientUnits="userSpaceOnUse">
+<stop offset="0.6029" stop-color="white" />
+<stop offset="0.7146" stop-color="white" />
+<stop offset="0.8908" stop-color="white" />
+</linearGradient>
+<linearGradient id="paint2_linear_751_4128" x1="1243.83" y1="502.565" x2="1306.07" y2="573.583" gradientUnits="userSpaceOnUse">
+<stop offset="1" stop-color="white" />
+</linearGradient>
+<linearGradient id="paint3_linear_751_4128" x1="1327.3" y1="343.066" x2="1367.44" y2="343.066" gradientUnits="userSpaceOnUse">
+<stop stop-color="white" />
+<stop offset="1" stop-color="white" />
+</linearGradient>
+<linearGradient id="paint4_linear_751_4128" x1="1261.69" y1="395.942" x2="1327.3" y2="395.942" gradientUnits="userSpaceOnUse">
+<stop stop-color="white" />
+<stop offset="1" stop-color="white" />
+</linearGradient>
+</defs><path d="M1174.34 467.309L1092.79 562.667C1090.4 566.569 1092.49 573.953 1096.79 575H1167.34L1204.5 529C1205 503.5 1191 489.5 1174.34 467.309Z" fill="url(#paint1_linear_751_4128)" fill-opacity="0.06" />
+<path d="M1204.04 529.61C1210.92 498.849 1148.64 438.505 1101.7 383.872L1088.85 371.028C1086.47 366.597 1089.15 360.577 1096.01 359.538H1155.94C1164.33 360.779 1167.04 364.163 1171.7 368.399L1235.62 440.777C1247.4 456.477 1244.17 485.988 1238.21 491.668L1204.04 529.61Z" fill="white" fill-opacity="0.06" />
+<path d="M1229.31 533.212L1262.02 574.132H1333.43C1341.22 573.572 1343.81 566.659 1337.22 560.395L1280.78 493.9C1275.78 488.861 1268.72 487.903 1262.43 493.9L1229.31 533.212Z" fill="url(#paint2_linear_751_4128)" fill-opacity="0.06" />
+<path d="M1334.59 363.132H1360.16C1364.18 363.132 1367.44 359.871 1367.44 355.854V330.278C1367.44 326.254 1364.18 323 1360.16 323H1334.59C1330.56 323 1327.31 326.262 1327.31 330.278V355.854C1327.3 359.879 1330.56 363.132 1334.59 363.132Z" fill="url(#paint3_linear_751_4128)" fill-opacity="0.06" />
+<path d="M1268.97 428.751H1320.02C1324.05 428.751 1327.3 425.489 1327.3 421.473V370.419C1327.3 366.394 1324.04 363.141 1320.02 363.141H1268.97C1264.95 363.141 1261.69 366.402 1261.69 370.419V421.473C1261.69 425.489 1264.95 428.751 1268.97 428.751Z" fill="url(#paint4_linear_751_4128)" fill-opacity="0.06" />
+</svg>
