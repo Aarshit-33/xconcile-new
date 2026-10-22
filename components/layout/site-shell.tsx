@@ -1,4 +1,5 @@
 import Script from "next/script";
+import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 
 import { CalendlyProvider } from "@/components/calendly/calendly-provider";
@@ -20,7 +21,8 @@ const SHOW_SITE_COOKIE_BANNER = false;
 
 /**
  * Public-site chrome: GTM, Org/WebSite JSON-LD, skip link, header/footer, cookie banner,
- * Speed Insights and Zoho chat. Used by `app/(website)/layout.tsx` and `app/not-found.tsx`.
+ * Vercel Analytics, Speed Insights and Zoho chat. Used by `app/(website)/layout.tsx` and
+ * `app/not-found.tsx`.
  *
  * Kept out of the root layout so `/studio` renders bare, like the old site's separate
  * `(studio)` layout: no site header/footer, tracking, chat widget or `globals.css` in the CMS.
@@ -62,6 +64,7 @@ export async function SiteShell({ children }: { children: React.ReactNode }) {
       </CalendlyProvider>
 
       <SpeedInsights />
+      <Analytics />
 
       {/* Zoho SalesIQ chat (kept from old site). Loaded lazily to protect INP/LCP. */}
       <Script id="zoho-salesiq-init" strategy="lazyOnload">

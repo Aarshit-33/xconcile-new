@@ -2,6 +2,7 @@ import { Icon } from "@/components/icons/registry";
 import { Rail } from "@/components/shared/rail";
 import { SectionHeading } from "@/components/shared/section-heading";
 import type { CardGridContent } from "@/content/types";
+import { hoverDark } from "@/lib/hover";
 import { cn } from "@/lib/utils";
 import { sectionId } from "@/lib/section-ids";
 
@@ -16,8 +17,8 @@ import { sectionId } from "@/lib/section-ids";
  * never between icon and title (user request 2026-10-18, tablet).
  * No mobile design: phones get the swipe Rail + progress bar like every other card list
  * (user request 2026-10-18); 3 columns from `md`.
- * Tiles stay still; the title (+ optional `body`) rises from the tile's bottom edge when the
- * tile reaches the viewport (RevealList, `data-reveal`).
+ * Each whole tile rises into place when it reaches the viewport (RevealList; whole-card motion
+ * since 2026-10-22 — before that only the title/body moved).
  */
 export function CardGrid({ data, className }: { data: CardGridContent; className?: string }) {
   const titleId = `${data.id ?? "card-grid"}-title`;
@@ -52,15 +53,18 @@ export function CardGrid({ data, className }: { data: CardGridContent; className
           {data.items.map((item) => (
             <li
               key={item.title}
-              className="flex w-[284px] shrink-0 snap-start flex-col gap-6 overflow-hidden rounded-md border border-hairline bg-dark-card p-4 md:w-auto lg:p-6"
+              className={cn(
+                "flex w-[284px] shrink-0 snap-start flex-col gap-6 overflow-hidden rounded-md border border-hairline bg-dark-card p-4 md:w-auto lg:p-6",
+                hoverDark,
+              )}
             >
               <span className="flex size-10 items-center justify-center rounded-md bg-brand-tile-dark lg:size-12">
                 <Icon name={item.icon} className="size-6 text-brand" />
               </span>
-              <div data-reveal className="flex flex-col gap-2">
+              <div className="flex flex-col gap-2">
                 <h3 className="text-h4-m text-white lg:text-h5 lg:leading-6">{item.title}</h3>
                 {item.body ? (
-                  <p className="text-b2 font-medium text-on-dark lg:text-b1">{item.body}</p>
+                  <p className="text-b2 text-on-dark lg:text-b1">{item.body}</p>
                 ) : null}
               </div>
             </li>

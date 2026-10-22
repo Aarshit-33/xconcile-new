@@ -40,6 +40,7 @@ export function EngagementModels({ data, className }: { data: EngagementModelsCo
                 key={m.title}
                 className={cn(
                   "flex w-[300px] shrink-0 snap-start flex-col gap-8 overflow-hidden rounded-md border border-hairline p-6 lg:w-auto",
+                  // No hover background on these cards (client request 2026-10-22).
                   featured ? "bg-navy" : "bg-white",
                 )}
               >
@@ -87,7 +88,7 @@ export function EngagementModels({ data, className }: { data: EngagementModelsCo
 
                   <ul className="flex flex-col gap-4">
                     {m.features.map((f) => (
-                      <li key={f} className="flex items-start gap-2 text-b2 font-medium">
+                      <li key={f} className="flex items-start gap-2 text-b2">
                         <span
                           className={cn(
                             "flex size-5 shrink-0 items-center justify-center rounded-full",

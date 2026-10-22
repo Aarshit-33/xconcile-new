@@ -30,17 +30,21 @@ export async function sanityFetch<T = any>({
   dataset,
 }: SanityFetchOptions): Promise<T> {
   "use cache";
-  // Production: static until the Sanity webhook hits /api/revalidate. Development (no webhook):
-  // the server revalidates after 1s, so a published Studio edit shows within a refresh or two.
+  // Production: a Sanity webhook hits /api/revalidate on publish and expires the tag at once
+  // (next request renders fresh). Safety net (2026-10-22: on Vercel content stayed old until a
+  // redeploy, because `cacheLife("max")` + no/failed webhook = cached forever): the server also
+  // revalidates every 60s, so an edit shows within about a minute even without the webhook.
+  // Development (no webhook): the server revalidates after 1s, so a published Studio edit shows
+  // within a refresh or two.
   // Thresholds (node_modules/next/dist/docs/.../cacheLife.md "Prerendering behavior"):
   // expire >= 5 min or the entry becomes a dynamic hole, and stale >= 5 min or it is left out of
   // the route's static shell; either one triggers the "uncached data during prerendering"
-  // error (no <Suspense> on these pages). `stale` only affects the client router cache, not a
-  // browser refresh.
+  // error (no <Suspense> on these pages). `revalidate` may be short (not 0). `stale` only affects
+  // the client router cache, not a browser refresh.
   if (process.env.NODE_ENV === "development") {
     cacheLife({ stale: 300, revalidate: 1, expire: 60 * 60 * 24 });
   } else {
-    cacheLife("max");
+    cacheLife({ stale: 300, revalidate: 60, expire: 60 * 60 * 24 * 365 });
   }
   cacheTag("sanity", ...tags);
 

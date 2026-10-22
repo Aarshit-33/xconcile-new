@@ -66,7 +66,7 @@ export function CookieConsent() {
       <p className="text-b2 text-body">
         We use cookies to analyse traffic and improve your experience. You can accept or decline
         non-essential cookies. See our{" "}
-        <Link href={routes.privacy()} className="link-inline text-heading">
+        <Link href={routes.privacy()} className="link-inline">
           privacy policy
         </Link>
         .

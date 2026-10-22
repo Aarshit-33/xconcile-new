@@ -23,9 +23,9 @@ export function ContactSection({ data, className }: { data: typeof home.contact;
             >
               {data.title}
             </RevealText>
-            <p className="text-b3-tight text-body lg:max-w-[619px]">{data.body}</p>
+            <p className="text-b3-tight font-normal text-body lg:max-w-[619px]">{data.body}</p>
           </div>
-          <ul className="flex flex-col gap-[23px] text-b3 text-heading">
+          <ul className="flex flex-col gap-[23px] text-b3 font-medium text-heading">
             {data.checks.map((check) => (
               <CheckItem key={check} className="gap-4" iconClassName="size-6">
                 {check}

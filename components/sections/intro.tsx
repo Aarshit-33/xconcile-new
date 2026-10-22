@@ -7,6 +7,7 @@ import { CheckItem } from "@/components/shared/check-item";
 import { CtaLink } from "@/components/shared/cta";
 import { RichText } from "@/components/shared/rich-text";
 import type { IntroContent } from "@/content/types";
+import { hoverGreen } from "@/lib/hover";
 import { cn } from "@/lib/utils";
 import { sectionId } from "@/lib/section-ids";
 
@@ -25,14 +26,11 @@ export function Intro({
   data,
   className,
   imageClassName,
-  imageSplash = false,
 }: {
   data: IntroContent;
   className?: string;
   /** Overrides the desktop photo aspect, e.g. `lg:aspect-[636/657]` (Hire design). */
   imageClassName?: string;
-  /** Corner splash on photo hover (`img-splash`, globals.css). On Home only, under review. */
-  imageSplash?: boolean;
 }) {
   const list = data.checksStyle === "list";
   const paragraph = data.bodyMoreLayout === "paragraph";
@@ -41,7 +39,7 @@ export function Intro({
     <section id={sectionId(data, "intro")} aria-labelledby="intro-title" className={cn("relative overflow-hidden section-y", className)}>
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-0 hidden bg-[rgb(250_250_250/0.6)] lg:block"
+        className="pointer-events-none absolute inset-0 hidden bg-surface-soft lg:block"
       />
       <div
         className={cn(
@@ -54,7 +52,9 @@ export function Intro({
           className={cn(
             "aspect-square rounded-md md:aspect-[3/2]",
             list ? "lg:aspect-[635/609]" : "lg:aspect-auto lg:h-[576px]",
-            imageSplash && "img-splash",
+            // Half the section is this photo: splash + zoom on hover, on every page (client
+            // request 2026-10-22; was Home-only). Both utilities live in globals.css.
+            "img-splash img-zoom",
             imageClassName,
           )}
         >
@@ -110,18 +110,21 @@ export function Intro({
                     key={f.label}
                     className={cn(
                       "flex flex-col gap-4 rounded-md border border-hairline p-6",
+                      hoverGreen,
                       i === 2 && "col-span-2 max-[360px]:col-span-1 lg:col-span-1",
                     )}
                   >
                     <span className="flex size-10 items-center justify-center rounded-md border border-brand-border bg-brand-100">
                       <Icon name={f.icon} className="size-6 text-brand" />
                     </span>
-                    <span className="text-b1 text-heading">{f.label}</span>
+                    <span className="text-b1 font-medium text-heading">{f.label}</span>
                   </li>
                 ))}
               </ul>
             ) : null}
 
+            {/* Inner-page bullet list follows the copy weight (400); the Home chips are labels and
+                keep 500 now that body copy is 400 (2026-10-22). */}
             {list ? (
               <ul className="flex flex-col gap-6 border-b border-hairline pb-8 text-b1 text-body">
                 {data.checks.map((c) => (
@@ -131,7 +134,7 @@ export function Intro({
                 ))}
               </ul>
             ) : (
-              <ul className="flex flex-col gap-4 text-b1 text-heading lg:mt-4 lg:flex-row lg:flex-wrap lg:gap-x-[30px] lg:gap-y-2 lg:rounded-[37px] lg:border lg:border-hairline lg:px-4 lg:py-2">
+              <ul className="flex flex-col gap-4 text-b1 font-medium text-heading lg:mt-4 lg:flex-row lg:flex-wrap lg:gap-x-[30px] lg:gap-y-2 lg:rounded-[37px] lg:border lg:border-hairline lg:px-4 lg:py-2">
                 {data.checks.map((c) => (
                   <CheckItem
                     key={c}

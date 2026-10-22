@@ -26,6 +26,18 @@ export const hireBookkeeperAccountant: HirePageContent = {
     title: "Hire Dedicated Accounting Professionals",
     description:
       "Hire dedicated accounting professionals for bookkeeping, reconciliations, financial reporting and month-end close, with flexible staffing for U.S. businesses and CPA firms.",
+    // Meta keywords (fallback; Sanity SEO → Meta keywords wins when filled).
+    keywords: [
+      "hire dedicated accountant",
+      "hire bookkeeper",
+      "hire remote accountant",
+      "dedicated accounting professionals",
+      "offshore accounting staff",
+      "outsourced accounting staffing",
+      "remote bookkeeper for CPA firms",
+      "month-end close support",
+      "staff augmentation for CPA firms",
+    ],
   },
 
   hero: {

@@ -13,13 +13,14 @@ import {
   mapIntro,
   mapSubIndustries,
   mapWhyChoose,
+  keywords,
   type Raw,
   SECTION_PROJECTION as P,
 } from "./sections";
 
 const INDUSTRY_PAGE_QUERY = /* groq */ `*[_type == "industryPage" && slug.current == $slug][0]{
   name,
-  seo{ title, description, "ogImage": ogImage.asset->url },
+  seo{ title, description, keywords, "ogImage": ogImage.asset->url },
   hero, features, challenges, services, subIndustries, faq,
   ${P.intro},
   ${P.whyChoose},
@@ -51,6 +52,7 @@ export async function getIndustryPage(
       seo: {
         title: d.seo?.title ?? f.seo.title,
         description: d.seo?.description ?? f.seo.description,
+        keywords: keywords(d.seo?.keywords, f.seo.keywords),
       },
       // Same mapper per section type on every page (./sections.ts).
       hero: mapHero(d.hero, f.hero),

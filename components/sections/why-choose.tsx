@@ -6,6 +6,7 @@ import { ParallaxImageFrame } from "@/components/motion/parallax";
 import { RevealList } from "@/components/motion/reveal-list";
 import { SectionHeading } from "@/components/shared/section-heading";
 import type { ImageAsset, WhyChooseContent } from "@/content/types";
+import { hoverDark } from "@/lib/hover";
 import { cn } from "@/lib/utils";
 import { sectionId } from "@/lib/section-ids";
 
@@ -54,7 +55,7 @@ export function WhyChoose({
 
           <RevealList className="grid gap-4 lg:grid-cols-[minmax(0,352fr)_minmax(0,370fr)] lg:gap-6">
             {data.features.map((f) => (
-              <li key={f.title} className="flex gap-4 overflow-hidden rounded-md border border-hairline p-4 lg:p-6">
+              <li key={f.title} className={cn("flex gap-4 overflow-hidden rounded-md border border-hairline p-4 lg:p-6", hoverDark)}>
                 <span
                   className={cn(
                     "flex size-8 shrink-0 items-center justify-center rounded-sm border border-brand-border bg-brand-100",
@@ -112,7 +113,8 @@ export function WhyChoose({
 function MosaicPhoto({ photo, className }: { photo?: Photo; className?: string }) {
   if (!photo) return null;
   return (
-    <ParallaxImageFrame amount={3} className={cn("rounded-md", className)}>
+    // The mosaic is half the section: splash + zoom on hover (client request 2026-10-22).
+    <ParallaxImageFrame amount={3} className={cn("img-splash img-zoom rounded-md", className)}>
       <Image
         src={photo.src}
         alt={photo.alt}

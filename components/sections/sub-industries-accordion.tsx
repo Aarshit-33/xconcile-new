@@ -18,7 +18,7 @@ function RowHead({ item, index }: { item: SubIndustriesContent["items"][number];
         <span className="text-h4-m text-heading transition-colors group-hover/sub:text-brand group-data-open/sub:text-brand lg:text-h5">
           {item.title}
         </span>
-        <span className="text-b2 font-medium text-body">{item.body}</span>
+        <span className="text-b2 text-body">{item.body}</span>
       </span>
     </>
   );
@@ -53,7 +53,7 @@ export function SubIndustriesAccordion({ items }: { items: SubIndustriesContent[
                 {item.groups.map((g) => (
                   <div key={g.title} className="flex flex-col gap-3">
                     <p className="text-b2 font-semibold text-heading">{g.title}</p>
-                    <ul className="flex flex-col gap-2 text-b2 font-medium text-body">
+                    <ul className="flex flex-col gap-2 text-b2 text-body">
                       {g.items.map((k) => (
                         <li key={k} className="flex gap-2">
                           <span aria-hidden className="mt-1.5 size-2 shrink-0 rounded-full bg-brand" />

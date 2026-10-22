@@ -6,15 +6,16 @@ import { useLazyGsap } from "@/components/motion/use-lazy-gsap";
 import { motionPresets } from "@/lib/motion";
 
 /**
- * List of cards whose CONTENT rises into place when each card reaches the viewport. The cards
- * themselves never move (client feedback 2026-10-14): inside each direct child, the elements
- * marked `data-reveal` are animated, or all of the card's own children when none are marked.
- * Give the card `overflow-hidden` to make the content appear from its bottom edge.
+ * List of cards that RISE INTO PLACE as each one reaches the viewport: the whole card (border,
+ * photo, copy) moves, not just its text (client request 2026-10-22; from 2026-10-14 until then
+ * only the content marked `data-reveal` moved and the cards stayed still). Every direct child of
+ * the list is a card. `data-reveal-y="80"` on a card overrides its travel distance.
  *
  * ScrollTrigger.batch: cards entering together (e.g. one desktop row) follow each other by a
  * short stagger. Plays once. Content stays in the server HTML (SEO) and is only hidden right
  * before it scrolls into view (useLazyGsap runs the setup one viewport ahead). Only
- * transform/opacity are animated, so layout never shifts. Skipped for prefers-reduced-motion.
+ * transform/opacity are animated, so layout never shifts; the transform is cleared when the
+ * tween ends so CSS hover lifts on the cards keep working. Skipped for prefers-reduced-motion.
  */
 export function RevealList({
   as: Comp = "ul",
@@ -32,23 +33,17 @@ export function RevealList({
   useLazyGsap(ref, ({ gsap, ScrollTrigger }, el) => {
     const { cardReveal } = motionPresets;
     const cards = Array.from(el.children) as HTMLElement[];
-    const targetsOf = (card: Element) => {
-      const marked = card.querySelectorAll<HTMLElement>("[data-reveal]");
-      return marked.length ? Array.from(marked) : (Array.from(card.children) as HTMLElement[]);
-    };
-    const all = cards.flatMap(targetsOf);
-    if (!all.length) return;
+    if (!cards.length) return;
 
-    // `data-reveal-y="80"` overrides the travel distance for one element.
-    gsap.set(all, {
+    gsap.set(cards, {
       opacity: cardReveal.from.opacity,
-      y: (_i: number, t: HTMLElement) => Number(t.dataset.revealY) || cardReveal.from.y,
+      y: (_i: number, card: HTMLElement) => Number(card.dataset.revealY) || cardReveal.from.y,
     });
     ScrollTrigger.batch(cards, {
       start: cardReveal.start,
       once: true,
       onEnter: (batch) =>
-        gsap.to(batch.flatMap(targetsOf), {
+        gsap.to(batch, {
           y: 0,
           opacity: 1,
           duration: cardReveal.duration,

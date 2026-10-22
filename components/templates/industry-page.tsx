@@ -36,7 +36,7 @@ export function IndustryPageTemplate({ content }: { content: IndustryPageContent
       <SubIndustries data={content.subIndustries} />
       <WhyChoose data={content.whyChoose} tile="light" />
       {/* FAQ is white on this page. */}
-      <Faq data={content.faq} firstOpen={false} className="lg:bg-white" introClassName="lg:max-w-[416px]" />
+      <Faq data={content.faq} className="lg:bg-white" introClassName="lg:max-w-[416px]" />
       <CtaBand data={content.ctaBand} titleClassName="max-w-[657px]" />
     </>
   );

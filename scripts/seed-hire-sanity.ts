@@ -267,7 +267,7 @@ async function buildHirePage() {
       image: await image(ctaBand.image.src),
     },
 
-    seo: { _type: "seoMeta", title: seo.title, description: seo.description },
+    seo: { _type: "seoMeta", title: seo.title, description: seo.description, keywords: seo.keywords ?? [] },
   };
 }
 

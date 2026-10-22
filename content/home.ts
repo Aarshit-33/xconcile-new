@@ -25,6 +25,19 @@ export const home = {
     title: "Outsourced Accounting for US Businesses & CPA Firms",
     description:
       "Outsourced accounting and bookkeeping for U.S. businesses and CPA firms: reconciliations, reporting, AP/AR, tax, payroll, audit support and Virtual CFO services.",
+    // Meta keywords (fallback; Sanity SEO → Meta keywords wins when filled).
+    keywords: [
+      "outsourced accounting services",
+      "outsourced bookkeeping services",
+      "accounting outsourcing for CPA firms",
+      "outsourced accounting for US businesses",
+      "bank reconciliation services",
+      "financial reporting services",
+      "accounts payable and receivable outsourcing",
+      "tax preparation outsourcing",
+      "payroll outsourcing services",
+      "virtual CFO services",
+    ],
   },
 
   hero: {

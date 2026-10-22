@@ -36,6 +36,7 @@ export function ExperienceLevels({ data, className }: { data: ExperienceLevelsCo
                 key={lvl.title}
                 className={cn(
                   "flex w-[300px] shrink-0 snap-start flex-col gap-10 overflow-hidden rounded-md border border-hairline p-6 lg:w-auto",
+                  // No hover background on these cards (client request 2026-10-22).
                   featured ? "bg-navy" : "bg-white",
                 )}
               >
@@ -88,7 +89,7 @@ export function ExperienceLevels({ data, className }: { data: ExperienceLevelsCo
                     </p>
                     <ul className="flex flex-col gap-6">
                       {lvl.responsibilities.map((r) => (
-                        <li key={r.label} className="flex items-start gap-2 text-b2 font-medium">
+                        <li key={r.label} className="flex items-start gap-2 text-b2">
                           <span
                             className={cn(
                               "flex size-5 shrink-0 items-center justify-center rounded-full",

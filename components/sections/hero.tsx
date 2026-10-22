@@ -40,7 +40,7 @@ export function Hero({
       {/* Decorative: green glow (Figma Ellipse 12, blur 270) + X watermark */}
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-0 hidden bg-[radial-gradient(640px_420px_at_100%_620px,rgb(41_175_3/0.17),transparent_72%)] lg:block"
+        className="pointer-events-none absolute inset-0 hidden bg-[radial-gradient(640px_420px_at_100%_620px,var(--color-brand-glow),transparent_72%)] lg:block"
       />
       <Parallax
         amount={10}
@@ -95,7 +95,7 @@ export function Hero({
             </h1>
             <p
               className={cn(
-                "animate-hero-rise text-b1 text-on-dark lg:text-b3-tight",
+                "animate-hero-rise text-b1 font-normal text-on-dark lg:text-b3-tight",
                 wide ? "lg:max-w-[857px]" : "lg:max-w-[746px]",
                 subtitleClassName,
               )}
@@ -127,7 +127,7 @@ export function Hero({
 
           <ul
             className={cn(
-              "mt-6 flex animate-hero-rise flex-wrap justify-center gap-x-4 gap-y-2 text-b2 leading-6 text-[#fafafa] lg:justify-start",
+              "mt-6 flex animate-hero-rise flex-wrap justify-center gap-x-4 gap-y-2 text-b2 leading-6 font-medium text-[#fafafa] lg:justify-start",
               variant === "inner" ? "lg:mt-6" : "lg:mt-8",
             )}
             style={rise(320)}

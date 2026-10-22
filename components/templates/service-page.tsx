@@ -34,7 +34,7 @@ export function ServicePageTemplate({ content }: { content: ServicePageContent }
       {content.tools ? <ToolTabs data={content.tools} /> : null}
       <Testimonials data={content.testimonials} />
       <BlogTeaser data={content.blog} />
-      <Faq data={content.faq} firstOpen={false} />
+      <Faq data={content.faq} />
       {/* Spec: ~117px white band between the FAQ and the CTA band on desktop. */}
       <CtaBand data={content.ctaBand} className="lg:mt-[117px]" />
     </>

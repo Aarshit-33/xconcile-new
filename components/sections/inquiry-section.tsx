@@ -13,7 +13,11 @@ const trustIcons = { bolt: ElectricBoltIcon, lock: LockIcon, check: CheckCircleI
  * copy + trust signals left, white "Send Us a Message" card right. Port of
  * old-code/xconcile-website/components/services/ServiceInquiryForm.tsx.
  * Colors are the old site's Tailwind values (primary-950/900/800/700/500/300/200,
- * secondary-500/400), not Figma tokens. Anchor: #contact (hero / challenges CTAs).
+ * secondary-500/400), not Figma tokens, except that the old teal-blue text (#a4c6ce / #76a9b5),
+ * glow (#1c7185) and light green accents (#8dc573: eyebrow, title highlight, trust icons) became
+ * brand green (client request 2026-10-22). The running text (body, trust descriptions, tagline)
+ * read as "too much green", so it's translucent white now (body 80%, trust 70%, tagline 60%);
+ * green stays on the accents only. Anchor: #contact (hero / challenges CTAs).
  */
 export function InquirySection({
   data,
@@ -37,7 +41,7 @@ export function InquirySection({
       {/* Decorative blobs */}
       <div aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden">
         <div className="absolute -top-48 -right-48 size-[32rem] rounded-full bg-[#71b751]/10 blur-3xl" />
-        <div className="absolute -bottom-48 -left-48 size-[32rem] rounded-full bg-[#1c7185]/20 blur-3xl" />
+        <div className="absolute -bottom-48 -left-48 size-[32rem] rounded-full bg-brand/15 blur-3xl" />
         <div className="absolute top-1/2 left-1/2 h-[20rem] w-[60rem] max-w-full -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#10434f]/10 blur-3xl" />
       </div>
 
@@ -47,7 +51,7 @@ export function InquirySection({
           {/* Same entrance as every other section (2026-10-18): eyebrow + body fade up, the H2
               reveals line by line. */}
           <FadeUp className="mb-6">
-            <span className="inline-block text-xs font-bold tracking-[0.2em] text-[#8dc573] uppercase">
+            <span className="inline-block text-xs font-bold tracking-[0.2em] text-brand uppercase">
               {data.eyebrow}
             </span>
           </FadeUp>
@@ -57,10 +61,10 @@ export function InquirySection({
             id="inquiry-title"
             className="mb-6 text-4xl leading-[1.1] font-bold tracking-tight text-white md:text-5xl"
           >
-            {data.title.before} <span className="text-[#8dc573]">{data.title.highlight}</span>
+            {data.title.before} <span className="text-brand">{data.title.highlight}</span>
           </RevealText>
 
-          <FadeUp as="p" delay={0.12} className="mb-12 text-lg leading-relaxed text-[#a4c6ce]">
+          <FadeUp as="p" delay={0.12} className="mb-12 text-lg leading-relaxed font-normal text-white/80">
             {data.body}
           </FadeUp>
 
@@ -69,12 +73,13 @@ export function InquirySection({
               const Icon = trustIcons[item.icon];
               return (
                 <li key={item.label} className="flex items-start gap-5">
-                  <span className="flex size-12 shrink-0 items-center justify-center rounded-2xl border border-white/10 bg-white/10 text-[#8dc573]">
+                  <span className="flex size-12 shrink-0 items-center justify-center rounded-2xl border border-white/10 bg-white/10 text-brand">
                     <Icon className="size-5" />
                   </span>
                   <span>
-                    <span className="block text-base font-bold text-white">{item.label}</span>
-                    <span className="mt-0.5 block text-sm text-[#76a9b5]">{item.desc}</span>
+                    {/* Titles in brand green (client request 2026-10-22); descriptions stay white/70. */}
+                    <span className="block text-base font-bold text-brand">{item.label}</span>
+                    <span className="mt-0.5 block text-sm text-white/70">{item.desc}</span>
                   </span>
                 </li>
               );
@@ -82,7 +87,7 @@ export function InquirySection({
           </ul>
 
           <div className="mt-12 border-t border-white/10 pt-10">
-            <p className="text-sm text-[#76a9b5]">{data.tagline}</p>
+            <p className="text-sm text-white/60">{data.tagline}</p>
           </div>
         </div>
 

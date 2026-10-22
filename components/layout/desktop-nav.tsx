@@ -22,10 +22,10 @@ import { cn } from "@/lib/utils";
  *
  * Dropdown panels copy the OLD live site's mega menu (client request 2026-10-16; not in the
  * Figma): 896px white panel, 12px radius, grey hairline + large shadow, uppercase group label,
- * 2-column list (teal icon tile, bold title, 2-line description) and, for the page menus, the
- * dark "Ready to scale?" card. Colours are the old site's palette as hex values (teal
- * primary-50/100/600/700, neutral greys), not this site's tokens: a deliberate, client-requested
- * exception to AGENTS.md rule 3, like the old-site contact section. The closed navbar is unchanged.
+ * 2-column list (icon tile, bold title, 2-line description) and, for the page menus, the
+ * dark "Ready to scale?" card. Neutral greys are the old site's hex values; the accents (icon
+ * tiles, title hover, promo badge + glow) were the old teal and are now brand green (client
+ * request 2026-10-22: "everything looks blue, make it green"). The closed navbar is unchanged.
  *
  * Panels are centred under the whole menu (items are `static`, so they position against the
  * menu root) so the wide panels never run off-screen under Resources/Company.
@@ -81,11 +81,11 @@ export function DesktopNav({ items, promo }: { items: MenuGroup[]; promo: MenuPr
                             href={link.href}
                             className="group/item flex items-start gap-4 rounded-lg p-3 transition-colors hover:bg-[#fafafa] focus:bg-[#fafafa]"
                           >
-                            <span className="mt-1 rounded-lg bg-[#e8f0f2] p-2 text-[#165a6a] transition-colors group-hover/item:bg-[#d1e2e6] group-hover/item:text-[#10434f]">
+                            <span className="mt-1 rounded-lg bg-brand-50 p-2 text-brand transition-colors group-hover/item:bg-brand-100">
                               <NavIcon name={link.icon} className="size-6!" />
                             </span>
                             <span className="flex flex-col">
-                              <span className="text-base font-bold text-[#171717] transition-colors group-hover/item:text-[#165a6a]">
+                              <span className="text-base font-bold text-[#171717] transition-colors group-hover/item:text-brand">
                                 {link.label}
                               </span>
                               <span className="mt-0.5 line-clamp-2 text-sm font-normal text-[#737373]">
@@ -103,10 +103,10 @@ export function DesktopNav({ items, promo }: { items: MenuGroup[]; promo: MenuPr
                   <div className="group/promo relative col-span-4 flex flex-col justify-between overflow-hidden rounded-[12px] bg-[#171717] p-6 text-white">
                     <div
                       aria-hidden
-                      className="absolute top-0 right-0 -mt-8 -mr-8 size-32 rounded-full bg-[#1c7185]/10 blur-2xl transition-all duration-500 group-hover/promo:bg-[#1c7185]/20"
+                      className="absolute top-0 right-0 -mt-8 -mr-8 size-32 rounded-full bg-brand/10 blur-2xl transition-all duration-500 group-hover/promo:bg-brand/20"
                     />
                     <div>
-                      <span className="mb-3 inline-block rounded bg-[#1c7185]/20 px-2 py-1 text-xs font-bold tracking-widest text-[#76a9b5] uppercase">
+                      <span className="mb-3 inline-block rounded bg-brand/20 px-2 py-1 text-xs font-bold tracking-widest text-brand uppercase">
                         {promo.badge}
                       </span>
                       <p className="mb-2 text-xl font-bold">{promo.title}</p>

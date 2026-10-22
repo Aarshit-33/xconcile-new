@@ -27,6 +27,19 @@ export default defineType({
       ],
     }),
     defineField({
+      name: "keywords",
+      title: "Meta keywords",
+      type: "array",
+      of: [{ type: "string" }],
+      options: { layout: "tags" },
+      description:
+        "Search phrases this page should rank for, e.g. “outsourced bookkeeping services”. Type one and press Enter. Output as <meta name=\"keywords\">. 5–10 focused phrases work best.",
+      validation: (Rule) => [
+        Rule.unique(),
+        Rule.max(15).warning("Keep it focused: 5–10 phrases is plenty."),
+      ],
+    }),
+    defineField({
       name: "ogImage",
       title: "Social share image",
       type: "image",

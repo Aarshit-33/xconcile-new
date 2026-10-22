@@ -56,7 +56,7 @@ export function ToolTabs({ data, className }: { data: ToolTabsContent; className
                 <TabsTrigger
                   key={c.id}
                   value={c.id}
-                  className="group/tab h-auto w-auto! flex-none justify-between! gap-4 rounded-md border-hairline bg-white p-3 pr-4 text-h5 text-heading after:hidden hover:text-heading lg:h-auto lg:min-h-[88px] lg:w-full! lg:border-transparent lg:p-4 lg:whitespace-normal xl:p-6 data-active:border-brand-border data-active:bg-brand-100! lg:data-active:border-hairline"
+                  className="group/tab h-auto w-auto! flex-none justify-between! gap-4 rounded-md border-hairline bg-white p-3 pr-4 text-h5 text-heading transition-[background-color,border-color] duration-200 after:hidden hover:bg-brand-50 hover:text-heading lg:h-auto lg:min-h-[88px] lg:w-full! lg:border-transparent lg:p-4 lg:whitespace-normal xl:p-6 data-active:border-brand-border data-active:bg-brand-100! lg:data-active:border-hairline"
                 >
                   <span className="flex items-center gap-4">
                     <span className="flex size-8 shrink-0 items-center justify-center rounded-md bg-brand-50 text-body group-data-active/tab:bg-brand group-data-active/tab:text-white lg:size-10">

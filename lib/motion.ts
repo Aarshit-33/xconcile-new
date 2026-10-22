@@ -32,7 +32,7 @@ export const motionPresets = {
     ease: "power2.out",
     scrollTrigger: { start: "top 85%", once: true },
   },
-  /** Card content rising into place as each card reaches the viewport (RevealList). */
+  /** Whole cards rising into place as each reaches the viewport (RevealList; client request 2026-10-22). */
   cardReveal: {
     from: { y: 40, opacity: 0 },
     duration: 1.2,

@@ -26,6 +26,17 @@ export const realEstateConstruction: IndustryPageContent = {
     title: "Outsourced Real Estate Accounting Services",
     description:
       "Outsourced accounting for real estate: bookkeeping, property accounting, reconciliations and financial reporting for CPA firms, property managers and investors.",
+    // Meta keywords (fallback; Sanity SEO → Meta keywords wins when filled).
+    keywords: [
+      "real estate accounting services",
+      "outsourced real estate bookkeeping",
+      "property management accounting",
+      "construction accounting services",
+      "real estate accounting for CPA firms",
+      "property accounting outsourcing",
+      "real estate investor accounting",
+      "job costing and WIP reporting",
+    ],
   },
 
   hero: {

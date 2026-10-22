@@ -41,22 +41,23 @@ export function Industries({
           ) : null}
         </div>
 
-        {/* Card reveal on every page (option B, 2026-10-18): only the title row and copy rise
-            (`data-reveal`; their wrapper is `display: contents` on lg); card + photo stay still. */}
+        {/* Each whole card (title row, copy and photo) rises via the Rail's RevealList
+            (whole-card motion since 2026-10-22). */}
         <Rail label={data.title} listClassName="lg:grid lg:grid-cols-4 lg:gap-6" reveal>
           {data.items.map((item) => {
             const card = (
               <>
                 {/* lg:contents: title row + text join the card's subgrid rows (see cardCls). */}
                 <div className="flex flex-col gap-4 lg:contents">
-                  <div data-reveal className="flex items-start justify-between gap-4">
+                  <div className="flex items-start justify-between gap-4">
                     <h3 className="text-h5 text-heading-alt transition-colors group-hover:text-brand">{item.title}</h3>
                     <ArrowRightAltIcon className="size-6 shrink-0 text-heading-alt transition-colors group-hover:text-brand" />
                   </div>
                   {/* -mt-2 / -mt-0.5: the 24px row gap minus these = the 16px / 22px drawn spacing. */}
-                  <p data-reveal className="text-b1 text-body-alt lg:-mt-2">{item.body}</p>
+                  <p className="text-b1 text-body-alt lg:-mt-2">{item.body}</p>
                 </div>
-                <div data-reveal className="relative mt-auto aspect-[274/146] overflow-hidden rounded-sm lg:-mt-0.5">
+                {/* Card photo: zoom only, on card hover (client request 2026-10-22). */}
+                <div className="img-zoom relative mt-auto aspect-[274/146] overflow-hidden rounded-sm lg:-mt-0.5">
                   <Image
                     src={item.image.src}
                     alt={item.image.alt}
@@ -70,10 +71,11 @@ export function Industries({
             // lg: li and card are 3-row subgrids (title / text / photo) of the 4-column list, so every
             // title row takes the tallest title's height and the texts line up (audit L5).
             const cardCls =
-              "flex w-full flex-col gap-[22px] rounded-md border border-hairline bg-white p-4 lg:row-span-3 lg:grid lg:grid-rows-subgrid lg:gap-y-[normal] lg:border-[#d2d5da]";
+              "img-zoom-trigger flex w-full flex-col gap-[22px] rounded-md border border-hairline bg-white p-4 lg:row-span-3 lg:grid lg:grid-rows-subgrid lg:gap-y-[normal] lg:border-[#d2d5da]";
             return (
               <li key={item.title} className="flex w-[306px] shrink-0 snap-start lg:row-span-3 lg:grid lg:w-auto lg:grid-rows-subgrid">
                 {item.href ? (
+                  // Hover: title + arrow turn green; no background change (client request 2026-10-22).
                   <Link
                     href={item.href}
                     className={`group ${cardCls} focus-visible:ring-3 focus-visible:ring-ring/50 focus-visible:outline-none`}

@@ -73,7 +73,7 @@ export function SectionHeading({
           as="p"
           delay={0.12}
           className={cn(
-            "max-w-[776px] text-b1 lg:text-b3",
+            "max-w-[776px] text-b1 font-normal lg:text-b3",
             tone === "dark" ? "text-on-dark" : "text-body",
             subtitleClassName,
           )}

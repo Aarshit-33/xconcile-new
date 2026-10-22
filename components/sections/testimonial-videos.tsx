@@ -36,7 +36,9 @@ export function TestimonialVideos({ videos }: { videos: Video[] }) {
 
   return (
     <div className="flex flex-col gap-6">
-      <figure className="relative aspect-[358/201] overflow-hidden rounded-md border border-white/20 bg-navy lg:aspect-[856/480] lg:rounded-sm">
+      {/* Poster zooms on hover (client request 2026-10-22); the caption flag is fixed-size, so
+          `img-zoom` leaves it alone. */}
+      <figure className="img-zoom relative aspect-[358/201] overflow-hidden rounded-md border border-white/20 bg-navy lg:aspect-[856/480] lg:rounded-sm">
         {playing ? (
           <iframe
             src={`https://www.youtube-nocookie.com/embed/${video.youtubeId}?autoplay=1&rel=0&modestbranding=1`}
@@ -109,7 +111,7 @@ export function TestimonialVideos({ videos }: { videos: Video[] }) {
                   aria-label={`Show video: ${v.title} (${v.name}, ${v.company})`}
                   aria-current={i === active ? "true" : undefined}
                   className={cn(
-                    "relative block aspect-[226/128] w-full cursor-pointer overflow-hidden rounded-md border border-transparent outline-none focus-visible:ring-3 focus-visible:ring-brand",
+                    "img-zoom relative block aspect-[226/128] w-full cursor-pointer overflow-hidden rounded-md border border-transparent outline-none focus-visible:ring-3 focus-visible:ring-brand",
                     i === active && "border-brand",
                   )}
                 >

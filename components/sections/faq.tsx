@@ -11,12 +11,10 @@ import { FaqAccordion } from "./faq-accordion";
  */
 export function Faq({
   data,
-  firstOpen = false,
   className,
   introClassName,
 }: {
   data: FaqContent;
-  firstOpen?: boolean;
   className?: string;
   /** e.g. `lg:max-w-[416px]` where the design's intro box is wider than Home's 368px. */
   introClassName?: string;
@@ -25,7 +23,7 @@ export function Faq({
     // pb-20: 80px before the contact section (mobile design); desktop keeps 80/80.
     <section id={sectionId(data, "faq")}
       aria-labelledby="faq-title"
-      className={cn("bg-[rgb(250_250_250/0.6)] pt-12 pb-20 lg:py-20", className)}
+      className={cn("bg-surface-soft pt-12 pb-20 lg:py-20", className)}
     >
       <div className="container-site grid gap-8 lg:grid-cols-[minmax(0,416fr)_minmax(0,747fr)] lg:justify-between lg:gap-16 xl:gap-[133px]">
         <SectionHeading
@@ -41,16 +39,16 @@ export function Faq({
             typeof data.intro === "string"
               ? data.intro
               : data.intro.map((line, i) => (
-                <span key={line}>
-                  {i > 0 ? <br /> : null}
-                  {line}
-                </span>
-              ))
+                  <span key={line}>
+                    {i > 0 ? <br /> : null}
+                    {line}
+                  </span>
+                ))
           }
           subtitleClassName={cn("text-b3 text-body-alt max-w-[368px]", introClassName)}
         />
 
-        <FaqAccordion items={data.items} firstOpen={firstOpen} />
+        <FaqAccordion items={data.items} />
       </div>
     </section>
   );

@@ -33,13 +33,14 @@ import {
   mapTestimonials,
   mapTools,
   mapWhyChoose,
+  keywords,
   type Raw,
   SECTION_PROJECTION as P,
 } from "./sections";
 
 /** Home page data: the shared section shapes the components accept (content/types.ts). */
 export type HomeContent = {
-  seo: { title: string; description: string };
+  seo: { title: string; description: string; keywords?: string[] };
   hero: HeroContent;
   stats: StatsContent;
   intro: IntroContent;
@@ -91,6 +92,7 @@ export async function getHome(): Promise<HomeContent> {
     seo: {
       title: d.seo?.title ?? f.seo.title,
       description: d.seo?.description ?? f.seo.description,
+      keywords: keywords(d.seo?.keywords, f.seo.keywords),
     },
 
     // Same mapper per section type on every page (./sections.ts).

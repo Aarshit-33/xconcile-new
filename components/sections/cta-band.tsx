@@ -42,7 +42,7 @@ export function CtaBand({
           >
             {data.title}
           </RevealText>
-          <FadeUp as="p" delay={0.12} className="max-w-[725px] text-b1 text-on-dark lg:text-b3">
+          <FadeUp as="p" delay={0.12} className="max-w-[725px] text-b1 font-normal text-on-dark lg:text-b3">
             {data.body}
           </FadeUp>
         </div>

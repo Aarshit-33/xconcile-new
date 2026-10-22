@@ -1,5 +1,6 @@
 import { Icon } from "@/components/icons/registry";
 import type { FeatureStripContent } from "@/content/types";
+import { hoverGreen, hoverTile } from "@/lib/hover";
 import { cn } from "@/lib/utils";
 import { sectionId } from "@/lib/section-ids";
 
@@ -17,9 +18,9 @@ export function FeatureStrip({ data, className }: { data: FeatureStripContent; c
         {data.items.map((item) => (
           <li
             key={item.title}
-            className="flex flex-col gap-4 rounded-md border border-hairline bg-white p-4 lg:p-6 xl:flex-row"
+            className={cn("flex flex-col gap-4 rounded-md border border-hairline bg-white p-4 lg:p-6 xl:flex-row", hoverGreen)}
           >
-            <span className="flex size-10 shrink-0 items-center justify-center rounded-md bg-brand-50">
+            <span className={cn("flex size-10 shrink-0 items-center justify-center rounded-md bg-brand-50", hoverTile)}>
               <Icon name={item.icon} className="size-6 text-brand" />
             </span>
             <div className="flex flex-col gap-2">

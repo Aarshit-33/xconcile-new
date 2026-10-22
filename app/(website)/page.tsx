@@ -23,7 +23,12 @@ import { getSiteSettings } from "@/sanity/lib/site-settings";
 export async function generateMetadata(): Promise<Metadata> {
   const { seo } = await getHome();
   return {
-    ...buildMetadata({ title: seo.title, description: seo.description, path: "/" }),
+    ...buildMetadata({
+      title: seo.title,
+      description: seo.description,
+      seo: { metaKeywords: seo.keywords },
+      path: "/",
+    }),
     // The root layout's title template doesn't apply to the root page itself.
     title: { absolute: `${seo.title} | Xconcile` },
   };
@@ -60,7 +65,7 @@ export default async function HomePage() {
 
       <Hero data={home.hero} />
       <StatsBar data={home.stats} />
-      <Intro data={home.intro} imageSplash />
+      <Intro data={home.intro} />
       <Challenges data={home.challenges} />
       <Services data={home.services} />
       <CaseStudies data={home.caseStudies} />

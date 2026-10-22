@@ -350,6 +350,59 @@ const booking = defineField({
 });
 
 /**
+ * Desktop side panel (hamburger at the right of the navbar pill, from xl where the nav links are
+ * visible; client request 2026-10-22, design: pages svg/Home/home-sidepanel.svg). Below xl the
+ * hamburger keeps opening the navigation menu. The phone, email, address and social icons come
+ * from the Contact & Offices and Social media tabs, so they are only edited once.
+ */
+const sidePanel = defineField({
+  name: "sidePanel",
+  title: "Side panel",
+  type: "object",
+  group: "sidePanel",
+  options: { collapsible: false },
+  description:
+    "Opens from the ☰ icon at the right of the desktop navbar. Phone, email, address and social icons come from the Contact & Offices and Social media tabs.",
+  fields: [
+    defineField({
+      name: "title",
+      title: "Heading",
+      type: "string",
+      initialValue: "About Us",
+      validation: (Rule) => Rule.required().max(40),
+    }),
+    defineField({
+      name: "body",
+      title: "Text",
+      type: "text",
+      rows: 4,
+      validation: (Rule) => Rule.required().max(400),
+    }),
+    defineField({
+      name: "cta",
+      title: "Button",
+      type: "object",
+      options: { collapsible: false },
+      fields: linkFields(),
+    }),
+    defineField({
+      name: "phoneLabel",
+      title: "Phone to show",
+      type: "string",
+      description: "Label of a number from Contact & Offices → Phone numbers, e.g. Sales. Empty = the first number.",
+    }),
+    defineField({
+      name: "office",
+      title: "Address to show",
+      type: "string",
+      description: "Which office address from Contact & Offices is shown.",
+      options: { list: [{ title: "United States", value: "us" }, { title: "India", value: "in" }], layout: "radio" },
+      initialValue: "us",
+    }),
+  ],
+});
+
+/**
  * New-site Site Settings (singleton, _id "siteSettings"): everything shared by every page,
  * i.e. header menus, footer, contact details, social profiles and the booking link. Named
  * `siteSettings` (not `settings`) so it never clashes with the legacy `settings` type that is
@@ -366,8 +419,9 @@ export default defineType({
     { name: "contact", title: "Contact & Offices" },
     { name: "social", title: "Social media" },
     { name: "booking", title: "Booking" },
+    { name: "sidePanel", title: "Side panel" },
   ],
-  fields: [header, footer, contact, social, booking],
+  fields: [header, footer, contact, social, booking, sidePanel],
   preview: {
     prepare: () => ({ title: "Site Settings" }),
   },

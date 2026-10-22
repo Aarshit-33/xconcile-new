@@ -9,7 +9,6 @@ import {
   YouTubeIcon,
 } from "@/components/icons/brand-icons";
 import { CallIcon, MailIcon } from "@/components/icons/material-symbols";
-import { cn } from "@/lib/utils";
 import { getSiteSettings, type SocialPlatform } from "@/sanity/lib/site-settings";
 import { CopyrightYear } from "./copyright-year";
 
@@ -80,8 +79,9 @@ export async function SiteFooter() {
             {footer.columns.map((col) => (
               <div key={col.title} className="flex flex-col gap-8">
                 <h2 className="font-display text-[24px] leading-[30px] font-semibold text-[#f5f5f5]">{col.title}</h2>
-                {/* The Company column is drawn with wider (30px) spacing than the others. */}
-                <ul className={cn("flex flex-col", col.title === "Company" ? "gap-[30px]" : "gap-6")}>
+                {/* Same 24px rhythm in every column so rows align (client request 2026-10-22; the
+                    design drew Company with 30px). */}
+                <ul className="flex flex-col gap-6">
                   {col.links.map((link) => (
                     <li key={link.label}>
                       <Link

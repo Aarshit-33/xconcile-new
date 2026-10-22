@@ -218,7 +218,7 @@ export function LeadForm({
           {status === "error" ? (
             <p className="text-b1 text-destructive">
               {copy.error}{" "}
-              <a href={`mailto:${contactEmail}`} className="link-inline text-heading">
+              <a href={`mailto:${contactEmail}`} className="link-inline">
                 {contactEmail}
               </a>
               .

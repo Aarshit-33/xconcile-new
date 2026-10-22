@@ -22,6 +22,16 @@ export type Office = {
 };
 export type FooterBadge = { src: string; alt: string; size: number };
 
+/** Desktop hamburger side panel; contact lines are resolved from the Contact tab. */
+export type SidePanel = {
+  title: string;
+  body: string;
+  cta: NavLink;
+  phone?: ContactPhone;
+  email: string;
+  address?: string;
+};
+
 export type SiteSettings = {
   header: { ctaLabel: string; menus: MenuGroup[]; promo: MenuPromo };
   footer: { description: string; columns: { title: string; links: NavLink[] }[]; badges: FooterBadge[]; copyrightName: string };
@@ -32,6 +42,7 @@ export type SiteSettings = {
   /** Social URLs for the Organization structured data. */
   sameAs: string[];
   calendlyUrl: string;
+  sidePanel: SidePanel;
 };
 
 const socialLabels: Record<SocialPlatform, string> = {
@@ -64,6 +75,14 @@ export const FALLBACK_SETTINGS: SiteSettings = {
   social: FALLBACK_SOCIAL,
   sameAs: FALLBACK_SOCIAL.map((s) => s.url),
   calendlyUrl: siteConfig.calendlyUrl,
+  sidePanel: {
+    title: "About Us",
+    body: "Xconcile provides outsourced accounting, bookkeeping, tax, and audit services for U.S. businesses and CPA firms, with experienced professionals who fit your workflows and financial needs.",
+    cta: { label: "Get in Touch", href: "/#contact" },
+    phone: siteConfig.contact.phones[0],
+    email: siteConfig.contact.email,
+    address: siteConfig.offices.find((o) => o.country === "us")?.lines,
+  },
 };
 
 const SITE_SETTINGS_QUERY = /* groq */ `*[_id == "siteSettings"][0]{
@@ -71,7 +90,8 @@ const SITE_SETTINGS_QUERY = /* groq */ `*[_id == "siteSettings"][0]{
   footer{ ..., badges[]{ size, "image": image${IMG} } },
   contact,
   social,
-  booking
+  booking,
+  sidePanel
 }`;
 
 /** Non-empty array → mapped list, otherwise undefined (so `??` falls back to code). */
@@ -109,6 +129,29 @@ export async function getSiteSettings(): Promise<SiteSettings> {
     return url && isSocialPlatform(s?.platform) ? { platform: s.platform, label: socialLabels[s.platform as SocialPlatform], url } : undefined;
   });
 
+  const contact: SiteSettings["contact"] = {
+    email: d.contact?.email || f.contact.email,
+    phones:
+      list<ContactPhone>(d.contact?.phones, (x) =>
+        x?.label && x?.display && x?.tel ? { label: x.label, display: x.display, tel: x.tel } : undefined,
+      ) ?? f.contact.phones,
+  };
+  const offices =
+    list<Office>(d.contact?.offices, (o) =>
+      o?.name && (o.country === "in" || o.country === "us") && o.lines
+        ? {
+            name: o.name,
+            country: o.country,
+            lines: o.lines,
+            streetAddress: o.streetAddress ?? "",
+            addressLocality: o.addressLocality ?? "",
+            addressRegion: o.addressRegion ?? "",
+            postalCode: o.postalCode ?? "",
+            addressCountry: o.addressCountry ?? "",
+          }
+        : undefined,
+    ) ?? f.offices;
+
   return {
     header: {
       ctaLabel: d.header?.ctaLabel || f.header.ctaLabel,
@@ -134,30 +177,26 @@ export async function getSiteSettings(): Promise<SiteSettings> {
         }) ?? f.footer.badges,
       copyrightName: d.footer?.copyrightName || f.footer.copyrightName,
     },
-    contact: {
-      email: d.contact?.email || f.contact.email,
-      phones:
-        list<ContactPhone>(d.contact?.phones, (x) =>
-          x?.label && x?.display && x?.tel ? { label: x.label, display: x.display, tel: x.tel } : undefined,
-        ) ?? f.contact.phones,
-    },
-    offices:
-      list<Office>(d.contact?.offices, (o) =>
-        o?.name && (o.country === "in" || o.country === "us") && o.lines
-          ? {
-              name: o.name,
-              country: o.country,
-              lines: o.lines,
-              streetAddress: o.streetAddress ?? "",
-              addressLocality: o.addressLocality ?? "",
-              addressRegion: o.addressRegion ?? "",
-              postalCode: o.postalCode ?? "",
-              addressCountry: o.addressCountry ?? "",
-            }
-          : undefined,
-      ) ?? f.offices,
+    contact,
+    offices,
     social: social ?? f.social,
     sameAs: (social ?? f.social).map((s) => s.url),
     calendlyUrl: d.booking?.calendlyUrl || f.calendlyUrl,
+    sidePanel: resolveSidePanel(d.sidePanel, contact, offices),
+  };
+}
+
+function resolveSidePanel(sp: Raw, contact: SiteSettings["contact"], offices: Office[]): SidePanel {
+  const f = FALLBACK_SETTINGS.sidePanel;
+  const wantPhone = sp?.phoneLabel?.trim().toLowerCase();
+  const phone = (wantPhone && contact.phones.find((p) => p.label.toLowerCase() === wantPhone)) || contact.phones[0];
+  const country = sp?.office === "in" ? "in" : "us";
+  return {
+    title: sp?.title?.trim() || f.title,
+    body: sp?.body?.trim() || f.body,
+    cta: navLink(sp?.cta) ?? f.cta,
+    phone,
+    email: contact.email,
+    address: (offices.find((o) => o.country === country) ?? offices[0])?.lines,
   };
 }

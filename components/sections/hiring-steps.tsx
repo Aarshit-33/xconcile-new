@@ -34,9 +34,9 @@ export function HiringSteps({ data, className }: { data: HiringStepsContent; cla
           subtitleClassName="max-w-[715px]"
         />
 
-        <div className="grid gap-8 rounded-md border border-hairline bg-[rgb(250_250_250/0.6)] p-4 lg:grid-cols-[minmax(0,570fr)_minmax(0,636fr)] lg:justify-between lg:gap-10 lg:p-6">
-          {/* Steps reveal like the card sections around them (2026-10-18): the text of each step
-              rises (`data-reveal`); markers and the dashed line stay still. No overflow-hidden on
+        <div className="grid gap-8 rounded-md border border-hairline bg-surface-soft p-4 lg:grid-cols-[minmax(0,570fr)_minmax(0,636fr)] lg:justify-between lg:gap-10 lg:p-6">
+          {/* Each whole step (marker, text and its dashed connector) rises like the card sections
+              around it (RevealList; whole-card motion since 2026-10-22). No overflow-hidden on
               the li: the dashed line runs past it on purpose. */}
           <RevealList as="ol" className="flex flex-col gap-8">
             {data.steps.map((step, i) => (
@@ -50,7 +50,7 @@ export function HiringSteps({ data, className }: { data: HiringStepsContent; cla
                 <span className="relative flex size-10 shrink-0 items-center justify-center rounded-full border border-brand bg-brand-50">
                   <CheckSmallIcon className="size-6 text-brand" />
                 </span>
-                <div data-reveal className="flex flex-col gap-4 pt-1.5">
+                <div className="flex flex-col gap-4 pt-1.5">
                   <h3 className="text-h5 text-heading">{step.title}</h3>
                   <p className="text-b1 text-body">{step.body}</p>
                 </div>
@@ -64,7 +64,8 @@ export function HiringSteps({ data, className }: { data: HiringStepsContent; cla
                 <ParallaxImageFrame
                   key={photo.src}
                   amount={3}
-                  className="aspect-[306/386] rounded-[20px] border border-slate-200/80 bg-slate-100 shadow-xs"
+                  // Half the section: splash + zoom on hover (client request 2026-10-22).
+                  className="img-splash img-zoom aspect-[306/386] rounded-[20px] border border-slate-200/80 bg-slate-100 shadow-xs"
                 >
                   <Image
                     src={photo.src}

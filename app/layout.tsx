@@ -1,7 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Manrope, Outfit } from "next/font/google";
 import Script from "next/script";
-import { Analytics } from "@vercel/analytics/next";
 
 import { siteConfig } from "@/lib/site-config";
 
@@ -91,7 +90,6 @@ var c='denied';try{if(localStorage.getItem('xc-consent')==='granted')c='granted'
 gtag('consent','default',{ad_storage:c,ad_user_data:c,ad_personalization:c,analytics_storage:c,wait_for_update:500});`}
         </Script>
         {children}
-        <Analytics />
       </body>
     </html>
   );

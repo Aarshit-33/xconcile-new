@@ -19,7 +19,7 @@ export type IndustryPageContent = {
   slug: string;
   /** Page name for JSON-LD and breadcrumbs. */
   name: string;
-  seo: { title: string; description: string };
+  seo: { title: string; description: string; keywords?: string[] };
   hero: HeroContent;
   features: FeatureStripContent;
   intro: IntroContent;

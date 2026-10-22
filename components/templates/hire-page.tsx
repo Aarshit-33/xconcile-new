@@ -46,7 +46,7 @@ export function HirePageTemplate({ content }: { content: HirePageContent }) {
       <SecurityControls data={content.security} />
       {/* Tools and FAQ are white on this page (grey on service pages). */}
       {content.tools ? <ToolTabs data={content.tools} className="pt-0 lg:bg-white lg:pt-0" /> : null}
-      <Faq data={content.faq} firstOpen={false} className="pt-0 lg:bg-white lg:pt-0" />
+      <Faq data={content.faq} className="pt-0 lg:bg-white lg:pt-0" />
       {/* Spec: don't copy the design's overlap of the CTA band onto the last FAQ rows. */}
       <CtaBand data={content.ctaBand} titleClassName="max-w-[657px]" />
     </>

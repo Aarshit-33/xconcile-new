@@ -36,7 +36,7 @@ export async function generateMetadata({ params }: PageProps<"/industries/[slug]
   return buildMetadata({
     title: content.seo.title,
     description: content.seo.description,
-    seo: ogImage ? { openGraphImage: ogImage } : undefined,
+    seo: { metaKeywords: content.seo.keywords, openGraphImage: ogImage },
     path: routes.industry(slug),
   });
 }

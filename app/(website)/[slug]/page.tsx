@@ -47,7 +47,7 @@ export async function generateMetadata({ params }: PageProps<"/[slug]">): Promis
     return buildMetadata({
       title: content.seo.title,
       description: content.seo.description,
-      seo: ogImage ? { openGraphImage: ogImage } : undefined,
+      seo: { metaKeywords: content.seo.keywords, openGraphImage: ogImage },
       path: routes.hireStaff(slug),
     });
   }
@@ -58,7 +58,7 @@ export async function generateMetadata({ params }: PageProps<"/[slug]">): Promis
   return buildMetadata({
     title: content.seo.title,
     description: content.seo.description,
-    seo: ogImage ? { openGraphImage: ogImage } : undefined,
+    seo: { metaKeywords: content.seo.keywords, openGraphImage: ogImage },
     path: routes.service(slug),
   });
 }

@@ -271,7 +271,7 @@ async function buildHome() {
       },
     },
 
-    seo: { _type: "seoMeta", title: seo.title, description: seo.description },
+    seo: { _type: "seoMeta", title: seo.title, description: seo.description, keywords: seo.keywords ?? [] },
   };
 }
 

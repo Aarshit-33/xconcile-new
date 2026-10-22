@@ -3,7 +3,9 @@ import Image from "next/image";
 import { StarIcon } from "@/components/icons/brand-icons";
 import { CountUp } from "@/components/motion/count-up";
 import type { StatsContent } from "@/content/types";
+import { hoverGreenAccent } from "@/lib/hover";
 import { sectionId } from "@/lib/section-ids";
+import { cn } from "@/lib/utils";
 
 /**
  * B2 Stats + trust bar. Mobile: 2×2 grid then ISO | Google row. Desktop: 4 stat cells with
@@ -19,12 +21,21 @@ export function StatsBar({ data }: { data: StatsContent }) {
             // Centred below xl to match the trust cards (client request 2026-10-17); xl = drawn left.
             <div
               key={s.label}
-              className="flex flex-col items-center gap-4 p-4 text-center lg:border-r lg:border-hairline lg:px-5 lg:py-6 xl:items-start xl:text-left"
+              className={cn(
+                "flex flex-col items-center gap-4 p-4 text-center lg:border-r lg:border-hairline lg:px-5 lg:py-6 xl:items-start xl:text-left",
+                hoverGreenAccent,
+                // The 24px column gap sits between the previous cell's divider and this cell, so the
+                // hover shade + bottom line started 24px after the divider (client report
+                // 2026-10-22). A ::before fills that gap with the same hover paint (lg+, where the
+                // dividers are; the first cell has no divider to its left). Layout is untouched.
+                i > 0 &&
+                  "lg:relative lg:before:pointer-events-none lg:before:absolute lg:before:inset-y-0 lg:before:right-full lg:before:w-6 lg:before:transition-[background-color,box-shadow] lg:before:duration-200 lg:hover:before:bg-brand-50 lg:hover:before:shadow-[inset_0_-2px_0_var(--color-brand)]",
+              )}
             >
               <p className="text-[40px]/10 font-bold text-brand lg:text-stat">
                 <CountUp value={s.value} index={i} />
               </p>
-              <p className="text-b1 text-body">{s.label}</p>
+              <p className="text-b1 font-medium text-body">{s.label}</p>
             </div>
           ))}
 

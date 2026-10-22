@@ -25,7 +25,7 @@ export type ServicePageContent = {
   slug: string;
   /** Service name for JSON-LD and breadcrumbs. */
   name: string;
-  seo: { title: string; description: string };
+  seo: { title: string; description: string; keywords?: string[] };
   hero: HeroContent;
   stats: StatsContent;
   intro: IntroContent;

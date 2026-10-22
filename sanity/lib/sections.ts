@@ -100,6 +100,14 @@ const decorative = (i: Img): ImageAsset | undefined => {
 const itemLink = (l: Raw, fallback: Link | undefined): Link =>
   link(l) ?? fallback ?? { label: l?.label ?? "", href: l?.href ?? "" };
 
+/** SEO meta keywords (`seoMeta.keywords`): trimmed, de-duplicated Sanity list, else the code list. */
+export function keywords(d: Raw, f: string[] | undefined): string[] | undefined {
+  const list = Array.isArray(d)
+    ? [...new Set(d.filter((k: unknown): k is string => typeof k === "string").map((k) => k.trim()).filter(Boolean))]
+    : [];
+  return list.length ? list : f;
+}
+
 /* ------------------------------------------------------------------ sections */
 
 export function mapHero(d: Raw, f: HeroContent): HeroContent {

@@ -2,6 +2,7 @@ import { Icon } from "@/components/icons/registry";
 import { Rail } from "@/components/shared/rail";
 import { SectionHeading } from "@/components/shared/section-heading";
 import type { ProcessContent } from "@/content/types";
+import { hoverGreen, hoverTile } from "@/lib/hover";
 import { cn } from "@/lib/utils";
 import { sectionId } from "@/lib/section-ids";
 
@@ -13,7 +14,7 @@ import { sectionId } from "@/lib/section-ids";
 /** `subtitleClassName`: per-design subtitle width (audit: 666px). */
 export function Process({ data, subtitleClassName }: { data: ProcessContent; subtitleClassName?: string }) {
   return (
-    <section id={sectionId(data, "process")} aria-labelledby="process-title" className="bg-[rgb(250_250_250/0.6)] section-y">
+    <section id={sectionId(data, "process")} aria-labelledby="process-title" className="bg-surface-soft section-y">
       <div className="container-site flex flex-col gap-6 lg:gap-12">
         <SectionHeading
           eyebrow={data.badge}
@@ -30,10 +31,13 @@ export function Process({ data, subtitleClassName }: { data: ProcessContent; sub
           {data.steps.map((step, i) => (
             <li
               key={step.title}
-              className="flex w-[264px] shrink-0 snap-start flex-col gap-6 overflow-hidden rounded-md border border-hairline bg-white p-6 lg:w-auto"
+              className={cn(
+                "flex w-[264px] shrink-0 snap-start flex-col gap-6 overflow-hidden rounded-md border border-hairline bg-white p-6 lg:w-auto",
+                hoverGreen,
+              )}
             >
               <div className="flex items-start justify-between gap-4">
-                <span className="flex size-12 shrink-0 items-center justify-center rounded-md bg-brand-50">
+                <span className={cn("flex size-12 shrink-0 items-center justify-center rounded-md bg-brand-50", hoverTile)}>
                   <Icon name={step.icon} className="size-6 text-brand" />
                 </span>
                 <span aria-hidden className="text-[40px] leading-12 font-bold text-hairline">

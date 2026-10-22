@@ -109,14 +109,15 @@ function CaseStudyImage({ image }: { image: CaseStudy["image"] }) {
   } = getImageProps({ ...common, src: mobile.src, width: mobile.width, height: mobile.height });
 
   return (
-    <picture>
+    // Zoom only on hover (client request 2026-10-22); the <picture> is the clipping frame.
+    <picture className="img-zoom block overflow-hidden lg:rounded-md">
       <source media="(min-width: 1024px)" srcSet={desktopSrcSet} sizes={imgProps.sizes} />
       <source srcSet={mobileSrcSet} sizes={imgProps.sizes} />
       {/* Art direction needs <picture>; the <img> props come from getImageProps */}
       <img
         {...imgProps}
         alt={image.alt}
-        className="aspect-[358/265] w-full object-cover lg:aspect-[539/380] lg:rounded-md"
+        className="aspect-[358/265] w-full object-cover lg:aspect-[539/380]"
       />
     </picture>
   );

@@ -29,10 +29,13 @@ type Copy = typeof home.inquiry.form;
  * OLD-SITE LOOK (client request 2026-10-15): values copied from the old site's Tailwind theme
  * (old-code/xconcile-website/tailwind.config.js), not from the Figma tokens.
  * neutral-50 #fafafa · neutral-200 #e5e5e5 · neutral-400 #a3a3a3 · neutral-500 #737373 ·
- * neutral-700 #404040 · neutral-900 #171717 · primary-500 #1c7185 · secondary-600/700 #5a9240/#436d30
+ * neutral-700 #404040 · neutral-900 #171717
+ * Focus ring: was primary-500 #1c7185 (teal); brand green since 2026-10-22 (client request).
+ * Submit button: was secondary-600/700 #5a9240/#436d30 (olive); brand green with the solid-CTA
+ * hover (brand/90) since 2026-10-22 so it matches every other button (client request).
  */
 const control =
-  "h-auto rounded-xl border-[#e5e5e5] bg-[#fafafa] px-4 py-3 text-sm text-[#171717] shadow-none transition-colors placeholder:text-[#a3a3a3] focus-visible:border-transparent focus-visible:bg-white focus-visible:ring-2 focus-visible:ring-[#1c7185] disabled:opacity-50 md:text-sm";
+  "h-auto rounded-xl border-[#e5e5e5] bg-[#fafafa] px-4 py-3 text-sm text-[#171717] shadow-none transition-colors placeholder:text-[#a3a3a3] focus-visible:border-transparent focus-visible:bg-white focus-visible:ring-2 focus-visible:ring-brand disabled:opacity-50 md:text-sm";
 const label = "gap-0 text-sm font-semibold text-[#404040]";
 
 // The zod schema loads on the first validation (blur / submit), keeping zod out of the initial JS.
@@ -128,7 +131,7 @@ export function InquiryForm({
           {status === "error" ? (
             <p className="rounded-xl border border-red-200 bg-red-50 p-4 text-sm font-medium text-red-700">
               {copy.error}{" "}
-              <a href={`mailto:${contactEmail}`} className="underline">
+              <a href={`mailto:${contactEmail}`} className="link-inline">
                 {contactEmail}
               </a>
               .
@@ -285,7 +288,7 @@ export function InquiryForm({
         <Button
           type="submit"
           disabled={isSubmitting}
-          className="h-auto min-h-12 w-full gap-2 rounded-xl bg-[#5a9240] px-6 py-3 text-base font-bold whitespace-normal text-white hover:bg-[#436d30] disabled:cursor-not-allowed disabled:opacity-70"
+          className="h-auto min-h-12 w-full gap-2 rounded-xl bg-brand px-6 py-3 text-base font-bold whitespace-normal text-white hover:bg-brand/90 disabled:cursor-not-allowed disabled:opacity-70"
         >
           {isSubmitting ? copy.submitting : copy.submit}
           {isSubmitting ? null : <ArrowForwardIcon className="size-5" />}

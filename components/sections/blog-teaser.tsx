@@ -57,8 +57,8 @@ export async function BlogTeaser({ data }: { data: BlogContent }) {
           </CtaLink>
         </div>
 
-        {/* Card reveal on every page (option B, 2026-10-18): frame + cover stay still, the
-            text blocks (`data-reveal`) rise inside the card body. */}
+        {/* Each whole post card (cover + body) rises into place (RevealList; whole-card motion
+            since 2026-10-22). */}
         <RevealList className="grid gap-4 lg:grid-cols-3 lg:gap-6">
           {posts.map((post) => (
             <li key={post.id}>
@@ -76,10 +76,11 @@ function BlogCard({ post }: { post: PostCard }) {
   const readTime = post.readTime?.trim();
 
   return (
-    <article className="group/post relative flex h-full flex-col">
+    <article className="img-zoom-trigger group/post relative flex h-full flex-col">
       {/* 16:9 = the live posts' image ratio; their titles are baked in, so no cropping.
           object-contain: a cover in another ratio shows whole on a #F5F7F8 fill (audit M4). */}
-      <div className="relative aspect-video overflow-hidden rounded-t-md">
+      {/* Cover zooms on card hover (client request 2026-10-22). */}
+      <div className="img-zoom relative aspect-video overflow-hidden rounded-t-md">
         <Image
           src={post.image ?? "/images/home/blog-fallback.jpg"}
           alt={post.imageAlt ?? ""}
@@ -89,9 +90,10 @@ function BlogCard({ post }: { post: PostCard }) {
         />
       </div>
       <div className="flex flex-1 flex-col gap-4 overflow-hidden rounded-b-md border border-t-0 border-line/60 bg-white p-6">
-        <div data-reveal className="flex flex-col gap-4">
+        <div className="flex flex-col gap-4">
           {/* Title turns green while the card (one stretched link) is hovered (client request). */}
-          <h3 className="line-clamp-2 font-display text-h5 font-medium text-black transition-colors group-hover/post:text-brand">
+          {/* Full title (2-line clamp removed 2026-10-22: it cut titles mid-word at every width). */}
+          <h3 className="font-display text-h5 font-medium text-black transition-colors group-hover/post:text-brand">
             <Link
               href={routes.post(post.slug)}
               className="outline-none after:absolute after:inset-0 after:rounded-md focus-visible:after:ring-3 focus-visible:after:ring-ring/50"
@@ -101,7 +103,7 @@ function BlogCard({ post }: { post: PostCard }) {
           </h3>
           {excerpt ? <p className="line-clamp-2 text-b1 text-body">{excerpt}</p> : null}
         </div>
-        <div data-reveal className="mt-auto flex flex-wrap items-center justify-between gap-x-4 gap-y-2 border-t border-line pt-4">
+        <div className="mt-auto flex flex-wrap items-center justify-between gap-x-4 gap-y-2 border-t border-line pt-4">
           <p className="flex items-center gap-4 font-display text-b2 font-normal whitespace-nowrap text-meta">
             {post.publishedAt ? (
               <span className="flex items-center gap-1">

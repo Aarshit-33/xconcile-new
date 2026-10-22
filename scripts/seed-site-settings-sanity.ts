@@ -86,6 +86,15 @@ async function buildSiteSettings() {
     ),
 
     booking: { calendlyUrl: siteConfig.calendlyUrl },
+
+    // Desktop hamburger panel (design: pages svg/Home/home-sidepanel.svg).
+    sidePanel: {
+      title: "About Us",
+      body: "Xconcile provides outsourced accounting, bookkeeping, tax, and audit services for U.S. businesses and CPA firms, with experienced professionals who fit your workflows and financial needs.",
+      cta: { label: "Get in Touch", href: "/#contact" },
+      phoneLabel: "Sales",
+      office: "us",
+    },
   };
 }
 

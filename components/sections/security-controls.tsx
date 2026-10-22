@@ -39,7 +39,7 @@ export function SecurityControls({
               {data.badge}
             </Eyebrow>
           </FadeUp>
-          <FadeUp as="p" delay={0.12} className="max-w-[896px] text-b1 text-body lg:text-b3">
+          <FadeUp as="p" delay={0.12} className="max-w-[896px] text-b1 font-normal text-body lg:text-b3">
             {data.subtitle}
           </FadeUp>
         </div>
@@ -73,7 +73,7 @@ export function SecurityControls({
                         <Icon name={item.icon} className="size-6 text-tint-rose-accent" />
                       </span>
                       <div className="flex min-w-0 flex-col gap-1">
-                        <p className="text-b1 text-heading">{item.title}</p>
+                        <p className="text-b1 font-medium text-heading">{item.title}</p>
                         <p className="text-b2 text-body">{item.body}</p>
                       </div>
                     </li>

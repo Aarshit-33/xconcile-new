@@ -18,13 +18,14 @@ import {
   mapTestimonials,
   mapToolTabs,
   mapWhyChoose,
+  keywords,
   type Raw,
   SECTION_PROJECTION as P,
 } from "./sections";
 
 const SERVICE_PAGE_QUERY = /* groq */ `*[_type == "servicePage" && slug.current == $slug][0]{
   name,
-  seo{ title, description, "ogImage": ogImage.asset->url },
+  seo{ title, description, keywords, "ogImage": ogImage.asset->url },
   hero, stats, challenges, services, process, blog, faq,
   ${P.intro},
   ${P.caseStudies},
@@ -59,6 +60,7 @@ export async function getServicePage(
       seo: {
         title: d.seo?.title ?? f.seo.title,
         description: d.seo?.description ?? f.seo.description,
+        keywords: keywords(d.seo?.keywords, f.seo.keywords),
       },
       // Same mapper per section type on every page (./sections.ts).
       hero: mapHero(d.hero, f.hero),

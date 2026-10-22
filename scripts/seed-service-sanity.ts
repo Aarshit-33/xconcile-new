@@ -268,7 +268,7 @@ async function buildServicePage() {
       image: { _type: "image", ...(await imageRef(ctaBand.image.src)) },
     },
 
-    seo: { _type: "seoMeta", title: seo.title, description: seo.description },
+    seo: { _type: "seoMeta", title: seo.title, description: seo.description, keywords: seo.keywords ?? [] },
   };
 }
 

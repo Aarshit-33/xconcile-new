@@ -23,7 +23,7 @@ export function Services({ data }: { data: ServicesContent }) {
             <span className="lg:text-brand">{data.title.highlight}</span>
             {data.title.after ? ` ${data.title.after}` : null}
           </RevealText>
-          <FadeUp as="p" delay={0.12} className="text-b3 text-body lg:text-on-dark">
+          <FadeUp as="p" delay={0.12} className="text-b3 font-normal text-body lg:text-on-dark">
             {data.subtitle}
           </FadeUp>
         </div>

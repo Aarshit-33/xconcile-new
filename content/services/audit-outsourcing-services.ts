@@ -25,6 +25,17 @@ export const auditOutsourcingServices: ServicePageContent = {
     title: "Audit Outsourcing Services for CPA Firms",
     description:
       "Reliable audit outsourcing services for U.S. CPA firms: audit planning, financial statement audits, documentation, testing and assurance support.",
+    // Meta keywords (fallback; Sanity SEO → Meta keywords wins when filled).
+    keywords: [
+      "audit outsourcing services",
+      "outsourced audit support for CPA firms",
+      "financial statement audit outsourcing",
+      "audit planning and documentation",
+      "audit testing services",
+      "assurance support services",
+      "offshore audit staff",
+      "audit workpaper preparation",
+    ],
   },
 
   hero: {
