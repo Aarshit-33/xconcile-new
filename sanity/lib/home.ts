@@ -6,7 +6,6 @@ import type {
   CaseStudiesContent,
   ChallengesContent,
   FaqContent,
-  HeadingTitle,
   HeroContent,
   IndustriesContent,
   IntroContent,
@@ -34,6 +33,7 @@ import {
   mapTools,
   mapWhyChoose,
   keywords,
+  heading,
   type Raw,
   SECTION_PROJECTION as P,
 } from "./sections";
@@ -61,7 +61,8 @@ export type HomeContent = {
 const fallback: HomeContent = home;
 
 const HOME_QUERY = /* groq */ `*[_id == "home"][0]{
-  seo, hero, stats, challenges, services, process, blog, faq, contact,
+  seo, hero, challenges, services, process, blog, faq, contact,
+  ${P.stats},
   ${P.intro},
   ${P.caseStudies},
   ${P.industries},
@@ -69,13 +70,6 @@ const HOME_QUERY = /* groq */ `*[_id == "home"][0]{
   ${P.tools},
   ${P.testimonials}
 }`;
-
-/**
- * Last space of the lead-in becomes a no-break space, so its last two words share a line and no
- * word is left alone before the highlight ("…Xconcile / for / Outsourced…" at 1280/1366, audit M2).
- */
-const glueLastWord = (t: HeadingTitle): HeadingTitle =>
-  typeof t !== "string" && t.before ? { ...t, before: t.before.replace(/ (\S+)$/, "\u00A0$1") } : t;
 
 /**
  * Home page content from the Sanity `home` singleton, in the exact shape of content/home.ts so
@@ -104,10 +98,7 @@ export async function getHome(): Promise<HomeContent> {
     caseStudies: mapCaseStudies(d.caseStudies, f.caseStudies),
     process: mapProcess(d.process, f.process),
     industries: mapIndustries(d.industries, f.industries),
-    whyChoose: (() => {
-      const whyChoose = mapWhyChoose(d.whyChoose, f.whyChoose);
-      return d.whyChoose ? { ...whyChoose, title: glueLastWord(whyChoose.title) } : whyChoose;
-    })(),
+    whyChoose: mapWhyChoose(d.whyChoose, f.whyChoose),
     tools: mapTools(d.tools, f.tools),
     testimonials: mapTestimonials(d.testimonials, f.testimonials),
     blog: mapBlog(d.blog, f.blog),
@@ -122,9 +113,7 @@ export async function getHome(): Promise<HomeContent> {
           // Section ID from Studio wins over the code default (#contact, used by hero/challenges CTAs).
           id: d.contact.anchorId || f.inquiry.id,
           eyebrow: d.contact.eyebrow ?? f.inquiry.eyebrow,
-          title: d.contact.title?.before
-            ? { before: d.contact.title.before, highlight: d.contact.title.highlight ?? "" }
-            : f.inquiry.title,
+          title: heading(d.contact.title) ?? f.inquiry.title,
           body: d.contact.body ?? f.inquiry.body,
           trust:
             d.contact.trust?.map((t: Raw) => ({

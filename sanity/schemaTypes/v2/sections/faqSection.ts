@@ -1,7 +1,7 @@
 import { HelpCircleIcon } from "@sanity/icons/HelpCircle";
 import { defineArrayMember, defineField, defineType } from "sanity";
 
-import { anchorIdField, badgeField, titleField } from "../fields";
+import { anchorIdField, badgeField, hiddenField, sectionPreview, titleField } from "../fields";
 
 /** "Frequently Asked Questions" accordion (mirrors `FaqContent`). Also feeds the FAQ JSON-LD. */
 export default defineType({
@@ -10,6 +10,7 @@ export default defineType({
   type: "object",
   icon: HelpCircleIcon,
   fields: [
+    hiddenField(),
     anchorIdField("faq"),
     badgeField(),
     titleField(),
@@ -49,4 +50,5 @@ export default defineType({
       validation: (Rule) => Rule.required().min(1),
     }),
   ],
+  preview: sectionPreview("FAQ"),
 });

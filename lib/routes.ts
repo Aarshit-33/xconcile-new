@@ -12,6 +12,8 @@ export const routes = {
   home: () => "/",
   service: (slug: string) => `/${slug}`,
   hireStaff: (slug: string) => `/${slug}`,
+  /** Industries gallery (index of every industry; design pages/industry/Industry.svg). */
+  industries: () => "/industries",
   industry: (slug: string) => `/industries/${slug}`,
   blog: () => "/blog",
   post: (slug: string) => `/blog/${slug}`,

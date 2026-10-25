@@ -25,18 +25,19 @@ export type OptionalLink = { label: string; href?: string };
 /** Opens the Calendly popup instead of navigating (see `CtaLink`). */
 export const SCHEDULE_HREF = "#schedule";
 
-/** Section H2: plain, or with one green highlighted phrase. */
-export type HeadingTitle = string | { before?: string; highlight: string; after?: string };
+/**
+ * Section H1/H2: one string. Wrap the green part in asterisks (`"Our *Real Estate* Services"`),
+ * `\*` for a literal asterisk. Rendered by `HighlightText` (lib/highlight.ts) as one flowing line.
+ * Every heading string on the site accepts this markup, typed as `HeadingTitle` or `string`.
+ */
+export type HeadingTitle = string;
 
 export type ImageAsset = { src: string; alt: string; width: number; height: number };
 
 export type HeroContent = SectionAnchor & {
   badge: string;
-  /**
-   * Rendered as `before <highlight> <br> after`; the highlight (green) is optional.
-   * `inline`: no forced break, `after` follows the highlight and wraps naturally (Hire design).
-   */
-  title: { before: string; highlight?: string; after?: string; inline?: boolean };
+  /** H1, `*green*` markup (see `HeadingTitle`). Wraps naturally, no forced line break. */
+  title: HeadingTitle;
   subtitle: string;
   primaryCta: Link;
   secondaryCta?: Link;
@@ -45,7 +46,11 @@ export type HeroContent = SectionAnchor & {
 };
 
 export type StatsContent = SectionAnchor & {
-  items: { value: string; label: string }[];
+  /**
+   * `image`: an icon drawn instead of the number (RCM design: caduceus over "HIPAA Compliant");
+   * `value` is then empty and not shown.
+   */
+  items: { value: string; label: string; image?: ImageAsset }[];
   rating: { value: string; source: string };
 };
 
@@ -58,13 +63,18 @@ export type IntroContent = SectionAnchor & {
    */
   bodyMore?: RichText;
   bodyMoreLayout?: "inline-desktop" | "paragraph";
+  /** Third paragraph (`paragraph` layout only; bookkeeping design). */
+  bodyExtra?: RichText;
   image: ImageAsset;
   /** Home: small icon cards under the copy. */
   features?: { icon: IconName; label: string }[];
   /** `pill` (Home: chips, one bordered row on desktop) or `list` (inner pages: vertical list). */
   checks: string[];
   checksStyle?: "pill" | "list";
-  cta: Link;
+  /** Small label above the checklist (RCM design: "Promising Features"). */
+  checksTitle?: string;
+  /** Optional: the About design draws no button. */
+  cta?: Link;
 };
 
 /** `white`: white cards with #F3F8F2 icon tiles (Hire "Key Benefits"). */
@@ -74,7 +84,8 @@ export type ChallengesContent = SectionAnchor & {
   badge: string;
   title: string;
   body: string;
-  cta: Link;
+  /** Optional: the virtual CFO design draws no button here. */
+  cta?: Link;
   items: { tone: ChallengeTone; icon: IconName; title: string; body: RichText }[];
 };
 
@@ -94,11 +105,25 @@ export type ServiceItem = {
 export type ServicesContent = SectionAnchor & {
   id: string;
   badge: string;
-  title: { before?: string; highlight: string; after?: string };
+  title: HeadingTitle;
   subtitle: string;
   /** Desktop shows this many rows, then "Show more services (n)". */
   initiallyVisible: number;
   items: ServiceItem[];
+};
+
+/** Screen sizes a block can be limited to: mobile < 768px, tablet 768–1023px, laptop ≥ 1024px. */
+export type Device = "mobile" | "tablet" | "laptop";
+export const ALL_DEVICES: Device[] = ["mobile", "tablet", "laptop"];
+
+/** The highlight card over a case-study photo (e.g. "Workload Impact / 42% Reduced"). */
+export type CaseStudyImpact = {
+  label: string;
+  value: string;
+  /** Round icon on the left. Default: trending_down. */
+  icon?: IconName;
+  /** Screens the card shows on. Default: all. Empty list = hidden everywhere. */
+  devices?: Device[];
 };
 
 export type CaseStudy = {
@@ -108,7 +133,7 @@ export type CaseStudy = {
   challenge: string;
   solution: string;
   result: string;
-  impact?: { label: string; value: string };
+  impact?: CaseStudyImpact;
   image: ImageAsset & { mobile?: { src: string; width: number; height: number } };
   cta: OptionalLink;
 };
@@ -197,6 +222,8 @@ export type CtaBandContent = SectionAnchor & {
   title: string;
   body: string;
   cta: Link;
+  /** Outline button next to the main one (RCM design: "Get Started"). */
+  secondaryCta?: Link;
   image: ImageAsset;
 };
 
@@ -209,12 +236,51 @@ export type FeatureStripContent = SectionAnchor & {
   items: { icon: IconName; title: string; body: string }[];
 };
 
+/**
+ * Feature cards with a section heading (Industries gallery, `/industries`): eyebrow + H2 +
+ * subtitle over a row of white icon cards (icon tile on top, title, text). About "Our Core
+ * Values" draws only the H2 (badge and subtitle optional) and three cards (3 columns).
+ */
+export type FeatureCardsContent = SectionAnchor & {
+  badge?: string;
+  title: HeadingTitle;
+  subtitle?: string;
+  items: { icon: IconName; title: string; body: string }[];
+};
+
+/** One person's photo, name, role, bio paragraphs and certifications (About page). */
+export type PersonProfile = {
+  name: string;
+  role: string;
+  /** Transparent cut-out portrait (drawn on a green shape). */
+  image: ImageAsset;
+  /** Paragraphs. */
+  bio: string[];
+  certifications: string[];
+  /** Profile URL; the LinkedIn icon shows only when set. */
+  linkedin?: string;
+};
+
+/** About "Founder & CEO" block: grey band, copy left, portrait on a green block right. */
+export type FounderContent = SectionAnchor & {
+  person: PersonProfile;
+  /** Pill label before the certifications, e.g. "Certifications". */
+  certificationsLabel: string;
+};
+
+/** About "Meet Our Team": H2 over two-up profile cards. */
+export type TeamContent = SectionAnchor & {
+  title: HeadingTitle;
+  members: PersonProfile[];
+  certificationsLabel: string;
+};
+
 /** B7 Card grid, `dark-tile-3col` variant: icon + title tiles on the dark gradient. */
 export type CardGridContent = SectionAnchor & {
   /** Anchor target (e.g. the hero's "Explore Our Expertise" CTA). */
   id?: string;
   badge: string;
-  /** Industry design: "Our <green>Real Estate</green> Accounting Services". */
+  /** Industry design: "Our *Real Estate* Accounting Services". */
   title: HeadingTitle;
   subtitle: string;
   /** `body`: short line under the title (not drawn; rises in with the title on scroll). */

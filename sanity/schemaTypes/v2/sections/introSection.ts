@@ -1,7 +1,7 @@
 import { DocumentTextIcon } from "@sanity/icons/DocumentText";
 import { defineArrayMember, defineField, defineType } from "sanity";
 
-import { anchorIdField, iconField } from "../fields";
+import { anchorIdField, hiddenField, iconField, sectionPreview } from "../fields";
 
 /** "Your Accounting Team, Without the Overhead" (mirrors `IntroContent`). */
 export default defineType({
@@ -10,11 +10,12 @@ export default defineType({
   type: "object",
   icon: DocumentTextIcon,
   fields: [
+    hiddenField(),
     anchorIdField("intro"),
     defineField({
       name: "title",
       title: "Heading (H2)",
-      type: "string",
+      type: "headingTitle",
       validation: (Rule) => Rule.required(),
     }),
     defineField({
@@ -44,6 +45,13 @@ export default defineType({
         layout: "radio",
       },
       initialValue: "inline-desktop",
+    }),
+    defineField({
+      name: "bodyExtra",
+      title: "Third paragraph",
+      type: "richText",
+      description: "Optional. Only with \"Always its own paragraph\" (e.g. the bookkeeping page).",
+      hidden: ({ parent }) => parent?.bodyMoreLayout !== "paragraph",
     }),
     defineField({
       name: "image",
@@ -95,10 +103,18 @@ export default defineType({
       initialValue: "pill",
     }),
     defineField({
+      name: "checksTitle",
+      title: "Label above the check items (optional)",
+      type: "string",
+      description: 'Vertical list only, e.g. "Promising Features" (RCM page). Leave empty for none.',
+      hidden: ({ parent }) => parent?.checksStyle !== "list",
+    }),
+    defineField({
       name: "cta",
       title: "Button",
       type: "ctaLink",
-      validation: (Rule) => Rule.required(),
+      description: "Optional: leave empty for no button (e.g. the About page).",
     }),
   ],
+  preview: sectionPreview("Intro", { media: "image" }),
 });

@@ -1,7 +1,7 @@
 import { UserIcon } from "@sanity/icons/User";
 import { defineArrayMember, defineField, defineType } from "sanity";
 
-import { anchorIdField, badgeField, subtitleField, titleField } from "../fields";
+import { anchorIdField, badgeField, hiddenField, sectionPreview, subtitleField, titleField } from "../fields";
 
 /**
  * "Businesses We Work With": photo cards with a button (mirrors `AudienceCardsContent`,
@@ -13,6 +13,7 @@ export default defineType({
   type: "object",
   icon: UserIcon,
   fields: [
+    hiddenField(),
     anchorIdField("audienceCards"),
     badgeField(),
     titleField(),
@@ -59,4 +60,5 @@ export default defineType({
       validation: (Rule) => Rule.required().min(1),
     }),
   ],
+  preview: sectionPreview("Audience Cards"),
 });

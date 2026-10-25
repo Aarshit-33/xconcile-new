@@ -34,7 +34,14 @@ export type SidePanel = {
 
 export type SiteSettings = {
   header: { ctaLabel: string; menus: MenuGroup[]; promo: MenuPromo };
-  footer: { description: string; columns: { title: string; links: NavLink[] }[]; badges: FooterBadge[]; copyrightName: string };
+  footer: {
+    description: string;
+    columns: { title: string; links: NavLink[] }[];
+    badges: FooterBadge[];
+    copyrightName: string;
+    /** Studio → Footer → Show phone numbers (default on). */
+    showPhones: boolean;
+  };
   contact: { email: string; phones: ContactPhone[] };
   offices: Office[];
   /** Profiles with a URL, in the editor's order. */
@@ -69,6 +76,7 @@ export const FALLBACK_SETTINGS: SiteSettings = {
     columns: footerNav,
     badges: FALLBACK_BADGES,
     copyrightName: siteConfig.legalName,
+    showPhones: true,
   },
   contact: { email: siteConfig.contact.email, phones: [...siteConfig.contact.phones] },
   offices: [...siteConfig.offices],
@@ -176,6 +184,7 @@ export async function getSiteSettings(): Promise<SiteSettings> {
           return image ? { src: image.src, alt: image.alt, size: b.size || 100 } : undefined;
         }) ?? f.footer.badges,
       copyrightName: d.footer?.copyrightName || f.footer.copyrightName,
+      showPhones: d.footer?.showPhones !== false,
     },
     contact,
     offices,
@@ -189,7 +198,11 @@ export async function getSiteSettings(): Promise<SiteSettings> {
 function resolveSidePanel(sp: Raw, contact: SiteSettings["contact"], offices: Office[]): SidePanel {
   const f = FALLBACK_SETTINGS.sidePanel;
   const wantPhone = sp?.phoneLabel?.trim().toLowerCase();
-  const phone = (wantPhone && contact.phones.find((p) => p.label.toLowerCase() === wantPhone)) || contact.phones[0];
+  // Studio → Side panel → Show phone number (default on).
+  const phone =
+    sp?.showPhone === false
+      ? undefined
+      : (wantPhone && contact.phones.find((p) => p.label.toLowerCase() === wantPhone)) || contact.phones[0];
   const country = sp?.office === "in" ? "in" : "us";
   return {
     title: sp?.title?.trim() || f.title,

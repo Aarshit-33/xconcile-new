@@ -86,10 +86,15 @@ export function TestimonialVideos({ videos }: { videos: Video[] }) {
         )}
       </figure>
 
-      {/* Viewport fills the space between the arrows so lg:basis-1/3 resolves against a real width. */}
+      {/* Viewport width follows the number of videos, max 3 (user request 2026-10-25): each slot
+          is a 226px thumbnail plus the 16px (lg 24px) gap, so with 1–2 videos the viewport shrinks
+          to fit them and `justify-center` centres the row, keeping both arrows right beside the
+          thumbnails. With more than 3 the viewport holds exactly 3 (726px on desktop, as drawn) and
+          scrolls; on narrow phones it shrinks to the space left between the arrows. */}
       <Carousel
         opts={{ align: "start" }}
-        className="flex items-center gap-4 lg:gap-6 [&>[data-slot=carousel-content]]:min-w-0 [&>[data-slot=carousel-content]]:flex-1"
+        style={{ "--thumbs": Math.min(videos.length, 3) } as React.CSSProperties}
+        className="flex items-center justify-center gap-4 lg:gap-6 [&>[data-slot=carousel-content]]:min-w-0 [&>[data-slot=carousel-content]]:flex-1 [&>[data-slot=carousel-content]]:max-w-[calc(var(--thumbs)*226px+(var(--thumbs)-1)*16px)] lg:[&>[data-slot=carousel-content]]:max-w-[calc(var(--thumbs)*226px+(var(--thumbs)-1)*24px)]"
       >
         {/* relative inset-auto + before:*: invisible 44x44 tap area around the 40px arrow. inset-auto
             cancels the base -left-12/-right-12 offsets, so the arrow stays where `static` put it. */}
@@ -99,9 +104,10 @@ export function TestimonialVideos({ videos }: { videos: Video[] }) {
             const thumbFlag = flags[v.country];
             return (
               // Index key: the same video may be listed more than once.
-              // lg:basis-1/3: exactly 3 whole thumbnails on desktop, as drawn (audit L2: a 4th was
+              // Fixed 226px thumbnails + the 16/24px gutter (border-box) at every width, so the
+              // viewport sizing above holds; 3 fill the drawn 726px desktop row (audit L2: a 4th was
               // hard-cut at the arrow).
-              <CarouselItem key={`${v.youtubeId}-${i}`} className="basis-[226px] pl-4 lg:basis-1/3 lg:pl-6">
+              <CarouselItem key={`${v.youtubeId}-${i}`} className="basis-[242px] pl-4 lg:basis-[250px] lg:pl-6">
                 <button
                   type="button"
                   onClick={() => {

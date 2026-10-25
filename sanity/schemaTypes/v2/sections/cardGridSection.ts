@@ -1,7 +1,7 @@
 import { BookIcon } from "@sanity/icons/Book";
 import { defineArrayMember, defineField, defineType } from "sanity";
 
-import { anchorIdField, badgeField, iconField, subtitleField } from "../fields";
+import { anchorIdField, badgeField, hiddenField, iconField, sectionPreview, subtitleField } from "../fields";
 
 /**
  * "Our Accounting Professionals Have Expertise In": dark grid of icon + title tiles (mirrors
@@ -13,6 +13,7 @@ export default defineType({
   type: "object",
   icon: BookIcon,
   fields: [
+    hiddenField(),
     anchorIdField("cardGrid"),
     badgeField(),
     defineField({
@@ -53,4 +54,5 @@ export default defineType({
       validation: (Rule) => Rule.required().min(1),
     }),
   ],
+  preview: sectionPreview("Expertise Grid"),
 });

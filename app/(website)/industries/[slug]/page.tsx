@@ -11,8 +11,8 @@ import { getIndustryPage } from "@/sanity/lib/industry-page";
 
 /**
  * Industry pages at `/industries/<slug>` (live URL structure, lib/routes.ts). Only slugs in the
- * registry are prerendered; anything else is a 404. There is no `/industries` index yet (no
- * design), so the breadcrumb goes Home → page.
+ * registry are prerendered; anything else is a 404. The breadcrumb goes Home → Industries
+ * (the `/industries` gallery) → page.
  */
 export function generateStaticParams() {
   return Object.keys(industryPages).map((slug) => ({ slug }));
@@ -56,6 +56,7 @@ export default async function IndustryPage({ params }: PageProps<"/industries/[s
           serviceJsonLd({ name: page.name, description: page.seo.description, path }),
           breadcrumbJsonLd([
             { name: "Home", path: routes.home() },
+            { name: "Industries", path: routes.industries() },
             { name: page.name, path },
           ]),
           faqJsonLd(page.faq.items.map((f) => ({ question: f.q, answer: richTextToPlain(f.a) }))),

@@ -32,9 +32,23 @@ export function StatsBar({ data }: { data: StatsContent }) {
                   "lg:relative lg:before:pointer-events-none lg:before:absolute lg:before:inset-y-0 lg:before:right-full lg:before:w-6 lg:before:transition-[background-color,box-shadow] lg:before:duration-200 lg:hover:before:bg-brand-50 lg:hover:before:shadow-[inset_0_-2px_0_var(--color-brand)]",
               )}
             >
-              <p className="text-[40px]/10 font-bold text-brand lg:text-stat">
-                <CountUp value={s.value} index={i} />
-              </p>
+              {s.image ? (
+                // Icon in place of the number (RCM design: caduceus over "HIPAA Compliant"); same
+                // line height as the figures, so the labels stay on one row.
+                <span className="flex h-10 items-center lg:h-14">
+                  <Image
+                    src={s.image.src}
+                    alt={s.image.alt}
+                    width={s.image.width}
+                    height={s.image.height}
+                    className="h-10 w-auto object-contain lg:h-12"
+                  />
+                </span>
+              ) : (
+                <p className="text-[40px]/10 font-bold text-brand lg:text-stat">
+                  <CountUp value={s.value} index={i} />
+                </p>
+              )}
               <p className="text-b1 font-medium text-body">{s.label}</p>
             </div>
           ))}

@@ -71,8 +71,8 @@ export const industryPages: NavLink[] = [
   { label: "Hospitality", href: routes.industry("hospitality-retail") },
   { label: "Professional Services", href: routes.industry("professional-services") },
   { label: "E-commerce", href: routes.industry("tech-ecommerce") },
-  // Design has a separate IT/Technology page; live site only has tech-ecommerce (report §6).
-  { label: "IT & Technology", href: routes.industry("tech-ecommerce") },
+  // Separate IT/Technology page (design it-technology-accounting-services.svg; new URL).
+  { label: "IT & Technology", href: routes.industry("it-technology") },
 ];
 
 export const companyLinks: NavLink[] = [
@@ -213,9 +213,9 @@ export const headerNav: MenuGroup[] = [
       {
         ...industryPages[5],
         icon: "chip",
-        // Same live page as E-commerce (tech-ecommerce); its description.
+        // NOT ON THE OLD SITE (new page): its SEO description.
         description:
-          "ASC 606 revenue recognition, SaaS metrics (MRR/ARR/Churn), crypto accounting, e-commerce reconciliation, and investor reporting.",
+          "Bookkeeping, reconciliations, month-end close and financial reporting for SaaS, software and IT services firms.",
       },
     ],
   },
@@ -331,7 +331,7 @@ export const footerNav: { title: string; links: NavLink[] }[] = [
       { label: "E-commerce", href: routes.industry("tech-ecommerce") },
       // "IT technology" removed: same page as "Technology" below (audit L11).
       { label: "Retail", href: routes.industry("hospitality-retail") },
-      { label: "Technology", href: routes.industry("tech-ecommerce") },
+      { label: "Technology", href: routes.industry("it-technology") },
       { label: "Construction", href: routes.industry("real-estate-construction") },
     ],
   },

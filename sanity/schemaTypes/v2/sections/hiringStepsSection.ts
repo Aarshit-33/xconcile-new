@@ -1,7 +1,7 @@
 import { OlistIcon } from "@sanity/icons/Olist";
 import { defineArrayMember, defineField, defineType } from "sanity";
 
-import { anchorIdField, badgeField, subtitleField, titleField } from "../fields";
+import { anchorIdField, badgeField, hiddenField, sectionPreview, subtitleField, titleField } from "../fields";
 
 /**
  * "Hire your Dedicated Accounting Team in 5 Steps": numbered timeline, two photos with a flag
@@ -14,6 +14,7 @@ export default defineType({
   type: "object",
   icon: OlistIcon,
   fields: [
+    hiddenField(),
     anchorIdField("hiringSteps"),
     badgeField(),
     titleField(),
@@ -122,4 +123,5 @@ export default defineType({
       validation: (Rule) => Rule.max(4),
     }),
   ],
+  preview: sectionPreview("Hiring Steps"),
 });

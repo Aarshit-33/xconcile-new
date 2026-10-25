@@ -11,7 +11,8 @@
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "typegen": "sanity schema extract && sanity typegen generate",
-    "share": "node --env-file-if-exists=.env.local scripts/share.mjs"
+    "share": "node --env-file-if-exists=.env.local scripts/share.mjs",
+    "share:cf": "node --env-file-if-exists=.env.local scripts/share-cf.mjs"
   },
   "dependencies": {
     "@gsap/react": "^2.1.2",

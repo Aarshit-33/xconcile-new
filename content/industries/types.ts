@@ -3,8 +3,10 @@ import type {
   ChallengesContent,
   CtaBandContent,
   FaqContent,
+  FeatureCardsContent,
   FeatureStripContent,
   HeroContent,
+  IndustriesContent,
   IntroContent,
   SubIndustriesContent,
   WhyChooseContent,
@@ -27,6 +29,20 @@ export type IndustryPageContent = {
   services: CardGridContent;
   subIndustries: SubIndustriesContent;
   whyChoose: WhyChooseContent;
+  faq: FaqContent;
+  ctaBand: CtaBandContent;
+};
+
+/**
+ * Industries gallery (`/industries`, design: pages/industry/Industry.svg): hero, feature cards,
+ * the full industry card grid, FAQ and CTA band. Section order is fixed by
+ * `components/templates/industries-gallery.tsx`.
+ */
+export type IndustriesGalleryContent = {
+  seo: { title: string; description: string; keywords?: string[] };
+  hero: HeroContent;
+  features: FeatureCardsContent;
+  industries: IndustriesContent;
   faq: FaqContent;
   ctaBand: CtaBandContent;
 };

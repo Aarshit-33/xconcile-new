@@ -22,13 +22,17 @@ import { sectionId } from "@/lib/section-ids";
 export function HiringSteps({ data, className }: { data: HiringStepsContent; className?: string }) {
   const [photoA, photoB] = data.photos;
 
+  const id = sectionId(data, "hiringSteps");
+  // Heading id from the section id, so a section type can appear twice on a page.
+  const titleId = `${id}-title`;
+
   return (
-    <section id={sectionId(data, "hiringSteps")} aria-labelledby="hiring-steps-title" className={cn("section-y", className)}>
+    <section id={id} aria-labelledby={titleId} className={cn("section-y", className)}>
       <div className="container-site flex flex-col gap-8 lg:gap-12">
         <SectionHeading
           eyebrow={data.badge}
           title={data.title}
-          titleId="hiring-steps-title"
+          titleId={titleId}
           titleClassName="max-w-[650px]"
           subtitle={data.subtitle}
           subtitleClassName="max-w-[715px]"

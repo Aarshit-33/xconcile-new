@@ -3,6 +3,7 @@ import Image from "next/image";
 import { Icon } from "@/components/icons/registry";
 import { ParallaxImageFrame } from "@/components/motion/parallax";
 import { RevealText } from "@/components/motion/reveal-text";
+import { HighlightText } from "@/components/shared/highlight-text";
 import { CheckItem } from "@/components/shared/check-item";
 import { CtaLink } from "@/components/shared/cta";
 import { RichText } from "@/components/shared/rich-text";
@@ -29,29 +30,39 @@ export function Intro({
 }: {
   data: IntroContent;
   className?: string;
-  /** Overrides the desktop photo aspect, e.g. `lg:aspect-[636/657]` (Hire design). */
+  /**
+   * Desktop photo minimum height, e.g. `lg:min-h-[657px]` (Hire design 636x657). Inner pages: the
+   * photo stretches to the text column and never gets shorter than this.
+   */
   imageClassName?: string;
 }) {
   const list = data.checksStyle === "list";
   const paragraph = data.bodyMoreLayout === "paragraph";
 
+  const id = sectionId(data, "intro");
+  // Heading id from the section id, so a section type can appear twice on a page.
+  const titleId = `${id}-title`;
+
   return (
-    <section id={sectionId(data, "intro")} aria-labelledby="intro-title" className={cn("relative overflow-hidden section-y", className)}>
+    <section id={id} aria-labelledby={titleId} className={cn("relative overflow-hidden section-y", className)}>
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-0 hidden bg-surface-soft lg:block"
+        className="pointer-events-none absolute inset-0 bg-surface-soft"
       />
       <div
         className={cn(
           "relative container-site grid gap-8 lg:gap-6",
-          list ? "lg:grid-cols-2 lg:items-start" : "lg:grid-cols-[416fr_855fr]",
+          list ? "lg:grid-cols-2" : "lg:grid-cols-[416fr_855fr]",
         )}
       >
         <ParallaxImageFrame
           amount={3}
           className={cn(
             "aspect-square rounded-md md:aspect-[3/2]",
-            list ? "lg:aspect-[635/609]" : "lg:aspect-auto lg:h-[576px]",
+            // Inner pages: the photo fills the row (= the text column when it is taller, so it
+            // reaches the CTA; user request 2026-10-25), never shorter than the drawn 635x609 box
+            // (templates pass their own minimum via imageClassName). object-cover crops it.
+            list ? "lg:aspect-auto lg:min-h-[609px] lg:self-stretch" : "lg:aspect-auto lg:h-[576px]",
             // Half the section is this photo: splash + zoom on hover, on every page (client
             // request 2026-10-22; was Home-only). Both utilities live in globals.css.
             "img-splash img-zoom",
@@ -71,11 +82,11 @@ export function Intro({
           />
         </ParallaxImageFrame>
 
-        <div className={cn("flex flex-col gap-8", !list && "lg:gap-10")}>
+        <div className={cn("flex flex-col gap-8", !list && "lg:gap-10", list && "lg:self-start")}>
           <div className={cn("flex flex-col", list ? "gap-8" : "gap-6")}>
             <div className={cn("flex flex-col", list ? "gap-8" : "gap-6")}>
-              <RevealText as="h2" id="intro-title" className="text-h2-m text-heading lg:text-h2">
-                {data.title}
+              <RevealText as="h2" id={titleId} className="text-h2-m text-heading lg:text-h2">
+                <HighlightText text={data.title} />
               </RevealText>
               {paragraph ? (
                 <div className="flex flex-col gap-6 text-b1 text-body">
@@ -85,6 +96,11 @@ export function Intro({
                   {data.bodyMore ? (
                     <p>
                       <RichText value={data.bodyMore} />
+                    </p>
+                  ) : null}
+                  {data.bodyExtra ? (
+                    <p>
+                      <RichText value={data.bodyExtra} />
                     </p>
                   ) : null}
                 </div>
@@ -124,15 +140,20 @@ export function Intro({
             ) : null}
 
             {/* Inner-page bullet list follows the copy weight (400); the Home chips are labels and
-                keep 500 now that body copy is 400 (2026-10-22). */}
-            {list ? (
-              <ul className="flex flex-col gap-6 border-b border-hairline pb-8 text-b1 text-body">
-                {data.checks.map((c) => (
-                  <CheckItem key={c} className="gap-4" iconClassName="size-6">
-                    {c}
-                  </CheckItem>
-                ))}
-              </ul>
+                keep 500 now that body copy is 400 (2026-10-22). No list when there are no checks
+                (About design). */}
+            {!data.checks.length ? null : list ? (
+              <>
+                {/* Optional label above the list (RCM design: "Promising Features"). */}
+                {data.checksTitle ? <p className="text-b1 font-medium text-heading">{data.checksTitle}</p> : null}
+                <ul className="flex flex-col gap-6 border-b border-hairline pb-8 text-b1 text-body">
+                  {data.checks.map((c) => (
+                    <CheckItem key={c} className="gap-4" iconClassName="size-6">
+                      {c}
+                    </CheckItem>
+                  ))}
+                </ul>
+              </>
             ) : (
               <ul className="flex flex-col gap-4 text-b1 font-medium text-heading lg:mt-4 lg:flex-row lg:flex-wrap lg:gap-x-[30px] lg:gap-y-2 lg:rounded-[37px] lg:border lg:border-hairline lg:px-4 lg:py-2">
                 {data.checks.map((c) => (
@@ -148,11 +169,14 @@ export function Intro({
             )}
           </div>
 
-          <div>
-            <CtaLink href={data.cta.href} variant="outline" mobileSolid>
-              {data.cta.label}
-            </CtaLink>
-          </div>
+          {/* Optional: the About design draws no button here. */}
+          {data.cta ? (
+            <div>
+              <CtaLink href={data.cta.href} variant="outline" mobileSolid>
+                {data.cta.label}
+              </CtaLink>
+            </div>
+          ) : null}
         </div>
       </div>
     </section>

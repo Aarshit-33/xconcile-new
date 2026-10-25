@@ -1,7 +1,7 @@
 import { LockIcon } from "@sanity/icons/Lock";
 import { defineArrayMember, defineField, defineType } from "sanity";
 
-import { anchorIdField, badgeField, iconField, subtitleField, titleField } from "../fields";
+import { anchorIdField, badgeField, hiddenField, iconField, sectionPreview, subtitleField, titleField } from "../fields";
 
 /**
  * Hire "Security & Data Protection" (2026-10-17 design): badge + subtitle, a rose banner with
@@ -14,6 +14,7 @@ export default defineType({
   type: "object",
   icon: LockIcon,
   fields: [
+    hiddenField(),
     anchorIdField("security"),
     badgeField(),
     titleField("Heading (H2, in the banner)"),
@@ -81,4 +82,5 @@ export default defineType({
       validation: (Rule) => Rule.required().min(1).max(3),
     }),
   ],
+  preview: sectionPreview("Security Controls"),
 });

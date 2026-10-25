@@ -1,4 +1,8 @@
+import { hireAuditAndAssurance } from "./hire-audit-and-assurance";
 import { hireBookkeeperAccountant } from "./hire-bookkeeper-accountant";
+import { hirePayrollAndCompliance } from "./hire-payroll-and-compliance";
+import { hireTaxPreparationStaff } from "./hire-tax-preparation-staff";
+import { hireVirtualCfoAndFpAndA } from "./hire-virtual-cfo-and-fp-and-a";
 import type { HirePageContent } from "./types";
 
 /**
@@ -7,6 +11,10 @@ import type { HirePageContent } from "./types";
  */
 export const hirePages: Record<string, HirePageContent> = {
   [hireBookkeeperAccountant.slug]: hireBookkeeperAccountant,
+  [hireAuditAndAssurance.slug]: hireAuditAndAssurance,
+  [hirePayrollAndCompliance.slug]: hirePayrollAndCompliance,
+  [hireTaxPreparationStaff.slug]: hireTaxPreparationStaff,
+  [hireVirtualCfoAndFpAndA.slug]: hireVirtualCfoAndFpAndA,
 };
 
 export type { HirePageContent };

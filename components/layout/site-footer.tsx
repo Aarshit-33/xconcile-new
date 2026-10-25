@@ -21,8 +21,10 @@ const socialIcons: Record<SocialPlatform, (props: React.SVGProps<SVGSVGElement>)
 };
 
 /**
- * Footer: desktop #012B35 (desktop design), mobile #173345 with stacked columns + phones
- * (mobile design). Typography: Outfit. Server-rendered so all links are crawlable.
+ * Footer: teal #012B35 (`bg-footer`, desktop design colour) on every screen (user request
+ * 2026-10-25; the mobile design's #173345 was briefly used everywhere earlier that day).
+ * Mobile keeps its stacked columns + phones (mobile design). Typography: Outfit.
+ * Server-rendered so all links are crawlable.
  *
  * Description, link columns, badges, contact details, offices, social links and the copyright
  * name are edited in Sanity Studio -> Site Settings (`siteSettings`).
@@ -31,7 +33,7 @@ export async function SiteFooter() {
   const { footer, contact, offices, social } = await getSiteSettings();
 
   return (
-    <footer className="bg-navy-2 font-display text-white lg:bg-footer">
+    <footer className="bg-footer font-display text-white">
       <div className="container-site pt-12 lg:pt-[71px]">
         {/* Row 1: brand + link columns. Mobile/tablet: 48px between groups (user request
             2026-10-18; was 24px, the same as the link spacing, so groups ran together). */}
@@ -41,12 +43,15 @@ export async function SiteFooter() {
               <Link href="/" aria-label="Xconcile home" className="w-fit">
                 <Image src="/images/brand/logo-white.png" alt="Xconcile" width={256} height={88} className="h-12 w-auto" />
               </Link>
-              <p className="max-w-[336px] text-b1 leading-5 font-normal text-footer-text lg:max-w-[254px]">
+              {/* Fills its column at every width (user requests 2026-10-24: the 336/254px caps left
+                  an empty band on tablets and ~94px unused in the 348px desktop column). */}
+              <p className="text-b1 leading-5 font-normal text-footer-text">
                 {footer.description}
               </p>
             </div>
             <ul className="flex flex-col gap-6 font-sans text-b2 font-medium">
-              {contact.phones.map((p) => (
+              {/* Studio → Footer → Show phone numbers. */}
+              {(footer.showPhones ? contact.phones : []).map((p) => (
                 // Phones are drawn in the mobile footer only.
                 <li key={p.tel} className="lg:hidden">
                   <a href={`tel:${p.tel}`} className="relative flex items-center gap-3 before:absolute before:inset-x-0 before:-inset-y-2.5 hover:text-brand">
@@ -62,11 +67,19 @@ export async function SiteFooter() {
                 </a>
               </li>
             </ul>
-            {/* Certification badges: desktop design only */}
-            <ul className="hidden items-center gap-4 lg:flex" aria-label="Certifications">
+            {/* Certification badges: every breakpoint (user request 2026-10-24; the mobile design
+                omits them). Always one row: below ~330px the badges shrink proportionally instead
+                of wrapping (a wrapped Xero badge sat alone and out of line, user report 2026-10-24). */}
+            <ul className="flex items-center gap-3 sm:gap-4" aria-label="Certifications">
               {footer.badges.map((b) => (
-                <li key={b.src}>
-                  <Image src={b.src} alt={b.alt} width={b.size} height={b.size} className="object-contain" />
+                <li key={b.src} className="min-w-0">
+                  <Image
+                    src={b.src}
+                    alt={b.alt}
+                    width={b.size}
+                    height={b.size}
+                    className="h-auto max-w-full object-contain"
+                  />
                 </li>
               ))}
             </ul>

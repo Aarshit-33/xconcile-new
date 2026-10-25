@@ -7,6 +7,7 @@ import { SectionHeading } from "@/components/shared/section-heading";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import type { ToolTabsContent } from "@/content/types";
 import { cn } from "@/lib/utils";
+import { plainTitle } from "@/lib/highlight";
 import { sectionId } from "@/lib/section-ids";
 
 /**
@@ -17,23 +18,30 @@ import { sectionId } from "@/lib/section-ids";
  * H4 category title, wrapping logo chips 40px / radius 18).
  * Mobile (no design): the tabs become a horizontal chip scroller above the panel (report §3.5).
  * Categories without tools are not rendered; every panel is in the HTML (forceMount).
+ * All panels share one grid cell and inactive ones are only `invisible` (not removed), so the
+ * panel is always as tall as the fullest category and the section height doesn't jump when
+ * switching tabs (user request 2026-10-25).
  */
 export function ToolTabs({ data, className }: { data: ToolTabsContent; className?: string }) {
   const categories = data.categories.filter((c) => c.tools.length > 0);
   const [first] = categories;
   if (!first) return null;
 
+  const id = sectionId(data, "tools");
+  // Heading id from the section id, so a section type can appear twice on a page.
+  const titleId = `${id}-title`;
+
   return (
     <section
-      id={sectionId(data, "tools")}
-      aria-labelledby="tools-title"
+      id={id}
+      aria-labelledby={titleId}
       className={cn("bg-white section-y", className)}
     >
       <div className="container-site flex flex-col gap-8 lg:gap-12">
         <SectionHeading
           eyebrow={data.badge}
           title={data.title}
-          titleId="tools-title"
+          titleId={titleId}
           subtitle={data.subtitle}
           className="mx-auto max-w-[776px]"
           subtitleClassName="lg:text-b3"
@@ -49,7 +57,7 @@ export function ToolTabs({ data, className }: { data: ToolTabsContent; className
           >
             <TabsList
               variant="line"
-              aria-label={`${data.title}: categories`}
+              aria-label={`${plainTitle(data.title)}: categories`}
               className="no-scrollbar h-auto w-full flex-row! justify-start gap-3 overflow-x-auto rounded-none p-0 group-data-vertical/tabs:h-auto lg:flex-col! lg:gap-0 lg:overflow-visible lg:rounded-md lg:border lg:border-hairline lg:bg-white lg:p-4 xl:p-6"
             >
               {categories.map((c) => (
@@ -71,12 +79,13 @@ export function ToolTabs({ data, className }: { data: ToolTabsContent; className
               ))}
             </TabsList>
 
+            <div className="grid">
             {categories.map((c) => (
               <TabsContent
                 key={c.id}
                 value={c.id}
                 forceMount
-                className="flex flex-col gap-6 rounded-md border border-hairline bg-white p-6 data-[state=inactive]:hidden lg:gap-10 lg:px-9 lg:py-8"
+                className="flex flex-col gap-6 rounded-md border border-hairline bg-white p-6 [grid-area:1/1] data-[state=inactive]:invisible lg:gap-10 lg:px-9 lg:py-8"
               >
                 <div className="flex flex-col gap-5">
                   <span aria-hidden className="h-0.5 w-8 bg-brand" />
@@ -104,6 +113,7 @@ export function ToolTabs({ data, className }: { data: ToolTabsContent; className
                 </ul>
               </TabsContent>
             ))}
+            </div>
           </Tabs>
         </FadeUp>
       </div>

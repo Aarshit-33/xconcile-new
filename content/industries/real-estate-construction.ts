@@ -2,9 +2,10 @@
  * Real Estate Accounting Services (`/industries/real-estate-construction`, live slug kept).
  *
  * Source (decision 2026-10-14): only the Figma design
- * `../pages svg, css & png/real-estate-accounting-services (main) (3)/page.svg`. No Sanity.
- * The SVG wins where its `page.css` export is stale (button labels, Why Choose features,
- * the sub-industry rows and the services grid are placeholders in the CSS).
+ * `../pages/industry/real-estate-accounting-services.svg` (newer version; copy re-checked
+ * 2026-10-25, unchanged from the earlier `real-estate-accounting-services (main) (3)` export).
+ * No Sanity. The SVG wins where the older `page.css` export is stale (button labels, Why
+ * Choose features, the sub-industry rows and the services grid are placeholders in the CSS).
  *
  * Every deviation from the drawn copy is marked `COPY FIX`; text that is not in the design at
  * all is marked `NOT IN DESIGN` and needs client confirmation.
@@ -41,7 +42,7 @@ export const realEstateConstruction: IndustryPageContent = {
 
   hero: {
     badge: "Real Estate Accounting Support",
-    title: { before: "Outsourced Accounting Services for Real Estate" },
+    title: "Outsourced Accounting Services for Real Estate",
     subtitle:
       "Support your real estate clients with bookkeeping, property accounting, reconciliations, financial reporting, and ongoing accounting support through your existing systems.",
     primaryCta: schedule("Talk to an expert"),
@@ -131,7 +132,7 @@ export const realEstateConstruction: IndustryPageContent = {
   services: {
     id: "expertise",
     badge: "Expertise",
-    title: { before: "Our", highlight: "Real Estate", after: "Accounting Services" },
+    title: "Our *Real Estate* Accounting Services",
     subtitle:
       "Get dedicated accounting support for your real estate clients that fits your existing systems, processes, and reporting needs.",
     // The design draws the same book_4 glyph on every tile.

@@ -14,19 +14,28 @@ import { sectionId } from "@/lib/section-ids";
 export function FeatureStrip({ data, className }: { data: FeatureStripContent; className?: string }) {
   return (
     <section id={sectionId(data, "featureStrip")} aria-label={data.label} className={cn("py-6", className)}>
+      {/* Cards share their rows via subgrid (icon / title / text below xl; title / text with the
+          icon beside them from xl), so titles and texts line up across a row (2026-10-25). */}
       <ul className="container-site grid grid-cols-2 gap-4 max-[360px]:grid-cols-1 lg:grid-cols-4 lg:gap-6">
         {data.items.map((item) => (
           <li
             key={item.title}
-            className={cn("flex flex-col gap-4 rounded-md border border-hairline bg-white p-4 lg:p-6 xl:flex-row", hoverGreen)}
+            className={cn(
+              "row-span-3 grid grid-rows-subgrid gap-y-2 rounded-md border border-hairline bg-white p-4 lg:p-6 xl:row-span-2 xl:grid-cols-[auto_minmax(0,1fr)] xl:gap-x-4",
+              hoverGreen,
+            )}
           >
-            <span className={cn("flex size-10 shrink-0 items-center justify-center rounded-md bg-brand-50", hoverTile)}>
+            <span
+              className={cn(
+                "flex size-10 shrink-0 items-center justify-center rounded-md bg-brand-50 xl:row-span-2",
+                hoverTile,
+              )}
+            >
               <Icon name={item.icon} className="size-6 text-brand" />
             </span>
-            <div className="flex flex-col gap-2">
-              <p className="text-h4-m text-black">{item.title}</p>
-              <p className="text-b1 text-body">{item.body}</p>
-            </div>
+            {/* mt-2: 16px below the icon (8px row gap + 8px) until xl, where they sit side by side. */}
+            <p className="mt-2 text-h4-m text-black xl:mt-0">{item.title}</p>
+            <p className="text-b1 text-body">{item.body}</p>
           </li>
         ))}
       </ul>

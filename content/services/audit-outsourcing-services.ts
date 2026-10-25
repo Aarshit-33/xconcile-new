@@ -2,7 +2,9 @@
  * Audit Outsourcing Services (`/audit-outsourcing-services`, live slug kept).
  *
  * Sources (decision 2026-10-13):
- *  - Copy: the Figma design `../pages svg, css & png/audit-outsourcing-services (main) (1)`.
+ *  - Copy: the Figma design `../pages svg, css & png/audit-outsourcing-services (main) (1)`,
+ *    re-checked against the newer export `pages/services/audit-outsourcing-services.svg`
+ *    (2026-10-25: only the case study changed).
  *  - Sanity (since 2026-10-17): the whole page is editable in Studio → Service Pages
  *    (`servicePage` document, slug `audit-outsourcing-services`, seeded from this file by
  *    scripts/seed-service-sanity.ts). This file is the fallback for any section or field left
@@ -40,7 +42,7 @@ export const auditOutsourcingServices: ServicePageContent = {
 
   hero: {
     badge: "Trusted by 500+ USA Accounting Firms",
-    title: { before: "Audit Outsourcing Services", after: "for CPA Firms & Businesses" },
+    title: "Audit Outsourcing Services for CPA Firms & Businesses",
     subtitle:
       "Get reliable audit outsourcing services for U.S. CPA firms, with support for audit planning, financial statement audits, documentation, testing, and assurance work.",
     // No contact section on service pages: CTAs open the Calendly popup.
@@ -127,7 +129,7 @@ export const auditOutsourcingServices: ServicePageContent = {
   services: {
     id: "services",
     badge: "Services",
-    title: { highlight: "Audit", after: "Outsourcing Services" },
+    title: "*Audit* Outsourcing Services",
     // COPY FIX: drawn as "our outsourced accounting services help businesses maintain accurate
     // financial records," (lower-case, trailing comma; Home placeholder). Confirm audit wording.
     subtitle: "Our outsourced accounting services help businesses maintain accurate financial records.",
@@ -277,11 +279,21 @@ export const auditOutsourcingServices: ServicePageContent = {
         id: "cpa-firms",
         label: "CPA Firms",
         title: "CPA Firms",
-        challenge: "Growing workload and limited accounting capacity.",
-        solution: "Dedicated outsourced accounting support.",
-        result: "Better financial visibility, streamlined operations, and reduced accounting workload.",
-        image: home.caseStudies.items[0].image,
-        cta: { label: "View Case Study", href: undefined },
+        challenge: "Growing audit workloads were putting pressure on the firm’s internal team.",
+        solution: "Dedicated outsourced audit support to streamline workflows and improve efficiency.",
+        result: "Increased audit capacity, faster turnaround times, and reduced team workload.",
+        // The 2026-10-25 design draws an audit-specific case study (own copy and photo) without an
+        // impact card. Every case-study field stays filled (user request 2026-10-25), so it keeps
+        // the CPA-firm impact figure used on Home. NOT IN DESIGN: confirm the figure with the client.
+        impact: home.caseStudies.items[0].impact,
+        image: {
+          src: "/images/services/audit-outsourcing-services/case-study-calculator.jpg",
+          alt: "Accountant writing notes while working a desktop calculator over financial reports",
+          width: 1500,
+          height: 1000,
+        },
+        // No case-study pages exist yet, so the button opens the matching industry page.
+        cta: { label: "View Case Study", href: routes.industry("professional-services") },
       },
     ],
   },
@@ -326,8 +338,11 @@ export const auditOutsourcingServices: ServicePageContent = {
     title: "Audit Expertise Across Industries",
     subtitle:
       "Every industry has different financial processes, reporting requirements, and compliance needs.",
+    // Not drawn in the 2026-10-25 design (no button beside the heading); `href: undefined`
+    // keeps it hidden.
     cta: { label: "Explore More", href: undefined },
-    // Links use the live industry slugs; Education and Pharmaceutical have no industry page.
+    // Links use the live industry slugs; Education, Pharmaceutical and Manufacturing have no
+    // industry page (plain cards).
     items: [
       {
         title: "CPA & Accounting Firms",
@@ -372,7 +387,6 @@ export const auditOutsourcingServices: ServicePageContent = {
       {
         title: "Manufacturing",
         body: "Audit support for inventory, costs, and financial records.",
-        href: routes.industry("industrial-niche"),
         image: { ...home.industries.items[0].image, alt: "Sparks flying from metal grinding in a factory" },
       },
     ],

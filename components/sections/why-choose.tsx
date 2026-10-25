@@ -22,21 +22,26 @@ type Photo = ImageAsset;
  * stats sit side by side under the text.
  * Motion (2026-10-18): feature cards reveal (RevealList), stat numbers count up (CountUp).
  */
-/** `tile="light"`: #E7F6E2 icon tiles on desktop as well (audit design); Home desktop uses dark tiles. */
+/**
+ * Icon tiles: the Home design's dark tile on every page and screen size (user requests
+ * 2026-10-24; inner pages used the audit design's light #E7F6E2 tiles via a `tile` prop).
+ */
 export function WhyChoose({
   data,
-  tile = "dark",
   className,
 }: {
   data: WhyChooseContent;
-  tile?: "dark" | "light";
   className?: string;
 }) {
   const [p1, p2, p3, p4] = data.images;
 
+  const id = sectionId(data, "whyChoose");
+  // Heading id from the section id, so a section type can appear twice on a page.
+  const titleId = `${id}-title`;
+
   return (
-    <section id={sectionId(data, "whyChoose")}
-      aria-labelledby="why-choose-title"
+    <section id={id}
+      aria-labelledby={titleId}
       className={cn("overflow-hidden bg-dark-gradient section-y", className)}
     >
       <div className="container-site grid gap-4 lg:gap-12 xl:grid-cols-[minmax(0,746fr)_minmax(0,526fr)] xl:gap-6">
@@ -47,27 +52,26 @@ export function WhyChoose({
             tone="dark"
             align="left"
             title={data.title}
-            titleId="why-choose-title"
-            highlightOnNewLine
+            titleId={titleId}
             subtitle={data.subtitle}
             subtitleClassName="text-on-dark-muted lg:text-b1"
           />
 
           <RevealList className="grid gap-4 lg:grid-cols-[minmax(0,352fr)_minmax(0,370fr)] lg:gap-6">
+            {/* Paired cards share title / text rows (subgrid), so texts start on one line (2026-10-25). */}
             {data.features.map((f) => (
-              <li key={f.title} className={cn("flex gap-4 overflow-hidden rounded-md border border-hairline p-4 lg:p-6", hoverDark)}>
-                <span
-                  className={cn(
-                    "flex size-8 shrink-0 items-center justify-center rounded-sm border border-brand-border bg-brand-100",
-                    tile === "dark" && "lg:border-transparent lg:bg-brand-tile-dark",
-                  )}
-                >
+              <li
+                key={f.title}
+                className={cn(
+                  "row-span-2 grid grid-cols-[auto_minmax(0,1fr)] grid-rows-subgrid gap-x-4 gap-y-4 overflow-hidden rounded-md border border-hairline p-4 lg:p-6",
+                  hoverDark,
+                )}
+              >
+                <span className="row-span-2 flex size-8 shrink-0 items-center justify-center rounded-sm bg-brand-tile-dark">
                   <Icon name={f.icon} className="size-5 text-brand" />
                 </span>
-                <div className="flex flex-col gap-4">
-                  <h3 className="text-h5 text-white">{f.title}</h3>
-                  <p className="text-b1 text-on-dark-muted">{f.body}</p>
-                </div>
+                <h3 className="text-h5 text-white">{f.title}</h3>
+                <p className="text-b1 text-on-dark-muted">{f.body}</p>
               </li>
             ))}
           </RevealList>

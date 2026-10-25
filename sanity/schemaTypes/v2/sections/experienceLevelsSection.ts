@@ -1,7 +1,7 @@
 import { UsersIcon } from "@sanity/icons/Users";
 import { defineArrayMember, defineField, defineType } from "sanity";
 
-import { anchorIdField, badgeField, subtitleField, titleField } from "../fields";
+import { anchorIdField, badgeField, hiddenField, sectionPreview, subtitleField, titleField } from "../fields";
 
 /**
  * "Choose the Right Accounting Professional for Your Needs": Junior / Mid / Senior role cards
@@ -13,6 +13,7 @@ export default defineType({
   type: "object",
   icon: UsersIcon,
   fields: [
+    hiddenField(),
     anchorIdField("experienceLevels"),
     badgeField(),
     titleField(),
@@ -115,4 +116,5 @@ export default defineType({
       validation: (Rule) => Rule.required().min(1).max(3),
     }),
   ],
+  preview: sectionPreview("Experience Levels"),
 });

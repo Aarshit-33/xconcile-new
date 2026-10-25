@@ -1,7 +1,7 @@
 import { WrenchIcon } from "@sanity/icons/Wrench";
 import { defineArrayMember, defineField, defineType } from "sanity";
 
-import { anchorIdField, badgeField, iconField, subtitleField, titleField } from "../fields";
+import { anchorIdField, badgeField, hiddenField, iconField, sectionPreview, subtitleField, titleField } from "../fields";
 
 /**
  * Service pages' "Your Tools, Our Expertise": vertical category tabs + logo chips (mirrors
@@ -13,6 +13,7 @@ export default defineType({
   type: "object",
   icon: WrenchIcon,
   fields: [
+    hiddenField(),
     anchorIdField("tools"),
     badgeField(),
     titleField(),
@@ -85,4 +86,5 @@ export default defineType({
       validation: (Rule) => Rule.required().min(1),
     }),
   ],
+  preview: sectionPreview("Tools (tabs)"),
 });

@@ -1,7 +1,7 @@
 import { BlockElementIcon } from "@sanity/icons/BlockElement";
 import { defineArrayMember, defineField, defineType } from "sanity";
 
-import { anchorIdField } from "../fields";
+import { anchorIdField, sectionPreview } from "../fields";
 
 /**
  * Hero section. Mirrors `HeroContent` (content/types.ts) rendered by
@@ -24,35 +24,8 @@ export default defineType({
     defineField({
       name: "title",
       title: "Heading (H1)",
-      type: "object",
-      description: "Rendered as: Before + Highlight (green), line break, After.",
-      options: { collapsible: false },
-      fields: [
-        defineField({
-          name: "before",
-          title: "Before",
-          type: "string",
-          validation: (Rule) => Rule.required(),
-        }),
-        defineField({
-          name: "highlight",
-          title: "Highlight (green)",
-          type: "string",
-        }),
-        defineField({
-          name: "after",
-          title: "After",
-          type: "string",
-        }),
-        defineField({
-          name: "inline",
-          title: "No forced line break",
-          type: "boolean",
-          description: "Let “After” follow the highlight and wrap naturally.",
-          initialValue: false,
-        }),
-      ],
-      validation: (Rule) => Rule.required(),
+      // One line of text; `*green*` markup (objects/headingTitle.ts). No forced line break.
+      type: "headingTitle",
     }),
     defineField({
       name: "subtitle",
@@ -110,16 +83,5 @@ export default defineType({
       validation: (Rule) => Rule.max(4),
     }),
   ],
-  preview: {
-    select: {
-      before: "title.before",
-      highlight: "title.highlight",
-      after: "title.after",
-      badge: "badge",
-    },
-    prepare: ({ before, highlight, after, badge }) => ({
-      title: [before, highlight, after].filter(Boolean).join(" ") || "Hero",
-      subtitle: badge,
-    }),
-  },
+  preview: sectionPreview("Hero"),
 });

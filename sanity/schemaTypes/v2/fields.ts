@@ -2,10 +2,39 @@
  * Shared field helpers for the v2 schema. Relative import (not "@/") so the Sanity CLI
  * (schema validate / typegen) resolves it too.
  */
-import { defineField } from "sanity";
+import { defineField, type PreviewValue } from "sanity";
 
 import { iconRegistry } from "../../../components/icons/registry";
+import { plainTitle } from "../../../lib/highlight";
 import { SECTION_ID_PATTERN, SECTION_IDS, type SectionKey } from "../../../lib/section-ids";
+
+/** "Hide this section" switch, first field of a section object. Off by default. */
+export const hiddenField = () =>
+  defineField({
+    name: "hidden",
+    title: "Hide this section",
+    type: "boolean",
+    description: "On = the section is not shown on the page. Its content is kept, so you can show it again later.",
+    initialValue: false,
+  });
+
+/**
+ * Studio preview for a section object: its heading as plain text (`*green*` markers removed),
+ * with the section type underneath (+ "Hidden" when the switch is on). `select` overrides the
+ * paths, e.g. `{ title: "label" }` for sections without a heading or `{ media: "image" }`.
+ */
+export const sectionPreview = (label: string, select: { title?: string; media?: string } = {}) => ({
+  select: {
+    title: select.title ?? "title",
+    hidden: "hidden",
+    ...(select.media ? { media: select.media } : {}),
+  },
+  prepare: ({ title, hidden, media }: { title?: unknown; hidden?: boolean; media?: PreviewValue["media"] }) => ({
+    title: (typeof title === "string" && plainTitle(title)) || label,
+    subtitle: hidden ? `${label} · Hidden` : label,
+    ...(media ? { media } : {}),
+  }),
+});
 
 /**
  * "Section ID": the section's `id` on the page, so it can be linked to (`/#faq`) or targeted by
@@ -69,8 +98,9 @@ export const badgeField = () =>
     validation: (Rule) => Rule.required().max(40),
   });
 
+/** Section heading: one string, `*green*` markup (see objects/headingTitle.ts). */
 export const titleField = (title = "Heading (H2)") =>
-  defineField({ name: "title", title, type: "string", validation: (Rule) => Rule.required() });
+  defineField({ name: "title", title, type: "headingTitle" });
 
 export const subtitleField = () =>
   defineField({

@@ -12,7 +12,7 @@
 import type { IconName } from "@/components/icons/registry";
 import { routes } from "@/lib/routes";
 import { services } from "@/content/navigation";
-import type { RichText } from "@/content/types";
+import type { CaseStudyImpact, RichText } from "@/content/types";
 
 export type { RichText };
 
@@ -42,7 +42,7 @@ export const home = {
 
   hero: {
     badge: "Trusted by 1,000+ U.S. Accounting Firms",
-    title: { before: "Outsourced", highlight: "Accounting", after: "Services for US Businesses" },
+    title: "Outsourced *Accounting* Services for US Businesses",
     subtitle:
       "We provide outsourced accounting and bookkeeping services for U.S. businesses and CPA firms, including reconciliations, financial reporting, AP, AR, and ongoing accounting support.",
     primaryCta: { label: "Get a Free Consultation", href: "#contact" },
@@ -156,7 +156,7 @@ export const home = {
   services: {
     id: "services",
     badge: "Services",
-    title: { before: "Our", highlight: "Accounting", after: "Outsourcing Services" },
+    title: "Our *Accounting* Outsourcing Services",
     // COPY FIX: design text ends with a trailing comma.
     subtitle:
       "From everyday bookkeeping to strategic financial planning, our outsourced accounting services help businesses maintain accurate financial records.",
@@ -317,9 +317,9 @@ export const home = {
     // COPY FIX: the drawn subtitle is the Tools section's line (report §4). Placeholder; confirm.
     subtitle: "Real examples of how Xconcile supports businesses and CPA firms across industries.",
     /**
-     * Only "CPA Firms" has copy in the design. The other drawn tabs (Real Estate, E-commerce,
-     * Construction, Restaurants) appear automatically once their case studies are added here.
-     * Never invent client results.
+     * Only "CPA Firms" has copy in the design; "Real Estate" was added in Studio (sample copy, see
+     * below). Other drawn tabs (E-commerce, Construction, Restaurants) appear once their case
+     * studies are added. Never invent client results.
      */
     items: [
       {
@@ -333,7 +333,14 @@ export const home = {
           "Dedicated outsourced accounting support integrated with the firm's existing workflow.",
         result:
           "Improved financial visibility, streamlined day-to-day operations, and reduced internal accounting workload.",
-        impact: { label: "Workload Impact", value: "42% Reduced" },
+        // Drawn on mobile only; shown on every screen since 2026-10-25 (user request). Editable in
+        // Studio → Home Page → Case Studies → Impact card (icon, Show on).
+        impact: {
+          label: "Workload Impact",
+          value: "42% Reduced",
+          icon: "trending_down",
+          devices: ["mobile", "tablet", "laptop"],
+        } satisfies CaseStudyImpact,
         image: {
           src: "/images/home/case-study-cpa.jpg",
           alt: "Accountant reviewing client financials at his desk",
@@ -342,8 +349,44 @@ export const home = {
           /** The mobile design uses a different photo (art direction via <picture>). */
           mobile: { src: "/images/home/case-study-cpa-mobile.jpg", width: 1200, height: 896 },
         },
-        // "View Case Study" is drawn but no case-study page exists yet; set href to show the button.
-        cta: { label: "View Case Study", href: undefined as string | undefined },
+        // No case-study pages exist yet (user request 2026-10-25: fill every field), so the button
+        // opens the matching industry page.
+        cta: {
+          label: "View Case Study",
+          href: routes.industry("professional-services") as string | undefined,
+        },
+      },
+      {
+        // Added in Studio (2026-10-25) with test copy. SAMPLE CONTENT (NOT IN DESIGN): challenge,
+        // solution and result only restate claims from the real-estate industry page (no client
+        // figures); replace with a real client story. Impact label/value as entered in Studio;
+        // confirm.
+        id: "real-estate",
+        label: "Real Estate",
+        title: "Real Estate",
+        challenge:
+          "Managing income, expenses, and reconciliations across multiple properties and entities was creating manual spreadsheet work and slowing down reporting.",
+        solution:
+          "Dedicated real estate bookkeeping and property-level accounting, with regular bank reconciliations and a consistent month-end close.",
+        result:
+          "Organized property-level records, accurate reconciliations, and clearer financial reporting across the portfolio.",
+        impact: {
+          label: "Raise in leads",
+          value: "10+",
+          icon: "trending_up",
+          devices: ["mobile", "tablet", "laptop"],
+        } satisfies CaseStudyImpact,
+        image: {
+          src: "/images/industries/real-estate-intro.jpg",
+          alt: "Accountant taking notes beside a calculator, laptop and model houses",
+          width: 2048,
+          height: 1152,
+          mobile: { src: "/images/industries/real-estate-intro.jpg", width: 2048, height: 1152 },
+        },
+        cta: {
+          label: "View Case Study",
+          href: routes.industry("real-estate-construction") as string | undefined,
+        },
       },
     ],
   },
@@ -382,9 +425,9 @@ export const home = {
     badge: "Industries We Serve",
     title: "Accounting Services for Different Industries",
     subtitle: "Explore accounting solutions designed for the financial realities of your industry.",
-    // Drawn on desktop, but there is no /industries index page (live site or new build), so
-    // the button is hidden until one exists: set href to show it.
-    cta: { label: "Explore More", href: undefined as string | undefined },
+    // Same outline button as the Blog block's "Explore all blogs" (desktop only), linking to the
+    // Industries gallery (user request 2026-10-25). COPY FIX: drawn as "Explore More".
+    cta: { label: "Explore all industries", href: routes.industries() as string | undefined },
     items: [
       {
         title: "CPA & Accounting Firms",
@@ -436,8 +479,7 @@ export const home = {
 
   whyChoose: {
     badge: "Why Choose Us",
-    // \u00A0 keeps "Xconcile for" on one line (no orphan "for" at 1280/1366, audit M2).
-    title: { before: "Why Businesses Choose Xconcile\u00A0for", highlight: "Outsourced Accounting" },
+    title: "Why Businesses Choose Xconcile for *Outsourced Accounting*",
     subtitle:
       "Get reliable accounting support from experienced professionals who handle daily accounting, reconciliations, financial reporting, and ongoing accounting needs.",
     features: [
@@ -651,7 +693,7 @@ export const home = {
     eyebrow: "Start Today",
     // COPY FIX: the old home page passed serviceTitle="Your Business", rendering
     // "Ready to Transform Your Your Business?".
-    title: { before: "Ready to Transform Your", highlight: "Business?" },
+    title: "Ready to Transform Your *Business?*",
     body: "Let our experts build a tailored solution for your business. Fill in the form and we'll reach out within one business day.",
     trust: [
       { icon: "bolt", label: "Fast Response", desc: "We reply within 1 business day" },

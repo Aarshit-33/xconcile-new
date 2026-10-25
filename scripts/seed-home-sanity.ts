@@ -46,7 +46,7 @@ async function buildHome() {
       _type: "heroSection",
       anchorId: sectionId(home.hero, "hero"),
       badge: hero.badge,
-      title: { inline: false, ...hero.title },
+      title: hero.title,
       subtitle: hero.subtitle,
       primaryCta: link(hero.primaryCta),
       secondaryCta: link(hero.secondaryCta),
@@ -77,7 +77,7 @@ async function buildHome() {
       features: keyed(intro.features, "introFeature"),
       checks: intro.checks,
       checksStyle: "pill",
-      cta: link(intro.cta),
+      ...(intro.cta ? { cta: link(intro.cta) } : {}),
     },
 
     challenges: {
@@ -86,7 +86,7 @@ async function buildHome() {
       badge: challenges.badge,
       title: challenges.title,
       body: challenges.body,
-      cta: link(challenges.cta),
+      ...(challenges.cta ? { cta: link(challenges.cta) } : {}),
       items: keyed(
         challenges.items.map((c) => ({
           tone: c.tone,
@@ -102,7 +102,7 @@ async function buildHome() {
       _type: "servicesSection",
       anchorId: sectionId(home.services, "services"),
       badge: services.badge,
-      title: { _type: "headingTitle", ...services.title },
+      title: services.title,
       subtitle: services.subtitle,
       initiallyVisible: services.initiallyVisible,
       items: keyed(
@@ -178,7 +178,7 @@ async function buildHome() {
       _type: "whyChooseSection",
       anchorId: sectionId(home.whyChoose, "whyChoose"),
       badge: whyChoose.badge,
-      title: { _type: "headingTitle", ...whyChoose.title },
+      title: whyChoose.title,
       subtitle: whyChoose.subtitle,
       features: keyed(whyChoose.features, "iconCard"),
       images: keyed(await Promise.all(whyChoose.images.map(altImage))),

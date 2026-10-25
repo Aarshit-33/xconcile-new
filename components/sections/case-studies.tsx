@@ -1,18 +1,38 @@
 import { getImageProps } from "next/image";
 
-import { TrendingDownIcon } from "@/components/icons/material-symbols";
+import { Icon } from "@/components/icons/registry";
 import { CtaLink } from "@/components/shared/cta";
 import { SectionHeading } from "@/components/shared/section-heading";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import type { CaseStudiesContent, CaseStudy } from "@/content/types";
+import { ALL_DEVICES, type CaseStudiesContent, type CaseStudy, type Device } from "@/content/types";
 import { sectionId } from "@/lib/section-ids";
+import { cn } from "@/lib/utils";
+
+/**
+ * Show/hide per screen size (Studio → Case study → Impact → Show on). Literal class names so
+ * Tailwind generates them: mobile < 768px (base), tablet 768–1023px (md), laptop ≥ 1024px (lg).
+ */
+const deviceClasses: Record<Device, [shown: string, hidden: string]> = {
+  mobile: ["flex", "hidden"],
+  tablet: ["md:flex", "md:hidden"],
+  laptop: ["lg:flex", "lg:hidden"],
+};
+
+function visibleOn(devices: Device[] = ALL_DEVICES) {
+  return ALL_DEVICES.map((d) => deviceClasses[d][devices.includes(d) ? 0 : 1]).join(" ");
+}
 
 /**
  * B7 Case-study tabs ("Trusted by Businesses & CPA Firms").
  * Mobile: centred heading, scrollable pill tab bar, then title → photo (with the
  * "Workload Impact" card) → Challenge / Solution / Result → full-width solid CTA.
  * Desktop: centred tab bar, bordered card (radius 0 0 8 8) with copy left, photo right.
+ * The impact card was drawn on mobile only; it now shows on the screens picked in Studio (default
+ * all, user request 2026-10-25) and its icon is editable.
  * Only tabs that have content are rendered, and every panel is in the HTML (forceMount).
+ * All panels share one grid cell and inactive ones are only `invisible` (not removed), so the card
+ * is always as tall as the longest case study and the page doesn't jump when switching tabs
+ * (user request 2026-10-25).
  */
 export function CaseStudies({ data }: { data: CaseStudiesContent }) {
   const [first] = data.items;
@@ -32,7 +52,9 @@ export function CaseStudies({ data }: { data: CaseStudiesContent }) {
           <TabsList
             aria-label="Case studies by industry"
             // max-[360px]: tighter gap + pill padding so all tabs fit on 320px phones (audit L2).
-            className="no-scrollbar h-14 w-full justify-start gap-6 overflow-x-auto rounded-[35px] border border-hairline bg-brand-50 px-4 py-0 group-data-horizontal/tabs:h-14 max-[360px]:gap-2 lg:w-fit lg:justify-center"
+            // Bar hugs its pills and is centred on every screen (user requests 2026-10-24); it only
+            // reaches full width, and then scrolls from the first tab, when the pills don't fit.
+            className="no-scrollbar h-14 w-fit max-w-full justify-start gap-6 overflow-x-auto rounded-[35px] border border-hairline bg-brand-50 px-4 py-0 group-data-horizontal/tabs:h-14 max-[360px]:gap-2"
           >
             {data.items.map((item) => (
               <TabsTrigger
@@ -47,21 +69,31 @@ export function CaseStudies({ data }: { data: CaseStudiesContent }) {
           </TabsList>
         </div>
 
+        <div className="grid">
         {data.items.map((item) => (
           <TabsContent
             key={item.id}
             value={item.id}
             forceMount
-            className="grid gap-8 data-[state=inactive]:hidden lg:grid-cols-[minmax(0,588fr)_minmax(0,539fr)] lg:grid-rows-[auto_auto_1fr] lg:gap-x-12 lg:gap-y-0 lg:rounded-b-md lg:border lg:border-hairline lg:p-6 xl:gap-x-[123px]"
+            className="grid grid-rows-[auto_auto_auto_1fr] gap-8 [grid-area:1/1] data-[state=inactive]:invisible lg:grid-cols-[minmax(0,588fr)_minmax(0,539fr)] lg:grid-rows-[auto_auto_1fr] lg:gap-x-12 lg:gap-y-0 lg:rounded-b-md lg:border lg:border-hairline lg:p-6 xl:gap-x-[123px]"
           >
             <h3 className="text-h3 text-heading-alt">{item.title}</h3>
 
-            <div className="relative lg:col-start-2 lg:row-span-3 lg:row-start-1">
+            {/* lg: the photo column spans the whole card height (min 380px = the drawn 539:380
+                box) and the photo covers it, zoomed/cropped when the copy is taller (user
+                request 2026-10-25: images always cover their area). */}
+            <div className="relative lg:col-start-2 lg:row-span-3 lg:row-start-1 lg:min-h-[380px]">
               <CaseStudyImage image={item.image} />
               {item.impact ? (
-                <div className="absolute inset-x-3.5 bottom-2 flex items-center gap-4 rounded-md bg-white px-4 py-2 lg:hidden">
+                <div
+                  className={cn(
+                    // Laptop: a compact card in the photo's bottom-left corner (not drawn on desktop).
+                    "absolute inset-x-3.5 bottom-2 items-center gap-4 rounded-md bg-white px-4 py-2 lg:right-auto lg:bottom-6 lg:left-6 lg:pr-8 lg:shadow-md",
+                    visibleOn(item.impact.devices),
+                  )}
+                >
                   <span className="flex size-10 shrink-0 items-center justify-center rounded-full bg-brand-100">
-                    <TrendingDownIcon className="size-6 text-brand" />
+                    <Icon name={item.impact.icon ?? "trending_down"} className="size-6 text-brand" />
                   </span>
                   <p className="flex flex-col gap-[5px] text-b1">
                     <span className="font-semibold text-body">{item.impact.label}</span>
@@ -84,7 +116,9 @@ export function CaseStudies({ data }: { data: CaseStudiesContent }) {
             </div>
 
             {item.cta.href ? (
-              <div className="mt-4 lg:mt-10">
+              // The last grid row is 1fr (mobile 4th row, lg 3rd), so self-end keeps the button on the
+              // card's bottom edge whatever the copy length (user requests 2026-10-25); lg:mt-10 = minimum gap.
+              <div className="mt-4 self-end lg:mt-10">
                 <CtaLink href={item.cta.href} variant="outline" mobileSolid>
                   {item.cta.label}
                 </CtaLink>
@@ -92,6 +126,7 @@ export function CaseStudies({ data }: { data: CaseStudiesContent }) {
             ) : null}
           </TabsContent>
         ))}
+        </div>
       </Tabs>
     </section>
   );
@@ -110,14 +145,14 @@ function CaseStudyImage({ image }: { image: CaseStudy["image"] }) {
 
   return (
     // Zoom only on hover (client request 2026-10-22); the <picture> is the clipping frame.
-    <picture className="img-zoom block overflow-hidden lg:rounded-md">
+    <picture className="img-zoom block overflow-hidden lg:absolute lg:inset-0 lg:rounded-md">
       <source media="(min-width: 1024px)" srcSet={desktopSrcSet} sizes={imgProps.sizes} />
       <source srcSet={mobileSrcSet} sizes={imgProps.sizes} />
       {/* Art direction needs <picture>; the <img> props come from getImageProps */}
       <img
         {...imgProps}
         alt={image.alt}
-        className="aspect-[358/265] w-full object-cover lg:aspect-[539/380]"
+        className="aspect-[358/265] w-full object-cover lg:aspect-auto lg:h-full"
       />
     </picture>
   );

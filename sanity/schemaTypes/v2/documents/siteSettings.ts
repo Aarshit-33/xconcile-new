@@ -139,6 +139,14 @@ const footer = defineField({
       validation: (Rule) => Rule.required().max(300),
     }),
     defineField({
+      name: "showPhones",
+      title: "Show phone numbers",
+      type: "boolean",
+      description:
+        "Off = hide the phone numbers (Contact & Offices → Phone numbers) under the footer logo. The footer shows them on mobile and tablet; the desktop footer design has none.",
+      initialValue: true,
+    }),
+    defineField({
       name: "columns",
       title: "Link columns",
       type: "array",
@@ -177,7 +185,7 @@ const footer = defineField({
       name: "badges",
       title: "Certification badges",
       type: "array",
-      description: "Desktop footer only.",
+      description: "Shown under the footer email on every screen size.",
       of: [
         defineArrayMember({
           name: "footerBadge",
@@ -228,7 +236,8 @@ const contact = defineField({
       name: "phones",
       title: "Phone numbers",
       type: "array",
-      description: "Shown in the mobile footer.",
+      description:
+        "Shown in the footer (mobile/tablet) and the desktop side panel. Hide them with Footer → Show phone numbers and Side panel → Show phone number.",
       of: [
         defineArrayMember({
           name: "contactPhone",
@@ -386,10 +395,18 @@ const sidePanel = defineField({
       fields: linkFields(),
     }),
     defineField({
+      name: "showPhone",
+      title: "Show phone number",
+      type: "boolean",
+      description: "Off = no phone line in the side panel (email and address still show).",
+      initialValue: true,
+    }),
+    defineField({
       name: "phoneLabel",
       title: "Phone to show",
       type: "string",
       description: "Label of a number from Contact & Offices → Phone numbers, e.g. Sales. Empty = the first number.",
+      hidden: ({ parent }) => parent?.showPhone === false,
     }),
     defineField({
       name: "office",

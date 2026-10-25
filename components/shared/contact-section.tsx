@@ -1,5 +1,6 @@
 import { LeadForm } from "@/components/forms/lead-form";
 import { RevealText } from "@/components/motion/reveal-text";
+import { HighlightText } from "@/components/shared/highlight-text";
 import { CheckItem } from "@/components/shared/check-item";
 import type { home } from "@/content/home";
 import { cn } from "@/lib/utils";
@@ -21,7 +22,7 @@ export function ContactSection({ data, className }: { data: typeof home.contact;
               id="contact-title"
               className="text-[24px] leading-8 font-bold text-heading lg:text-[48px] lg:leading-[58px]"
             >
-              {data.title}
+              <HighlightText text={data.title} />
             </RevealText>
             <p className="text-b3-tight font-normal text-body lg:max-w-[619px]">{data.body}</p>
           </div>

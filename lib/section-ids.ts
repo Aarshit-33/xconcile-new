@@ -15,6 +15,7 @@ export const SECTION_IDS = {
   hero: "hero",
   stats: "stats",
   featureStrip: "highlights",
+  featureCards: "overview",
   intro: "about",
   challenges: "challenges",
   services: "services",
@@ -35,6 +36,8 @@ export const SECTION_IDS = {
   audienceCards: "who-we-serve",
   security: "security",
   subIndustries: "sub-industries",
+  founder: "founder",
+  team: "team",
   notFound: "not-found",
 } as const;
 

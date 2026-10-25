@@ -4,6 +4,7 @@ import { Icon } from "@/components/icons/registry";
 import { RevealList } from "@/components/motion/reveal-list";
 import { FadeUp } from "@/components/motion/fade-up";
 import { RevealText } from "@/components/motion/reveal-text";
+import { HighlightText } from "@/components/shared/highlight-text";
 import { Eyebrow } from "@/components/shared/eyebrow";
 import type { SecurityControlsContent } from "@/content/types";
 import { cn } from "@/lib/utils";
@@ -25,10 +26,14 @@ export function SecurityControls({
   data: SecurityControlsContent;
   className?: string;
 }) {
+  const id = sectionId(data, "security");
+  // Heading id from the section id, so a section type can appear twice on a page.
+  const titleId = `${id}-title`;
+
   return (
     <section
-      id={sectionId(data, "security")}
-      aria-labelledby="security-title"
+      id={id}
+      aria-labelledby={titleId}
       className={cn("bg-white section-y", className)}
     >
       <div className="container-site flex flex-col gap-8 lg:gap-12">
@@ -54,8 +59,8 @@ export function SecurityControls({
               unoptimized
               className="h-auto w-16 shrink-0 sm:w-20 lg:w-[112px]"
             />
-            <RevealText as="h2" id="security-title" className="text-h2-m text-heading lg:text-h2">
-              {data.title}
+            <RevealText as="h2" id={titleId} className="text-h2-m text-heading lg:text-h2">
+              <HighlightText text={data.title} />
             </RevealText>
           </div>
 

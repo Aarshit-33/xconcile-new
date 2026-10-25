@@ -50,18 +50,8 @@ export default defineType({
     defineField({
       name: "title",
       title: "Heading (H2)",
-      type: "object",
+      type: "headingTitle",
       group: "copy",
-      options: { collapsible: false },
-      fields: [
-        defineField({
-          name: "before",
-          title: "Before",
-          type: "string",
-          validation: (Rule) => Rule.required(),
-        }),
-        defineField({ name: "highlight", title: "Highlight (green)", type: "string" }),
-      ],
     }),
     defineField({ name: "body", title: "Text", type: "text", rows: 3, group: "copy" }),
     defineField({

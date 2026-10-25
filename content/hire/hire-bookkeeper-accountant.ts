@@ -1,10 +1,13 @@
 /**
  * Hire Dedicated Accounting Professionals (`/hire-bookkeeper-accountant`, live slug kept).
  *
- * Source (decision 2026-10-14): everything from the Figma design
- * `../pages svg, css & png/hire-dedicated-accounting-professionals (main) (2)/page.svg`.
- * The SVG wins where its `page.css` export is stale (e.g. CSS still says "Get in Touch" and
- * "Hospitality Accounting & Bookkeeping Services"). No Sanity reads on this page for now.
+ * Source (decision 2026-10-14): everything from the Figma design, now
+ * `../pages/hire/hire-dedicated-accounting-professionals.svg` (newer export, re-checked
+ * 2026-10-25). Its copy is unchanged from the earlier
+ * `../pages svg, css & png/hire-dedicated-accounting-professionals (main) (2)/page.svg`; only the
+ * intro link colour and the footer layout differ. The SVG wins where the old `page.css` export is
+ * stale (e.g. CSS still says "Get in Touch" and "Hospitality Accounting & Bookkeeping Services").
+ * No Sanity reads on this page for now.
  *
  * Every deviation from the drawn copy is marked `COPY FIX`; text that is not in the design at
  * all is marked `NOT IN DESIGN` and needs client confirmation.
@@ -25,7 +28,7 @@ export const hireBookkeeperAccountant: HirePageContent = {
     // NOT IN DESIGN (the design has no SEO fields). Rendered as "<title> | Xconcile".
     title: "Hire Dedicated Accounting Professionals",
     description:
-      "Hire dedicated accounting professionals for bookkeeping, reconciliations, financial reporting and month-end close, with flexible staffing for U.S. businesses and CPA firms.",
+      "Hire dedicated accountants for bookkeeping, reconciliations, financial reporting and month-end close, with flexible staffing for U.S. businesses and CPA firms.",
     // Meta keywords (fallback; Sanity SEO → Meta keywords wins when filled).
     keywords: [
       "hire dedicated accountant",
@@ -42,12 +45,7 @@ export const hireBookkeeperAccountant: HirePageContent = {
 
   hero: {
     badge: "Dedicated Accounting Support",
-    title: {
-      before: "Hire",
-      highlight: "Dedicated",
-      after: "Accounting Professionals for your Business",
-      inline: true,
-    },
+    title: "Hire *Dedicated* Accounting Professionals for your Business",
     subtitle:
       "Get dedicated accounting professionals to support bookkeeping, reconciliations, financial reporting, month-end close, and other accounting needs. We support U.S. business owners and CPA firms with flexible staffing options that fit their existing workflows.",
     primaryCta: schedule("Hire accounting professionals"),
@@ -327,7 +325,7 @@ export const hireBookkeeperAccountant: HirePageContent = {
   },
 
   audiences: {
-    badge: "Who We Support",
+    badge: "Who We Support", // COPY FIX: drawn as the truncated placeholder "Work with"
     title: "Businesses We Work With",
     subtitle:
       "We provide dedicated accounting support for U.S. business owners and CPA firms, with flexible options based on your workload, accounting processes, and team requirements.",

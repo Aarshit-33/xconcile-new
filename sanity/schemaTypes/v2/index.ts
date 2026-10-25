@@ -5,8 +5,10 @@
  */
 import type { SchemaTypeDefinition } from "sanity";
 
+import aboutPage from "./documents/aboutPage";
 import home from "./documents/home";
 import hirePage from "./documents/hirePage";
+import industriesPage from "./documents/industriesPage";
 import industryPage from "./documents/industryPage";
 import notFoundPage from "./documents/notFoundPage";
 import servicePage from "./documents/servicePage";
@@ -16,6 +18,7 @@ import ctaLink from "./objects/ctaLink";
 import headingTitle from "./objects/headingTitle";
 import iconCard from "./objects/iconCard";
 import optionalLink from "./objects/optionalLink";
+import personProfile from "./objects/personProfile";
 import richText from "./objects/richText";
 import seoMeta from "./objects/seoMeta";
 import statItem from "./objects/statItem";
@@ -29,16 +32,20 @@ import ctaBandSection from "./sections/ctaBandSection";
 import engagementModelsSection from "./sections/engagementModelsSection";
 import experienceLevelsSection from "./sections/experienceLevelsSection";
 import faqSection from "./sections/faqSection";
+import featureCardsSection from "./sections/featureCardsSection";
 import featureStripSection from "./sections/featureStripSection";
+import founderSection from "./sections/founderSection";
 import heroSection from "./sections/heroSection";
 import hiringStepsSection from "./sections/hiringStepsSection";
 import industriesSection from "./sections/industriesSection";
 import introSection from "./sections/introSection";
+import leadContactSection from "./sections/leadContactSection";
 import processSection from "./sections/processSection";
 import securityControlsSection from "./sections/securityControlsSection";
 import servicesSection from "./sections/servicesSection";
 import statsSection from "./sections/statsSection";
 import subIndustriesSection from "./sections/subIndustriesSection";
+import teamSection from "./sections/teamSection";
 import testimonialsSection from "./sections/testimonialsSection";
 import toolsSection from "./sections/toolsSection";
 import toolTabsSection from "./sections/toolTabsSection";
@@ -51,6 +58,7 @@ export const v2Types: SchemaTypeDefinition[] = [
   headingTitle,
   iconCard,
   optionalLink,
+  personProfile,
   richText,
   seoMeta,
   statItem,
@@ -83,12 +91,20 @@ export const v2Types: SchemaTypeDefinition[] = [
   securityControlsSection,
   // Industry-page-only sections
   subIndustriesSection,
+  // Industries gallery (/industries)
+  featureCardsSection,
+  // About page (/about)
+  founderSection,
+  teamSection,
+  leadContactSection,
 
   // Documents
   home,
+  aboutPage,
   servicePage,
   hirePage,
   industryPage,
+  industriesPage,
   notFoundPage,
   siteSettings,
 ];

@@ -27,8 +27,10 @@ function toExcerpt(text: string | null, max = 120) {
 
 /**
  * B15 Blog teaser: the 3 latest posts from Sanity (blog content stays as on the live site).
- * Mobile: #F5F7F8 section with stacked cards, no "Explore all blogs" button (as drawn).
- * Desktop: white, heading left + outline CTA right, 3 cards. The whole card is one link
+ * White on every screen (user request 2026-10-25: desktop colour everywhere; mobile was #F5F7F8).
+ * Mobile: stacked cards, then the "Explore all blogs" button centred below
+ * them (user request 2026-10-25; not drawn on mobile).
+ * Desktop: heading left + outline CTA right, 3 cards. The whole card is one link
  * (stretched title link); "Read more" is visual only. Hidden if Sanity returns nothing.
  */
 export async function BlogTeaser({ data }: { data: BlogContent }) {
@@ -39,8 +41,8 @@ export async function BlogTeaser({ data }: { data: BlogContent }) {
   if (!posts?.length) return null;
 
   return (
-    // mt-12: the mobile design leaves a 48px white gap above this grey section.
-    <section id={sectionId(data, "blog")} aria-labelledby="blog-title" className="mt-12 bg-surface-alt section-y lg:mt-0 lg:bg-white">
+    // White everywhere since 2026-10-25, so the old 48px mobile gap above the grey band is gone.
+    <section id={sectionId(data, "blog")} aria-labelledby="blog-title" className="bg-white section-y">
       <div className="container-site flex flex-col gap-12">
         <div className="flex flex-col gap-8 lg:flex-row lg:items-center lg:justify-between lg:gap-10">
           <SectionHeading
@@ -58,14 +60,22 @@ export async function BlogTeaser({ data }: { data: BlogContent }) {
         </div>
 
         {/* Each whole post card (cover + body) rises into place (RevealList; whole-card motion
-            since 2026-10-22). */}
+            since 2026-10-22).
+            Desktop: each card spans 4 shared rows (cover / title / excerpt / footer) via subgrid,
+            so excerpts start on one line even when titles wrap differently (user request 2026-10-25). */}
         <RevealList className="grid gap-4 lg:grid-cols-3 lg:gap-6">
           {posts.map((post) => (
-            <li key={post.id}>
+            <li key={post.id} className="lg:row-span-4 lg:grid lg:grid-rows-subgrid lg:gap-y-0">
               <BlogCard post={post} />
             </li>
           ))}
         </RevealList>
+        {/* Below lg the header button is hidden, so the same CTA sits under the cards. */}
+        <div className="flex justify-center lg:hidden">
+          <CtaLink href={data.cta.href} variant="outline" className="w-full md:w-auto">
+            {data.cta.label}
+          </CtaLink>
+        </div>
       </div>
     </section>
   );
@@ -76,9 +86,10 @@ function BlogCard({ post }: { post: PostCard }) {
   const readTime = post.readTime?.trim();
 
   return (
-    <article className="img-zoom-trigger group/post relative flex h-full flex-col">
-      {/* 16:9 = the live posts' image ratio; their titles are baked in, so no cropping.
-          object-contain: a cover in another ratio shows whole on a #F5F7F8 fill (audit M4). */}
+    <article className="img-zoom-trigger group/post relative flex h-full flex-col lg:row-span-4 lg:grid lg:grid-rows-subgrid lg:gap-y-0">
+      {/* 16:9 = the live posts' image ratio, so their covers (titles baked in) fill the box uncropped.
+          object-cover (user report 2026-10-24: "image fix full width"): a cover in another ratio
+          fills the full card width instead of showing grey bars (was object-contain, audit M4). */}
       {/* Cover zooms on card hover (client request 2026-10-22). */}
       <div className="img-zoom relative aspect-video overflow-hidden rounded-t-md">
         <Image
@@ -86,11 +97,11 @@ function BlogCard({ post }: { post: PostCard }) {
           alt={post.imageAlt ?? ""}
           fill
           sizes="(min-width: 1440px) 416px, (min-width: 1024px) 30vw, 100vw"
-          className="bg-surface-alt object-contain"
+          className="bg-surface-alt object-cover"
         />
       </div>
-      <div className="flex flex-1 flex-col gap-4 overflow-hidden rounded-b-md border border-t-0 border-line/60 bg-white p-6">
-        <div className="flex flex-col gap-4">
+      <div className="flex flex-1 flex-col gap-4 overflow-hidden rounded-b-md border border-t-0 border-line/60 bg-white p-6 lg:row-span-3 lg:grid lg:grid-rows-subgrid">
+        <div className="flex flex-col gap-4 lg:contents">
           {/* Title turns green while the card (one stretched link) is hovered (client request). */}
           {/* Full title (2-line clamp removed 2026-10-22: it cut titles mid-word at every width). */}
           <h3 className="font-display text-h5 font-medium text-black transition-colors group-hover/post:text-brand">
@@ -101,7 +112,12 @@ function BlogCard({ post }: { post: PostCard }) {
               {post.title}
             </Link>
           </h3>
-          {excerpt ? <p className="line-clamp-2 text-b1 text-body">{excerpt}</p> : null}
+          {excerpt ? (
+            <p className="line-clamp-2 text-b1 text-body">{excerpt}</p>
+          ) : (
+            // Keeps the footer in the 4th shared row on desktop when a post has no excerpt.
+            <span aria-hidden className="hidden lg:block" />
+          )}
         </div>
         <div className="mt-auto flex flex-wrap items-center justify-between gap-x-4 gap-y-2 border-t border-line pt-4">
           <p className="flex items-center gap-4 font-display text-b2 font-normal whitespace-nowrap text-meta">

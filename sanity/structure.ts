@@ -7,12 +7,15 @@ import { DocumentsIcon } from "@sanity/icons/Documents";
 import { EarthGlobeIcon } from "@sanity/icons/EarthGlobe";
 import { ErrorOutlineIcon } from "@sanity/icons/ErrorOutline";
 import { HomeIcon } from "@sanity/icons/Home";
+import { InfoOutlineIcon } from "@sanity/icons/InfoOutline";
 import { UsersIcon } from "@sanity/icons/Users";
 import type { StructureResolver } from "sanity/structure";
 
 /** One fixed document per type. `id` is the document _id. */
 export const singletons = [
   { type: "home", id: "home", title: "Home Page", icon: HomeIcon },
+  { type: "aboutPage", id: "aboutPage", title: "About Page", icon: InfoOutlineIcon },
+  { type: "industriesPage", id: "industriesPage", title: "Industries Gallery", icon: EarthGlobeIcon },
   { type: "siteSettings", id: "siteSettings", title: "Site Settings", icon: CogIcon },
   { type: "notFoundPage", id: "notFoundPage", title: "404 Page", icon: ErrorOutlineIcon },
 ];

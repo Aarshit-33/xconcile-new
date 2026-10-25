@@ -29,14 +29,14 @@ export function IndustryPageTemplate({ content }: { content: IndustryPageContent
       />
       <FeatureStrip data={content.features} />
       {/* Design: 47px from the strip to the intro on desktop. */}
-      <Intro data={content.intro} className="lg:pt-[47px]" imageClassName="lg:aspect-[636/585]" />
+      <Intro data={content.intro} className="lg:pt-[47px]" imageClassName="lg:min-h-[585px]" />
       <Challenges data={content.challenges} />
       {/* No white band above Expertise on desktop (client request 2026-10-18); mobile keeps it. */}
       <CardGrid data={content.services} className="mt-12 lg:mt-0" />
       <SubIndustries data={content.subIndustries} />
-      <WhyChoose data={content.whyChoose} tile="light" />
+      <WhyChoose data={content.whyChoose} />
       {/* FAQ is white on this page. */}
-      <Faq data={content.faq} className="lg:bg-white" introClassName="lg:max-w-[416px]" />
+      <Faq data={content.faq} className="bg-white" introClassName="lg:max-w-[416px]" />
       <CtaBand data={content.ctaBand} titleClassName="max-w-[657px]" />
     </>
   );

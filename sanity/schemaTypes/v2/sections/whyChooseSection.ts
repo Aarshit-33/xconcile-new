@@ -1,7 +1,7 @@
 import { StarIcon } from "@sanity/icons/Star";
 import { defineArrayMember, defineField, defineType } from "sanity";
 
-import { anchorIdField, badgeField, subtitleField } from "../fields";
+import { anchorIdField, badgeField, hiddenField, sectionPreview, subtitleField } from "../fields";
 
 /** "Why Businesses Choose Xconcile" features + photo collage + stats (mirrors `WhyChooseContent`). */
 export default defineType({
@@ -10,6 +10,7 @@ export default defineType({
   type: "object",
   icon: StarIcon,
   fields: [
+    hiddenField(),
     anchorIdField("whyChoose"),
     badgeField(),
     defineField({
@@ -43,4 +44,5 @@ export default defineType({
       validation: (Rule) => Rule.max(4),
     }),
   ],
+  preview: sectionPreview("Why Choose Us"),
 });

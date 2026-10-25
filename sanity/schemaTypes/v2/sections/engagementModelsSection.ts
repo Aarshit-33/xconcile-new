@@ -1,7 +1,7 @@
 import { CreditCardIcon } from "@sanity/icons/CreditCard";
 import { defineArrayMember, defineField, defineType } from "sanity";
 
-import { anchorIdField, badgeField, iconOptions, subtitleField, titleField } from "../fields";
+import { anchorIdField, badgeField, hiddenField, iconOptions, sectionPreview, subtitleField, titleField } from "../fields";
 
 /**
  * "Choose Accounting Support That Fits Your Workload": three pricing-style cards; the featured
@@ -13,6 +13,7 @@ export default defineType({
   type: "object",
   icon: CreditCardIcon,
   fields: [
+    hiddenField(),
     anchorIdField("engagementModels"),
     badgeField(),
     titleField(),
@@ -99,4 +100,5 @@ export default defineType({
       validation: (Rule) => Rule.required().min(1).max(3),
     }),
   ],
+  preview: sectionPreview("Hiring Models"),
 });

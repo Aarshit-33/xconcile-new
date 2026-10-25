@@ -32,12 +32,6 @@ if (!page) {
 }
 const docId = `industryPage-${slug}`;
 
-/** A plain heading is stored as "Before" only (the site renders it as plain text). */
-const headingTitle = (t: string | { before?: string; highlight: string; after?: string }) => ({
-  _type: "headingTitle",
-  ...(typeof t === "string" ? { before: t } : t),
-});
-
 /* ---------------------------------------------------------------- document */
 
 async function buildIndustryPage() {
@@ -53,7 +47,7 @@ async function buildIndustryPage() {
       _type: "heroSection",
       anchorId: sectionId(hero, "hero"),
       badge: hero.badge,
-      title: { inline: false, ...hero.title },
+      title: hero.title,
       subtitle: hero.subtitle,
       primaryCta: link(hero.primaryCta),
       ...(hero.secondaryCta ? { secondaryCta: link(hero.secondaryCta) } : {}),
@@ -81,7 +75,7 @@ async function buildIndustryPage() {
       ...(intro.features?.length ? { features: keyed(intro.features, "introFeature") } : {}),
       checks: intro.checks,
       checksStyle: intro.checksStyle ?? "pill",
-      cta: link(intro.cta),
+      ...(intro.cta ? { cta: link(intro.cta) } : {}),
     },
 
     challenges: {
@@ -90,7 +84,7 @@ async function buildIndustryPage() {
       badge: challenges.badge,
       title: challenges.title,
       body: challenges.body,
-      cta: link(challenges.cta),
+      ...(challenges.cta ? { cta: link(challenges.cta) } : {}),
       items: keyed(
         challenges.items.map((c) => ({ tone: c.tone, icon: c.icon, title: c.title, body: richText(c.body) })),
         "challengeCard",
@@ -101,7 +95,7 @@ async function buildIndustryPage() {
       _type: "cardGridSection",
       anchorId: sectionId(services, "cardGrid"),
       badge: services.badge,
-      title: headingTitle(services.title),
+      title: services.title,
       subtitle: services.subtitle,
       items: keyed(
         services.items.map((x) => ({ icon: x.icon, title: x.title, ...(x.body ? { body: x.body } : {}) })),
@@ -130,7 +124,7 @@ async function buildIndustryPage() {
       _type: "whyChooseSection",
       anchorId: sectionId(whyChoose, "whyChoose"),
       badge: whyChoose.badge,
-      title: headingTitle(whyChoose.title),
+      title: whyChoose.title,
       subtitle: whyChoose.subtitle,
       features: keyed(whyChoose.features, "iconCard"),
       images: keyed(await Promise.all(whyChoose.images.map(altImage))),

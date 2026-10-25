@@ -10,8 +10,8 @@ import type {
   EngagementModelsContent,
   ExperienceLevelsContent,
   FaqContent,
+  FeatureCardsContent,
   FeatureStripContent,
-  HeadingTitle,
   HeroContent,
   HiringStepsContent,
   ImageAsset,
@@ -29,6 +29,7 @@ import type {
   ToolTabsContent,
   WhyChooseContent,
 } from "@/content/types";
+import { toHighlightString } from "@/lib/highlight";
 
 /**
  * One mapper per v2 section type (sanity/schemaTypes/v2/sections): raw GROQ result → the shape
@@ -45,6 +46,8 @@ export const IMG = `{ "url": asset->url, "width": asset->metadata.dimensions.wid
 
 /** GROQ projections for sections whose images/slugs need resolving (shared by every page query). */
 export const SECTION_PROJECTION = {
+  // Stat icons (RCM "HIPAA Compliant") need their asset URL.
+  stats: `stats{ ..., items[]{ ..., "image": image${IMG} } }`,
   intro: `intro{ ..., "image": image${IMG} }`,
   caseStudies: `caseStudies{ ..., items[]{ ..., "id": id.current, "image": image${IMG}, "mobileImage": mobileImage${IMG} } }`,
   industries: `industries{ ..., items[]{ ..., "image": image${IMG} } }`,
@@ -84,13 +87,12 @@ export function richText(blocks: Raw): RichText | undefined {
 }
 
 export const link = (l: Raw) => (l?.label && l?.href ? { label: l.label, href: l.href } : undefined);
-export const heading = (t: Raw) =>
-  t && (t.before || t.highlight || t.after)
-    ? { before: t.before ?? undefined, highlight: t.highlight ?? "", after: t.after ?? undefined }
-    : undefined;
-/** A heading with no green phrase is plain text (renders exactly like a string title). */
-const plainHeading = (t: ReturnType<typeof heading>): HeadingTitle | undefined =>
-  t && !t.highlight && !t.after ? t.before : t;
+/**
+ * Heading (`headingTitle`): one string with `*green*` markup (lib/highlight.ts). Documents saved
+ * before 2026-10-24 may still hold the old `{ before, highlight, after }` object; it is converted
+ * to the same string until scripts/migrate-heading-titles.ts has been run.
+ */
+export const heading = (t: Raw): string | undefined => toHighlightString(t);
 /** Decorative image (flags, avatars, illustrations): alt is always empty. */
 const decorative = (i: Img): ImageAsset | undefined => {
   const image = img(i);
@@ -115,14 +117,7 @@ export function mapHero(d: Raw, f: HeroContent): HeroContent {
     ? {
         anchorId: d.anchorId || undefined,
         badge: d.badge ?? f.badge,
-        title: d.title?.before
-          ? {
-              before: d.title.before,
-              highlight: d.title.highlight ?? undefined,
-              after: d.title.after ?? undefined,
-              inline: d.title.inline || undefined,
-            }
-          : f.title,
+        title: heading(d.title) ?? f.title,
         subtitle: d.subtitle ?? f.subtitle,
         primaryCta: link(d.primaryCta) ?? f.primaryCta,
         secondaryCta: link(d.secondaryCta) ?? f.secondaryCta,
@@ -139,7 +134,12 @@ export function mapStats(d: Raw, f: StatsContent): StatsContent {
   return d
     ? {
         anchorId: d.anchorId || undefined,
-        items: d.items?.map((s: Raw) => ({ value: s.value, label: s.label })) ?? f.items,
+        items:
+          d.items?.map((s: Raw) => {
+            // Icon instead of the number (decorative: the label beside it carries the meaning).
+            const image = decorative(s.image);
+            return { value: s.value ?? "", label: s.label, ...(image ? { image } : {}) };
+          }) ?? f.items,
         rating: d.rating?.value ? d.rating : f.rating,
       }
     : f;
@@ -152,11 +152,13 @@ export function mapIntro(d: Raw, f: IntroContent): IntroContent {
         title: d.title ?? f.title,
         body: richText(d.body) ?? f.body,
         bodyMore: richText(d.bodyMore) ?? f.bodyMore,
+        bodyExtra: richText(d.bodyExtra) ?? f.bodyExtra,
         ...(d.bodyMoreLayout ? { bodyMoreLayout: d.bodyMoreLayout } : {}),
         image: img(d.image) ?? f.image,
         features: d.features?.map((x: Raw) => ({ icon: x.icon, label: x.label })) ?? f.features,
         checks: d.checks ?? f.checks,
         ...(d.checksStyle ? { checksStyle: d.checksStyle } : {}),
+        checksTitle: d.checksTitle || f.checksTitle,
         cta: link(d.cta) ?? f.cta,
       }
     : f;
@@ -228,7 +230,16 @@ export function mapCaseStudies(d: Raw, f: CaseStudiesContent): CaseStudiesConten
                 challenge: x.challenge,
                 solution: x.solution,
                 result: x.result,
-                impact: x.impact?.label && x.impact?.value ? x.impact : undefined,
+                impact:
+                  x.impact?.label && x.impact?.value
+                    ? {
+                        label: x.impact.label,
+                        value: x.impact.value,
+                        icon: x.impact.icon || undefined,
+                        // Not set (documents saved before 2026-10-25) = every screen.
+                        devices: Array.isArray(x.impact.devices) ? x.impact.devices : undefined,
+                      }
+                    : undefined,
                 image: {
                   ...img(x.image)!,
                   ...(mobile ? { mobile: { src: mobile.src, width: mobile.width, height: mobile.height } } : {}),
@@ -278,7 +289,7 @@ export function mapWhyChoose(d: Raw, f: WhyChooseContent): WhyChooseContent {
     ? {
         anchorId: d.anchorId || undefined,
         badge: d.badge ?? f.badge,
-        title: plainHeading(heading(d.title)) ?? f.title,
+        title: heading(d.title) ?? f.title,
         subtitle: d.subtitle ?? f.subtitle,
         features:
           d.features?.map((x: Raw) => ({
@@ -397,8 +408,23 @@ export function mapCtaBand(d: Raw, f: CtaBandContent): CtaBandContent {
     title: d.title ?? f.title,
     body: d.body ?? f.body,
     cta: link(d.cta) ?? f.cta,
+    // Optional second button (RCM design); a half-filled Studio link falls back to the code one.
+    secondaryCta: link(d.secondaryCta) ?? f.secondaryCta,
     image: image ? { ...image, alt: "" } : f.image,
   };
+}
+
+/** Industries gallery "Industries We Serve" icon cards (featureCardsSection). */
+export function mapFeatureCards(d: Raw, f: FeatureCardsContent): FeatureCardsContent {
+  return d
+    ? {
+        anchorId: d.anchorId || undefined,
+        badge: d.badge ?? f.badge,
+        title: heading(d.title) ?? f.title,
+        subtitle: d.subtitle ?? f.subtitle,
+        items: d.items?.map((x: Raw) => ({ icon: x.icon, title: x.title, body: x.body })) ?? f.items,
+      }
+    : f;
 }
 
 /* ------------------------------------------------------- hire-page sections */
@@ -419,7 +445,7 @@ export function mapCardGrid(d: Raw, f: CardGridContent): CardGridContent {
         anchorId: d.anchorId || undefined,
         id: f.id,
         badge: d.badge ?? f.badge,
-        title: plainHeading(heading(d.title)) ?? f.title,
+        title: heading(d.title) ?? f.title,
         subtitle: d.subtitle ?? f.subtitle,
         items:
           d.items?.map((x: Raw) => ({ icon: x.icon, title: x.title, body: x.body || undefined })) ?? f.items,

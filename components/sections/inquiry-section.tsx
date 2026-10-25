@@ -2,6 +2,7 @@ import { InquiryForm } from "@/components/forms/inquiry-form";
 import { CheckCircleIcon, ElectricBoltIcon, LockIcon } from "@/components/icons/material-symbols";
 import { FadeUp } from "@/components/motion/fade-up";
 import { RevealText } from "@/components/motion/reveal-text";
+import { HighlightText } from "@/components/shared/highlight-text";
 import type { home } from "@/content/home";
 import { cn } from "@/lib/utils";
 import { sectionId } from "@/lib/section-ids";
@@ -61,7 +62,7 @@ export function InquirySection({
             id="inquiry-title"
             className="mb-6 text-4xl leading-[1.1] font-bold tracking-tight text-white md:text-5xl"
           >
-            {data.title.before} <span className="text-brand">{data.title.highlight}</span>
+            <HighlightText text={data.title} />
           </RevealText>
 
           <FadeUp as="p" delay={0.12} className="mb-12 text-lg leading-relaxed font-normal text-white/80">
@@ -77,8 +78,8 @@ export function InquirySection({
                     <Icon className="size-5" />
                   </span>
                   <span>
-                    {/* Titles in brand green (client request 2026-10-22); descriptions stay white/70. */}
-                    <span className="block text-base font-bold text-brand">{item.label}</span>
+                    {/* Titles in white (client request 2026-10-24; was brand green); descriptions stay white/70. */}
+                    <span className="block text-base font-bold text-white">{item.label}</span>
                     <span className="mt-0.5 block text-sm text-white/70">{item.desc}</span>
                   </span>
                 </li>

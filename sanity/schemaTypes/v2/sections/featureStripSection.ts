@@ -1,7 +1,7 @@
 import { ThLargeIcon } from "@sanity/icons/ThLarge";
 import { defineArrayMember, defineField, defineType } from "sanity";
 
-import { anchorIdField } from "../fields";
+import { anchorIdField, hiddenField, sectionPreview } from "../fields";
 
 /**
  * Hire/Industry "Feature strip": four icon cards directly under the hero, with no visible
@@ -13,6 +13,7 @@ export default defineType({
   type: "object",
   icon: ThLargeIcon,
   fields: [
+    hiddenField(),
     anchorIdField("featureStrip"),
     defineField({
       name: "label",
@@ -29,5 +30,5 @@ export default defineType({
       validation: (Rule) => Rule.required().min(1).max(4),
     }),
   ],
-  preview: { select: { title: "label" }, prepare: ({ title }) => ({ title: title || "Feature strip" }) },
+  preview: sectionPreview("Feature Strip", { title: "label" }),
 });

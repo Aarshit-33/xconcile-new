@@ -4,6 +4,7 @@ import { SectionHeading } from "@/components/shared/section-heading";
 import type { ProcessContent } from "@/content/types";
 import { hoverGreen, hoverTile } from "@/lib/hover";
 import { cn } from "@/lib/utils";
+import { plainTitle } from "@/lib/highlight";
 import { sectionId } from "@/lib/section-ids";
 
 /**
@@ -26,13 +27,20 @@ export function Process({ data, subtitleClassName }: { data: ProcessContent; sub
           subtitleClassName={cn("max-w-[326px] md:max-w-[880px]", subtitleClassName)}
         />
 
-        {/* Card reveal on every page (option B, 2026-10-18). */}
-        <Rail label={data.title} as="ol" listClassName="lg:grid lg:grid-cols-5 lg:gap-6" reveal>
+        {/* Card reveal on every page (option B, 2026-10-18). The cards share three grid rows
+            (icon / title / description) via subgrid, on the rail and on the desktop grid, so all
+            descriptions start on one line (user request 2026-10-25). */}
+        <Rail
+          label={plainTitle(data.title)}
+          as="ol"
+          listClassName="grid grid-flow-col grid-rows-[repeat(3,auto)] lg:grid-flow-row lg:grid-cols-5 lg:gap-6"
+          reveal
+        >
           {data.steps.map((step, i) => (
             <li
               key={step.title}
               className={cn(
-                "flex w-[264px] shrink-0 snap-start flex-col gap-6 overflow-hidden rounded-md border border-hairline bg-white p-6 lg:w-auto",
+                "row-span-3 grid w-[264px] shrink-0 snap-start grid-rows-subgrid gap-y-4 overflow-hidden rounded-md border border-hairline bg-white p-6 lg:w-auto",
                 hoverGreen,
               )}
             >
@@ -44,10 +52,9 @@ export function Process({ data, subtitleClassName }: { data: ProcessContent; sub
                   {String(i + 1).padStart(2, "0")}
                 </span>
               </div>
-              <div className="flex flex-col gap-4">
-                <h3 className="font-display text-h5 font-medium text-heading">{step.title}</h3>
-                <p className="text-b1 text-body">{step.body}</p>
-              </div>
+              {/* mt-2: 24px from the icon row (16px row gap + 8px), 16px to the description. */}
+              <h3 className="mt-2 font-display text-h5 font-medium text-heading">{step.title}</h3>
+              <p className="text-b1 text-body">{step.body}</p>
             </li>
           ))}
         </Rail>

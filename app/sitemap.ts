@@ -19,7 +19,7 @@ type Entry = { slug: string; _updatedAt?: string };
  * a page is listed even before its Sanity document exists; `_updatedAt` is added when it does.
  */
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const [pages, blog] = await Promise.all([
+  const [pages, blog, gallery] = await Promise.all([
     sanityFetch<Entry[] | null>({
       query: `*[_type in ["servicePage", "hirePage", "industryPage"] && defined(slug.current)]{ "slug": slug.current, _updatedAt }`,
       tags: ["servicePage", "hirePage", "industryPage"],
@@ -28,6 +28,10 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       query: `*[_type == "post" && defined(slug.current)]{ "slug": slug.current, _updatedAt }`,
       tags: ["post"],
       dataset: blogDataset,
+    }),
+    sanityFetch<{ _updatedAt?: string } | null>({
+      query: `*[_type == "industriesPage" && _id == "industriesPage"][0]{ _updatedAt }`,
+      tags: ["industriesPage"],
     }),
   ]);
 
@@ -48,6 +52,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: absoluteUrl(routes.team()), changeFrequency: "monthly", priority: 0.7 },
     { url: absoluteUrl(routes.contact()), changeFrequency: "yearly", priority: 0.7 },
     { url: absoluteUrl(routes.blog()), changeFrequency: "daily", priority: 0.9 },
+    {
+      url: absoluteUrl(routes.industries()),
+      ...(gallery?._updatedAt ? { lastModified: new Date(gallery._updatedAt) } : {}),
+      changeFrequency: "weekly",
+      priority: 0.8,
+    },
     { url: absoluteUrl(routes.privacy()), changeFrequency: "yearly", priority: 0.3 },
   ];
 

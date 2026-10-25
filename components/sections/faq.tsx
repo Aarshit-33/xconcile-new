@@ -19,17 +19,21 @@ export function Faq({
   /** e.g. `lg:max-w-[416px]` where the design's intro box is wider than Home's 368px. */
   introClassName?: string;
 }) {
+  const id = sectionId(data, "faq");
+  // Heading id from the section id, so a section type can appear twice on a page.
+  const titleId = `${id}-title`;
+
   return (
     // pb-20: 80px before the contact section (mobile design); desktop keeps 80/80.
-    <section id={sectionId(data, "faq")}
-      aria-labelledby="faq-title"
+    <section id={id}
+      aria-labelledby={titleId}
       className={cn("bg-surface-soft pt-12 pb-20 lg:py-20", className)}
     >
       <div className="container-site grid gap-8 lg:grid-cols-[minmax(0,416fr)_minmax(0,747fr)] lg:justify-between lg:gap-16 xl:gap-[133px]">
         <SectionHeading
           eyebrow={data.badge}
           title={data.title}
-          titleId="faq-title"
+          titleId={titleId}
           align="responsive"
           // Sticky left panel like Challenges (client request 2026-10-17): stays below the fixed
           // navbar while the questions scroll. self-start keeps it from stretching to the row.

@@ -7,6 +7,9 @@ import { motionPresets } from "@/lib/motion";
 
 type Tag = "h1" | "h2" | "h3" | "p";
 
+/** Extra clip room above/below each masked line (covers Manrope's ascenders/descenders). */
+const MASK_BLEED = "0.2em";
+
 /**
  * "Text coming in" effect: splits the heading into masked lines and slides them up when the
  * heading scrolls into view. Text stays in the server HTML (SEO); SplitText adds aria-label
@@ -33,15 +36,25 @@ export function RevealText({
       type: "lines",
       mask: "lines",
       autoSplit: true,
-      onSplit: (self) =>
-        gsap.from(self.lines, {
+      onSplit: (self) => {
+        // Each mask (overflow: clip) is exactly one line-height tall, but Manrope's glyphs are
+        // taller than our 1.2 line-heights, so descenders (g, y, p) and accents were cut off and
+        // stayed cut after the reveal (user report 2026-10-25, Home intro "Accounting").
+        // Grow the clip box by MASK_BLEED top and bottom; negative margins cancel it, so line
+        // spacing is unchanged. Runs on every (auto) re-split.
+        for (const mask of self.masks as HTMLElement[]) {
+          mask.style.paddingBlock = MASK_BLEED;
+          mask.style.marginBlock = `-${MASK_BLEED}`;
+        }
+        return gsap.from(self.lines, {
           yPercent: textReveal.from.yPercent,
           opacity: textReveal.from.opacity,
           duration: textReveal.duration,
           stagger: textReveal.stagger,
           ease: textReveal.ease,
           scrollTrigger: { trigger: el, ...textReveal.scrollTrigger },
-        }),
+        });
+      },
     });
   });
 

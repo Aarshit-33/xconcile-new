@@ -32,7 +32,7 @@ export function HirePageTemplate({ content }: { content: HirePageContent }) {
       <Hero data={content.hero} variant="inner" wide />
       <FeatureStrip data={content.features} />
       {/* Design: 43px from the strip to the intro on desktop. */}
-      <Intro data={content.intro} className="lg:pt-[43px]" imageClassName="lg:aspect-[636/657]" />
+      <Intro data={content.intro} className="lg:pt-[43px]" imageClassName="lg:min-h-[657px]" />
       <Challenges data={content.benefits} />
       {/* No white band above Expertise on desktop (client request 2026-10-18); mobile keeps it. */}
       <CardGrid data={content.expertise} className="mt-12 lg:mt-0" />
@@ -40,13 +40,13 @@ export function HirePageTemplate({ content }: { content: HirePageContent }) {
       <HiringSteps data={content.steps} />
       <ExperienceLevels data={content.levels} className="pt-0 lg:pt-0" />
       <AudienceCards data={content.audiences} />
-      <WhyChoose data={content.whyChoose} tile="light" className={band} />
+      <WhyChoose data={content.whyChoose} className={band} />
       {/* Security is white since the 2026-10-17 redesign: no band after the dark Why Choose, and
           the white Tools section below drops its top padding (80px rhythm). */}
       <SecurityControls data={content.security} />
       {/* Tools and FAQ are white on this page (grey on service pages). */}
-      {content.tools ? <ToolTabs data={content.tools} className="pt-0 lg:bg-white lg:pt-0" /> : null}
-      <Faq data={content.faq} className="pt-0 lg:bg-white lg:pt-0" />
+      {content.tools ? <ToolTabs data={content.tools} className="pt-0 lg:pt-0" /> : null}
+      <Faq data={content.faq} className="bg-white pt-0 lg:pt-0" />
       {/* Spec: don't copy the design's overlap of the CTA band onto the last FAQ rows. */}
       <CtaBand data={content.ctaBand} titleClassName="max-w-[657px]" />
     </>

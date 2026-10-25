@@ -5,6 +5,7 @@ import { SectionHeading } from "@/components/shared/section-heading";
 import type { ToolsContent } from "@/content/types";
 import { cardHover } from "@/lib/hover";
 import { cn } from "@/lib/utils";
+import { plainTitle } from "@/lib/highlight";
 import { sectionId } from "@/lib/section-ids";
 
 /**
@@ -14,7 +15,7 @@ import { sectionId } from "@/lib/section-ids";
  */
 export function Tools({ data }: { data: ToolsContent }) {
   return (
-    <section id={sectionId(data, "tools")} aria-labelledby="tools-title" className="bg-white section-y lg:bg-surface-muted">
+    <section id={sectionId(data, "tools")} aria-labelledby="tools-title" className="bg-surface-muted section-y">
       <div className="container-site grid gap-8 lg:gap-12 xl:grid-cols-2 xl:gap-[26px]">
         <SectionHeading
           eyebrow={data.badge}
@@ -29,7 +30,7 @@ export function Tools({ data }: { data: ToolsContent }) {
 
         {/* Card reveal on every page (option B, 2026-10-18). */}
         <Rail
-          label={data.title}
+          label={plainTitle(data.title)}
           reveal
           listClassName="grid grid-flow-col grid-rows-2 auto-cols-[minmax(266px,max-content)] lg:grid-cols-2 lg:grid-rows-5 lg:auto-cols-auto lg:gap-x-6 lg:gap-y-8"
         >

@@ -106,7 +106,7 @@ export default async function SlugPage({ params }: PageProps<"/[slug]">) {
             { name: content.name, path },
           ]),
           faqLd(content.faq.items),
-          ...content.testimonials.videos.map((v) =>
+          ...(content.testimonials?.videos ?? []).map((v) =>
             videoJsonLd({
               youtubeId: v.youtubeId,
               title: v.title,

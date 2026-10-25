@@ -1,13 +1,13 @@
 import { cn } from "@/lib/utils";
 
 import { Eyebrow, type EyebrowTone } from "./eyebrow";
+import { HighlightText } from "./highlight-text";
 import { FadeUp } from "@/components/motion/fade-up";
 import { RevealText } from "@/components/motion/reveal-text";
 
-type Title = string | { before?: string; highlight: string; after?: string };
-
 /**
- * Eyebrow + H2 (optional green highlight word) + subtitle.
+ * Eyebrow + H2 + subtitle. The title is one string; `*text*` is green, `\*` is a literal
+ * asterisk (lib/highlight.ts). It flows as one line of text and wraps naturally.
  * align: "center" | "left" | "responsive" (centered on mobile, left from lg, as drawn for
  * Industries / Tools / Blog / FAQ).
  */
@@ -19,20 +19,17 @@ export function SectionHeading({
   subtitle,
   align = "center",
   tone = "light",
-  highlightOnNewLine = false,
   className,
   titleClassName,
   subtitleClassName,
 }: {
   eyebrow?: string;
   eyebrowTone?: EyebrowTone;
-  title: Title;
+  title: string;
   titleId?: string;
   subtitle?: React.ReactNode;
   align?: "center" | "left" | "responsive";
   tone?: "light" | "dark";
-  /** Why-choose heading puts the highlight on its own line (desktop). */
-  highlightOnNewLine?: boolean;
   className?: string;
   titleClassName?: string;
   subtitleClassName?: string;
@@ -57,16 +54,7 @@ export function SectionHeading({
         id={titleId}
         className={cn("text-h2-m lg:text-h2", tone === "dark" ? "text-white" : "text-heading", titleClassName)}
       >
-        {typeof title === "string" ? (
-          title
-        ) : (
-          <>
-            {title.before ? `${title.before} ` : null}
-            {highlightOnNewLine ? <br className="hidden lg:block" /> : null}
-            <span className="text-brand">{title.highlight}</span>
-            {title.after ? ` ${title.after}` : null}
-          </>
-        )}
+        <HighlightText text={title} />
       </RevealText>
       {subtitle ? (
         <FadeUp

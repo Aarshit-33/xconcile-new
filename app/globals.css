@@ -284,42 +284,42 @@
    lines; now white/40%, 100px on the 416px Home intro, same movement) start together on the diagonal (bottom-left →
    top-right corner) and move apart in opposite directions: ::before to the top-left corner,
    ::after to the bottom-right corner, fading out as they arrive.
-   Angle = the frame's own diagonal (atan2 of its height/width via container units), so the lines
-   run exactly corner to corner on any aspect ratio. Travel = the distance from the diagonal to
-   those corners (w·sinθ). Transform + opacity only (compositor). The frame gets
-   `container-type: size`, safe because its size comes from width + aspect/height, never content.
-   Hover-out drops the animation, so it resets instantly. Touch devices skip it (no hover);
-   reduced-motion jumps to the hidden end via the base rule below.
-   Tune: --splash-duration, --splash-color, --splash-thickness.
+   Diagonal by construction (user report 2026-10-25: the bands showed horizontal): each band is a
+   full-frame `linear-gradient(to bottom right, …)`, whose 50% line always runs exactly from the
+   bottom-left to the top-right corner on any aspect ratio, in every browser. Moving the layer by
+   ±50% of its own box (= the frame) slides that line onto the top-left / bottom-right corner.
+   No container units or trig any more: the old version rotated a bar by atan2(100cqh, 100cqw),
+   which some browsers resolved to 0° (a horizontal bar) once the intro photo started stretching to
+   the text column (its height then comes from the grid, not from width/aspect).
+   Transform + opacity only (compositor). Hover-out drops the animation, so it resets instantly.
+   Touch devices skip it (no hover); reduced-motion jumps to the hidden end via the base rule below.
+   Tune: --splash-duration, --splash-color, --splash-half (half the band thickness: 50px = the
+   100px band on the Home intro, capped at 7.4% of the gradient line so small tiles get a thinner
+   band).
    Dev note: Turbopack has been serving this file one save behind; if an edit doesn't show, save
-   once more (any real change) and hard-refresh. */
+   once more (any real change) and hard-refresh. (2026-10-25: the gradient version above stayed
+   unserved until a second save; check the served CSS for "splash-half".) */
 @utility img-splash {
-  container-type: size;
   --splash-duration: 0.9s;
   --splash-color: rgb(255 255 255 / 0.4);
-  /* 100px on the Home intro (416px wide = 24cqw); narrower frames (mosaic tiles, mobile) scale
-     the band down with their width so it doesn't swamp a small photo. */
-  --splash-thickness: min(100px, 24cqw);
+  --splash-half: min(50px, 7.4%);
   &::before,
   &::after {
     content: "";
     position: absolute;
-    top: 50%;
-    left: 50%;
-    /* 2× the diagonal, so the line still spans the frame at every point on its way to a corner. */
-    width: calc(2 * hypot(100cqw, 100cqh));
-    height: var(--splash-thickness);
+    inset: 0;
     z-index: 1;
     pointer-events: none;
-    background-color: var(--splash-color);
+    background-image: linear-gradient(
+      to bottom right,
+      transparent calc(50% - var(--splash-half)),
+      var(--splash-color) calc(50% - var(--splash-half)),
+      var(--splash-color) calc(50% + var(--splash-half)),
+      transparent calc(50% + var(--splash-half))
+    );
     opacity: 0;
-    /* Bottom-left → top-right corner: negative (counter-clockwise) angle from horizontal. */
-    --splash-angle: calc(atan2(100cqh, 100cqw) * -1);
-    /* Perpendicular distance from the diagonal to the far corners. */
-    --splash-reach: calc(100cqw * sin(atan2(100cqh, 100cqw)));
-    transform: translate(-50%, -50%) rotate(var(--splash-angle));
   }
-  /* In the rotated frame, -Y points to the top-left corner and +Y to the bottom-right. */
+  /* -50%/-50% = toward the top-left corner, +50%/+50% = toward the bottom-right corner. */
   &::before {
     --splash-dir: -1;
   }
@@ -337,15 +337,14 @@
 @keyframes img-splash {
   0% {
     opacity: 1;
-    transform: translate(-50%, -50%) rotate(var(--splash-angle)) translateY(0);
+    transform: translate(0, 0);
   }
   75% {
     opacity: 1;
   }
   100% {
     opacity: 0;
-    transform: translate(-50%, -50%) rotate(var(--splash-angle))
-      translateY(calc(var(--splash-dir) * var(--splash-reach)));
+    transform: translate(calc(var(--splash-dir) * 50%), calc(var(--splash-dir) * 50%));
   }
 }
 

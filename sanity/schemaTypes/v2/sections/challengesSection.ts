@@ -1,7 +1,7 @@
 import { WarningOutlineIcon } from "@sanity/icons/WarningOutline";
 import { defineArrayMember, defineField, defineType } from "sanity";
 
-import { anchorIdField, badgeField, iconField } from "../fields";
+import { anchorIdField, badgeField, hiddenField, iconField, sectionPreview } from "../fields";
 
 const tones = [
   { title: "Rose", value: "rose" },
@@ -19,12 +19,13 @@ export default defineType({
   type: "object",
   icon: WarningOutlineIcon,
   fields: [
+    hiddenField(),
     anchorIdField("challenges"),
     badgeField(),
     defineField({
       name: "title",
       title: "Heading (H2)",
-      type: "string",
+      type: "headingTitle",
       validation: (Rule) => Rule.required(),
     }),
     defineField({
@@ -38,7 +39,7 @@ export default defineType({
       name: "cta",
       title: "Button",
       type: "ctaLink",
-      validation: (Rule) => Rule.required(),
+      description: "Optional: leave empty for no button (e.g. the virtual CFO page).",
     }),
     defineField({
       name: "items",
@@ -77,4 +78,5 @@ export default defineType({
       validation: (Rule) => Rule.required().min(1),
     }),
   ],
+  preview: sectionPreview("Challenges"),
 });

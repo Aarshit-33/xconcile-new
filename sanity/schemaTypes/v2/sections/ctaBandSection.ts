@@ -1,11 +1,11 @@
 import { RocketIcon } from "@sanity/icons/Rocket";
 import { defineField, defineType } from "sanity";
 
-import { anchorIdField } from "../fields";
+import { anchorIdField, hiddenField, sectionPreview } from "../fields";
 
 /**
- * Closing CTA band: photo under a navy overlay, centred heading, text and one button (mirrors
- * `CtaBandContent`, components/sections/cta-band.tsx).
+ * Closing CTA band: photo under a navy overlay, centred heading, text and one button, plus an
+ * optional outline second button (mirrors `CtaBandContent`, components/sections/cta-band.tsx).
  */
 export default defineType({
   name: "ctaBandSection",
@@ -13,11 +13,12 @@ export default defineType({
   type: "object",
   icon: RocketIcon,
   fields: [
+    hiddenField(),
     anchorIdField("ctaBand"),
     defineField({
       name: "title",
       title: "Heading (H2)",
-      type: "string",
+      type: "headingTitle",
       validation: (Rule) => Rule.required(),
     }),
     defineField({
@@ -34,6 +35,12 @@ export default defineType({
       validation: (Rule) => Rule.required(),
     }),
     defineField({
+      name: "secondaryCta",
+      title: "Second button (optional)",
+      type: "ctaLink",
+      description: "Outline button next to the main one (e.g. RCM page \"Get Started\"). Leave empty for one button.",
+    }),
+    defineField({
       name: "image",
       title: "Background photo",
       type: "image",
@@ -42,5 +49,5 @@ export default defineType({
       validation: (Rule) => Rule.required(),
     }),
   ],
-  preview: { select: { title: "title", subtitle: "cta.label", media: "image" } },
+  preview: sectionPreview("CTA Band", { media: "image" }),
 });

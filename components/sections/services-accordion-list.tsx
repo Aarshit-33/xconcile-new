@@ -12,10 +12,11 @@ import type { ServicesContent } from "@/content/types";
 import { cn } from "@/lib/utils";
 
 /**
- * B6 Numbered services accordion.
- * Mobile design: white section, items separated by 16px (top + bottom hairlines); an open item
- * gets #FAFAFA with description, "Key services" and a full-width CTA.
- * Desktop design: dark gradient, number + icon + title + description rows, 5 visible +
+ * B6 Numbered services accordion. Dark palette on every screen (user request 2026-10-24: mobile
+ * matches desktop; the mobile design drew a white section with #FAFAFA open rows).
+ * Mobile layout: items separated by 16px (top + bottom rules); an open item shows its
+ * description, "Key services" and a full-width CTA (background unchanged, user request 2026-10-24).
+ * Desktop layout: number + icon + title + description rows, 5 visible +
  * "Show more services (n)". The open item gets the green title + top rule.
  * All items start collapsed on every screen (client rule 2026-10-22: no accordion opens by
  * default). The design drew item 1 open on mobile and green on desktop; both dropped, along with
@@ -38,7 +39,7 @@ export function ServicesAccordionList({ data }: { data: ServicesContent }) {
             key={item.title}
             value={`service-${i}`}
             className={cn(
-              "group/item border-y border-hairline transition-colors not-last:border-b data-open:bg-surface-muted lg:border-t lg:border-b-0 lg:border-white/10 lg:not-last:border-b-0 lg:hover:border-t-brand lg:data-open:border-t-brand lg:data-open:bg-transparent",
+              "group/item border-y border-white/10 transition-colors not-last:border-b lg:border-t lg:border-b-0 lg:not-last:border-b-0 lg:hover:border-t-brand lg:data-open:border-t-brand",
               !showAll && i >= data.initiallyVisible && "lg:hidden",
             )}
           >
@@ -50,28 +51,28 @@ export function ServicesAccordionList({ data }: { data: ServicesContent }) {
               <span className="flex min-w-0 flex-1 flex-col gap-2 lg:ml-14">
                 {/* Full title always shown: wraps on narrow screens (was `truncate`, which cut long
                     names to "Hire Dedicated Acc…" at 320–390px; client report 2026-10-22). */}
-                <span className="text-h5 text-heading transition-colors group-hover/item:text-brand lg:text-white lg:group-hover/item:text-brand lg:group-data-open/item:text-brand">
+                <span className="text-h5 text-white transition-colors group-hover/item:text-brand group-data-open/item:text-brand">
                   {item.title}
                 </span>{" "}
                 {/* font-normal: copy weight (2026-10-22); the trigger button itself is font-medium. */}
-                <span className="hidden text-b2 font-normal text-body group-data-open/item:block lg:block lg:text-on-dark">
+                <span className="hidden text-b2 font-normal text-on-dark group-data-open/item:block lg:block">
                   {item.description}
                 </span>
               </span>
               <span
                 aria-hidden
-                className="ml-auto flex size-7 shrink-0 items-center justify-center rounded-full border border-hairline bg-surface-muted p-0.5 lg:ml-6 lg:bg-[rgb(250_250_250/0.08)]"
+                className="ml-auto flex size-7 shrink-0 items-center justify-center rounded-full border border-white/10 bg-[rgb(250_250_250/0.08)] p-0.5 lg:ml-6"
               >
                 <AddIcon className="size-6 text-brand group-data-open/item:hidden" />
                 <RemoveIcon className="hidden size-6 text-brand group-data-open/item:block" />
               </span>
             </AccordionTrigger>
             <AccordionContent forceMount className="px-0 pb-6 lg:pb-8 lg:pl-[143px] [&_a]:no-underline [&_a]:hover:text-white [&_p:not(:last-child)]:mb-0">
-              <div className="flex flex-col gap-6 border-t border-hairline pt-6 lg:border-white/10">
+              <div className="flex flex-col gap-6 border-t border-white/10 pt-6">
                 {item.keyItems?.length ? (
                   <div className="flex flex-col gap-4">
-                    <p className="text-b2 font-semibold text-heading lg:text-white">{item.keyLabel}:</p>
-                    <ul className="grid gap-2 text-b2 text-body sm:grid-cols-2 lg:max-w-[640px] lg:gap-x-8 lg:text-on-dark">
+                    <p className="text-b2 font-semibold text-white">{item.keyLabel}:</p>
+                    <ul className="grid gap-2 text-b2 text-on-dark sm:grid-cols-2 lg:max-w-[640px] lg:gap-x-8">
                       {item.keyItems.map((k) => (
                         <li key={k} className="flex items-center gap-2">
                           <span aria-hidden className="size-2 shrink-0 rounded-full bg-brand" />
@@ -86,8 +87,8 @@ export function ServicesAccordionList({ data }: { data: ServicesContent }) {
                   <div className="grid gap-6 lg:max-w-[880px] lg:grid-cols-2 lg:gap-x-10">
                     {item.groups.map((g) => (
                       <div key={g.title} className="flex flex-col gap-3">
-                        <p className="text-b2 font-semibold text-heading lg:text-white">{g.title}</p>
-                        <ul className="flex flex-col gap-2 text-b2 text-body lg:text-on-dark">
+                        <p className="text-b2 font-semibold text-white">{g.title}</p>
+                        <ul className="flex flex-col gap-2 text-b2 text-on-dark">
                           {g.items.map((k) => (
                             <li key={k} className="flex gap-2">
                               <span aria-hidden className="mt-1.5 size-2 shrink-0 rounded-full bg-brand" />

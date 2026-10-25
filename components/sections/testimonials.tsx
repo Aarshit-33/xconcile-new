@@ -12,7 +12,7 @@ export function Testimonials({ data }: { data: TestimonialsContent }) {
   if (!data.videos.length) return null;
 
   return (
-    <section id={sectionId(data, "testimonials")} aria-labelledby="testimonials-title" className="bg-navy-3 section-y lg:bg-dark-gradient">
+    <section id={sectionId(data, "testimonials")} aria-labelledby="testimonials-title" className="bg-navy-3 bg-dark-gradient section-y">
       <div className="container-site flex flex-col items-center gap-8 lg:gap-12">
         <SectionHeading
           eyebrow={data.badge}
