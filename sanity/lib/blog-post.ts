@@ -1,6 +1,9 @@
 import "server-only";
 
+import type { MetaTag } from "@/lib/seo";
+
 import { sanityFetch } from "./fetch";
+import { withResolvedLinks } from "./page-urls";
 import { readMinutes } from "./queries";
 
 /** Portable Text block / custom block from the article body (rendered by ArticleBody). */
@@ -33,7 +36,13 @@ export type BlogArticle = {
   relatedSlugs: string[];
   /** SEO articles: picked related articles (document ids), in order. */
   relatedIds: string[];
-  seo: { title?: string; description?: string; keywords?: string[]; ogImage?: string };
+  seo: {
+    title?: string;
+    description?: string;
+    keywords?: string[];
+    ogImage?: string;
+    metaTags?: MetaTag[];
+  };
 };
 
 /** Id of the FAQ section (Table of Contents target). */
@@ -57,7 +66,7 @@ const POST = /* groq */ `*[_type == $type && slug.current == $slug && !(_id in p
     ...,
     _type == "articleImage" => { ..., "src": asset->url, "width": asset->metadata.dimensions.width, "height": asset->metadata.dimensions.height }
   },
-  seo{ title, description, keywords, "ogImage": ogImage.asset->url }
+  seo{ title, description, keywords, "ogImage": ogImage.asset->url, "metaTags": coalesce(metaTags[]{ key, value }, []) + select(defined(canonicalUrl) => [{ "key": "canonical", "value": canonicalUrl }], []) }
 }`;
 
 const plainText = (block: ArticleBlock) =>
@@ -107,7 +116,7 @@ type Raw = any;
  * One article by slug (Studio → Blog Posts). `null` = no such post (404).
  * Cache tags: `blogPost` + `author`.
  */
-export async function getBlogArticle(slug: string): Promise<BlogArticle | null> {
+async function loadBlogArticle(slug: string): Promise<BlogArticle | null> {
   return loadArticle("blogPost", slug);
 }
 
@@ -115,7 +124,7 @@ export async function getBlogArticle(slug: string): Promise<BlogArticle | null> 
  * One SEO article by slug (Studio → Articles; served at the root, `/<slug>`). `null` = none.
  * Cache tags: `seoArticle` + `author`.
  */
-export async function getSeoArticle(slug: string): Promise<(BlogArticle & { id: string }) | null> {
+async function loadSeoArticle(slug: string): Promise<(BlogArticle & { id: string }) | null> {
   return loadArticle("seoArticle", slug);
 }
 
@@ -183,6 +192,13 @@ async function loadArticle(
       description: d.seo?.description || undefined,
       keywords: Array.isArray(d.seo?.keywords) ? d.seo.keywords : undefined,
       ogImage: d.seo?.ogImage || undefined,
+      metaTags: d.seo?.metaTags ?? undefined,
     },
   };
 }
+
+/** `loadBlogArticle` with links to renamed pages resolved (sanity/lib/page-urls.ts). */
+export const getBlogArticle = withResolvedLinks(loadBlogArticle);
+
+/** `loadSeoArticle` with links to renamed pages resolved (sanity/lib/page-urls.ts). */
+export const getSeoArticle = withResolvedLinks(loadSeoArticle);

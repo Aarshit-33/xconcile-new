@@ -352,7 +352,7 @@ export const home = {
         // opens the matching industry page.
         cta: {
           label: "View Case Study",
-          href: routes.industry("professional-services") as string | undefined,
+          href: routes.industry("accounting-outsourcing-professional-services") as string | undefined,
         },
       },
       {
@@ -383,7 +383,7 @@ export const home = {
         },
         cta: {
           label: "View Case Study",
-          href: routes.industry("real-estate-construction") as string | undefined,
+          href: routes.industry("real-estate-accounting-services") as string | undefined,
         },
       },
     ],
@@ -431,7 +431,7 @@ export const home = {
         title: "CPA & Accounting Firms",
         // COPY FIX: desktop card has manufacturing copy (report §4); mobile copy used.
         body: "Reliable bookkeeping and accounting support for CPA firms.",
-        href: routes.industry("professional-services"),
+        href: routes.industry("accounting-outsourcing-professional-services"),
         image: {
           src: "/images/home/industry-cpa-firms.jpg",
           alt: "Close-up of metal grinding sparks",
@@ -442,7 +442,7 @@ export const home = {
       {
         title: "Healthcare",
         body: "Practice accounting, revenue cycle support, compliance.",
-        href: routes.industry("medical-health"),
+        href: routes.industry("healthcare-accounting-services"),
         image: {
           src: "/images/home/industry-healthcare.jpg",
           alt: "Doctor in a white coat using a smartphone",
@@ -453,7 +453,7 @@ export const home = {
       {
         title: "Real Estate",
         body: "Streamline property, sales, and client relationships.",
-        href: routes.industry("real-estate-construction"),
+        href: routes.industry("real-estate-accounting-services"),
         image: {
           src: "/images/home/industry-real-estate.jpg",
           alt: "Modern high-rise office buildings",
@@ -464,7 +464,7 @@ export const home = {
       {
         title: "Retail",
         body: "Multi-location consolidation and daily sales reconciliation.",
-        href: routes.industry("hospitality-retail"),
+        href: routes.industry("hospitality-accounting-services"),
         image: {
           src: "/images/home/industry-retail.jpg",
           alt: "Retail store owner using a point-of-sale tablet",

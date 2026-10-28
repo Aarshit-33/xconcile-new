@@ -1,10 +1,8 @@
 import type { MetadataRoute } from "next";
 
-import { hirePages } from "@/content/hire";
-import { industryPages } from "@/content/industries";
-import { servicePages } from "@/content/services";
 import { sanityFetch } from "@/sanity/lib/fetch";
 import { getAllCaseStudySlugs } from "@/sanity/lib/case-studies";
+import { getPageUrls, type PageKind } from "@/sanity/lib/page-urls";
 import { getAllPostSlugs, getAllSeoArticleSlugs } from "@/sanity/lib/queries";
 import { absoluteUrl, routes } from "@/lib/routes";
 
@@ -18,7 +16,6 @@ const SINGLETON_IDS = [
   "caseStudiesPage",
   "industriesPage",
   "contactPage",
-  "privacyPage",
 ] as const;
 
 /**
@@ -29,15 +26,13 @@ const SINGLETON_IDS = [
  *   (next.config.ts). /contact is a real page again (2026-10-27) and is listed.
  * - cached GROQ requests, revalidated by the Sanity webhook
  *
- * Page slugs come from the content registries (the same list generateStaticParams uses), so
- * a page is listed even before its Sanity document exists; `_updatedAt` is added when it does.
+ * Service/hire/industry URLs come from sanity/lib/page-urls.ts (the same live slugs the routes
+ * prerender; a Studio slug change shows here, old URLs never do), so a page is listed even
+ * before its Sanity document exists; `_updatedAt` is added when it does.
  */
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const [pages, blog, singletons, caseStudies, articles] = await Promise.all([
-    sanityFetch<Entry[] | null>({
-      query: `*[_type in ["servicePage", "hirePage", "industryPage"] && defined(slug.current)]{ "slug": slug.current, _updatedAt }`,
-      tags: ["servicePage", "hirePage", "industryPage"],
-    }),
+  const [urls, blog, singletons, caseStudies, articles] = await Promise.all([
+    getPageUrls(),
     // Blog posts from Studio → Blog Posts.
     getAllPostSlugs(),
     // Singleton page documents (published only: their ids have no `drafts.` prefix).
@@ -50,14 +45,15 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     getAllSeoArticleSlugs(),
   ]);
 
-  const updatedAt = new Map((pages ?? []).map((p) => [p.slug, p._updatedAt]));
-  const fromRegistry = (registry: Record<string, unknown>): Entry[] =>
-    Object.keys(registry).map((slug) => ({ slug, _updatedAt: updatedAt.get(slug) }));
+  const livePages = (kind: PageKind): Entry[] =>
+    urls.pages
+      .filter((p) => p.kind === kind)
+      .map((p) => ({ slug: p.slug, _updatedAt: p.updatedAt }));
 
   const data = {
-    services: fromRegistry(servicePages),
-    hireStaff: fromRegistry(hirePages),
-    industries: fromRegistry(industryPages),
+    services: livePages("service"),
+    hireStaff: livePages("hire"),
+    industries: livePages("industry"),
     posts: blog ?? [],
     caseStudies,
   };
@@ -109,12 +105,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       ...lastMod(singletonUpdated.get("contactPage")),
       changeFrequency: "yearly",
       priority: 0.7,
-    },
-    {
-      url: absoluteUrl(routes.privacy()),
-      ...lastMod(singletonUpdated.get("privacyPage")),
-      changeFrequency: "yearly",
-      priority: 0.3,
     },
   ];
 

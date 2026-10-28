@@ -14,7 +14,11 @@ import { cn } from "@/lib/utils";
  */
 export function StatsBar({ data }: { data: StatsContent }) {
   return (
-    <section id={sectionId(data, "stats")} aria-label="Key figures" className="border-b border-hairline">
+    <section
+      id={sectionId(data, "stats")}
+      aria-label="Key figures"
+      className="border-b border-hairline"
+    >
       <div className="container-site">
         <div className="grid grid-cols-2 gap-x-4 lg:grid-cols-4 lg:gap-x-6 xl:grid-cols-[repeat(4,minmax(0,242fr))_minmax(0,238fr)]">
           {data.items.map((s, i) => (
@@ -70,7 +74,7 @@ export function StatsBar({ data }: { data: StatsContent }) {
               />
             </div>
             <div className="flex flex-col items-center justify-center gap-1 rounded-md border border-hairline bg-white p-4 xl:items-start xl:rounded-none xl:border-0 xl:border-l xl:bg-transparent xl:p-0 xl:pl-6">
-              <p className="flex items-center gap-2 text-h5 font-medium text-heading">
+              <p className="flex items-center gap-2 text-h4-m font-medium text-heading lg:text-h5">
                 <StarIcon className="size-[22px] text-star" />
                 <span>
                   {data.rating.value}

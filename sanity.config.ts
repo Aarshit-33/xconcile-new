@@ -6,6 +6,7 @@ import { visionTool } from "@sanity/vision";
 import { defineConfig } from "sanity";
 import { structureTool } from "sanity/structure";
 
+import { URL_SLUG_TYPES, withOldSlugRecord } from "./sanity/actions/record-old-slug";
 import { apiVersion, dataset, projectId, studioBasePath } from "./sanity/env";
 import { schema } from "./sanity/schemaTypes";
 import { singletonTypes, structure } from "./sanity/structure";
@@ -25,10 +26,14 @@ export default defineConfig({
     templates: (templates) => templates.filter(({ schemaType }) => !singletonTypes.has(schemaType)),
   },
   document: {
-    actions: (input, context) =>
-      singletonTypes.has(context.schemaType)
-        ? input.filter(({ action }) => action && singletonActions.has(action))
-        : input,
+    actions: (input, context) => {
+      if (singletonTypes.has(context.schemaType))
+        return input.filter(({ action }) => action && singletonActions.has(action));
+      // Service/hire/industry pages: publishing a new URL slug keeps the old one as a 301.
+      if (URL_SLUG_TYPES.has(context.schemaType))
+        return input.map((a) => (a.action === "publish" ? withOldSlugRecord(a) : a));
+      return input;
+    },
   },
   plugins: [structureTool({ structure }), visionTool({ defaultApiVersion: apiVersion })],
 });

@@ -1,9 +1,12 @@
 import "server-only";
 
+import type { MetaTag } from "@/lib/seo";
+
 import { about, type AboutPageContent } from "@/content/about";
 import type { FounderContent, PersonProfile, TeamContent } from "@/content/types";
 
 import { sanityFetch } from "./fetch";
+import { withResolvedLinks } from "./page-urls";
 import {
   IMG,
   heading,
@@ -21,7 +24,7 @@ import {
 } from "./sections";
 
 const ABOUT_PAGE_QUERY = /* groq */ `*[_type == "aboutPage" && _id == "aboutPage"][0]{
-  seo{ title, description, keywords, "ogImage": ogImage.asset->url },
+  seo{ title, description, keywords, "ogImage": ogImage.asset->url, "metaTags": coalesce(metaTags[]{ key, value }, []) + select(defined(canonicalUrl) => [{ "key": "canonical", "value": canonicalUrl }], []) },
   hero, values, expertise, contact,
   ${P.stats},
   ${P.intro},
@@ -37,7 +40,9 @@ function mapPerson(d: Raw, f: PersonProfile | undefined): PersonProfile | undefi
   const image = img(d.image) ?? f?.image;
   if (!d.name || !image) return f;
   const strings = (v: Raw) =>
-    Array.isArray(v) ? v.filter((s: unknown): s is string => typeof s === "string" && s.trim() !== "") : undefined;
+    Array.isArray(v)
+      ? v.filter((s: unknown): s is string => typeof s === "string" && s.trim() !== "")
+      : undefined;
   return {
     name: d.name,
     role: d.role ?? f?.role ?? "",
@@ -60,7 +65,9 @@ function mapFounder(d: Raw, f: FounderContent): FounderContent {
 function mapTeam(d: Raw, f: TeamContent): TeamContent {
   if (!d) return f;
   const members = Array.isArray(d.members)
-    ? (d.members.map((m: Raw, i: number) => mapPerson(m, f.members[i])).filter(Boolean) as PersonProfile[])
+    ? (d.members
+        .map((m: Raw, i: number) => mapPerson(m, f.members[i]))
+        .filter(Boolean) as PersonProfile[])
     : [];
   return {
     anchorId: d.anchorId || undefined,
@@ -109,7 +116,11 @@ function mapContact(d: Raw, f: AboutPageContent["contact"]): AboutPageContent["c
  * Sanity falls back to content/about.ts (also used when Sanity is not configured or the document
  * doesn't exist). Cache tag: `aboutPage` (revalidated by /api/revalidate on publish).
  */
-export async function getAboutPage(): Promise<{ content: AboutPageContent; ogImage?: string }> {
+async function loadAboutPage(): Promise<{
+  content: AboutPageContent;
+  ogImage?: string;
+  metaTags?: MetaTag[];
+}> {
   const f = about;
   const d: Raw = await sanityFetch({ query: ABOUT_PAGE_QUERY, tags: ["aboutPage"] });
   if (!d) return { content: f };
@@ -133,5 +144,9 @@ export async function getAboutPage(): Promise<{ content: AboutPageContent; ogIma
       contact: mapContact(d.contact, f.contact),
     },
     ogImage: d.seo?.ogImage ?? undefined,
+    metaTags: d.seo?.metaTags ?? undefined,
   };
 }
+
+/** `loadAboutPage` with links to renamed pages resolved (sanity/lib/page-urls.ts). */
+export const getAboutPage = withResolvedLinks(loadAboutPage);

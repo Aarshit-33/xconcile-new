@@ -3,6 +3,7 @@ import "server-only";
 import { notFound as fallback } from "@/content/not-found";
 
 import { sanityFetch } from "./fetch";
+import { withResolvedLinks } from "./page-urls";
 
 export type NotFoundPageContent = {
   seo: { title: string; description: string };
@@ -25,9 +26,11 @@ const str = (v: unknown, f: string) => (typeof v === "string" && v.trim() ? v : 
  * falls back to content/not-found.ts, which is also used when Sanity is not configured or the
  * document doesn't exist. Cache tag: `notFoundPage` (revalidated by /api/revalidate on publish).
  */
-export async function getNotFoundPage(): Promise<NotFoundPageContent> {
+async function loadNotFoundPage(): Promise<NotFoundPageContent> {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any -- untyped GROQ result
-  const d: any = await sanityFetch({ query: NOT_FOUND_QUERY, tags: ["notFoundPage"] }).catch(() => null);
+  const d: any = await sanityFetch({ query: NOT_FOUND_QUERY, tags: ["notFoundPage"] }).catch(
+    () => null,
+  );
   const img = d?.illustration;
 
   return {
@@ -41,6 +44,12 @@ export async function getNotFoundPage(): Promise<NotFoundPageContent> {
         : { ...fallback.illustration },
     title: str(d?.title, fallback.title),
     body: [str(d?.intro, fallback.body[0]), str(d?.detail, fallback.body[1])],
-    cta: { label: str(d?.cta?.label, fallback.cta.label), href: str(d?.cta?.href, fallback.cta.href) },
+    cta: {
+      label: str(d?.cta?.label, fallback.cta.label),
+      href: str(d?.cta?.href, fallback.cta.href),
+    },
   };
 }
+
+/** `loadNotFoundPage` with links to renamed pages resolved (sanity/lib/page-urls.ts). */
+export const getNotFoundPage = withResolvedLinks(loadNotFoundPage);

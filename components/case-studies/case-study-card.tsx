@@ -43,8 +43,8 @@ export function CaseStudyCard({
         className="absolute inset-0 -z-10 bg-[linear-gradient(180deg,rgb(0_0_0/0.25)_0%,rgb(0_0_0/0.45)_45%,rgb(0_0_0/0.88)_100%)]"
       />
       <div className="mt-auto flex flex-col gap-2 p-6 text-white">
-        {item.industry ? <p className="text-b1 font-normal">{item.industry}</p> : null}
-        <h3 className="font-display text-h5 font-medium text-white">
+        {item.industry ? <p className="text-b1 font-medium">{item.industry}</p> : null}
+        <h3 className="font-display text-h4-m font-medium text-white lg:text-h5">
           <Link
             href={routes.caseStudy(item.slug)}
             className="text-white outline-none after:absolute after:inset-0 after:rounded-md focus-visible:after:ring-3 focus-visible:after:ring-ring/50"
@@ -52,7 +52,7 @@ export function CaseStudyCard({
             {item.title}
           </Link>
         </h3>
-        <span aria-hidden className="mt-4 flex items-center gap-4 text-b1 font-normal">
+        <span aria-hidden className="mt-4 flex items-center gap-4 text-b1 font-medium">
           {linkLabel}
           <ArrowForwardIcon className="size-6 text-brand transition-transform group-hover/cs:translate-x-1" />
         </span>

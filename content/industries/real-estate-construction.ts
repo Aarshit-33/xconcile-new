@@ -1,5 +1,5 @@
 /**
- * Real Estate Accounting Services (`/industries/real-estate-construction`, live slug kept).
+ * Real Estate Accounting Services (`/industries/real-estate-accounting-services`; was `/industries/real-estate-construction`, which 301s here).
  *
  * Source (decision 2026-10-14): only the Figma design
  * `../pages/industry/real-estate-accounting-services.svg` (newer version; copy re-checked
@@ -19,7 +19,10 @@ import { routes } from "@/lib/routes";
 const schedule = (label: string) => ({ label, href: SCHEDULE_HREF });
 
 export const realEstateConstruction: IndustryPageContent = {
-  slug: "real-estate-construction",
+  // URL renamed by the client 2026-10-28 (was /industries/real-estate-construction, which now 301s here).
+  slug: "real-estate-accounting-services",
+  sanityId: "industryPage-real-estate-construction",
+  redirectFrom: ["real-estate-construction"],
   name: "Real Estate Accounting Services",
 
   seo: {

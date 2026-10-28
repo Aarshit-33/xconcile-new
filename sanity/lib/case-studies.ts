@@ -1,5 +1,7 @@
 import "server-only";
 
+import type { MetaTag } from "@/lib/seo";
+
 import {
   caseStudiesGallery,
   type CaseStudiesGalleryContent,
@@ -10,6 +12,7 @@ import type { CtaBandContent } from "@/content/types";
 
 import type { ArticleBlock } from "./blog-post";
 import { sanityFetch } from "./fetch";
+import { withResolvedLinks } from "./page-urls";
 import {
   heading,
   keywords,
@@ -46,7 +49,13 @@ export type CaseStudyPage = {
   relatedIds: string[];
   /** Own CTA band, else the gallery's (resolved in `getCaseStudy`). */
   ctaBand: CtaBandContent;
-  seo: { title?: string; description?: string; keywords?: string[]; ogImage?: string };
+  seo: {
+    title?: string;
+    description?: string;
+    keywords?: string[];
+    ogImage?: string;
+    metaTags?: MetaTag[];
+  };
 };
 
 /* ------------------------------------------------------------------ queries */
@@ -61,7 +70,7 @@ const CARD = `{
 const CARDS = /* groq */ `*[${PUBLISHED}] | order(publishedAt desc, _createdAt desc)${CARD}`;
 
 const PAGE = /* groq */ `*[_type == "caseStudiesPage" && _id == "caseStudiesPage"][0]{
-  seo{ title, description, keywords, "ogImage": ogImage.asset->url },
+  seo{ title, description, keywords, "ogImage": ogImage.asset->url, "metaTags": coalesce(metaTags[]{ key, value }, []) + select(defined(canonicalUrl) => [{ "key": "canonical", "value": canonicalUrl }], []) },
   hero, list, detail,
   ${P.ctaBand}
 }`;
@@ -76,7 +85,7 @@ const ONE = /* groq */ `*[${PUBLISHED} && slug.current == $slug][0]{
   },
   "relatedIds": related[]._ref,
   ${P.ctaBand},
-  seo{ title, description, keywords, "ogImage": ogImage.asset->url }
+  seo{ title, description, keywords, "ogImage": ogImage.asset->url, "metaTags": coalesce(metaTags[]{ key, value }, []) + select(defined(canonicalUrl) => [{ "key": "canonical", "value": canonicalUrl }], []) }
 }`;
 
 /* ------------------------------------------------------------------ mappers */
@@ -127,9 +136,10 @@ function mapDetail(d: Raw, f: CaseStudyPageSettings): CaseStudyPageSettings {
  * Gallery copy (`/case-studies`) from the `caseStudiesPage` singleton (Studio → Case Studies
  * Gallery). Every empty field falls back to content/case-studies.ts. Cache tag: `caseStudiesPage`.
  */
-export async function getCaseStudiesGallery(): Promise<{
+async function loadCaseStudiesGallery(): Promise<{
   content: CaseStudiesGalleryContent;
   ogImage?: string;
+  metaTags?: MetaTag[];
 }> {
   const f = caseStudiesGallery;
   const d: Raw = await sanityFetch({ query: PAGE, tags: ["caseStudiesPage"] }).catch(() => null);
@@ -147,6 +157,7 @@ export async function getCaseStudiesGallery(): Promise<{
       detail: mapDetail(d.detail, f.detail),
     },
     ogImage: d.seo?.ogImage || undefined,
+    metaTags: d.seo?.metaTags ?? undefined,
   };
 }
 
@@ -171,7 +182,7 @@ export async function getAllCaseStudySlugs(): Promise<{ slug: string; _updatedAt
  * One case study by slug (`null` = 404). Its CTA band: its own, else the gallery's
  * (`galleryCta`). Cache tag: `caseStudy`.
  */
-export async function getCaseStudy(
+async function loadCaseStudy(
   slug: string,
   galleryCta: CtaBandContent,
 ): Promise<CaseStudyPage | null> {
@@ -210,6 +221,7 @@ export async function getCaseStudy(
       description: d.seo?.description || undefined,
       keywords: Array.isArray(d.seo?.keywords) ? d.seo.keywords : undefined,
       ogImage: d.seo?.ogImage || undefined,
+      metaTags: d.seo?.metaTags ?? undefined,
     },
   };
 }
@@ -234,3 +246,9 @@ export async function getRelatedCaseStudies(
   }
   return out;
 }
+
+/** `loadCaseStudiesGallery` with links to renamed pages resolved (sanity/lib/page-urls.ts). */
+export const getCaseStudiesGallery = withResolvedLinks(loadCaseStudiesGallery);
+
+/** `loadCaseStudy` with links to renamed pages resolved (sanity/lib/page-urls.ts). */
+export const getCaseStudy = withResolvedLinks(loadCaseStudy);

@@ -22,7 +22,13 @@ if (dataset === "production") {
   throw new Error("Refusing to seed the production dataset (the live old site reads it).");
 }
 
-export const client = createClient({ projectId, dataset, token, apiVersion: "2025-02-19", useCdn: false });
+export const client = createClient({
+  projectId,
+  dataset,
+  token,
+  apiVersion: "2025-02-19",
+  useCdn: false,
+});
 
 let keyCounter = 0;
 export const key = (hint = "k") =>
@@ -80,3 +86,22 @@ export const link = (
   label: l.label,
   ...(l.href ? { href: l.href } : {}),
 });
+
+/** Sanity `_id` of a service/hire/industry page: renamed pages keep their original ID. */
+export const pageDocId = (type: string, page: { slug: string; sanityId?: string }) =>
+  page.sanityId ?? `${type}-${page.slug}`;
+
+/**
+ * URL fields for a re-seeded page document: the existing document's slug and old URLs (a slug
+ * changed in Studio survives a reseed), else the code default slug.
+ */
+export async function pageUrlFields(id: string, slug: string) {
+  const d = await client.fetch<{ slug?: { current?: string }; oldSlugs?: string[] } | null>(
+    `*[_id == $id][0]{ slug, oldSlugs }`,
+    { id },
+  );
+  return {
+    slug: { _type: "slug", current: d?.slug?.current || slug },
+    ...(d?.oldSlugs?.length ? { oldSlugs: d.oldSlugs } : {}),
+  };
+}

@@ -28,6 +28,8 @@ import {
   imageRef,
   keyed,
   link,
+  pageDocId,
+  pageUrlFields,
   projectId,
   richText,
   uploads,
@@ -61,10 +63,10 @@ async function buildServicePage(page: ServicePageContent) {
   const { industries, whyChoose, extraServices, security, tools, testimonials, blog, faq, ctaBand, seo } = page;
 
   return {
-    _id: `servicePage-${page.slug}`,
+    _id: pageDocId("servicePage", page),
     _type: "servicePage",
     name: page.name,
-    slug: { _type: "slug", current: page.slug },
+    ...(await pageUrlFields(pageDocId("servicePage", page), page.slug)),
 
     hero: {
       _type: "heroSection",
@@ -352,7 +354,7 @@ async function seed(slug: string, { skipExisting }: { skipExisting: boolean }) {
   if (!page) {
     throw new Error(`Unknown service page "${slug}". Known: ${Object.keys(servicePages).join(", ")}`);
   }
-  const docId = `servicePage-${slug}`;
+  const docId = pageDocId("servicePage", page);
   const existing = await client.fetch<{ published: boolean; draft: boolean }>(
     `{ "published": defined(*[_id == $id][0]._id), "draft": defined(*[_id == $draft][0]._id) }`,
     { id: docId, draft: `drafts.${docId}` },

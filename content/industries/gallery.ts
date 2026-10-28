@@ -96,25 +96,25 @@ export const industriesGallery: IndustriesGalleryContent = {
       {
         title: "CPA & Accounting Firms",
         body: "Bookkeeping, tax, and financial reporting.",
-        href: routes.industry("professional-services"),
+        href: routes.industry("accounting-outsourcing-professional-services"),
         image: photo("cpa-firms", "Accountant writing notes beside a calculator", 547, 365),
       },
       {
         title: "Healthcare",
         body: "Medical billing, payroll, and financial reporting.",
-        href: routes.industry("medical-health"),
+        href: routes.industry("healthcare-accounting-services"),
         image: photo("healthcare", "Doctor in a white coat using a smartphone", 500, 333),
       },
       {
         title: "Real Estate",
         body: "Property accounting, rental income, and expenses.",
-        href: routes.industry("real-estate-construction"),
+        href: routes.industry("real-estate-accounting-services"),
         image: photo("real-estate", "Modern high-rise office buildings", 500, 291),
       },
       {
         title: "Retail",
         body: "Sales reconciliation, inventory, and cash flow.",
-        href: routes.industry("hospitality-retail"),
+        href: routes.industry("hospitality-accounting-services"),
         image: photo("retail", "Retail store owner using a point-of-sale tablet", 499, 333),
       },
       {
@@ -130,7 +130,7 @@ export const industriesGallery: IndustriesGalleryContent = {
       {
         title: "eCommerce",
         body: "Sales reconciliation, inventory, and COGS.",
-        href: routes.industry("tech-ecommerce"),
+        href: routes.industry("ecommerce-accounting-services"),
         image: photo("ecommerce", "Online seller packing orders at a desk", 500, 334),
       },
       {
@@ -163,7 +163,7 @@ export const industriesGallery: IndustriesGalleryContent = {
         title: "Legal Services",
         body: "Client billing, trust accounting, and bookkeeping.",
         // Law firms are a sub-industry of the professional services page.
-        href: routes.industry("professional-services"),
+        href: routes.industry("accounting-outsourcing-professional-services"),
         image: photo("legal", "Judge's gavel beside an open law book", 548, 365),
       },
       {

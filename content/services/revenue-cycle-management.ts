@@ -1,6 +1,6 @@
 import { routes } from "@/lib/routes";
 /**
- * Revenue Cycle Management (`/revenue-cycle-management`, new page; no live URL yet).
+ * Revenue Cycle Management (`/revenue-cycle-management-services`; was `/revenue-cycle-management`, which 301s here).
  *
  * Sources (2026-10-25):
  *  - Copy: the Figma design `pages/services/revenue-cycle-management-services.svg` (RCM layout:
@@ -17,7 +17,10 @@ import { SCHEDULE_HREF } from "@/content/types";
 import type { ServicePageContent } from "@/content/services/types";
 
 export const revenueCycleManagement: ServicePageContent = {
-  slug: "revenue-cycle-management",
+  // URL renamed by the client 2026-10-28 (was /revenue-cycle-management, which now 301s here).
+  slug: "revenue-cycle-management-services",
+  sanityId: "servicePage-revenue-cycle-management",
+  redirectFrom: ["revenue-cycle-management"],
   name: "Revenue Cycle Management",
 
   seo: {

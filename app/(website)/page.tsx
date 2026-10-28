@@ -33,7 +33,7 @@ export async function generateMetadata(): Promise<Metadata> {
     ...buildMetadata({
       title: seo.title,
       description: seo.description,
-      seo: { metaKeywords: seo.keywords },
+      seo: { metaKeywords: seo.keywords, metaTags: seo.metaTags },
       path: "/",
     }),
     // The root layout's title template doesn't apply to the root page itself.

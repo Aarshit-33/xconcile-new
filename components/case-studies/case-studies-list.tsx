@@ -51,7 +51,7 @@ export function CaseStudiesList({
             }))}
           />
         ) : (
-          <p className="text-center text-b3 text-body">{data.emptyText}</p>
+          <p className="text-center text-b1 text-body lg:text-b3">{data.emptyText}</p>
         )}
       </div>
     </section>

@@ -5,10 +5,12 @@ import { SpeedInsights } from "@vercel/speed-insights/next";
 import { CalendlyProvider } from "@/components/calendly/calendly-provider";
 import { BackToTop } from "@/components/layout/back-to-top";
 import { CookieConsent } from "@/components/layout/cookie-consent";
+import { HideOnPaths } from "@/components/layout/hide-on-paths";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
 import { JsonLd } from "@/components/seo/json-ld";
 import { organizationJsonLd, websiteJsonLd } from "@/lib/seo";
+import { routes } from "@/lib/routes";
 import { siteConfig } from "@/lib/site-config";
 import { getSiteSettings } from "@/sanity/lib/site-settings";
 
@@ -18,6 +20,9 @@ import { getSiteSettings } from "@/sanity/lib/site-settings";
  * Consent Mode keeps its "denied" default from app/layout.tsx for new visitors.
  */
 const SHOW_SITE_COOKIE_BANNER = false;
+
+/** Pages shown without the site footer (Contact: client request 2026-10-28). */
+const NO_FOOTER_PATHS = [routes.contact()];
 
 /**
  * Public-site chrome: GTM, Org/WebSite JSON-LD, skip link, header/footer, cookie banner,
@@ -58,7 +63,9 @@ export async function SiteShell({ children }: { children: React.ReactNode }) {
         <main id="main" tabIndex={-1} className="flex-1 outline-none">
           {children}
         </main>
-        <SiteFooter />
+        <HideOnPaths paths={NO_FOOTER_PATHS}>
+          <SiteFooter />
+        </HideOnPaths>
         <BackToTop />
         {SHOW_SITE_COOKIE_BANNER ? <CookieConsent /> : null}
       </CalendlyProvider>

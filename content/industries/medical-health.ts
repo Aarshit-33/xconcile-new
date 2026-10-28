@@ -1,5 +1,5 @@
 /**
- * Healthcare Accounting Services (`/industries/medical-health`, live slug kept).
+ * Healthcare Accounting Services (`/industries/healthcare-accounting-services`; was `/industries/medical-health`, which 301s here).
  *
  * Source (updated 2026-10-25): the newer Figma design
  * `../pages/industry/healthcare-accounting-services.svg`, on the real-estate page's components
@@ -22,7 +22,10 @@ import { routes } from "@/lib/routes";
 const schedule = (label: string) => ({ label, href: SCHEDULE_HREF });
 
 export const medicalHealth: IndustryPageContent = {
-  slug: "medical-health",
+  // URL renamed by the client 2026-10-28 (was /industries/medical-health, which now 301s here).
+  slug: "healthcare-accounting-services",
+  sanityId: "industryPage-medical-health",
+  redirectFrom: ["medical-health"],
   name: "Healthcare Accounting Services",
 
   seo: {

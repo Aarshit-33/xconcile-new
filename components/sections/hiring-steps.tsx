@@ -59,7 +59,7 @@ export function HiringSteps({ data, className }: { data: HiringStepsContent; cla
                   <CheckSmallIcon className="size-6 text-brand" />
                 </span>
                 <div className="flex flex-col gap-4 pt-1.5">
-                  <h3 className="text-h5 text-heading">{step.title}</h3>
+                  <h3 className="text-h4-m text-heading lg:text-h5">{step.title}</h3>
                   <p className="text-b1 text-body">{step.body}</p>
                 </div>
               </li>

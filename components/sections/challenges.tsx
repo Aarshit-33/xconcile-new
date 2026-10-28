@@ -31,10 +31,7 @@ export function Challenges({
   const titleId = `${id}-title`;
 
   return (
-    <section id={id}
-      aria-labelledby={titleId}
-      className={cn("bg-white section-y", className)}
-    >
+    <section id={id} aria-labelledby={titleId} className={cn("bg-white section-y", className)}>
       <div className="container-site grid gap-8 lg:grid-cols-2 lg:gap-6">
         {/* Sticks below the fixed desktop navbar (was top-10 = 40px, under the 100px pill). */}
         <div className="flex flex-col gap-8 lg:sticky lg:top-header-offset lg:self-start">

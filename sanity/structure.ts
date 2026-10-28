@@ -12,7 +12,6 @@ import { EnvelopeIcon } from "@sanity/icons/Envelope";
 import { ErrorOutlineIcon } from "@sanity/icons/ErrorOutline";
 import { HomeIcon } from "@sanity/icons/Home";
 import { InfoOutlineIcon } from "@sanity/icons/InfoOutline";
-import { LockIcon } from "@sanity/icons/Lock";
 import { UsersIcon } from "@sanity/icons/Users";
 import type { StructureResolver } from "sanity/structure";
 
@@ -31,7 +30,6 @@ export const singletons = [
   { type: "siteSettings", id: "siteSettings", title: "Site Settings", icon: CogIcon },
   { type: "notFoundPage", id: "notFoundPage", title: "404 Page", icon: ErrorOutlineIcon },
   { type: "contactPage", id: "contactPage", title: "Contact Page", icon: EnvelopeIcon },
-  { type: "privacyPage", id: "privacyPage", title: "Privacy Policy", icon: LockIcon },
 ];
 
 export const singletonTypes = new Set(singletons.map((s) => s.type));

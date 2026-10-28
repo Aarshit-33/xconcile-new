@@ -72,7 +72,7 @@ export function BlogCard({
         <div className="flex flex-col gap-4 lg:contents">
           {/* Title turns green while the card (one stretched link) is hovered (client request). */}
           {/* Full title (2-line clamp removed 2026-10-22: it cut titles mid-word at every width). */}
-          <h3 className="font-display text-h5 font-medium text-black transition-colors group-hover/post:text-brand">
+          <h3 className="font-display text-h4-m font-medium text-black transition-colors group-hover/post:text-brand lg:text-h5">
             <Link
               href={post.href ?? routes.post(post.slug)}
               className="outline-none after:absolute after:inset-0 after:rounded-md focus-visible:after:ring-3 focus-visible:after:ring-ring/50"
@@ -88,7 +88,7 @@ export function BlogCard({
           )}
         </div>
         <div className="mt-auto flex flex-wrap items-center justify-between gap-x-4 gap-y-2 border-t border-line pt-4">
-          <p className="flex items-center gap-4 font-display text-b2 font-normal whitespace-nowrap text-meta">
+          <p className="flex items-center gap-4 font-display text-b2 font-medium whitespace-nowrap text-meta">
             {post.publishedAt ? (
               <span className="flex items-center gap-1">
                 <CalendarTodayIcon className="size-4" />

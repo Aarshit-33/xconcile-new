@@ -1,5 +1,5 @@
 /**
- * E-commerce Accounting Services (`/industries/tech-ecommerce`, live slug kept).
+ * E-commerce Accounting Services (`/industries/ecommerce-accounting-services`; was `/industries/tech-ecommerce`, which 301s here).
  *
  * Source (user request 2026-10-25): the Figma design
  * `../pages/industry/ecommerce-accounting-services.svg`, on the real-estate page's components as
@@ -22,7 +22,10 @@ import { routes } from "@/lib/routes";
 /** The page has no contact section, so CTAs open the Calendly popup (client rule). */
 
 export const techEcommerce: IndustryPageContent = {
-  slug: "tech-ecommerce",
+  // URL renamed by the client 2026-10-28 (was /industries/tech-ecommerce, which now 301s here).
+  slug: "ecommerce-accounting-services",
+  sanityId: "industryPage-tech-ecommerce",
+  redirectFrom: ["tech-ecommerce"],
   name: "E-commerce Accounting Services",
 
   seo: {

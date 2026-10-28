@@ -28,7 +28,11 @@ export function Industries({
   className?: string;
 }) {
   return (
-    <section id={sectionId(data, "industries")} aria-labelledby="industries-title" className={cn("section-y", className)}>
+    <section
+      id={sectionId(data, "industries")}
+      aria-labelledby="industries-title"
+      className={cn("section-y", className)}
+    >
       <div className="container-site flex flex-col gap-8 lg:gap-12">
         <div className="flex flex-col gap-8 lg:flex-row lg:items-center lg:justify-between lg:gap-10">
           <SectionHeading
@@ -41,7 +45,11 @@ export function Industries({
             subtitleClassName="lg:max-w-[776px]"
           />
           {data.cta.href ? (
-            <CtaLink href={data.cta.href} variant="outline" className="hidden shrink-0 lg:inline-flex">
+            <CtaLink
+              href={data.cta.href}
+              variant="outline"
+              className="hidden shrink-0 lg:inline-flex"
+            >
               {data.cta.label}
             </CtaLink>
           ) : null}
@@ -60,7 +68,9 @@ export function Industries({
                 {/* contents: title row + text join the card's subgrid rows (see cardCls). */}
                 <div className="contents">
                   <div className="flex items-start justify-between gap-4">
-                    <h3 className="text-h5 text-heading-alt transition-colors group-hover:text-brand">{item.title}</h3>
+                    <h3 className="text-h4-m text-heading-alt transition-colors group-hover:text-brand lg:text-h5">
+                      {item.title}
+                    </h3>
                     <ArrowRightAltIcon className="size-6 shrink-0 text-heading-alt transition-colors group-hover:text-brand" />
                   </div>
                   {/* lg: -mt-2 / -mt-0.5 = the 24px row gap minus these = the 16px / 22px drawn
@@ -68,7 +78,7 @@ export function Industries({
                   <p className="text-b1 text-body-alt lg:-mt-2">{item.body}</p>
                 </div>
                 {/* Card photo: zoom only, on card hover (client request 2026-10-22). */}
-                <div className="img-zoom relative mt-1.5 aspect-[274/146] overflow-hidden rounded-sm lg:-mt-0.5">
+                <div className="relative mt-1.5 aspect-[274/146] img-zoom overflow-hidden rounded-sm lg:-mt-0.5">
                   <Image
                     src={item.image.src}
                     alt={item.image.alt}
@@ -85,7 +95,10 @@ export function Industries({
             const cardCls =
               "img-zoom-trigger row-span-3 grid w-full grid-rows-subgrid gap-y-[normal] rounded-md border border-hairline bg-white p-4 lg:border-[#d2d5da]";
             return (
-              <li key={item.title} className="row-span-3 grid w-[306px] shrink-0 snap-start grid-rows-subgrid lg:w-auto">
+              <li
+                key={item.title}
+                className="row-span-3 grid w-[306px] shrink-0 snap-start grid-rows-subgrid lg:w-auto"
+              >
                 {item.href ? (
                   // Hover: title + arrow turn green; no background change (client request 2026-10-22).
                   <Link

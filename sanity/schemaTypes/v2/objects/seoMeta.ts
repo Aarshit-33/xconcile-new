@@ -1,4 +1,4 @@
-import { defineField, defineType } from "sanity";
+import { defineArrayMember, defineField, defineType } from "sanity";
 
 /** Page SEO. Named `seoMeta` so it never clashes with the legacy `seo` object. */
 export default defineType({
@@ -33,7 +33,7 @@ export default defineType({
       of: [{ type: "string" }],
       options: { layout: "tags" },
       description:
-        "Search phrases this page should rank for, e.g. “outsourced bookkeeping services”. Type one and press Enter. Output as <meta name=\"keywords\">. 5–10 focused phrases work best.",
+        'Search phrases this page should rank for, e.g. “outsourced bookkeeping services”. Type one and press Enter. Output as <meta name="keywords">. 5–10 focused phrases work best.',
       validation: (Rule) => [
         Rule.unique(),
         Rule.max(15).warning("Keep it focused: 5–10 phrases is plenty."),
@@ -44,6 +44,61 @@ export default defineType({
       title: "Social share image",
       type: "image",
       description: "Optional. 1200×630 recommended.",
+    }),
+    defineField({
+      name: "canonicalUrl",
+      title: "Canonical URL",
+      type: "string",
+      description:
+        "Leave empty (recommended): the page's own address is used. Fill in only when this page duplicates another page and Google should index that one instead, e.g. https://xconcile.com/outsourced-tax-preparation or /outsourced-tax-preparation.",
+      validation: (Rule) =>
+        Rule.custom((v: string | undefined) => {
+          const value = v?.trim();
+          if (!value) return true;
+          return /^(https?:\/\/[^\s]+|\/[^\s]*)$/.test(value)
+            ? true
+            : "Use a full URL (https://…) or a site path starting with /.";
+        }),
+    }),
+    defineField({
+      name: "metaTags",
+      title: "Custom meta / Open Graph tags",
+      type: "array",
+      description:
+        'Optional key/value tags for this page (user request 2026-10-28). Open Graph and Twitter keys override what the site generates from the fields above, e.g. og:title, og:description, og:image (full image URL), og:type, twitter:card, twitter:site. Any other key is added as <meta name="key" content="value">.',
+      of: [
+        defineArrayMember({
+          name: "metaTag",
+          title: "Tag",
+          type: "object",
+          fields: [
+            defineField({
+              name: "key",
+              title: "Key",
+              type: "string",
+              description: "e.g. og:title, og:image, twitter:site, author",
+              validation: (Rule) =>
+                Rule.required().custom((v: string | undefined) =>
+                  !v || /^[a-zA-Z][\w:.-]*$/.test(v.trim())
+                    ? true
+                    : "Letters, numbers, : . - and _ only (e.g. og:title).",
+                ),
+            }),
+            defineField({
+              name: "value",
+              title: "Value",
+              type: "string",
+              validation: (Rule) => Rule.required().max(500),
+            }),
+          ],
+          preview: { select: { title: "key", subtitle: "value" } },
+        }),
+      ],
+      validation: (Rule) =>
+        Rule.custom((tags: { key?: string }[] | undefined) => {
+          const keys = (tags ?? []).map((t) => t?.key?.trim()).filter(Boolean);
+          return new Set(keys).size === keys.length ? true : "Each key can only be used once.";
+        }),
     }),
   ],
 });

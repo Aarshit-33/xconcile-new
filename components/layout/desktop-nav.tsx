@@ -45,7 +45,7 @@ const keepOpenInsideNav = (event: Event) => {
 export function DesktopNav({ items, promo }: { items: MenuGroup[]; promo: MenuPromo }) {
   // Controlled so "Free Consultation" can close the menu before the Calendly popup opens.
   const [open, setOpen] = useState("");
-  const { openScheduler } = useCalendly();
+  const { openScheduler, warmProps } = useCalendly();
 
   return (
     <NavigationMenu viewport={false} aria-label="Main" value={open} onValueChange={setOpen}>
@@ -89,14 +89,14 @@ export function DesktopNav({ items, promo }: { items: MenuGroup[]; promo: MenuPr
                                 <NavIcon name={link.icon} className="size-6!" />
                               )}
                             </span>
-                            <span className="flex flex-col">
+                            <div className="flex flex-col">
                               <span className="text-base font-bold text-[#171717] transition-colors group-hover/item:text-brand">
                                 {link.label}
                               </span>
-                              <span className="mt-0.5 line-clamp-2 text-sm font-normal text-[#737373]">
+                              <p className="mt-0.5 line-clamp-2 text-sm font-medium text-[#737373]">
                                 {link.description}
-                              </span>
-                            </span>
+                              </p>
+                            </div>
                           </Link>
                         </NavigationMenuLink>
                       </li>
@@ -115,13 +115,14 @@ export function DesktopNav({ items, promo }: { items: MenuGroup[]; promo: MenuPr
                         {promo.badge}
                       </span>
                       <p className="mb-2 text-xl font-bold">{promo.title}</p>
-                      <p className="mb-4 text-sm leading-relaxed font-normal text-[#a3a3a3]">
+                      <p className="mb-4 text-sm leading-relaxed font-medium text-[#a3a3a3]">
                         {promo.body}
                       </p>
                     </div>
                     <Button
                       type="button"
                       aria-haspopup="dialog"
+                      {...warmProps}
                       onClick={() => {
                         setOpen("");
                         openScheduler();

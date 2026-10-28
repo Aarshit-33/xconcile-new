@@ -1,5 +1,7 @@
 import "server-only";
 
+import type { MetaTag } from "@/lib/seo";
+
 import {
   blogGallery,
   type BlogArticleSettings,
@@ -8,17 +10,31 @@ import {
 } from "@/content/blog-gallery";
 
 import { sanityFetch } from "./fetch";
-import { heading, img, IMG, keywords, mapCtaBand, mapHero, type Raw, SECTION_PROJECTION as P } from "./sections";
+import { withResolvedLinks } from "./page-urls";
+import {
+  heading,
+  img,
+  IMG,
+  keywords,
+  mapCtaBand,
+  mapHero,
+  type Raw,
+  SECTION_PROJECTION as P,
+} from "./sections";
 
 const BLOG_PAGE_QUERY = /* groq */ `*[_type == "blogPage" && _id == "blogPage"][0]{
-  seo{ title, description, keywords, "ogImage": ogImage.asset->url },
+  seo{ title, description, keywords, "ogImage": ogImage.asset->url, "metaTags": coalesce(metaTags[]{ key, value }, []) + select(defined(canonicalUrl) => [{ "key": "canonical", "value": canonicalUrl }], []) },
   hero, posts, related,
   newsletter{ ..., "image": image${IMG} },
   ${P.ctaBand}
 }`;
 
 /** Shared article copy: each empty field falls back to the code value. */
-function mapArticle(d: Raw, f: BlogArticleSettings, ctaImage: BlogArticleSettings["newsletter"]["image"]): BlogArticleSettings {
+function mapArticle(
+  d: Raw,
+  f: BlogArticleSettings,
+  ctaImage: BlogArticleSettings["newsletter"]["image"],
+): BlogArticleSettings {
   const r = d?.related ?? {};
   const n = d?.newsletter ?? {};
   const image = img(n.image);
@@ -64,7 +80,11 @@ function mapPosts(d: Raw, f: BlogPostsContent): BlogPostsContent {
  * empty in Sanity falls back to content/blog-gallery.ts (also used when Sanity is not configured
  * or the document doesn't exist). Cache tag: `blogPage`. The posts themselves: `getAllPosts`.
  */
-export async function getBlogGallery(): Promise<{ content: BlogGalleryContent; ogImage?: string }> {
+async function loadBlogGallery(): Promise<{
+  content: BlogGalleryContent;
+  ogImage?: string;
+  metaTags?: MetaTag[];
+}> {
   const f = blogGallery;
   const d: Raw = await sanityFetch({ query: BLOG_PAGE_QUERY, tags: ["blogPage"] });
   if (!d) return { content: f };
@@ -83,5 +103,9 @@ export async function getBlogGallery(): Promise<{ content: BlogGalleryContent; o
       article: mapArticle(d, f.article, d.ctaBand ? ctaBand.image : f.article.newsletter.image),
     },
     ogImage: d.seo?.ogImage ?? undefined,
+    metaTags: d.seo?.metaTags ?? undefined,
   };
 }
+
+/** `loadBlogGallery` with links to renamed pages resolved (sanity/lib/page-urls.ts). */
+export const getBlogGallery = withResolvedLinks(loadBlogGallery);

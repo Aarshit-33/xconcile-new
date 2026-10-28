@@ -1,5 +1,5 @@
 /**
- * Outsourced Payroll & Compliance Services (`/outsourced-payroll-and-compliance-services`).
+ * Outsourced Payroll & Compliance Services (`/outsourced-payroll-compliance-services`; was `/outsourced-payroll-and-compliance-services`, which 301s here).
  *
  * Sources:
  *  - Copy: the Figma design `pages/services/outsourced-payroll-services.svg` (2026-10-25 export).
@@ -14,7 +14,10 @@ import type { ServicePageContent } from "@/content/services/types";
 import { routes } from "@/lib/routes";
 
 export const outsourcedPayrollAndComplianceServices: ServicePageContent = {
-  slug: "outsourced-payroll-and-compliance-services",
+  // URL renamed by the client 2026-10-28 (was /outsourced-payroll-and-compliance-services, which now 301s here).
+  slug: "outsourced-payroll-compliance-services",
+  sanityId: "servicePage-outsourced-payroll-and-compliance-services",
+  redirectFrom: ["outsourced-payroll-and-compliance-services"],
   name: "Outsourced Payroll & Compliance Services",
 
   seo: {
@@ -64,7 +67,7 @@ export const outsourcedPayrollAndComplianceServices: ServicePageContent = {
     ] satisfies RichText,
     bodyMore: [
       "Xconcile provides outsourced payroll and compliance services for U.S. businesses and CPA firms. Our ",
-      { text: "payroll professionals", href: routes.hireStaff("hire-payroll-and-compliance") },
+      { text: "payroll professionals", href: routes.hireStaff("hire-payroll-staff") },
       " bring structured processes and accounting expertise to manage payroll processing, reporting, administration, and related compliance work according to your requirements. We work within your existing processes to provide dependable payroll support and help keep day-to-day payroll responsibilities under control.",
     ] satisfies RichText,
     bodyMoreLayout: "paragraph",
@@ -280,7 +283,7 @@ export const outsourcedPayrollAndComplianceServices: ServicePageContent = {
         // The drawn photo is Home's CPA case-study photo (verified against the design image).
         image: home.caseStudies.items[0].image,
         // No case-study pages exist yet, so the button opens the matching industry page.
-        cta: { label: "View Case Study", href: routes.industry("professional-services") },
+        cta: { label: "View Case Study", href: routes.industry("accounting-outsourcing-professional-services") },
       },
     ],
   },
@@ -332,25 +335,25 @@ export const outsourcedPayrollAndComplianceServices: ServicePageContent = {
       {
         title: "CPA & Accounting Firms",
         body: "Extend payroll capabilities with reliable outsourced support.",
-        href: routes.industry("professional-services"),
+        href: routes.industry("accounting-outsourcing-professional-services"),
         image: home.industries.items[0].image,
       },
       {
         title: "Healthcare",
         body: "Reliable payroll assistance for healthcare teams and staff.",
-        href: routes.industry("medical-health"),
+        href: routes.industry("healthcare-accounting-services"),
         image: home.industries.items[1].image,
       },
       {
         title: "Real Estate",
         body: "Manage payroll needs for real estate teams and companies.",
-        href: routes.industry("real-estate-construction"),
+        href: routes.industry("real-estate-accounting-services"),
         image: home.industries.items[2].image,
       },
       {
         title: "Retail",
         body: "Support payroll processes for retail businesses and teams.",
-        href: routes.industry("hospitality-retail"),
+        href: routes.industry("hospitality-accounting-services"),
         image: home.industries.items[3].image,
       },
       {
@@ -378,7 +381,7 @@ export const outsourcedPayrollAndComplianceServices: ServicePageContent = {
       {
         title: "eCommerce",
         body: "Manage payroll needs for growing online businesses and teams.",
-        href: routes.industry("tech-ecommerce"),
+        href: routes.industry("ecommerce-accounting-services"),
         image: {
           src: "/images/industries/ecommerce.jpg",
           alt: "Online seller packing orders at a desk",
@@ -554,7 +557,7 @@ export const outsourcedPayrollAndComplianceServices: ServicePageContent = {
     title: "Need Reliable Payroll Support for Your Business?",
     body: "Get experienced payroll professionals to help manage recurring payroll activities and compliance requirements.",
     // "Hire" button: opens the matching hire page (as the industry pages' "Hire Accounting Staff").
-    cta: { label: "Hire Accounting Staff", href: routes.hireStaff("hire-payroll-and-compliance") },
+    cta: { label: "Hire Accounting Staff", href: routes.hireStaff("hire-payroll-staff") },
     // The design draws this band as a flat colour with no photo; the type requires an image, so
     // the audit page's band photo is reused.
     image: { src: "/images/services/cta-handshake.jpg", alt: "", width: 1500, height: 1000 },

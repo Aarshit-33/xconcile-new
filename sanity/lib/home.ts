@@ -1,5 +1,7 @@
 import "server-only";
 
+import type { MetaTag } from "@/lib/seo";
+
 import { home } from "@/content/home";
 import type {
   BlogContent,
@@ -18,6 +20,7 @@ import type {
 } from "@/content/types";
 
 import { sanityFetch } from "./fetch";
+import { withResolvedLinks } from "./page-urls";
 import {
   mapBlog,
   mapCaseStudies,
@@ -40,7 +43,7 @@ import {
 
 /** Home page data: the shared section shapes the components accept (content/types.ts). */
 export type HomeContent = {
-  seo: { title: string; description: string; keywords?: string[] };
+  seo: { title: string; description: string; keywords?: string[]; metaTags?: MetaTag[] };
   hero: HeroContent;
   stats: StatsContent;
   intro: IntroContent;
@@ -77,7 +80,7 @@ const HOME_QUERY = /* groq */ `*[_id == "home"][0]{
  * to content/home.ts (also used when Sanity is not configured). Cache tag: `home`.
  * Each section's Studio "Section ID" becomes its `anchorId` (the section's #id, lib/section-ids.ts).
  */
-export async function getHome(): Promise<HomeContent> {
+async function loadHome(): Promise<HomeContent> {
   const d: Raw = await sanityFetch({ query: HOME_QUERY, tags: ["home", "caseStudy"] });
   if (!d) return fallback;
   const f = fallback;
@@ -87,6 +90,12 @@ export async function getHome(): Promise<HomeContent> {
       title: d.seo?.title ?? f.seo.title,
       description: d.seo?.description ?? f.seo.description,
       keywords: keywords(d.seo?.keywords, f.seo.keywords),
+      // Custom tags + the canonical override as a "canonical" tag (same shape as the GROQ
+      // projections in the other loaders).
+      metaTags: [
+        ...(d.seo?.metaTags ?? []),
+        ...(d.seo?.canonicalUrl ? [{ key: "canonical", value: d.seo.canonicalUrl }] : []),
+      ],
     },
 
     // Same mapper per section type on every page (./sections.ts).
@@ -159,3 +168,6 @@ export function mapInquiry(c: Raw, f: InquiryContent): InquiryContent {
     },
   };
 }
+
+/** `loadHome` with links to renamed pages resolved (sanity/lib/page-urls.ts). */
+export const getHome = withResolvedLinks(loadHome);

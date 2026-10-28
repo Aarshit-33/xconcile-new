@@ -14,7 +14,13 @@ import { sectionId } from "@/lib/section-ids";
  * as the industry pages' feature strip (B3), with the tile above the text at every width.
  * No mobile design: 1 column on phones, 2 from sm, 4 from lg. Cards rise in (RevealList).
  */
-export function FeatureCards({ data, className }: { data: FeatureCardsContent; className?: string }) {
+export function FeatureCards({
+  data,
+  className,
+}: {
+  data: FeatureCardsContent;
+  className?: string;
+}) {
   const id = sectionId(data, "featureCards");
   const titleId = `${id}-title`;
 
@@ -39,13 +45,21 @@ export function FeatureCards({ data, className }: { data: FeatureCardsContent; c
           {data.items.map((item) => (
             <li
               key={item.title}
-              className={cn("row-span-3 grid grid-rows-subgrid gap-y-3 rounded-md border border-line/60 bg-white p-6", hoverGreen)}
+              className={cn(
+                "row-span-3 grid grid-rows-subgrid gap-y-3 rounded-md border border-line/60 bg-white p-6",
+                hoverGreen,
+              )}
             >
-              <span className={cn("flex size-12 shrink-0 items-center justify-center rounded-md bg-brand-50", hoverTile)}>
+              <span
+                className={cn(
+                  "flex size-12 shrink-0 items-center justify-center rounded-md bg-brand-50",
+                  hoverTile,
+                )}
+              >
                 <Icon name={item.icon} className="size-6 text-brand" />
               </span>
               {/* mt-3: 24px below the icon (12px row gap + 12px), 12px to the text. */}
-              <h3 className="mt-3 text-h5 text-heading-alt">{item.title}</h3>
+              <h3 className="mt-3 text-h4-m text-heading-alt lg:text-h5">{item.title}</h3>
               <p className="text-b1 text-body">{item.body}</p>
             </li>
           ))}

@@ -13,11 +13,11 @@ import { getIndustriesGallery } from "@/sanity/lib/industries-gallery";
  * content/industries/gallery.ts.
  */
 export async function generateMetadata(): Promise<Metadata> {
-  const { content, ogImage } = await getIndustriesGallery();
+  const { content, ogImage, metaTags } = await getIndustriesGallery();
   return buildMetadata({
     title: content.seo.title,
     description: content.seo.description,
-    seo: { metaKeywords: content.seo.keywords, openGraphImage: ogImage },
+    seo: { metaKeywords: content.seo.keywords, openGraphImage: ogImage, metaTags },
     path: routes.industries(),
   });
 }
@@ -34,7 +34,9 @@ export default async function IndustriesPage() {
             { name: "Home", path: routes.home() },
             { name: "Industries", path },
           ]),
-          faqJsonLd(content.faq.items.map((f) => ({ question: f.q, answer: richTextToPlain(f.a) }))),
+          faqJsonLd(
+            content.faq.items.map((f) => ({ question: f.q, answer: richTextToPlain(f.a) })),
+          ),
         ]}
       />
       <IndustriesGalleryTemplate content={content} />

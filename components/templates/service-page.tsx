@@ -31,26 +31,37 @@ export function ServicePageTemplate({ content }: { content: ServicePageContent }
     <>
       <Hero data={content.hero} variant="inner" />
       <StatsBar data={content.stats} />
-      <Intro data={content.intro} />
+      {/* pt-6: 48px from the stats badges (their 24px + 24px) on mobile (client note 2026-10-28). */}
+      <Intro data={content.intro} className="pt-6 lg:pt-section" />
       <Challenges data={content.challenges} />
       {/* RCM "Medical Billing Services": this page's services block, so it takes the #services
           anchor (hero links) unless Studio sets another; both grids would otherwise be #overview. */}
       {content.featureGrid ? (
-        <FeatureCards data={{ ...content.featureGrid, anchorId: content.featureGrid.anchorId || "services" }} />
+        <FeatureCards
+          data={{ ...content.featureGrid, anchorId: content.featureGrid.anchorId || "services" }}
+        />
       ) : null}
       {content.services ? <Services data={content.services} /> : null}
       {content.caseStudies ? <CaseStudies data={content.caseStudies} /> : null}
-      {content.process ? <Process data={content.process} subtitleClassName="md:max-w-[666px]" /> : null}
+      {content.process ? (
+        <Process data={content.process} subtitleClassName="md:max-w-[666px]" />
+      ) : null}
       {content.industries ? <Industries data={content.industries} headingAlign="center" /> : null}
       <WhyChoose data={content.whyChoose} />
       {content.extraServices ? (
         <FeatureCards
-          data={{ ...content.extraServices, anchorId: content.extraServices.anchorId || "additional-services" }}
+          data={{
+            ...content.extraServices,
+            anchorId: content.extraServices.anchorId || "additional-services",
+          }}
         />
       ) : null}
       {/* White after the white extra-services grid: no second top padding (80px rhythm). */}
       {content.security ? (
-        <SecurityControls data={content.security} className={content.extraServices ? "pt-0 lg:pt-0" : undefined} />
+        <SecurityControls
+          data={content.security}
+          className={content.extraServices ? "pt-0 lg:pt-0" : undefined}
+        />
       ) : null}
       {content.tools ? <ToolTabs data={content.tools} /> : null}
       {content.testimonials ? <Testimonials data={content.testimonials} /> : null}

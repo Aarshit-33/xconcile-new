@@ -1,47 +1,15 @@
 import { DocumentTextIcon } from "@sanity/icons/DocumentText";
 import { defineArrayMember, defineField, defineType, type ValidationContext } from "sanity";
 
-/**
- * Root-level paths the site already uses (app/(website)/* and old-site redirects in
- * next.config.ts). Service and hire page slugs are checked against their documents.
- */
-const RESERVED = new Set([
-  "about",
-  "api",
-  "blog",
-  "case-studies",
-  "contact",
-  "hire-staff",
-  "industries",
-  "meeting",
-  "privacy-policy",
-  "robots.txt",
-  "services",
-  "sitemap.xml",
-  "studio",
-  "team",
-]);
+import { slugAvailable } from "../page-url-fields";
 
-/** The article's URL must not clash with another page or article. */
+/**
+ * The article's URL must not clash with another page or article, live or old (redirecting):
+ * articles share the root namespace with service and hire pages (../page-url-fields.ts).
+ */
 async function freeSlug(value: { current?: string } | undefined, context: ValidationContext) {
   const slug = value?.current?.trim();
-  if (!slug) return true;
-  if (!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(slug))
-    return "Use lowercase letters, numbers and hyphens only (e.g. how-to-outsource-accounting).";
-  if (RESERVED.has(slug)) return `/${slug} is already a page on the site. Choose another slug.`;
-  const client = context.getClient({ apiVersion: "2025-02-19" });
-  const id = String(context.document?._id ?? "").replace(/^drafts\./, "");
-  const taken = await client.fetch<string | null>(
-    `*[slug.current == $slug && (
-      _type in ["servicePage", "hirePage"] ||
-      (_type == "seoArticle" && !(_id in [$id, "drafts." + $id]))
-    )][0]._type`,
-    { slug, id },
-  );
-  if (taken === "seoArticle") return "Another article already uses this slug.";
-  if (taken)
-    return `/${slug} is already a ${taken === "hirePage" ? "hire" : "service"} page. Choose another slug.`;
-  return true;
+  return slug ? slugAvailable(slug, "root", context) : true;
 }
 
 /**

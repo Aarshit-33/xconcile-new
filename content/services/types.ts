@@ -31,8 +31,15 @@ import type {
  *    `security`, FAQ, CTA band.
  */
 export type ServicePageContent = {
-  /** Live URL slug (lib/routes.ts) and the Sanity `servicePage` document slug. */
+  /**
+   * Default URL slug (`/<slug>`). The Sanity document's "URL slug" field overrides it (editable
+   * in Studio), so resolve live URLs with sanity/lib/page-urls.ts, not from this field.
+   */
   slug: string;
+  /** Sanity document `_id` when it isn't `<type>-<slug>` (renamed pages keep their original ID). */
+  sanityId?: string;
+  /** Old slugs that 301 to the live URL (Studio records its own in the document's "Old URLs"). */
+  redirectFrom?: string[];
   /** Service name for JSON-LD and breadcrumbs. */
   name: string;
   seo: { title: string; description: string; keywords?: string[] };

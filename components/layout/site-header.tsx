@@ -22,11 +22,15 @@ import { SidePanel } from "./side-panel";
 export async function SiteHeader() {
   const { header, sidePanel, social } = await getSiteSettings();
   return (
-    <header className="sticky top-0 z-50 bg-white lg:fixed lg:inset-x-0 lg:top-8 lg:bg-transparent">
+    <header className="sticky top-0 z-50 bg-white shadow-[0_4px_20px_rgb(19_33_44/0.14)] lg:fixed lg:inset-x-0 lg:top-8 lg:bg-transparent lg:shadow-none">
       {/* Mobile bar */}
       <div className="flex h-[68px] items-center justify-between pr-2 pl-4 md:pr-6 md:pl-8 lg:hidden">
         {/* before:*: invisible 44px-tall tap area around the 40px logo (no visual change). */}
-        <Link href="/" aria-label="Xconcile home" className="relative shrink-0 before:absolute before:inset-x-0 before:-inset-y-0.5">
+        <Link
+          href="/"
+          aria-label="Xconcile home"
+          className="relative shrink-0 before:absolute before:inset-x-0 before:-inset-y-0.5"
+        >
           <Image
             src="/images/brand/logo-color.svg"
             alt="Xconcile"
@@ -45,7 +49,11 @@ export async function SiteHeader() {
         {/* Backing colour lives in globals.css (--color-header-pill); `--header-fg` is the link
             colour inside (desktop-nav.tsx reads it). Light tone since 2026-10-22; history in the token. */}
         <div className="flex h-[68px] items-center justify-between gap-6 rounded-[44px] border border-hairline bg-header-pill px-8 shadow-[0_8px_24px_rgb(19_33_44/0.40)] [--header-fg:var(--color-heading)]">
-          <Link href="/" aria-label="Xconcile home" className="relative shrink-0 before:absolute before:inset-x-0 before:-inset-y-0.5">
+          <Link
+            href="/"
+            aria-label="Xconcile home"
+            className="relative shrink-0 before:absolute before:inset-x-0 before:-inset-y-0.5"
+          >
             <Image
               src="/images/brand/logo-color.svg"
               alt="Xconcile"
@@ -64,7 +72,12 @@ export async function SiteHeader() {
               <ScheduleMeetingButton>{header.ctaLabel}</ScheduleMeetingButton>
               {/* The nav links show from xl; there the hamburger opens the About side panel
                   (client request 2026-10-22). Below xl it still opens the navigation menu. */}
-              <MobileMenu items={header.menus} ctaLabel={header.ctaLabel} tone="dark" className="-mr-2.5 xl:hidden" />
+              <MobileMenu
+                items={header.menus}
+                ctaLabel={header.ctaLabel}
+                tone="dark"
+                className="-mr-2.5 xl:hidden"
+              />
               <SidePanel data={sidePanel} social={social} className="-mr-2.5 hidden xl:flex" />
             </div>
           </div>

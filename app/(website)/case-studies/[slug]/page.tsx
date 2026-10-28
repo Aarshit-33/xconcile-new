@@ -47,6 +47,7 @@ export async function generateMetadata({
     seo: {
       metaKeywords: study.seo.keywords,
       openGraphImage: study.seo.ogImage || study.image?.src,
+      metaTags: study.seo.metaTags,
     },
     path: routes.caseStudy(slug),
   });

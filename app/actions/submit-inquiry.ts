@@ -3,25 +3,31 @@
 import { headers } from "next/headers";
 import { z } from "zod";
 
+import { verifyCaptcha } from "@/lib/captcha";
 import { inquiryServiceLabel } from "@/lib/inquiry-options";
-import { inquirySchema, type InquiryField, type InquiryFormInput } from "@/lib/inquiry-schema";
+import { inquirySchema, type InquiryField, type InquirySubmission } from "@/lib/inquiry-schema";
 import { isMailConfigured, leadEmailHtml, sendAdminMail } from "@/lib/mail";
 import { writeToken } from "@/sanity/env.server";
 import { writeClient } from "@/sanity/lib/client";
 
 export type InquiryResult =
   | { ok: true }
-  | { ok: false; reason: "invalid"; fieldErrors: Partial<Record<InquiryField, string>> }
+  | {
+      ok: false;
+      reason: "invalid";
+      fieldErrors: Partial<Record<InquiryField | "captchaAnswer", string>>;
+    }
   | { ok: false; reason: "failed" };
 
 /**
  * Home contact form (old-site look). Same flow as the old /api/contact route:
- * 1. Validate with the shared zod schema; silently accept honeypot hits.
+ * 1. Validate with the shared zod schema; silently accept honeypot hits; check the math CAPTCHA
+ *    against its signed token (lib/captcha.ts; client request 2026-10-28).
  * 2. Save a `contactSubmission` document in Sanity (dataset from NEXT_PUBLIC_SANITY_DATASET).
- * 3. Email the admin through Microsoft Graph.
+ * 3. Email connect@xconcile.com through Microsoft Graph (lib/mail.ts).
  * Succeeds when at least one of 2/3 worked, so a lead is never lost silently.
  */
-export async function submitInquiry(input: InquiryFormInput): Promise<InquiryResult> {
+export async function submitInquiry(input: InquirySubmission): Promise<InquiryResult> {
   const parsed = inquirySchema.safeParse(input);
   if (!parsed.success) {
     const { fieldErrors } = z.flattenError(parsed.error);
@@ -30,12 +36,26 @@ export async function submitInquiry(input: InquiryFormInput): Promise<InquiryRes
       reason: "invalid",
       fieldErrors: Object.fromEntries(
         Object.entries(fieldErrors).map(([field, messages]) => [field, messages?.[0]]),
-      ) as Partial<Record<InquiryField, string>>,
+      ) as Partial<Record<InquiryField | "captchaAnswer", string>>,
     };
   }
 
-  const { website, ...lead } = parsed.data;
+  const { website, captchaAnswer, captchaToken, ...lead } = parsed.data;
   if (website) return { ok: true }; // honeypot filled: pretend success, store nothing
+
+  const captcha = verifyCaptcha(captchaToken, captchaAnswer);
+  if (captcha !== "ok") {
+    return {
+      ok: false,
+      reason: "invalid",
+      fieldErrors: {
+        captchaAnswer:
+          captcha === "wrong"
+            ? "That answer isn't right. Please solve the new one."
+            : "This security check expired. Please solve the new one.",
+      },
+    };
+  }
 
   const submittedAt = new Date().toISOString();
   const pageUrl = (await headers()).get("referer") ?? undefined;

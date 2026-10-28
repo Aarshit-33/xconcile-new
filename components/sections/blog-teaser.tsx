@@ -23,7 +23,11 @@ export async function BlogTeaser({ data }: { data: BlogContent }) {
 
   return (
     // White everywhere since 2026-10-25, so the old 48px mobile gap above the grey band is gone.
-    <section id={sectionId(data, "blog")} aria-labelledby="blog-title" className="bg-white section-y">
+    <section
+      id={sectionId(data, "blog")}
+      aria-labelledby="blog-title"
+      className="bg-white section-y"
+    >
       <div className="container-site flex flex-col gap-12">
         <div className="flex flex-col gap-8 lg:flex-row lg:items-center lg:justify-between lg:gap-10">
           <SectionHeading
@@ -33,9 +37,13 @@ export async function BlogTeaser({ data }: { data: BlogContent }) {
             subtitle={data.subtitle}
             align="responsive"
             className="lg:max-w-[776px]"
-            subtitleClassName="text-b3"
+            subtitleClassName="text-b1 lg:text-b3"
           />
-          <CtaLink href={data.cta.href} variant="outline" className="hidden shrink-0 lg:inline-flex">
+          <CtaLink
+            href={data.cta.href}
+            variant="outline"
+            className="hidden shrink-0 lg:inline-flex"
+          >
             {data.cta.label}
           </CtaLink>
         </div>

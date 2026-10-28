@@ -19,13 +19,64 @@ import { absoluteUrl } from "./routes";
 import { siteConfig } from "./site-config";
 
 /** Shape of the `seo` object in the Sanity schema (sanity/schemaTypes/objects/seo.ts). */
+/** One custom tag from Studio → SEO → "Custom meta / Open Graph tags" (seoMeta.metaTags). */
+export type MetaTag = { key?: string | null; value?: string | null };
+
 export type SanitySeo = {
   metaTitle?: string;
   metaDescription?: string;
   metaKeywords?: string[];
   openGraphImage?: string;
   openGraphImageAlt?: string;
+  /** Editor key/value tags: override the generated og:* / twitter:* values or add new meta tags. */
+  metaTags?: MetaTag[] | null;
 } | null;
+
+/**
+ * Splits Studio's custom tags into Open Graph, Twitter and other meta tags (user request
+ * 2026-10-28: "OG tags in Sanity as key/value for each page"). `og:title` → og.title,
+ * `twitter:card` → twitter.card, `author` / `robots` / `description` / `keywords` replace the
+ * standard tags, `canonical` (also set by SEO → "Canonical URL") replaces the self-referencing
+ * canonical, anything else (e.g. `article:author`, `theme-color`) is added as a meta tag.
+ */
+function splitMetaTags(tags: MetaTag[] | null | undefined) {
+  const og: Record<string, string> = {};
+  const twitter: Record<string, string> = {};
+  const other: Record<string, string> = {};
+  for (const t of tags ?? []) {
+    const key = t?.key?.trim();
+    const value = t?.value?.trim();
+    if (!key || !value) continue;
+    if (key.startsWith("og:")) og[key.slice(3)] = value;
+    else if (key.startsWith("twitter:")) twitter[key.slice(8)] = value;
+    else other[key] = value;
+  }
+  return { og, twitter, other };
+}
+
+/** og:* keys the openGraph object below covers; other og:* keys are output as-is. */
+const OG_KEYS = new Set([
+  "title",
+  "description",
+  "type",
+  "url",
+  "site_name",
+  "locale",
+  "image",
+  "image:url",
+  "image:alt",
+  "image:width",
+  "image:height",
+]);
+const TWITTER_KEYS = new Set([
+  "card",
+  "title",
+  "description",
+  "image",
+  "image:alt",
+  "site",
+  "creator",
+]);
 
 /**
  * Drops a trailing brand suffix ("… | Xconcile", "… - Xconcile", "… – Xconcile") so the layout's
@@ -64,30 +115,60 @@ export function buildMetadata({
   const metaTitle = stripBrandSuffix(seo?.metaTitle || title);
   const metaDescription = seo?.metaDescription || description || siteConfig.defaultDescription;
   const image = seo?.openGraphImage || siteConfig.ogImage;
+  // Studio custom tags win over the generated values.
+  const { og, twitter: tw, other } = splitMetaTags(seo?.metaTags);
+  const ogImage = og.image || og["image:url"] || image;
+  const ogTitle = og.title || metaTitle;
+  const ogDescription = og.description || metaDescription;
+  for (const [k, v] of Object.entries(og)) if (!OG_KEYS.has(k)) other[`og:${k}`] = v;
+  for (const [k, v] of Object.entries(tw)) if (!TWITTER_KEYS.has(k)) other[`twitter:${k}`] = v;
+  // Standard tags Next already outputs: replace them instead of adding a duplicate tag.
+  const {
+    author,
+    robots,
+    description: customDescription,
+    keywords: customKeywords,
+    canonical: customCanonical,
+    ...rest
+  } = other;
+  // Studio canonical override (SEO → "Canonical URL": full URL or `/path`); defaults to the
+  // page's own URL.
+  const canonical = customCanonical ? toAbsolute(customCanonical) : absoluteUrl(path);
 
   return {
     title: metaTitle,
-    description: metaDescription,
-    keywords: seo?.metaKeywords,
-    alternates: { canonical: absoluteUrl(path) },
+    description: customDescription || metaDescription,
+    keywords: customKeywords ? customKeywords.split(",").map((k) => k.trim()) : seo?.metaKeywords,
+    ...(author ? { authors: [{ name: author }] } : {}),
+    alternates: { canonical },
     openGraph: {
-      type: "website",
-      url: absoluteUrl(path),
-      siteName: siteConfig.name,
-      locale: siteConfig.locale,
-      title: metaTitle,
-      description: metaDescription,
-      images: [{ url: image, alt: seo?.openGraphImageAlt || metaTitle || siteConfig.name }],
+      type: (og.type || "website") as "website",
+      url: og.url || canonical,
+      siteName: og.site_name || siteConfig.name,
+      locale: og.locale || siteConfig.locale,
+      title: ogTitle,
+      description: ogDescription,
+      images: [
+        {
+          url: ogImage,
+          alt: og["image:alt"] || seo?.openGraphImageAlt || ogTitle || siteConfig.name,
+          ...(Number(og["image:width"]) ? { width: Number(og["image:width"]) } : {}),
+          ...(Number(og["image:height"]) ? { height: Number(og["image:height"]) } : {}),
+        },
+      ],
     },
     twitter: {
-      card: "summary_large_image",
-      title: metaTitle,
-      description: metaDescription,
-      images: [image],
+      card: (tw.card || "summary_large_image") as "summary_large_image",
+      title: tw.title || ogTitle,
+      description: tw.description || ogDescription,
+      images: [{ url: tw.image || ogImage, alt: tw["image:alt"] || og["image:alt"] || ogTitle }],
+      ...(tw.site ? { site: tw.site } : {}),
+      ...(tw.creator ? { creator: tw.creator } : {}),
     },
+    ...(Object.keys(rest).length ? { other: rest } : {}),
     // Only set when needed: a `robots: undefined` key overrides the root layout's robots (the
     // production `max-image-preview:large` directives, or noindex on previews) with nothing.
-    ...(noindex ? { robots: { index: false, follow: true } } : {}),
+    ...(noindex ? { robots: { index: false, follow: true } } : robots ? { robots } : {}),
   };
 }
 

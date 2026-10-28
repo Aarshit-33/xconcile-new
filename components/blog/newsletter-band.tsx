@@ -26,7 +26,7 @@ export function NewsletterBand({ data }: { data: BlogArticleSettings["newsletter
           <h2 id="stay-updated-title" className="text-h2-m text-white lg:text-h2">
             {data.title}
           </h2>
-          <p className="text-b1 font-normal text-on-dark lg:text-b3">{data.body}</p>
+          <p className="text-b1 font-medium text-on-dark lg:text-b3">{data.body}</p>
         </div>
         <NewsletterForm copy={data} />
       </div>

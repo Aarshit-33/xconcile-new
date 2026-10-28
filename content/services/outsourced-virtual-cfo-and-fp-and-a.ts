@@ -1,5 +1,5 @@
 /**
- * Outsourced Virtual CFO & FP&A (`/outsourced-virtual-cfo-and-fp-and-a`, live slug kept).
+ * Outsourced Virtual CFO & FP&A (`/virtual-cfo-services`; was `/outsourced-virtual-cfo-and-fp-and-a`, which 301s here).
  *
  * Sources (2026-10-25):
  *  - Copy: the Figma design `pages/services/virtual-cfo-services.svg` (audit layout without the
@@ -18,7 +18,10 @@ import type { ServicePageContent } from "@/content/services/types";
 import { routes } from "@/lib/routes";
 
 export const outsourcedVirtualCfoAndFpAndA: ServicePageContent = {
-  slug: "outsourced-virtual-cfo-and-fp-and-a",
+  // URL renamed by the client 2026-10-28 (was /outsourced-virtual-cfo-and-fp-and-a, which now 301s here).
+  slug: "virtual-cfo-services",
+  sanityId: "servicePage-outsourced-virtual-cfo-and-fp-and-a",
+  redirectFrom: ["outsourced-virtual-cfo-and-fp-and-a"],
   name: "Outsourced Virtual CFO & FP&A Services",
 
   seo: {
@@ -66,7 +69,7 @@ export const outsourcedVirtualCfoAndFpAndA: ServicePageContent = {
     title: "Financial Guidance Without Hiring a Full-Time CFO",
     body: [
       "Growing businesses and CPA firms often need financial guidance without ",
-      { text: "hiring a full-time CFO", href: routes.hireStaff("hire-virtual-cfo-and-fp-and-a") },
+      { text: "hiring a full-time CFO", href: routes.hireStaff("hire-virtual-cfo") },
       ". Xconcile provides outsourced Virtual CFO Services to support budgeting, forecasting, cash flow management, financial reporting, and business planning.",
     ] satisfies RichText,
     bodyMore: [
@@ -293,7 +296,7 @@ export const outsourcedVirtualCfoAndFpAndA: ServicePageContent = {
         // The design draws the Home case-study photo.
         image: home.caseStudies.items[0].image,
         // No case-study pages exist yet, so the button opens the matching industry page.
-        cta: { label: "View Case Study", href: routes.industry("professional-services") },
+        cta: { label: "View Case Study", href: routes.industry("accounting-outsourcing-professional-services") },
       },
     ],
   },
@@ -346,7 +349,7 @@ export const outsourcedVirtualCfoAndFpAndA: ServicePageContent = {
       {
         title: "Professional Services",
         body: "Financial support for growing service businesses",
-        href: routes.industry("professional-services"),
+        href: routes.industry("accounting-outsourcing-professional-services"),
         image: {
           ...home.industries.items[0].image,
           alt: "Sparks flying from metal grinding in a workshop",
@@ -355,25 +358,25 @@ export const outsourcedVirtualCfoAndFpAndA: ServicePageContent = {
       {
         title: "Healthcare",
         body: "Financial support for healthcare businesses",
-        href: routes.industry("medical-health"),
+        href: routes.industry("healthcare-accounting-services"),
         image: home.industries.items[1].image,
       },
       {
         title: "Real Estate",
         body: "Financial guidance for real estate businesses",
-        href: routes.industry("real-estate-construction"),
+        href: routes.industry("real-estate-accounting-services"),
         image: home.industries.items[2].image,
       },
       {
         title: "Retail",
         body: "Financial support for growing retail businesses",
-        href: routes.industry("hospitality-retail"),
+        href: routes.industry("hospitality-accounting-services"),
         image: home.industries.items[3].image,
       },
       {
         title: "CPA Firms",
         body: "Virtual CFO support for growing CPA firms",
-        href: routes.industry("professional-services"),
+        href: routes.industry("accounting-outsourcing-professional-services"),
         image: {
           src: "/images/industries/education.jpg",
           alt: "Students working at desks in a classroom",
@@ -394,7 +397,7 @@ export const outsourcedVirtualCfoAndFpAndA: ServicePageContent = {
       {
         title: "eCommerce",
         body: "Financial guidance for growing eCommerce businesses",
-        href: routes.industry("tech-ecommerce"),
+        href: routes.industry("ecommerce-accounting-services"),
         image: {
           src: "/images/industries/ecommerce.jpg",
           alt: "Online seller packing orders at a desk",

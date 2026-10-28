@@ -1,5 +1,6 @@
 "use client";
 
+import { ChevronDown } from "lucide-react";
 import { useEffect, useState, type MouseEvent } from "react";
 
 import { cn } from "@/lib/utils";
@@ -81,9 +82,11 @@ export function ArticleToc({ items, articleId }: { items: TocItem[]; articleId: 
       <details className="group rounded-md border border-line/60 bg-white lg:hidden">
         <summary className="flex cursor-pointer list-none items-center justify-between gap-4 px-4 py-3 text-b1 font-medium text-heading [&::-webkit-details-marker]:hidden">
           Table of Contents
-          <span aria-hidden className="text-brand transition-transform group-open:rotate-180">
-            ▾
-          </span>
+          {/* 20px chevron (client note 2026-10-28: the ▾ glyph was too small). */}
+          <ChevronDown
+            aria-hidden
+            className="size-5 shrink-0 text-brand transition-transform group-open:rotate-180"
+          />
         </summary>
         <nav aria-label="Table of contents" className="border-t border-line/60 px-4 py-4">
           {links((e) => e.currentTarget.closest("details")?.removeAttribute("open"))}

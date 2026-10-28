@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { Fragment } from "react";
 
 import type { RichText as RichTextValue } from "@/content/types";
 
@@ -8,7 +9,8 @@ export function RichText({ value }: { value: RichTextValue }) {
     <>
       {value.map((part, i) =>
         typeof part === "string" ? (
-          <span key={i}>{part}</span>
+          // Plain text, no wrapper: the parent <p> holds it (was a <span> per text run).
+          <Fragment key={i}>{part}</Fragment>
         ) : (
           <Link key={i} href={part.href} className="link-inline">
             {part.text}

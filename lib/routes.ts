@@ -7,8 +7,9 @@ import { siteConfig } from "./site-config";
  *   industries -> /industries/:slug
  *   blog       -> /blog/:slug
  *
- * OPEN DECISION (report §6 / §9.1): adopt the Figma slugs instead? If so, change only
- * this file and add single-hop 301s in next.config.ts.
+ * The slugs themselves are not fixed here: a service/hire/industry page's live slug is its
+ * Studio "URL slug" (else the code default), resolved by sanity/lib/page-urls.ts, which also
+ * 301s old slugs and rewrites links to them. Client URL list applied 2026-10-28.
  */
 export const routes = {
   home: () => "/",
@@ -27,7 +28,6 @@ export const routes = {
   team: () => "/about#team",
   /** Contact page (design page-updated/newShit/contact.svg, 2026-10-27; same URL as the old site). */
   contact: () => "/contact",
-  privacy: () => "/privacy-policy",
 } as const;
 
 /** Absolute canonical URL: `absoluteUrl("/")` = `https://xconcile.com/`, `absoluteUrl("/about")` = `https://xconcile.com/about`. */

@@ -60,6 +60,9 @@ const nextConfig: NextConfig = {
   reactStrictMode: true,
   // Don't advertise the framework (audit S6).
   poweredByHeader: false,
+  // svg-captcha (contact form CAPTCHA, lib/captcha.ts) reads its font file from node_modules at
+  // runtime; keep it out of the server bundle so that path still resolves.
+  serverExternalPackages: ["svg-captcha"],
   experimental: {
     // Set by the Next 16.4.0 → 16.4.3 security upgrade (`next upgrade --agent=security`): coding
     // agents are nudged only about security releases. Dev-tooling only; no effect on the site.
@@ -105,7 +108,9 @@ const nextConfig: NextConfig = {
   },
   async redirects() {
     // Carried over from the old site. Keep every redirect SINGLE-HOP.
-    // If the Figma slugs are adopted (report §6), add old-slug -> new-slug rules here.
+    // Renamed service/hire/industry pages are NOT listed here: their old URLs 301 from the page
+    // routes (sanity/lib/page-urls.ts: `redirectFrom` in the content file + the Studio document's
+    // "Old URLs"), so a slug changed in Studio redirects without a deploy.
     return [
       // Preferred origin is https://xconcile.com (client requirement 2026-10-27). Vercel does
       // this first (Project → Domains: www.xconcile.com "Redirect to xconcile.com", 308; HTTP →
@@ -131,12 +136,6 @@ const nextConfig: NextConfig = {
       },
       // Old industry with no page in the redesign.
       { source: "/industries/industrial-niche", destination: "/industries", permanent: true },
-      // IT page renamed to its Figma page name (client note 2026-10-27).
-      {
-        source: "/industries/it-technology",
-        destination: "/industries/it-technology-accounting-services",
-        permanent: true,
-      },
     ];
   },
 };

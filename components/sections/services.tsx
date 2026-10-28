@@ -30,7 +30,7 @@ export function Services({ data }: { data: ServicesContent }) {
           <RevealText as="h2" id="services-title" className="text-h2-m text-white lg:text-h2">
             <HighlightText text={data.title} />
           </RevealText>
-          <FadeUp as="p" delay={0.12} className="text-b3 font-normal text-on-dark">
+          <FadeUp as="p" delay={0.12} className="text-b1 font-medium text-on-dark lg:text-b3">
             {data.subtitle}
           </FadeUp>
         </div>

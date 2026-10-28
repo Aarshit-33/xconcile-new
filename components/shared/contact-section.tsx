@@ -11,9 +11,19 @@ import { sectionId } from "@/lib/section-ids";
  * the form card (fields stacked). Desktop: copy left (652px), form right (636px).
  * Anchor: #contact (hero / challenges CTAs).
  */
-export function ContactSection({ data, className }: { data: typeof home.contact; className?: string }) {
+export function ContactSection({
+  data,
+  className,
+}: {
+  data: typeof home.contact;
+  className?: string;
+}) {
   return (
-    <section id={sectionId(data, "contact")} aria-labelledby="contact-title" className={cn("bg-surface-alt section-y", className)}>
+    <section
+      id={sectionId(data, "contact")}
+      aria-labelledby="contact-title"
+      className={cn("bg-surface-alt section-y", className)}
+    >
       <div className="container-site grid grid-cols-1 gap-6 lg:grid-cols-[minmax(0,652fr)_minmax(0,636fr)] lg:items-start lg:justify-between lg:gap-8 xl:gap-3">
         <div className="flex flex-col gap-[55px]">
           <div className="flex flex-col gap-4">
@@ -24,7 +34,9 @@ export function ContactSection({ data, className }: { data: typeof home.contact;
             >
               <HighlightText text={data.title} />
             </RevealText>
-            <p className="text-b3-tight font-normal text-body lg:max-w-[619px]">{data.body}</p>
+            <p className="text-b1 font-medium text-body lg:max-w-[619px] lg:text-b3-tight">
+              {data.body}
+            </p>
           </div>
           <ul className="flex flex-col gap-[23px] text-b3 font-medium text-heading">
             {data.checks.map((check) => (

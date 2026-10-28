@@ -25,7 +25,8 @@ export function Faq({
 
   return (
     // pb-20: 80px before the contact section (mobile design); desktop keeps 80/80.
-    <section id={id}
+    <section
+      id={id}
       aria-labelledby={titleId}
       className={cn("bg-surface-soft pt-12 pb-20 lg:py-20", className)}
     >
@@ -49,7 +50,7 @@ export function Faq({
                   </span>
                 ))
           }
-          subtitleClassName={cn("text-b3 text-body-alt max-w-[368px]", introClassName)}
+          subtitleClassName={cn("max-w-[368px] text-b1 text-body-alt lg:text-b3", introClassName)}
         />
 
         <FaqAccordion items={data.items} />

@@ -5,6 +5,7 @@ import { useState } from "react";
 import { Controller, useForm, type Resolver } from "react-hook-form";
 
 import { submitInquiry } from "@/app/actions/submit-inquiry";
+import { CaptchaDialog, type CaptchaSolution } from "@/components/forms/captcha-dialog";
 import { ArrowForwardIcon } from "@/components/icons/material-symbols";
 import { Button } from "@/components/ui/button";
 import { Field, FieldError, FieldLabel } from "@/components/ui/field";
@@ -44,8 +45,8 @@ const lazyZodResolver: Resolver<InquiryFormInput, unknown, InquiryFormOutput> = 
   context,
   options,
 ) => {
-  const { inquirySchema } = await import("@/lib/inquiry-schema");
-  return zodResolver(inquirySchema)(values, context, options);
+  const { inquiryFieldsSchema } = await import("@/lib/inquiry-schema");
+  return zodResolver(inquiryFieldsSchema)(values, context, options);
 };
 
 /**
@@ -63,6 +64,8 @@ export function InquiryForm({
   className?: string;
 }) {
   const [status, setStatus] = useState<"idle" | "success" | "error">("idle");
+  // Valid form values waiting for the CAPTCHA popup (client request 2026-10-28); null = closed.
+  const [pending, setPending] = useState<InquiryFormOutput | null>(null);
   const {
     register,
     control: formControl,
@@ -76,25 +79,39 @@ export function InquiryForm({
     mode: "onTouched",
   });
 
-  const onSubmit = handleSubmit(async (values) => {
+  // Send: the fields are validated here, then the CAPTCHA popup opens.
+  const onSubmit = handleSubmit((values) => {
     setStatus("idle");
-    const result = await submitInquiry(values).catch(() => ({
-      ok: false as const,
-      reason: "failed" as const,
-    }));
+    setPending(values);
+  });
+
+  /** From the popup: send with the CAPTCHA answer; returns a CAPTCHA error to show there. */
+  const send = async ({ answer, token }: CaptchaSolution): Promise<string | null> => {
+    if (!pending) return null;
+    const result = await submitInquiry({
+      ...pending,
+      captchaAnswer: answer,
+      captchaToken: token,
+    }).catch(() => ({ ok: false as const, reason: "failed" as const }));
     if (result.ok) {
+      setPending(null);
       reset(inquiryDefaults);
       setStatus("success");
-      return;
+      return null;
     }
     if (result.reason === "invalid") {
-      for (const [field, message] of Object.entries(result.fieldErrors)) {
+      const { captchaAnswer, ...fieldErrors } = result.fieldErrors;
+      if (captchaAnswer) return captchaAnswer;
+      setPending(null);
+      for (const [field, message] of Object.entries(fieldErrors)) {
         if (message) setError(field as InquiryField, { message });
       }
-      return;
+      return null;
     }
+    setPending(null);
     setStatus("error");
-  });
+    return null;
+  };
 
   const { fields } = copy;
   const req = (required: boolean) =>
@@ -107,7 +124,7 @@ export function InquiryForm({
   return (
     <div
       className={cn(
-        "rounded-3xl bg-white p-8 shadow-[0_10px_40px_-10px_rgba(0,0,0,0.15)] md:p-10",
+        "rounded-3xl bg-white p-4 shadow-[0_10px_40px_-10px_rgba(0,0,0,0.15)] md:p-10",
         className,
       )}
     >
@@ -294,6 +311,12 @@ export function InquiryForm({
           {isSubmitting ? null : <ArrowForwardIcon className="size-5" />}
         </Button>
       </form>
+
+      <CaptchaDialog
+        open={pending !== null}
+        onOpenChange={(open) => !open && setPending(null)}
+        onSubmit={send}
+      />
     </div>
   );
 }

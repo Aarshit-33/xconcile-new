@@ -17,7 +17,7 @@ import { client, dataset, projectId } from "./lib/seed-helpers";
 
 const dryRun = process.argv.includes("--dry-run");
 const CONTACT = "/contact";
-const TYPES = ["home", "aboutPage", "servicePage", "hirePage", "industryPage", "industriesPage", "caseStudiesPage", "caseStudy", "blogPage", "notFoundPage", "privacyPage", "contactPage", "seoArticle", "siteSettings"];
+const TYPES = ["home", "aboutPage", "servicePage", "hirePage", "industryPage", "industriesPage", "caseStudiesPage", "caseStudy", "blogPage", "notFoundPage", "contactPage", "seoArticle", "siteSettings"];
 
 const LABEL_KEYS = ["label", "text", "title"];
 const norm = (s: string) => s.toLowerCase().replace(/[’']/g, "'").replace(/\s+/g, " ").trim();

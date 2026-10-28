@@ -14,6 +14,7 @@ import { routes } from "@/lib/routes";
 import { siteConfig } from "@/lib/site-config";
 
 import { sanityFetch } from "./fetch";
+import { withResolvedLinks } from "./page-urls";
 import { img, IMG, type Raw } from "./sections";
 
 /** Platforms the footer has an icon for (as drawn). */
@@ -131,7 +132,7 @@ const navLink = (l: Raw): NavLink | undefined =>
  *
  * Called by the header, footer, site shell and Home; `sanityFetch` is cached, so it is one query.
  */
-export async function getSiteSettings(): Promise<SiteSettings> {
+async function loadSiteSettings(): Promise<SiteSettings> {
   const d: Raw = await sanityFetch({ query: SITE_SETTINGS_QUERY, tags: ["siteSettings"] }).catch(
     () => null,
   );
@@ -241,3 +242,6 @@ function resolveSidePanel(sp: Raw, contact: SiteSettings["contact"], offices: Of
     address: (offices.find((o) => o.country === country) ?? offices[0])?.lines,
   };
 }
+
+/** `loadSiteSettings` with links to renamed pages resolved (sanity/lib/page-urls.ts). */
+export const getSiteSettings = withResolvedLinks(loadSiteSettings);

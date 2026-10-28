@@ -44,7 +44,11 @@ export function Hero({
   const center = align === "center";
 
   return (
-    <section id={sectionId(data, "hero")} aria-labelledby="hero-title" className="relative overflow-hidden bg-dark-gradient">
+    <section
+      id={sectionId(data, "hero")}
+      aria-labelledby="hero-title"
+      className="relative overflow-hidden bg-dark-gradient"
+    >
       {/* Decorative: green glow (Figma Ellipse 12, blur 270) + X watermark. The glow shows on every
           screen (user request 2026-10-25; was desktop-only): phones and tablets get a smaller
           ellipse at the same relative spot (right edge, ~84% down = 620px of the 743px desktop
@@ -65,7 +69,7 @@ export function Hero({
 
       <div
         className={cn(
-          "container-site relative pt-[47px] pb-[41px]",
+          "relative container-site pt-[47px] pb-[41px]",
           center
             ? "lg:pt-[195px] lg:pb-[145px]"
             : wide
@@ -88,20 +92,17 @@ export function Hero({
         >
           <div className={cn("flex flex-col items-center gap-4", !center && "lg:items-start")}>
             {/* Below 360px: 12px side padding so the nowrap badge fits the 288px column (audit L1). */}
-            <Eyebrow tone="hero" className="animate-hero-rise max-[360px]:px-3" >
+            <Eyebrow tone="hero" className="animate-hero-rise max-[360px]:px-3">
               {data.badge}
             </Eyebrow>
             {/* LCP element: transform-only entrance (no opacity fade), see --animate-hero-lift */}
-            <h1
-              id="hero-title"
-              className="animate-hero-lift text-h1-m text-white lg:text-h1"
-            >
+            <h1 id="hero-title" className="animate-hero-lift text-h1-m text-white lg:text-h1">
               {/* One string, `*green*` markup; flows as one line and wraps naturally. */}
               <HighlightText text={data.title} />
             </h1>
             <p
               className={cn(
-                "animate-hero-rise text-b1 font-normal text-on-dark lg:text-b3-tight",
+                "animate-hero-rise text-b1 font-medium text-on-dark lg:text-b3-tight",
                 wide ? "lg:max-w-[857px]" : center ? "lg:max-w-[660px]" : "lg:max-w-[746px]",
                 subtitleClassName,
               )}

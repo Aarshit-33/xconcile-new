@@ -41,7 +41,7 @@ export default defineType({
               name: "href",
               title: "Link",
               type: "string",
-              description: "e.g. /industries/medical-health. Leave empty for a plain card.",
+              description: "e.g. /industries/healthcare-accounting-services. Leave empty for a plain card.",
               validation: (Rule) => Rule.custom(hrefRule),
             }),
             defineField({

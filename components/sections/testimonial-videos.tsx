@@ -38,7 +38,7 @@ export function TestimonialVideos({ videos }: { videos: Video[] }) {
     <div className="flex flex-col gap-6">
       {/* Poster zooms on hover (client request 2026-10-22); the caption flag is fixed-size, so
           `img-zoom` leaves it alone. */}
-      <figure className="img-zoom relative aspect-[358/201] overflow-hidden rounded-md border border-white/20 bg-navy lg:aspect-[856/480] lg:rounded-sm">
+      <figure className="relative aspect-[358/201] img-zoom overflow-hidden rounded-md border border-white/20 bg-navy lg:aspect-[856/480] lg:rounded-sm">
         {playing ? (
           <iframe
             src={`https://www.youtube-nocookie.com/embed/${video.youtubeId}?autoplay=1&rel=0&modestbranding=1`}
@@ -77,10 +77,16 @@ export function TestimonialVideos({ videos }: { videos: Video[] }) {
             </button>
             <figcaption className="pointer-events-none absolute bottom-1.5 left-4 flex flex-col gap-4 text-white max-[360px]:gap-2 lg:bottom-[42px] lg:left-8">
               <span className="flex flex-col gap-1">
-                <span className="text-h5 lg:text-stat-sm">{video.name}</span>
+                <span className="text-h4-m lg:text-stat-sm">{video.name}</span>
                 <span className="text-b1 font-medium lg:text-b3">{video.company}</span>
               </span>
-              <Image src={flag.src} alt={flag.alt} width={70} height={37} className="h-[37px] w-[70px]" />
+              <Image
+                src={flag.src}
+                alt={flag.alt}
+                width={70}
+                height={37}
+                className="h-[37px] w-[70px]"
+              />
             </figcaption>
           </>
         )}
@@ -94,7 +100,7 @@ export function TestimonialVideos({ videos }: { videos: Video[] }) {
       <Carousel
         opts={{ align: "start" }}
         style={{ "--thumbs": Math.min(videos.length, 3) } as React.CSSProperties}
-        className="flex items-center justify-center gap-4 lg:gap-6 [&>[data-slot=carousel-content]]:min-w-0 [&>[data-slot=carousel-content]]:flex-1 [&>[data-slot=carousel-content]]:max-w-[calc(var(--thumbs)*226px+(var(--thumbs)-1)*16px)] lg:[&>[data-slot=carousel-content]]:max-w-[calc(var(--thumbs)*226px+(var(--thumbs)-1)*24px)]"
+        className="flex items-center justify-center gap-4 lg:gap-6 [&>[data-slot=carousel-content]]:max-w-[calc(var(--thumbs)*226px+(var(--thumbs)-1)*16px)] [&>[data-slot=carousel-content]]:min-w-0 [&>[data-slot=carousel-content]]:flex-1 lg:[&>[data-slot=carousel-content]]:max-w-[calc(var(--thumbs)*226px+(var(--thumbs)-1)*24px)]"
       >
         {/* relative inset-auto + before:*: invisible 44x44 tap area around the 40px arrow. inset-auto
             cancels the base -left-12/-right-12 offsets, so the arrow stays where `static` put it. */}
@@ -107,7 +113,10 @@ export function TestimonialVideos({ videos }: { videos: Video[] }) {
               // Fixed 226px thumbnails + the 16/24px gutter (border-box) at every width, so the
               // viewport sizing above holds; 3 fill the drawn 726px desktop row (audit L2: a 4th was
               // hard-cut at the arrow).
-              <CarouselItem key={`${v.youtubeId}-${i}`} className="basis-[242px] pl-4 lg:basis-[250px] lg:pl-6">
+              <CarouselItem
+                key={`${v.youtubeId}-${i}`}
+                className="basis-[242px] pl-4 lg:basis-[250px] lg:pl-6"
+              >
                 <button
                   type="button"
                   onClick={() => {
@@ -117,7 +126,7 @@ export function TestimonialVideos({ videos }: { videos: Video[] }) {
                   aria-label={`Show video: ${v.title} (${v.name}, ${v.company})`}
                   aria-current={i === active ? "true" : undefined}
                   className={cn(
-                    "img-zoom relative block aspect-[226/128] w-full cursor-pointer overflow-hidden rounded-md border border-transparent outline-none focus-visible:ring-3 focus-visible:ring-brand",
+                    "relative block aspect-[226/128] w-full img-zoom cursor-pointer overflow-hidden rounded-md border border-transparent outline-none focus-visible:ring-3 focus-visible:ring-brand",
                     i === active && "border-brand",
                   )}
                 >
@@ -138,7 +147,9 @@ export function TestimonialVideos({ videos }: { videos: Video[] }) {
                     aria-hidden
                     className="absolute bottom-2.5 left-2 flex w-[88px] flex-col gap-1 text-left text-white"
                   >
-                    <span className="truncate text-[10.5px] leading-[13px] font-bold">{v.name}</span>
+                    <span className="truncate text-[10.5px] leading-[13px] font-bold">
+                      {v.name}
+                    </span>
                     <Image
                       src={thumbFlag.src}
                       alt=""

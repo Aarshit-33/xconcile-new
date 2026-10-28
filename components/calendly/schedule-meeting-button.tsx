@@ -19,12 +19,13 @@ export function ScheduleMeetingButton({
   className?: string;
   onClick?: () => void;
 }) {
-  const { openScheduler } = useCalendly();
+  const { openScheduler, warmProps } = useCalendly();
   return (
     <CtaPill
       block={block}
       className={className}
       aria-haspopup="dialog"
+      {...warmProps}
       onClick={() => {
         onClick?.();
         openScheduler();

@@ -37,7 +37,8 @@ export function CtaBand({
   const titleId = `${id}-title`;
 
   return (
-    <section id={id}
+    <section
+      id={id}
       aria-labelledby={titleId}
       className={`bg-cta-overlay py-16 lg:flex lg:min-h-[463px] lg:items-center lg:py-20 ${className ?? ""}`}
       style={{ "--cta-image": `url(${src})` } as React.CSSProperties}
@@ -54,7 +55,7 @@ export function CtaBand({
             <HighlightText text={data.title} />
           </RevealText>
           {/* Fills the 927px column (user request 2026-10-26; was max-w-[725px]). */}
-          <FadeUp as="p" delay={0.12} className="text-b1 font-normal text-on-dark lg:text-b3">
+          <FadeUp as="p" delay={0.12} className="text-b1 font-medium text-on-dark lg:text-b3">
             {data.body}
           </FadeUp>
         </div>

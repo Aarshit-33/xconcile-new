@@ -71,7 +71,7 @@ export const auditOutsourcingServices: ServicePageContent = {
       "Xconcile provides outsourced audit and assurance support for CPA firms and businesses that need reliable help with audit workloads, documentation, and financial reporting. Our ",
       {
         text: "audit experienced professionals",
-        href: routes.hireStaff("hire-audit-and-assurance"),
+        href: routes.hireStaff("hire-audit-assurance-staff"),
       },
       " work with your existing processes to support audit engagements without disrupting the way your team operates.",
     ] satisfies RichText,
@@ -312,7 +312,7 @@ export const auditOutsourcingServices: ServicePageContent = {
           height: 1000,
         },
         // No case-study pages exist yet, so the button opens the matching industry page.
-        cta: { label: "View Case Study", href: routes.industry("professional-services") },
+        cta: { label: "View Case Study", href: routes.industry("accounting-outsourcing-professional-services") },
       },
     ],
   },
@@ -366,25 +366,25 @@ export const auditOutsourcingServices: ServicePageContent = {
       {
         title: "CPA & Accounting Firms",
         body: "Audit and accounting support for your client work",
-        href: routes.industry("professional-services"),
+        href: routes.industry("accounting-outsourcing-professional-services"),
         image: home.industries.items[0].image,
       },
       {
         title: "Healthcare",
         body: "Audit support for healthcare records and finance needs.",
-        href: routes.industry("medical-health"),
+        href: routes.industry("healthcare-accounting-services"),
         image: home.industries.items[1].image,
       },
       {
         title: "Real Estate",
         body: "Audit support for property records and transactions",
-        href: routes.industry("real-estate-construction"),
+        href: routes.industry("real-estate-accounting-services"),
         image: home.industries.items[2].image,
       },
       {
         title: "Retail",
         body: "Audit support for sales, inventory, and financial data.",
-        href: routes.industry("hospitality-retail"),
+        href: routes.industry("hospitality-accounting-services"),
         image: home.industries.items[3].image,
       },
       {
@@ -410,7 +410,7 @@ export const auditOutsourcingServices: ServicePageContent = {
       {
         title: "eCommerce",
         body: "Audit support for sales, payments, inventory, and tax.",
-        href: routes.industry("tech-ecommerce"),
+        href: routes.industry("ecommerce-accounting-services"),
         image: {
           src: "/images/industries/ecommerce.jpg",
           alt: "Online seller packing orders at a desk",

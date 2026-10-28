@@ -1,8 +1,11 @@
 import "server-only";
 
+import type { MetaTag } from "@/lib/seo";
+
 import type { HirePageContent } from "@/content/hire/types";
 
 import { sanityFetch } from "./fetch";
+import { type PageEntry, resolveLinks } from "./page-urls";
 import {
   mapAudienceCards,
   mapCardGrid,
@@ -23,9 +26,9 @@ import {
   SECTION_PROJECTION as P,
 } from "./sections";
 
-const HIRE_PAGE_QUERY = /* groq */ `*[_type == "hirePage" && slug.current == $slug][0]{
+const HIRE_PAGE_QUERY = /* groq */ `*[_id == $id][0]{
   name,
-  seo{ title, description, keywords, "ogImage": ogImage.asset->url },
+  seo{ title, description, keywords, "ogImage": ogImage.asset->url, "metaTags": coalesce(metaTags[]{ key, value }, []) + select(defined(canonicalUrl) => [{ "key": "canonical", "value": canonicalUrl }], []) },
   hero, features, benefits, expertise, models, levels, faq,
   ${P.intro},
   ${P.hiringSteps},
@@ -37,16 +40,30 @@ const HIRE_PAGE_QUERY = /* groq */ `*[_type == "hirePage" && slug.current == $sl
 }`;
 
 /**
- * Hire page content from its Sanity `hirePage` document (Studio → Hire Pages,
- * matched by slug), in the exact shape of `HirePageContent` so the template stays unchanged.
+ * Hire page content from its Sanity `hirePage` document (Studio → Hire Pages, matched by `_id`
+ * so a Studio slug change keeps it connected; sanity/lib/page-urls.ts), in the exact shape of
+ * `HirePageContent` so the template stays unchanged. Links to renamed pages are resolved.
  * Same rules as Home and service pages: any section or field that is empty in Sanity falls back
  * to the page's code content (content/hire/*.ts, also used when Sanity is not configured or the
  * document doesn't exist). Cache tag: `hirePage` (revalidated by /api/revalidate on publish).
  */
-export async function getHirePage(f: HirePageContent): Promise<{ content: HirePageContent; ogImage?: string }> {
+export async function getHirePage(
+  page: PageEntry<"hire">,
+): Promise<{ content: HirePageContent; ogImage?: string; metaTags?: MetaTag[] }> {
+  const { content, ogImage, metaTags } = await loadHirePage(page.id, {
+    ...page.content,
+    slug: page.slug,
+  });
+  return { content: await resolveLinks(content), ogImage, metaTags };
+}
+
+async function loadHirePage(
+  id: string,
+  f: HirePageContent,
+): Promise<{ content: HirePageContent; ogImage?: string; metaTags?: MetaTag[] }> {
   const d: Raw = await sanityFetch({
     query: HIRE_PAGE_QUERY,
-    params: { slug: f.slug },
+    params: { id },
     tags: ["hirePage"],
   });
   if (!d) return { content: f };
@@ -77,5 +94,6 @@ export async function getHirePage(f: HirePageContent): Promise<{ content: HirePa
       ctaBand: mapCtaBand(d.ctaBand, f.ctaBand),
     },
     ogImage: d.seo?.ogImage ?? undefined,
+    metaTags: d.seo?.metaTags ?? undefined,
   };
 }

@@ -1,5 +1,5 @@
 /**
- * Professional Services Accounting (`/industries/professional-services`).
+ * Professional Services Accounting (`/industries/accounting-outsourcing-professional-services`; was `/industries/professional-services`, which 301s here).
  *
  * Source (user request 2026-10-25): the Figma design
  * `../pages/industry/accounting-outsourcing-professional-services.svg`, on the real-estate
@@ -23,7 +23,10 @@ import { routes } from "@/lib/routes";
 const schedule = (label: string) => ({ label, href: SCHEDULE_HREF });
 
 export const professionalServices: IndustryPageContent = {
-  slug: "professional-services",
+  // URL renamed by the client 2026-10-28 (was /industries/professional-services, which now 301s here).
+  slug: "accounting-outsourcing-professional-services",
+  sanityId: "industryPage-professional-services",
+  redirectFrom: ["professional-services"],
   name: "Professional Services Accounting",
 
   seo: {

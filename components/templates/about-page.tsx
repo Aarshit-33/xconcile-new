@@ -35,7 +35,12 @@ export function AboutPageTemplate({
     <>
       <Hero data={content.hero} variant="inner" align="center" />
       <StatsBar data={content.stats} />
-      <Intro data={content.intro} imageClassName="lg:min-h-[547px]" />
+      {/* pt-6: 48px from the stats badges (their 24px + 24px) on mobile (client note 2026-10-28). */}
+      <Intro
+        data={content.intro}
+        className="pt-6 lg:pt-section"
+        imageClassName="lg:min-h-[547px]"
+      />
       <AudienceCards data={content.audiences} />
       <FounderProfile data={content.founder} />
       <TeamMembers data={content.team} />

@@ -26,7 +26,7 @@ export function FaqAccordion({ items }: { items: FaqItem[] }) {
           className="group/faq border-b border-hairline pb-8 not-last:border-b data-open:border-brand"
         >
           {/* before:*: invisible 44px-tall tap area around the 28px question row (no visual change). */}
-          <AccordionTrigger className="items-center gap-4 rounded-none border-0 p-0 text-h5 font-semibold text-heading-alt transition-colors group-data-open/faq:text-brand before:absolute before:inset-x-0 before:-inset-y-2 hover:text-brand hover:no-underline focus-visible:ring-offset-4 **:data-[slot=accordion-trigger-icon]:hidden">
+          <AccordionTrigger className="items-center gap-4 rounded-none border-0 p-0 text-h4-m font-semibold text-heading-alt transition-colors group-data-open/faq:text-brand before:absolute before:inset-x-0 before:-inset-y-2 hover:text-brand hover:no-underline focus-visible:ring-offset-4 **:data-[slot=accordion-trigger-icon]:hidden lg:text-h5">
             <span className="flex-1">{item.q}</span>
             <AddIcon className="size-6 shrink-0 text-body group-data-open/faq:hidden" />
             <RemoveIcon className="hidden size-6 shrink-0 text-brand group-data-open/faq:block" />

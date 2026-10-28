@@ -13,18 +13,22 @@ import { getSiteSettings } from "@/sanity/lib/site-settings";
  * back to content/about.ts.
  */
 export async function generateMetadata(): Promise<Metadata> {
-  const { content, ogImage } = await getAboutPage();
+  const { content, ogImage, metaTags } = await getAboutPage();
   return buildMetadata({
     title: content.seo.title,
     description: content.seo.description,
-    seo: { metaKeywords: content.seo.keywords, openGraphImage: ogImage },
+    seo: { metaKeywords: content.seo.keywords, openGraphImage: ogImage, metaTags },
     path: routes.about(),
   });
 }
 
 export default async function AboutPage() {
   // Contact section is shared with Home (Studio → Home Page → Contact).
-  const [{ content }, home, settings] = await Promise.all([getAboutPage(), getHome(), getSiteSettings()]);
+  const [{ content }, home, settings] = await Promise.all([
+    getAboutPage(),
+    getHome(),
+    getSiteSettings(),
+  ]);
   return (
     <>
       <JsonLd
@@ -35,7 +39,11 @@ export default async function AboutPage() {
           ]),
         ]}
       />
-      <AboutPageTemplate content={content} inquiry={home.inquiry} contactEmail={settings.contact.email} />
+      <AboutPageTemplate
+        content={content}
+        inquiry={home.inquiry}
+        contactEmail={settings.contact.email}
+      />
     </>
   );
 }

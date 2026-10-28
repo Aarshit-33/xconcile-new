@@ -31,11 +31,7 @@ export function SecurityControls({
   const titleId = `${id}-title`;
 
   return (
-    <section
-      id={id}
-      aria-labelledby={titleId}
-      className={cn("bg-white section-y", className)}
-    >
+    <section id={id} aria-labelledby={titleId} className={cn("bg-white section-y", className)}>
       <div className="container-site flex flex-col gap-8 lg:gap-12">
         <div className="flex flex-col items-center gap-4 text-center">
           {/* Eyebrow + subtitle fade up like every section heading (2026-10-18). */}
@@ -44,7 +40,11 @@ export function SecurityControls({
               {data.badge}
             </Eyebrow>
           </FadeUp>
-          <FadeUp as="p" delay={0.12} className="max-w-[896px] text-b1 font-normal text-body lg:text-b3">
+          <FadeUp
+            as="p"
+            delay={0.12}
+            className="max-w-[896px] text-b1 font-medium text-body lg:text-b3"
+          >
             {data.subtitle}
           </FadeUp>
         </div>
@@ -70,7 +70,7 @@ export function SecurityControls({
                 key={group.title}
                 className="flex flex-col gap-6 overflow-hidden rounded-md border border-hairline bg-white p-6 lg:gap-8"
               >
-                <h3 className="text-h5 font-medium text-heading">{group.title}</h3>
+                <h3 className="text-h4-m font-medium text-heading lg:text-h5">{group.title}</h3>
                 <ul className="flex flex-col gap-6">
                   {group.items.map((item) => (
                     <li key={item.title} className="flex items-center gap-4">

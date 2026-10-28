@@ -66,11 +66,14 @@ export function CertificationsPill({
           className,
         )}
       >
-        <span className="text-body">{label}</span>
+        <p className="text-body">{label}</p>
         <ul className={cn("flex flex-col gap-y-1.5", row?.list)} aria-label={label}>
           {items.map((c) => (
             <li key={c} className="flex items-baseline gap-2 text-b1 text-brand">
-              <span aria-hidden className="size-1 shrink-0 translate-y-[-3px] rounded-full bg-brand" />
+              <span
+                aria-hidden
+                className="size-1 shrink-0 translate-y-[-3px] rounded-full bg-brand"
+              />
               {c}
             </li>
           ))}
@@ -105,7 +108,13 @@ export function LinkedInLink({ person, className }: { person: PersonProfile; cla
         className,
       )}
     >
-      <Image src="/images/about/linkedin.png" alt="" width={26} height={26} className="size-[26px]" />
+      <Image
+        src="/images/about/linkedin.png"
+        alt=""
+        width={26}
+        height={26}
+        className="size-[26px]"
+      />
     </a>
   );
 }

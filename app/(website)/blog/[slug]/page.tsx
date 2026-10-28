@@ -33,7 +33,11 @@ export async function generateMetadata({ params }: PageProps<"/blog/[slug]">): P
   const meta = buildMetadata({
     title: article.seo.title || article.title,
     description: article.seo.description || article.excerpt || undefined,
-    seo: { metaKeywords: article.seo.keywords, openGraphImage: article.seo.ogImage || article.cover?.src },
+    seo: {
+      metaKeywords: article.seo.keywords,
+      openGraphImage: article.seo.ogImage || article.cover?.src,
+      metaTags: article.seo.metaTags,
+    },
     path,
   });
   return {

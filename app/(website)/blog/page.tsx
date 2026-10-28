@@ -13,11 +13,11 @@ import { getAllPosts } from "@/sanity/lib/queries";
  * content/blog-gallery.ts. Posts: Studio → Blog Posts (sanity/lib/queries.ts).
  */
 export async function generateMetadata(): Promise<Metadata> {
-  const { content, ogImage } = await getBlogGallery();
+  const { content, ogImage, metaTags } = await getBlogGallery();
   return buildMetadata({
     title: content.seo.title,
     description: content.seo.description,
-    seo: { metaKeywords: content.seo.keywords, openGraphImage: ogImage },
+    seo: { metaKeywords: content.seo.keywords, openGraphImage: ogImage, metaTags },
     path: routes.blog(),
   });
 }
@@ -41,7 +41,9 @@ export default async function BlogPage() {
             { name: "Home", path: routes.home() },
             { name: "Blog", path },
           ]),
-          ...(list.length ? [itemListJsonLd(list.map((p) => ({ name: p.title, path: routes.post(p.slug) })))] : []),
+          ...(list.length
+            ? [itemListJsonLd(list.map((p) => ({ name: p.title, path: routes.post(p.slug) })))]
+            : []),
         ]}
       />
       <BlogGalleryTemplate content={content} posts={list} />

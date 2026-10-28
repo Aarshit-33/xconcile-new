@@ -16,13 +16,23 @@ import { sectionId } from "@/lib/section-ids";
  * Titles reserve two lines below 1440px, where one of them wraps in the narrower cards, so the
  * copy under every title starts at the same height (user report 2026-10-24: "fix heading height").
  */
-export function AudienceCards({ data, className }: { data: AudienceCardsContent; className?: string }) {
+export function AudienceCards({
+  data,
+  className,
+}: {
+  data: AudienceCardsContent;
+  className?: string;
+}) {
   const id = sectionId(data, "audienceCards");
   // Heading id from the section id, so a section type can appear twice on a page.
   const titleId = `${id}-title`;
 
   return (
-    <section id={id} aria-labelledby={titleId} className={cn("bg-surface-soft section-y", className)}>
+    <section
+      id={id}
+      aria-labelledby={titleId}
+      className={cn("bg-surface-soft section-y", className)}
+    >
       <div className="container-site flex flex-col gap-8 lg:gap-12">
         <SectionHeading
           eyebrow={data.badge}
@@ -45,7 +55,7 @@ export function AudienceCards({ data, className }: { data: AudienceCardsContent;
               // No hover background on these cards (client request 2026-10-22); the photo zooms.
               className="img-zoom-trigger row-span-4 grid w-[300px] shrink-0 snap-start grid-rows-subgrid gap-y-0 overflow-hidden rounded-md border border-hairline bg-white lg:w-auto"
             >
-              <div className="img-zoom relative aspect-[415/277] overflow-hidden bg-line">
+              <div className="relative aspect-[415/277] img-zoom overflow-hidden bg-line">
                 <Image
                   src={item.image.src}
                   alt={item.image.alt}
@@ -57,7 +67,7 @@ export function AudienceCards({ data, className }: { data: AudienceCardsContent;
               {/* Whole card (photo + text) rises via the Rail's RevealList (2026-10-22). The padded
                   body is itself a subgrid over the title / text / button rows. */}
               <div className="row-span-3 grid grid-rows-subgrid gap-y-4 p-6">
-                <h3 className="text-h5 font-medium text-heading-alt">{item.title}</h3>
+                <h3 className="text-h4-m font-medium text-heading-alt lg:text-h5">{item.title}</h3>
                 <p className="text-b1 text-body-alt">{item.body}</p>
                 {/* 32px (lg 43px) above the button: 16px row gap + this margin. */}
                 <div className="mt-4 self-end lg:mt-[27px]">

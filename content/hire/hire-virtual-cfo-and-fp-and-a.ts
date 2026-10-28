@@ -1,5 +1,5 @@
 /**
- * Hire a Virtual CFO (`/hire-virtual-cfo-and-fp-and-a`, live slug kept).
+ * Hire a Virtual CFO (`/hire-virtual-cfo`; was `/hire-virtual-cfo-and-fp-and-a`, which 301s here).
  *
  * Source (decision 2026-10-14): everything from the Figma design, rendered to PNG
  * (`hire-virtual-cfo.png`, 1440px, read visually 2026-10-25). The older
@@ -21,7 +21,10 @@ import { routes } from "@/lib/routes";
 const schedule = (label: string) => ({ label, href: SCHEDULE_HREF });
 
 export const hireVirtualCfoAndFpAndA: HirePageContent = {
-  slug: "hire-virtual-cfo-and-fp-and-a",
+  // URL renamed by the client 2026-10-28 (was /hire-virtual-cfo-and-fp-and-a, which now 301s here).
+  slug: "hire-virtual-cfo",
+  sanityId: "hirePage-hire-virtual-cfo-and-fp-and-a",
+  redirectFrom: ["hire-virtual-cfo-and-fp-and-a"],
   name: "Hire a Virtual CFO",
 
   seo: {
@@ -89,7 +92,7 @@ export const hireVirtualCfoAndFpAndA: HirePageContent = {
       // Drawn as a green link without a target: points at the Virtual CFO service page.
       {
         text: "outsourced virtual CFO services",
-        href: routes.service("outsourced-virtual-cfo-and-fp-and-a"),
+        href: routes.service("virtual-cfo-services"),
       },
       " for U.S. businesses that need ongoing or project-based financial support. Our professionals work with your team on financial planning, cash flow forecasting, budgeting, management reporting, profitability analysis, and investor needs, giving you reliable financial information to support planning and decision-making.",
     ] satisfies RichText,

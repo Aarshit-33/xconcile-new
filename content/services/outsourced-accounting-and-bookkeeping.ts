@@ -326,7 +326,7 @@ export const outsourcedAccountingAndBookkeeping: ServicePageContent = {
         // Same photo as Home's CPA-firm case study.
         image: home.caseStudies.items[0].image,
         // No case-study pages exist yet, so the button opens the matching industry page.
-        cta: { label: "View Case Study", href: routes.industry("professional-services") },
+        cta: { label: "View Case Study", href: routes.industry("accounting-outsourcing-professional-services") },
       },
     ],
   },
@@ -378,25 +378,25 @@ export const outsourcedAccountingAndBookkeeping: ServicePageContent = {
       {
         title: "CPA & Accounting Firms",
         body: "Client accounting, bookkeeping, reporting, and job costing.",
-        href: routes.industry("professional-services"),
+        href: routes.industry("accounting-outsourcing-professional-services"),
         image: home.industries.items[0].image,
       },
       {
         title: "Healthcare",
         body: "Practice accounting, revenue cycle support, compliance.",
-        href: routes.industry("medical-health"),
+        href: routes.industry("healthcare-accounting-services"),
         image: home.industries.items[1].image,
       },
       {
         title: "Real Estate",
         body: "Property accounting, sales tracking, and client reporting.",
-        href: routes.industry("real-estate-construction"),
+        href: routes.industry("real-estate-accounting-services"),
         image: home.industries.items[2].image,
       },
       {
         title: "Retail",
         body: "Multi-location consolidation and daily sales reconciliation.",
-        href: routes.industry("hospitality-retail"),
+        href: routes.industry("hospitality-accounting-services"),
         image: home.industries.items[3].image,
       },
       {
@@ -426,7 +426,7 @@ export const outsourcedAccountingAndBookkeeping: ServicePageContent = {
         title: "eCommerce",
         // COPY FIX: drawn as "Multi-channel books, inventory COGS, sales tax." (missing comma).
         body: "Multi-channel books, inventory, COGS, sales tax.",
-        href: routes.industry("tech-ecommerce"),
+        href: routes.industry("ecommerce-accounting-services"),
         image: {
           src: "/images/industries/ecommerce.jpg",
           alt: "Online seller packing orders at a desk",
@@ -572,14 +572,14 @@ export const outsourcedAccountingAndBookkeeping: ServicePageContent = {
           ", ",
           {
             text: "payroll and compliance",
-            href: routes.service("outsourced-payroll-and-compliance-services"),
+            href: routes.service("outsourced-payroll-compliance-services"),
           },
           ", ",
           { text: "audit and assurance", href: routes.service("audit-outsourcing-services") },
           ", and ",
           {
             text: "Virtual CFO and FP&A",
-            href: routes.service("outsourced-virtual-cfo-and-fp-and-a"),
+            href: routes.service("virtual-cfo-services"),
           },
           " services for U.S. businesses and CPA firms.",
         ],

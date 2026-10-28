@@ -18,7 +18,6 @@ import industryPage from "./documents/industryPage";
 import newsletterSubscription from "./documents/newsletterSubscription";
 import notFoundPage from "./documents/notFoundPage";
 import contactPage from "./documents/contactPage";
-import privacyPage from "./documents/privacyPage";
 import seoArticle from "./documents/seoArticle";
 import servicePage from "./documents/servicePage";
 import siteSettings from "./documents/siteSettings";
@@ -133,7 +132,6 @@ export const v2Types: SchemaTypeDefinition[] = [
   seoArticle,
   newsletterSubscription,
   notFoundPage,
-  privacyPage,
   contactPage,
   siteSettings,
 ];

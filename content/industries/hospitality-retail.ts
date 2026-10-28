@@ -1,5 +1,5 @@
 /**
- * Hospitality Accounting Services (`/industries/hospitality-retail`, live slug kept).
+ * Hospitality Accounting Services (`/industries/hospitality-accounting-services`; was `/industries/hospitality-retail`, which 301s here).
  *
  * Source (user request 2026-10-25): the Figma design
  * `../pages/industry/hospitality-accounting-services.svg` (read from its full-page PNG render),
@@ -22,7 +22,10 @@ import { routes } from "@/lib/routes";
 const schedule = (label: string) => ({ label, href: SCHEDULE_HREF });
 
 export const hospitalityRetail: IndustryPageContent = {
-  slug: "hospitality-retail",
+  // URL renamed by the client 2026-10-28 (was /industries/hospitality-retail, which now 301s here).
+  slug: "hospitality-accounting-services",
+  sanityId: "industryPage-hospitality-retail",
+  redirectFrom: ["hospitality-retail"],
   name: "Hospitality Accounting Services",
 
   seo: {
@@ -79,7 +82,7 @@ export const hospitalityRetail: IndustryPageContent = {
     bodyMore: [
       {
         text: "Outsourced payroll services",
-        href: routes.service("outsourced-payroll-and-compliance-services"),
+        href: routes.service("outsourced-payroll-compliance-services"),
       },
       " give hospitality businesses added support with payroll processing, records, reporting, and ongoing payroll requirements.",
     ] satisfies RichText,

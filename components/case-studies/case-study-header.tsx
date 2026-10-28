@@ -64,8 +64,10 @@ export function CaseStudyOverview({ study }: { study: CaseStudyPage }) {
               <Icon name={iconName(f.icon)} aria-hidden className="size-6 text-brand" />
               <dt className="text-b2 text-body">{f.label}</dt>
               <dd className="col-start-2 mt-2 flex flex-col gap-2">
-                <span className="font-display text-h5 font-medium text-heading-alt">{f.title}</span>
-                {f.text ? <span className="text-b1 text-body">{f.text}</span> : null}
+                <span className="font-display text-h4-m font-medium text-heading-alt lg:text-h5">
+                  {f.title}
+                </span>
+                {f.text ? <p className="text-b1 text-body">{f.text}</p> : null}
               </dd>
             </div>
           ))}

@@ -9,7 +9,6 @@ import {
   YouTubeIcon,
 } from "@/components/icons/brand-icons";
 import { CallIcon, MailIcon } from "@/components/icons/material-symbols";
-import { routes } from "@/lib/routes";
 import { getSiteSettings, type SocialPlatform } from "@/sanity/lib/site-settings";
 import { CopyrightYear } from "./copyright-year";
 
@@ -59,7 +58,7 @@ export async function SiteFooter() {
               </Link>
               {/* Fills its column at every width (user requests 2026-10-24: the 336/254px caps left
                   an empty band on tablets and ~94px unused in the 348px desktop column). */}
-              <p className="text-b1 leading-5 font-normal text-footer-text">{footer.description}</p>
+              <p className="text-b1 leading-5 font-medium text-footer-text">{footer.description}</p>
             </div>
             <ul className="flex flex-col gap-6 font-sans text-b2 font-medium">
               {/* Studio → Footer → Show phone numbers. Every screen size (user request 2026-10-26;
@@ -119,7 +118,7 @@ export async function SiteFooter() {
                     <li key={link.label}>
                       <Link
                         href={link.href}
-                        className="relative block w-fit text-b2 leading-5 font-normal text-footer-text transition-colors before:absolute before:inset-x-0 before:-inset-y-3 hover:text-brand xl:whitespace-nowrap"
+                        className="relative block w-fit text-b2 leading-5 font-medium text-footer-text transition-colors before:absolute before:inset-x-0 before:-inset-y-3 hover:text-brand xl:whitespace-nowrap"
                       >
                         {link.label}
                       </Link>
@@ -134,7 +133,7 @@ export async function SiteFooter() {
         {/* Row 2: social + offices */}
         <div className="mt-12 flex flex-col gap-6 border-[rgb(242_242_242/0.2)] py-8 lg:mt-10 lg:border-t lg:py-6 xl:mt-4 xl:flex-row xl:items-start xl:justify-between">
           <div className="flex items-center gap-4">
-            <p className="text-b1 leading-5 font-normal">Follow us</p>
+            <p className="text-b1 leading-5 font-medium">Follow us</p>
             <ul className="flex items-center gap-3.5">
               {social.map((s, i) => {
                 const Icon = socialIcons[s.platform];
@@ -173,7 +172,7 @@ export async function SiteFooter() {
                   />
                   {o.name}
                 </p>
-                <address className="text-b1 leading-5 font-normal text-on-dark not-italic">
+                <address className="text-b1 leading-5 font-medium text-on-dark not-italic">
                   {o.lines}
                 </address>
               </li>
@@ -181,19 +180,10 @@ export async function SiteFooter() {
           </ul>
         </div>
 
-        {/* Row 3: copyright + Privacy Policy (NOT IN DESIGN: legal link added 2026-10-27). */}
+        {/* Row 3: copyright. */}
         <div className="border-t border-[rgb(242_242_242/0.2)] py-6 text-center">
-          <p className="text-b2 leading-[18px] font-normal text-on-dark">
-            © <CopyrightYear /> {footer.copyrightName} All rights reserved.{" "}
-            <span aria-hidden className="px-1">
-              ·
-            </span>
-            <Link
-              href={routes.privacy()}
-              className="inline-block py-1 underline-offset-2 hover:text-white hover:underline"
-            >
-              Privacy Policy
-            </Link>
+          <p className="text-b2 leading-[18px] font-medium text-on-dark">
+            © <CopyrightYear /> {footer.copyrightName} All rights reserved.
           </p>
         </div>
       </div>

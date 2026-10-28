@@ -1,6 +1,8 @@
 import { DocumentsIcon } from "@sanity/icons/Documents";
 import { defineField, defineType } from "sanity";
 
+import { pageUrlFields } from "../page-url-fields";
+
 /**
  * Sections in the same order as components/templates/service-page.tsx. Like the Home document,
  * each one is a field (with its own Studio tab) whose type lives in ../sections and mirrors the
@@ -31,7 +33,7 @@ const sections: { name: string; title: string; type: string; required?: boolean 
 
 /**
  * New-site service page (e.g. /audit-outsourcing-services). One document per page, matched by
- * slug; one field + one Studio tab per page section, like the Home document. Named
+ * `_id` (the URL slug is editable); one field + one Studio tab per page section, like the Home document. Named
  * `servicePage` (not `service`) so it never clashes with the legacy `service` type that is still
  * registered in this Studio.
  */
@@ -64,16 +66,7 @@ export default defineType({
       description: "Used in the breadcrumb and the Service structured data (not shown on the page).",
       validation: (Rule) => Rule.required(),
     }),
-    defineField({
-      name: "slug",
-      title: "URL slug",
-      type: "slug",
-      group: "page",
-      description:
-        "The page address without the leading slash, e.g. audit-outsourcing-services. Locked: it links this document to its page on the site (a different slug would disconnect it).",
-      readOnly: true,
-      validation: (Rule) => Rule.required(),
-    }),
+    ...pageUrlFields("root"),
   ],
   preview: {
     select: { title: "name", slug: "slug.current" },

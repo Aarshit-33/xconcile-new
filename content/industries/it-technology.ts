@@ -24,6 +24,8 @@ import { routes } from "@/lib/routes";
 
 export const itTechnology: IndustryPageContent = {
   slug: "it-technology-accounting-services",
+  sanityId: "industryPage-it-technology",
+  redirectFrom: ["it-technology"],
   name: "IT & Technology Accounting Services",
 
   seo: {

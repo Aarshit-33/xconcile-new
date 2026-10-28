@@ -1,5 +1,5 @@
 /**
- * Hire Audit & Assurance Staff (`/hire-audit-and-assurance`, live slug kept).
+ * Hire Audit & Assurance Staff (`/hire-audit-assurance-staff`; was `/hire-audit-and-assurance`, which 301s here).
  *
  * Source (decision 2026-10-25): everything from the Figma design `hire-audit-assurance-staff`,
  * read from its full-page PNG render. The older `page.css` export in
@@ -19,7 +19,10 @@ import { routes } from "@/lib/routes";
 const schedule = (label: string) => ({ label, href: SCHEDULE_HREF });
 
 export const hireAuditAndAssurance: HirePageContent = {
-  slug: "hire-audit-and-assurance",
+  // URL renamed by the client 2026-10-28 (was /hire-audit-and-assurance, which now 301s here).
+  slug: "hire-audit-assurance-staff",
+  sanityId: "hirePage-hire-audit-and-assurance",
+  redirectFrom: ["hire-audit-and-assurance"],
   name: "Hire Audit & Assurance Professionals",
 
   seo: {

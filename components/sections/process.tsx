@@ -13,9 +13,19 @@ import { sectionId } from "@/lib/section-ids";
  * the ordered list carries the sequence for assistive tech.
  */
 /** `subtitleClassName`: per-design subtitle width (audit: 666px). */
-export function Process({ data, subtitleClassName }: { data: ProcessContent; subtitleClassName?: string }) {
+export function Process({
+  data,
+  subtitleClassName,
+}: {
+  data: ProcessContent;
+  subtitleClassName?: string;
+}) {
   return (
-    <section id={sectionId(data, "process")} aria-labelledby="process-title" className="bg-surface-soft section-y">
+    <section
+      id={sectionId(data, "process")}
+      aria-labelledby="process-title"
+      className="bg-surface-soft section-y"
+    >
       <div className="container-site flex flex-col gap-6 lg:gap-12">
         <SectionHeading
           eyebrow={data.badge}
@@ -45,7 +55,12 @@ export function Process({ data, subtitleClassName }: { data: ProcessContent; sub
               )}
             >
               <div className="flex items-start justify-between gap-4">
-                <span className={cn("flex size-12 shrink-0 items-center justify-center rounded-md bg-brand-50", hoverTile)}>
+                <span
+                  className={cn(
+                    "flex size-12 shrink-0 items-center justify-center rounded-md bg-brand-50",
+                    hoverTile,
+                  )}
+                >
                   <Icon name={step.icon} className="size-6 text-brand" />
                 </span>
                 <span aria-hidden className="text-[40px] leading-12 font-bold text-hairline">
@@ -53,7 +68,9 @@ export function Process({ data, subtitleClassName }: { data: ProcessContent; sub
                 </span>
               </div>
               {/* mt-2: 24px from the icon row (16px row gap + 8px), 16px to the description. */}
-              <h3 className="mt-2 font-display text-h5 font-medium text-heading">{step.title}</h3>
+              <h3 className="mt-2 font-display text-h4-m font-medium text-heading lg:text-h5">
+                {step.title}
+              </h3>
               <p className="text-b1 text-body">{step.body}</p>
             </li>
           ))}

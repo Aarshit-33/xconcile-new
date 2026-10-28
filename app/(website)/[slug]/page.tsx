@@ -1,13 +1,11 @@
 import type { Metadata } from "next";
-import { notFound } from "next/navigation";
+import { notFound, permanentRedirect } from "next/navigation";
 
 import { JsonLd } from "@/components/seo/json-ld";
 import { richTextToPlain } from "@/components/shared/rich-text";
 import { HirePageTemplate } from "@/components/templates/hire-page";
 import { SeoArticleTemplate } from "@/components/templates/seo-article";
 import { ServicePageTemplate } from "@/components/templates/service-page";
-import { hirePages } from "@/content/hire";
-import { servicePages } from "@/content/services";
 import type { FaqItem } from "@/content/types";
 import { routes } from "@/lib/routes";
 import {
@@ -20,23 +18,35 @@ import {
 } from "@/lib/seo";
 import { getSeoArticle } from "@/sanity/lib/blog-post";
 import { getHirePage } from "@/sanity/lib/hire-page";
+import { getPageUrls } from "@/sanity/lib/page-urls";
 import { getAllSeoArticleSlugs, getRelatedSeoArticles } from "@/sanity/lib/queries";
 import { getServicePage } from "@/sanity/lib/service-page";
 
 /**
  * Root-level slugs, matching the live URL structure (lib/routes.ts): service pages, hire pages
- * and SEO articles (Studio → Articles, user request 2026-10-27; the Studio slug check keeps
- * their slugs from clashing with the others). Service/hire pages win if a slug ever matched both.
- * Anything else is a 404. Articles published after a build render on first request.
+ * and SEO articles (Studio → Articles, user request 2026-10-27; the Studio slug checks keep
+ * their slugs from clashing with the others). Service/hire slugs are their live URLs
+ * (sanity/lib/page-urls.ts: Studio's "URL slug", else the code default) and win over articles;
+ * a page's old slug 301s to its live URL. Anything else is a 404. Articles and old slugs render
+ * on first request.
  */
 export async function generateStaticParams() {
-  const articles = await getAllSeoArticleSlugs();
+  const [urls, articles] = await Promise.all([getPageUrls(), getAllSeoArticleSlugs()]);
   const slugs = new Set([
-    ...Object.keys(servicePages),
-    ...Object.keys(hirePages),
+    ...urls.pages.filter((p) => p.kind !== "industry").map((p) => p.slug),
     ...articles.map((a) => a.slug),
   ]);
   return [...slugs].map((slug) => ({ slug }));
+}
+
+/** The service or hire page live at `/<slug>`. An old URL of one 301s to its live URL. */
+async function rootPage(slug: string) {
+  const urls = await getPageUrls();
+  const page = urls.byPath(routes.service(slug));
+  if (page && page.kind !== "industry") return page;
+  const to = urls.redirectFor(routes.service(slug));
+  if (to) permanentRedirect(to);
+  return undefined;
 }
 
 /**
@@ -58,20 +68,19 @@ export const instant = false;
 
 export async function generateMetadata({ params }: PageProps<"/[slug]">): Promise<Metadata> {
   const { slug } = await params;
+  const page = await rootPage(slug);
 
-  const hire = hirePages[slug];
-  if (hire) {
-    const { content, ogImage } = await getHirePage(hire);
+  if (page?.kind === "hire") {
+    const { content, ogImage, metaTags } = await getHirePage(page);
     return buildMetadata({
       title: content.seo.title,
       description: content.seo.description,
-      seo: { metaKeywords: content.seo.keywords, openGraphImage: ogImage },
-      path: routes.hireStaff(slug),
+      seo: { metaKeywords: content.seo.keywords, openGraphImage: ogImage, metaTags },
+      path: page.path,
     });
   }
 
-  const entry = servicePages[slug];
-  if (!entry) {
+  if (!page) {
     const article = await getSeoArticle(slug);
     if (!article) return {};
     const meta = buildMetadata({
@@ -80,6 +89,7 @@ export async function generateMetadata({ params }: PageProps<"/[slug]">): Promis
       seo: {
         metaKeywords: article.seo.keywords,
         openGraphImage: article.seo.ogImage || article.cover?.src,
+        metaTags: article.seo.metaTags,
       },
       path: `/${slug}`,
     });
@@ -93,12 +103,12 @@ export async function generateMetadata({ params }: PageProps<"/[slug]">): Promis
       },
     };
   }
-  const { content, ogImage } = await getServicePage(entry);
+  const { content, ogImage, metaTags } = await getServicePage(page);
   return buildMetadata({
     title: content.seo.title,
     description: content.seo.description,
-    seo: { metaKeywords: content.seo.keywords, openGraphImage: ogImage },
-    path: routes.service(slug),
+    seo: { metaKeywords: content.seo.keywords, openGraphImage: ogImage, metaTags },
+    path: page.path,
   });
 }
 
@@ -107,11 +117,11 @@ const faqLd = (items: FaqItem[]) =>
 
 export default async function SlugPage({ params }: PageProps<"/[slug]">) {
   const { slug } = await params;
+  const page = await rootPage(slug);
 
-  const hire = hirePages[slug];
-  if (hire) {
-    const { content } = await getHirePage(hire);
-    const path = routes.hireStaff(slug);
+  if (page?.kind === "hire") {
+    const { content } = await getHirePage(page);
+    const path = page.path;
     return (
       <>
         <JsonLd
@@ -129,11 +139,10 @@ export default async function SlugPage({ params }: PageProps<"/[slug]">) {
     );
   }
 
-  const entry = servicePages[slug];
-  if (!entry) return renderSeoArticle(slug);
+  if (!page) return renderSeoArticle(slug);
 
-  const { content } = await getServicePage(entry);
-  const path = routes.service(slug);
+  const { content } = await getServicePage(page);
+  const path = page.path;
 
   return (
     <>

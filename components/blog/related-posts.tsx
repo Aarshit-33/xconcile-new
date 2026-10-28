@@ -24,7 +24,7 @@ export function RelatedPosts({ data, posts }: { data: BlogArticleSettings["relat
             subtitle={data.subtitle}
             align="responsive"
             className="lg:max-w-[776px]"
-            subtitleClassName="text-b3"
+            subtitleClassName="text-b1 lg:text-b3"
           />
           <CtaLink href={routes.blog()} variant="outline" className="hidden shrink-0 lg:inline-flex">
             {data.ctaLabel}

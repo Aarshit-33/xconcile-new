@@ -11,11 +11,11 @@ import { getAllCaseStudies, getCaseStudiesGallery } from "@/sanity/lib/case-stud
  * Studio → Case Studies Gallery (fallback content/case-studies.ts). Cards: Studio → Case Studies.
  */
 export async function generateMetadata(): Promise<Metadata> {
-  const { content, ogImage } = await getCaseStudiesGallery();
+  const { content, ogImage, metaTags } = await getCaseStudiesGallery();
   return buildMetadata({
     title: content.seo.title,
     description: content.seo.description,
-    seo: { metaKeywords: content.seo.keywords, openGraphImage: ogImage },
+    seo: { metaKeywords: content.seo.keywords, openGraphImage: ogImage, metaTags },
     path: routes.caseStudies(),
   });
 }

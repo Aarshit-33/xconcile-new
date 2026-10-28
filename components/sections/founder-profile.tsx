@@ -18,7 +18,11 @@ export function FounderProfile({ data, className }: { data: FounderContent; clas
   const id = sectionId(data, "founder");
   const { person } = data;
   return (
-    <section id={id} aria-labelledby={`${id}-title`} className={cn("overflow-hidden bg-surface-muted", className)}>
+    <section
+      id={id}
+      aria-labelledby={`${id}-title`}
+      className={cn("overflow-hidden bg-surface-muted", className)}
+    >
       <div className="container-site grid gap-8 lg:grid-cols-[minmax(0,640fr)_minmax(0,656fr)] lg:gap-6">
         <div className="flex flex-col gap-8 pt-12 lg:border-b lg:border-hairline lg:pt-[67px] lg:pb-[62px]">
           <div className="flex flex-col gap-1">
@@ -28,7 +32,7 @@ export function FounderProfile({ data, className }: { data: FounderContent; clas
               </RevealText>
               <LinkedInLink person={person} />
             </div>
-            <p className="text-b3 text-body lg:text-h5 lg:font-normal">{person.role}</p>
+            <p className="text-b1 text-body lg:text-h5 lg:font-medium">{person.role}</p>
           </div>
           <FadeUp className="flex flex-col gap-6">
             <ProfileBio bio={person.bio} />
@@ -38,7 +42,10 @@ export function FounderProfile({ data, className }: { data: FounderContent; clas
 
         {/* Portrait column: the green block is decorative (clipped by the section). */}
         <div className="relative flex h-[340px] items-end justify-center sm:h-[420px] lg:h-auto lg:min-h-[573px] lg:justify-end">
-          <div aria-hidden className="absolute inset-y-0 left-1/2 w-[100vw] bg-brand lg:left-[calc(100%-198px)]" />
+          <div
+            aria-hidden
+            className="absolute inset-y-0 left-1/2 w-[100vw] bg-brand lg:left-[calc(100%-198px)]"
+          />
           <Image
             src={person.image.src}
             alt={person.image.alt}

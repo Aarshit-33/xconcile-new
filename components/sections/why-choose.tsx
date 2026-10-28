@@ -26,13 +26,7 @@ type Photo = ImageAsset;
  * Icon tiles: the Home design's dark tile on every page and screen size (user requests
  * 2026-10-24; inner pages used the audit design's light #E7F6E2 tiles via a `tile` prop).
  */
-export function WhyChoose({
-  data,
-  className,
-}: {
-  data: WhyChooseContent;
-  className?: string;
-}) {
+export function WhyChoose({ data, className }: { data: WhyChooseContent; className?: string }) {
   const [p1, p2, p3, p4] = data.images;
 
   const id = sectionId(data, "whyChoose");
@@ -40,7 +34,8 @@ export function WhyChoose({
   const titleId = `${id}-title`;
 
   return (
-    <section id={id}
+    <section
+      id={id}
       aria-labelledby={titleId}
       className={cn("overflow-hidden bg-dark-gradient section-y", className)}
     >
@@ -70,7 +65,7 @@ export function WhyChoose({
                 <span className="row-span-2 flex size-8 shrink-0 items-center justify-center rounded-sm bg-brand-tile-dark">
                   <Icon name={f.icon} className="size-5 text-brand" />
                 </span>
-                <h3 className="text-h5 text-white">{f.title}</h3>
+                <h3 className="text-h4-m text-white lg:text-h5">{f.title}</h3>
                 <p className="text-b1 text-on-dark-muted">{f.body}</p>
               </li>
             ))}

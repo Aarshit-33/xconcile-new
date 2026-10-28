@@ -74,7 +74,7 @@ export function InquirySection({
           <FadeUp
             as="p"
             delay={0.12}
-            className="mb-12 text-lg leading-relaxed font-normal text-white/80"
+            className="mb-12 text-lg leading-relaxed font-medium text-white/80"
           >
             {data.body}
           </FadeUp>
@@ -94,11 +94,11 @@ export function InquirySection({
                       <SiteIcon name={name} className="size-5" />
                     ) : null}
                   </span>
-                  <span>
+                  <div>
                     {/* Titles in white (client request 2026-10-24; was brand green); descriptions stay white/70. */}
-                    <span className="block text-base font-bold text-white">{item.label}</span>
-                    <span className="mt-0.5 block text-sm text-white/70">{item.desc}</span>
-                  </span>
+                    <p className="text-base font-bold text-white">{item.label}</p>
+                    <p className="mt-0.5 text-sm text-white/70">{item.desc}</p>
+                  </div>
                 </li>
               );
             })}

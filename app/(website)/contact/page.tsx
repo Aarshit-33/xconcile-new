@@ -17,7 +17,7 @@ export async function generateMetadata(): Promise<Metadata> {
   return buildMetadata({
     title: seo.title,
     description: seo.description,
-    seo: { metaKeywords: seo.keywords, openGraphImage: seo.ogImage },
+    seo: { metaKeywords: seo.keywords, openGraphImage: seo.ogImage, metaTags: seo.metaTags },
     path: routes.contact(),
   });
 }

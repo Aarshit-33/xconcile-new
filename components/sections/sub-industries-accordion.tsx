@@ -65,7 +65,7 @@ export function SubIndustriesAccordion({
             value={`sub-${i}`}
             className="group/sub border-t border-hairline not-last:border-b-0"
           >
-            <AccordionTrigger className="items-start gap-4 rounded-none border-0 py-6 text-left font-normal hover:no-underline focus-visible:ring-inset **:data-[slot=accordion-trigger-icon]:hidden lg:items-center">
+            <AccordionTrigger className="items-start gap-4 rounded-none border-0 py-6 text-left font-medium hover:no-underline focus-visible:ring-inset **:data-[slot=accordion-trigger-icon]:hidden lg:items-center">
               <RowHead item={item} index={i} iconPath={iconPaths[i]} />
               <span
                 aria-hidden

@@ -7,6 +7,8 @@ import type { ArticleBlock } from "@/sanity/lib/blog-post";
 type Table = {
   caption?: string;
   hasHeaderRow?: boolean;
+  /** First cell of each row is the row's name (`<th scope="row">`). */
+  hasHeaderColumn?: boolean;
   rows?: { _key?: string; cells?: string[] }[];
 };
 type BodyImage = { src?: string; alt?: string; caption?: string; width?: number; height?: number };
@@ -19,8 +21,10 @@ type BodyImage = { src?: string; alt?: string; caption?: string; width?: number;
  * and tables (scroll sideways on phones). Older posts' H1s render as H2 so the page keeps a
  * single H1. `headingIds` (block key → id) gives each Table of Contents heading its anchor.
  * `types`: extra custom blocks (e.g. the case study's highlight box and results band).
- * `tableTone`: "dark" header row (blog design) or "light" (SEO article design: pale green header,
- * every cell bordered).
+ * `tableTone`: "dark" (blog design: rounded table, row lines) or "light" (SEO articles: every
+ * cell bordered). Header row and header column (Studio "First column is the header") are the
+ * same light green on both tones (user request 2026-10-28): opaque `brand-100`, not a transparent
+ * green, so the header column doesn't pick up the alternating row colours underneath.
  */
 export function ArticleBody({
   body,
@@ -158,16 +162,14 @@ export function ArticleBody({
               ) : null}
               {head ? (
                 <thead>
-                  <tr
-                    className={light ? "bg-brand-50 text-heading" : "bg-dark-gradient text-white"}
-                  >
+                  <tr className="bg-brand-100 text-heading">
                     {head.cells!.map((c, i) => (
                       <th
                         key={i}
                         scope="col"
                         className={
                           light
-                            ? "border border-line/60 px-4 py-2.5 font-normal"
+                            ? "border border-brand/30 px-4 py-3 font-semibold"
                             : "px-4 py-3 font-semibold"
                         }
                       >
@@ -182,21 +184,37 @@ export function ArticleBody({
                   <tr
                     key={r._key ?? ri}
                     className={
-                      light ? "bg-white" : "border-b border-line/60 odd:bg-white even:bg-brand-50"
+                      light
+                        ? "odd:bg-white even:bg-surface-alt"
+                        : "border-b border-line/60 odd:bg-white even:bg-brand-50"
                     }
                   >
-                    {r.cells!.map((c, ci) => (
-                      <td
-                        key={ci}
-                        className={
-                          light
-                            ? "border border-line/60 px-4 py-2.5 align-top text-heading"
-                            : "px-4 py-3 align-top text-body"
-                        }
-                      >
-                        {c}
-                      </td>
-                    ))}
+                    {r.cells!.map((c, ci) =>
+                      value.hasHeaderColumn && ci === 0 ? (
+                        <th
+                          key={ci}
+                          scope="row"
+                          className={
+                            light
+                              ? "border border-brand/30 bg-brand-100 px-4 py-2.5 align-top font-semibold text-heading"
+                              : "bg-brand-100 px-4 py-3 align-top font-semibold text-heading"
+                          }
+                        >
+                          {c}
+                        </th>
+                      ) : (
+                        <td
+                          key={ci}
+                          className={
+                            light
+                              ? "border border-line/60 px-4 py-2.5 align-top text-body"
+                              : "px-4 py-3 align-top text-body"
+                          }
+                        >
+                          {c}
+                        </td>
+                      ),
+                    )}
                   </tr>
                 ))}
               </tbody>

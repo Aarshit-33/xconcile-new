@@ -2,6 +2,7 @@ import { ImageIcon } from "@sanity/icons/Image";
 import { ThLargeIcon } from "@sanity/icons/ThLarge";
 import { defineArrayMember, defineField, defineType } from "sanity";
 
+import { TableGridInput } from "../../../components/table-grid-input";
 import { hrefRule } from "../fields";
 
 /** Image inside a blog article (full content width, optional caption). */
@@ -36,7 +37,10 @@ export const articleImage = defineType({
   },
 });
 
-/** Table inside a blog article: rows of text cells; the first row can be the header. */
+/**
+ * Table inside a blog article: rows of text cells; the first row and/or the first column can be
+ * headers (column / row names). Edited as a grid with + Add row / + Add column (sanity/components/table-grid-input.tsx).
+ */
 export const articleTable = defineType({
   name: "articleTable",
   title: "Table",
@@ -53,13 +57,24 @@ export const articleTable = defineType({
       name: "hasHeaderRow",
       title: "First row is the header",
       type: "boolean",
+      description: "On = the first row holds the column names (type them into that row).",
       initialValue: true,
+    }),
+    defineField({
+      name: "hasHeaderColumn",
+      title: "First column is the header",
+      type: "boolean",
+      description:
+        "On = the first cell of every row is that row's name (type them into that column).",
+      initialValue: false,
     }),
     defineField({
       name: "rows",
       title: "Rows",
       type: "array",
-      description: "Each row is a list of cells. Keep the same number of cells in every row.",
+      description:
+        "Type into the cells. + Add row / + Add column grow the table; × removes a row or column, ↑ ↓ reorder rows.",
+      components: { input: TableGridInput },
       of: [
         defineArrayMember({
           name: "tableRow",
@@ -87,15 +102,19 @@ export const articleTable = defineType({
   ],
   preview: {
     select: { caption: "caption", rows: "rows" },
-    prepare: ({ caption, rows }) => ({
-      title: caption || "Table",
-      subtitle: `Table · ${Array.isArray(rows) ? rows.length : 0} rows`,
-    }),
+    prepare: ({ caption, rows }) => {
+      const list: { cells?: string[] }[] = Array.isArray(rows) ? rows : [];
+      const columns = list.reduce((n, r) => Math.max(n, r.cells?.length ?? 0), 0);
+      return {
+        title: caption || "Table",
+        subtitle: `Table · ${list.length} rows × ${columns} columns`,
+      };
+    },
   },
 });
 
 /**
- * Text block of the article editors (blog posts, case studies, Privacy Policy): paragraphs,
+ * Text block of the article editors (blog posts, case studies): paragraphs,
  * H2–H4, quotes, bullet / numbered / checklist lists, bold/italic/underline and links.
  */
 export const articleTextBlock = (h2Title = "Heading 2 (in Table of Contents)") =>

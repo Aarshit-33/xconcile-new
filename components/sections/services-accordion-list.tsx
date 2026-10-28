@@ -67,11 +67,11 @@ export function ServicesAccordionList({
               <span className="flex min-w-0 flex-1 flex-col gap-2 lg:ml-14">
                 {/* Full title always shown: wraps on narrow screens (was `truncate`, which cut long
                     names to "Hire Dedicated Acc…" at 320–390px; client report 2026-10-22). */}
-                <span className="text-h5 text-white transition-colors group-hover/item:text-brand group-data-open/item:text-brand">
+                <span className="text-h4-m text-white transition-colors group-hover/item:text-brand group-data-open/item:text-brand lg:text-h5">
                   {item.title}
                 </span>{" "}
-                {/* font-normal: copy weight (2026-10-22); the trigger button itself is font-medium. */}
-                <span className="hidden text-b2 font-normal text-on-dark group-data-open/item:block lg:block">
+                {/* font-medium: copy weight (2026-10-22); the trigger button itself is font-medium. */}
+                <span className="hidden text-b2 font-medium text-on-dark group-data-open/item:block lg:block">
                   {item.description}
                 </span>
               </span>

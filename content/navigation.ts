@@ -32,23 +32,23 @@ export const services = [
   {
     value: "sales-tax-compliance",
     label: "Multi-State Sales & Use Tax Compliance",
-    href: routes.service("multi-state-sales-and-use-tax-compliance"),
+    href: routes.service("multi-state-sales-tax-compliance"),
   },
   {
     value: "payroll-compliance",
     label: "Payroll & Compliance",
-    href: routes.service("outsourced-payroll-and-compliance-services"),
+    href: routes.service("outsourced-payroll-compliance-services"),
   },
   {
     value: "virtual-cfo",
     label: "Virtual CFO & FP&A",
-    href: routes.service("outsourced-virtual-cfo-and-fp-and-a"),
+    href: routes.service("virtual-cfo-services"),
   },
   {
     value: "revenue-cycle-management",
     label: "Revenue Cycle Management",
     // New page (design "RCM (1)"); no live URL yet.
-    href: routes.service("revenue-cycle-management"),
+    href: routes.service("revenue-cycle-management-services"),
   },
 ] as const;
 
@@ -58,19 +58,19 @@ export const hirePages: NavLink[] = [
     label: "Hire Dedicated Accounting Professionals",
     href: routes.hireStaff("hire-bookkeeper-accountant"),
   },
-  { label: "Hire Audit and Assurance", href: routes.hireStaff("hire-audit-and-assurance") },
-  { label: "Hire Payroll and Compliance", href: routes.hireStaff("hire-payroll-and-compliance") },
+  { label: "Hire Audit and Assurance", href: routes.hireStaff("hire-audit-assurance-staff") },
+  { label: "Hire Payroll and Compliance", href: routes.hireStaff("hire-payroll-staff") },
   { label: "Hire Tax Preparation Staff", href: routes.hireStaff("hire-tax-preparation-staff") },
-  { label: "Hire Virtual CFO", href: routes.hireStaff("hire-virtual-cfo-and-fp-and-a") },
+  { label: "Hire Virtual CFO", href: routes.hireStaff("hire-virtual-cfo") },
 ];
 
 /** Industry pages (Industries group (3)). */
 export const industryPages: NavLink[] = [
-  { label: "Real Estate", href: routes.industry("real-estate-construction") },
-  { label: "Healthcare", href: routes.industry("medical-health") },
-  { label: "Hospitality", href: routes.industry("hospitality-retail") },
-  { label: "Professional Services", href: routes.industry("professional-services") },
-  { label: "E-commerce", href: routes.industry("tech-ecommerce") },
+  { label: "Real Estate", href: routes.industry("real-estate-accounting-services") },
+  { label: "Healthcare", href: routes.industry("healthcare-accounting-services") },
+  { label: "Hospitality", href: routes.industry("hospitality-accounting-services") },
+  { label: "Professional Services", href: routes.industry("accounting-outsourcing-professional-services") },
+  { label: "E-commerce", href: routes.industry("ecommerce-accounting-services") },
   // Separate IT/Technology page (design it-technology-accounting-services.svg; URL = page name).
   { label: "IT & Technology", href: routes.industry("it-technology-accounting-services") },
 ];
@@ -304,7 +304,7 @@ export const footerNav: { title: string; links: NavLink[] }[] = [
       { label: "Bookkeeping", href: routes.service("outsourced-accounting-and-bookkeeping") },
       {
         label: "Payroll Services",
-        href: routes.service("outsourced-payroll-and-compliance-services"),
+        href: routes.service("outsourced-payroll-compliance-services"),
       },
       { label: "Tax Support", href: routes.service("outsourced-tax-preparation") },
       {
@@ -317,7 +317,7 @@ export const footerNav: { title: string; links: NavLink[] }[] = [
       },
       {
         label: "Virtual CFO Services",
-        href: routes.service("outsourced-virtual-cfo-and-fp-and-a"),
+        href: routes.service("virtual-cfo-services"),
       },
       { label: "Audit Support", href: routes.service("audit-outsourcing-services") },
     ],
@@ -325,31 +325,31 @@ export const footerNav: { title: string; links: NavLink[] }[] = [
   {
     title: "Hire",
     links: [
-      { label: "Hire Audit and Assurance", href: routes.hireStaff("hire-audit-and-assurance") },
+      { label: "Hire Audit and Assurance", href: routes.hireStaff("hire-audit-assurance-staff") },
       {
         label: "Hire Bookkeeper / Accountant",
         href: routes.hireStaff("hire-bookkeeper-accountant"),
       },
       {
         label: "Hire Payroll and Compliance",
-        href: routes.hireStaff("hire-payroll-and-compliance"),
+        href: routes.hireStaff("hire-payroll-staff"),
       },
       { label: "Hire Tax Preparation Staff", href: routes.hireStaff("hire-tax-preparation-staff") },
-      { label: "Hire Virtual CFO", href: routes.hireStaff("hire-virtual-cfo-and-fp-and-a") },
+      { label: "Hire Virtual CFO", href: routes.hireStaff("hire-virtual-cfo") },
     ],
   },
   {
     title: "Industries",
     links: [
-      { label: "Real Estate", href: routes.industry("real-estate-construction") },
-      { label: "Healthcare", href: routes.industry("medical-health") },
-      { label: "Hospitality", href: routes.industry("hospitality-retail") },
-      { label: "Professional Services", href: routes.industry("professional-services") },
-      { label: "E-commerce", href: routes.industry("tech-ecommerce") },
+      { label: "Real Estate", href: routes.industry("real-estate-accounting-services") },
+      { label: "Healthcare", href: routes.industry("healthcare-accounting-services") },
+      { label: "Hospitality", href: routes.industry("hospitality-accounting-services") },
+      { label: "Professional Services", href: routes.industry("accounting-outsourcing-professional-services") },
+      { label: "E-commerce", href: routes.industry("ecommerce-accounting-services") },
       // "IT technology" removed: same page as "Technology" below (audit L11).
-      { label: "Retail", href: routes.industry("hospitality-retail") },
+      { label: "Retail", href: routes.industry("hospitality-accounting-services") },
       { label: "Technology", href: routes.industry("it-technology-accounting-services") },
-      { label: "Construction", href: routes.industry("real-estate-construction") },
+      { label: "Construction", href: routes.industry("real-estate-accounting-services") },
     ],
   },
 ];

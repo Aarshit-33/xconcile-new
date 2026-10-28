@@ -300,7 +300,7 @@ export const outsourcedTaxPreparation: ServicePageContent = {
         // Same photo as Home's case study.
         image: home.caseStudies.items[0].image,
         // No case-study pages exist yet, so the button opens the matching industry page.
-        cta: { label: "View Case Study", href: routes.industry("professional-services") },
+        cta: { label: "View Case Study", href: routes.industry("accounting-outsourcing-professional-services") },
       },
     ],
   },
@@ -355,25 +355,25 @@ export const outsourcedTaxPreparation: ServicePageContent = {
         // COPY FIX: drawn as "Cost accounting, inventory valuation, job costing." (manufacturing
         // copy, same known error as Home); Home's fixed line used.
         body: home.industries.items[0].body,
-        href: routes.industry("professional-services"),
+        href: routes.industry("accounting-outsourcing-professional-services"),
         image: home.industries.items[0].image,
       },
       {
         title: "Healthcare",
         body: "Practice accounting, revenue cycle support, compliance.",
-        href: routes.industry("medical-health"),
+        href: routes.industry("healthcare-accounting-services"),
         image: home.industries.items[1].image,
       },
       {
         title: "Real Estate",
         body: "Streamline property sales and client relationship management.",
-        href: routes.industry("real-estate-construction"),
+        href: routes.industry("real-estate-accounting-services"),
         image: home.industries.items[2].image,
       },
       {
         title: "Retail",
         body: "Multi-location consolidation and daily sales reconciliation.",
-        href: routes.industry("hospitality-retail"),
+        href: routes.industry("hospitality-accounting-services"),
         image: home.industries.items[3].image,
       },
       {
@@ -401,7 +401,7 @@ export const outsourcedTaxPreparation: ServicePageContent = {
       {
         title: "eCommerce",
         body: "Multi-channel bookkeeping, inventory, COGS, and sales tax.",
-        href: routes.industry("tech-ecommerce"),
+        href: routes.industry("ecommerce-accounting-services"),
         image: {
           src: "/images/industries/ecommerce.jpg",
           alt: "Online seller packing orders at a desk",

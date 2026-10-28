@@ -1,5 +1,5 @@
 /**
- * Multi-State Sales & Use Tax Compliance (`/multi-state-sales-and-use-tax-compliance`).
+ * Multi-State Sales & Use Tax Compliance (`/multi-state-sales-tax-compliance`; was `/multi-state-sales-and-use-tax-compliance`, which 301s here).
  *
  * Sources:
  *  - Copy: the Figma design `pages/services/multi-state-sales-tax-compliance.svg` (2026-10-25,
@@ -16,7 +16,10 @@ import type { ServicePageContent } from "@/content/services/types";
 import { routes } from "@/lib/routes";
 
 export const multiStateSalesAndUseTaxCompliance: ServicePageContent = {
-  slug: "multi-state-sales-and-use-tax-compliance",
+  // URL renamed by the client 2026-10-28 (was /multi-state-sales-and-use-tax-compliance, which now 301s here).
+  slug: "multi-state-sales-tax-compliance",
+  sanityId: "servicePage-multi-state-sales-and-use-tax-compliance",
+  redirectFrom: ["multi-state-sales-and-use-tax-compliance"],
   name: "Multi-State Sales & Use Tax Compliance Services",
 
   // NOT IN DESIGN: derived from the hero, intro and docs copy. Fallbacks; Sanity `seo` wins.
@@ -204,7 +207,7 @@ export const multiStateSalesAndUseTaxCompliance: ServicePageContent = {
         // Same photo as Home's CPA case study (incl. its mobile art direction).
         image: home.caseStudies.items[0].image,
         // No case-study pages exist yet, so the button opens the matching industry page.
-        cta: { label: "View Case Study", href: routes.industry("professional-services") },
+        cta: { label: "View Case Study", href: routes.industry("accounting-outsourcing-professional-services") },
       },
     ],
   },
@@ -257,25 +260,25 @@ export const multiStateSalesAndUseTaxCompliance: ServicePageContent = {
       {
         title: "CPA & Accounting Firms",
         body: "Sales tax compliance support for CPA firm workflows",
-        href: routes.industry("professional-services"),
+        href: routes.industry("accounting-outsourcing-professional-services"),
         image: home.industries.items[0].image,
       },
       {
         title: "Healthcare",
         body: "Healthcare sales tax compliance support and reporting",
-        href: routes.industry("medical-health"),
+        href: routes.industry("healthcare-accounting-services"),
         image: home.industries.items[1].image,
       },
       {
         title: "Real Estate",
         body: "Real estate sales tax compliance and reporting support",
-        href: routes.industry("real-estate-construction"),
+        href: routes.industry("real-estate-accounting-services"),
         image: home.industries.items[2].image,
       },
       {
         title: "Retail",
         body: "Sales tax support for retail transactions and filing",
-        href: routes.industry("hospitality-retail"),
+        href: routes.industry("hospitality-accounting-services"),
         image: home.industries.items[3].image,
       },
       {
@@ -301,7 +304,7 @@ export const multiStateSalesAndUseTaxCompliance: ServicePageContent = {
       {
         title: "eCommerce",
         body: "Sales tax compliance support for online businesses",
-        href: routes.industry("tech-ecommerce"),
+        href: routes.industry("ecommerce-accounting-services"),
         image: {
           src: "/images/industries/ecommerce.jpg",
           alt: "Online seller packing orders at a desk",

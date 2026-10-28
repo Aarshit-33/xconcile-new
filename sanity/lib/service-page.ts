@@ -1,8 +1,11 @@
 import "server-only";
 
+import type { MetaTag } from "@/lib/seo";
+
 import type { ServicePageContent } from "@/content/services/types";
 
 import { sanityFetch } from "./fetch";
+import { type PageEntry, resolveLinks } from "./page-urls";
 import {
   mapBlog,
   mapCaseStudies,
@@ -25,9 +28,9 @@ import {
   SECTION_PROJECTION as P,
 } from "./sections";
 
-const SERVICE_PAGE_QUERY = /* groq */ `*[_type == "servicePage" && slug.current == $slug][0]{
+const SERVICE_PAGE_QUERY = /* groq */ `*[_id == $id][0]{
   name,
-  seo{ title, description, keywords, "ogImage": ogImage.asset->url },
+  seo{ title, description, keywords, "ogImage": ogImage.asset->url, "metaTags": coalesce(metaTags[]{ key, value }, []) + select(defined(canonicalUrl) => [{ "key": "canonical", "value": canonicalUrl }], []) },
   hero, challenges, featureGrid, services, process, extraServices, blog, faq,
   ${P.stats},
   ${P.intro},
@@ -47,8 +50,9 @@ function optional<T>(d: Raw, f: T | undefined, map: (d: Raw, f: T) => T): T | un
 
 /**
  * Service page content from its Sanity `servicePage` document (Studio → Service Pages (New
- * Site), matched by slug), in the exact shape of `ServicePageContent` so the template stays
- * unchanged. Same rules as Home (sanity/lib/home.ts): any section or field that is empty in
+ * Site), matched by `_id` so a Studio slug change keeps it connected; sanity/lib/page-urls.ts),
+ * in the exact shape of `ServicePageContent` so the template stays unchanged. Links to renamed
+ * pages are resolved. Same rules as Home (sanity/lib/home.ts): any section or field that is empty in
  * Sanity falls back to the page's code content (content/services/*.ts, also used when Sanity is
  * not configured or the document doesn't exist). Cache tag: `servicePage`.
  *
@@ -57,11 +61,22 @@ function optional<T>(d: Raw, f: T | undefined, map: (d: Raw, f: T) => T): T | un
  * services and security blocks) are undefined in its code content and stay off the page.
  */
 export async function getServicePage(
+  page: PageEntry<"service">,
+): Promise<{ content: ServicePageContent; ogImage?: string; metaTags?: MetaTag[] }> {
+  const { content, ogImage, metaTags } = await loadServicePage(page.id, {
+    ...page.content,
+    slug: page.slug,
+  });
+  return { content: await resolveLinks(content), ogImage, metaTags };
+}
+
+async function loadServicePage(
+  id: string,
   f: ServicePageContent,
-): Promise<{ content: ServicePageContent; ogImage?: string }> {
+): Promise<{ content: ServicePageContent; ogImage?: string; metaTags?: MetaTag[] }> {
   const d: Raw = await sanityFetch({
     query: SERVICE_PAGE_QUERY,
-    params: { slug: f.slug },
+    params: { id },
     tags: ["servicePage", "caseStudy"],
   });
   if (!d) return { content: f };
@@ -95,5 +110,6 @@ export async function getServicePage(
       ctaBand: mapCtaBand(d.ctaBand, f.ctaBand),
     },
     ogImage: d.seo?.ogImage ?? undefined,
+    metaTags: d.seo?.metaTags ?? undefined,
   };
 }

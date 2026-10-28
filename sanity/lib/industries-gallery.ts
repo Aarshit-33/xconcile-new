@@ -1,9 +1,12 @@
 import "server-only";
 
+import type { MetaTag } from "@/lib/seo";
+
 import { industriesGallery } from "@/content/industries/gallery";
 import type { IndustriesGalleryContent } from "@/content/industries/types";
 
 import { sanityFetch } from "./fetch";
+import { withResolvedLinks } from "./page-urls";
 import {
   mapCtaBand,
   mapFaq,
@@ -16,7 +19,7 @@ import {
 } from "./sections";
 
 const INDUSTRIES_PAGE_QUERY = /* groq */ `*[_type == "industriesPage" && _id == "industriesPage"][0]{
-  seo{ title, description, keywords, "ogImage": ogImage.asset->url },
+  seo{ title, description, keywords, "ogImage": ogImage.asset->url, "metaTags": coalesce(metaTags[]{ key, value }, []) + select(defined(canonicalUrl) => [{ "key": "canonical", "value": canonicalUrl }], []) },
   hero, features, faq,
   ${P.industries},
   ${P.ctaBand}
@@ -29,9 +32,10 @@ const INDUSTRIES_PAGE_QUERY = /* groq */ `*[_type == "industriesPage" && _id == 
  * (also used when Sanity is not configured or the document doesn't exist). Cache tag:
  * `industriesPage` (revalidated by /api/revalidate on publish).
  */
-export async function getIndustriesGallery(): Promise<{
+async function loadIndustriesGallery(): Promise<{
   content: IndustriesGalleryContent;
   ogImage?: string;
+  metaTags?: MetaTag[];
 }> {
   const f = industriesGallery;
   const d: Raw = await sanityFetch({ query: INDUSTRIES_PAGE_QUERY, tags: ["industriesPage"] });
@@ -51,5 +55,9 @@ export async function getIndustriesGallery(): Promise<{
       ctaBand: mapCtaBand(d.ctaBand, f.ctaBand),
     },
     ogImage: d.seo?.ogImage ?? undefined,
+    metaTags: d.seo?.metaTags ?? undefined,
   };
 }
+
+/** `loadIndustriesGallery` with links to renamed pages resolved (sanity/lib/page-urls.ts). */
+export const getIndustriesGallery = withResolvedLinks(loadIndustriesGallery);

@@ -9,7 +9,13 @@ import { ArrowForwardIcon, CheckCircleIcon } from "@/components/icons/material-s
 import { Button } from "@/components/ui/button";
 import { Field, FieldError, FieldGroup, FieldLabel } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import type { home } from "@/content/home";
 import { leadServiceOptions } from "@/content/navigation";
@@ -27,7 +33,11 @@ const label = "gap-0 text-b1 leading-6 font-medium text-heading";
 
 // The shared zod schema (same one the server action uses) loads on the first validation
 // (blur / submit), so zod stays out of the page's initial JavaScript.
-const lazyZodResolver: Resolver<LeadFormInput, unknown, LeadFormOutput> = async (values, context, options) => {
+const lazyZodResolver: Resolver<LeadFormInput, unknown, LeadFormOutput> = async (
+  values,
+  context,
+  options,
+) => {
   const { leadSchema } = await import("@/lib/lead-schema");
   return zodResolver(leadSchema)(values, context, options);
 };
@@ -62,7 +72,10 @@ export function LeadForm({
 
   const onSubmit = handleSubmit(async (values) => {
     setStatus("idle");
-    const result = await submitLead(values).catch(() => ({ ok: false as const, reason: "failed" as const }));
+    const result = await submitLead(values).catch(() => ({
+      ok: false as const,
+      reason: "failed" as const,
+    }));
     if (result.ok) {
       reset(leadDefaults);
       setStatus("success");
@@ -85,7 +98,10 @@ export function LeadForm({
       noValidate
       onSubmit={onSubmit}
       aria-label="Contact form"
-      className={cn("relative flex flex-col gap-10 rounded-md border border-line bg-white p-6", className)}
+      className={cn(
+        "relative flex flex-col gap-10 rounded-md border border-line bg-white p-6",
+        className,
+      )}
     >
       <FieldGroup className="gap-6">
         <div className="grid gap-6 lg:grid-cols-2">
@@ -194,7 +210,13 @@ export function LeadForm({
         {/* Honeypot: off-screen, not focusable, hidden from assistive tech */}
         <div aria-hidden className="absolute -left-[9999px] size-px overflow-hidden">
           <label htmlFor="lead-website">Website</label>
-          <input id="lead-website" type="text" tabIndex={-1} autoComplete="off" {...register("website")} />
+          <input
+            id="lead-website"
+            type="text"
+            tabIndex={-1}
+            autoComplete="off"
+            {...register("website")}
+          />
         </div>
       </FieldGroup>
 

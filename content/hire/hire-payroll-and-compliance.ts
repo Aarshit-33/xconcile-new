@@ -1,5 +1,5 @@
 /**
- * Hire Payroll Staff (`/hire-payroll-and-compliance`, live slug kept).
+ * Hire Payroll Staff (`/hire-payroll-staff`; was `/hire-payroll-and-compliance`, which 301s here).
  *
  * Source (2026-10-25): everything from the Figma design, rendered as
  * `hire-payroll-staff.png` (text read visually; it is outlined in the export). The older
@@ -20,7 +20,10 @@ import { routes } from "@/lib/routes";
 const schedule = (label: string) => ({ label, href: SCHEDULE_HREF });
 
 export const hirePayrollAndCompliance: HirePageContent = {
-  slug: "hire-payroll-and-compliance",
+  // URL renamed by the client 2026-10-28 (was /hire-payroll-and-compliance, which now 301s here).
+  slug: "hire-payroll-staff",
+  sanityId: "hirePage-hire-payroll-and-compliance",
+  redirectFrom: ["hire-payroll-and-compliance"],
   name: "Hire Dedicated Payroll Professionals",
 
   seo: {
@@ -78,7 +81,7 @@ export const hirePayrollAndCompliance: HirePageContent = {
       // Drawn as a link without a target: points at the payroll service page.
       {
         text: "payroll professionals",
-        href: routes.service("outsourced-payroll-and-compliance-services"),
+        href: routes.service("outsourced-payroll-compliance-services"),
       },
       " can work with your preferred processes, accounting systems, payroll platforms, and client workflows to deliver customized payroll support according to your business requirements.",
     ] satisfies RichText,
@@ -122,7 +125,7 @@ export const hirePayrollAndCompliance: HirePageContent = {
         body: [
           "Delegate recurring ",
           // Drawn as a link without a target: points at the audit hire page (matches the words).
-          { text: "audit tasks", href: routes.hireStaff("hire-audit-and-assurance") },
+          { text: "audit tasks", href: routes.hireStaff("hire-audit-assurance-staff") },
           " and documentation work to dedicated professionals, giving your core team more time to focus on review, client communication, and higher-level responsibilities.",
         ],
       },

@@ -52,7 +52,11 @@ export function SectionHeading({
       <RevealText
         as="h2"
         id={titleId}
-        className={cn("text-h2-m lg:text-h2", tone === "dark" ? "text-white" : "text-heading", titleClassName)}
+        className={cn(
+          "text-h2-m lg:text-h2",
+          tone === "dark" ? "text-white" : "text-heading",
+          titleClassName,
+        )}
       >
         <HighlightText text={title} />
       </RevealText>
@@ -61,7 +65,7 @@ export function SectionHeading({
           as="p"
           delay={0.12}
           className={cn(
-            "max-w-[776px] text-b1 font-normal lg:text-b3",
+            "max-w-[776px] text-b1 font-medium lg:text-b3",
             tone === "dark" ? "text-on-dark" : "text-body",
             subtitleClassName,
           )}

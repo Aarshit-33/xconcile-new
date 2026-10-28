@@ -20,6 +20,8 @@ import {
   imageRef,
   keyed,
   link,
+  pageDocId,
+  pageUrlFields,
   projectId,
   richText,
   uploads,
@@ -32,12 +34,8 @@ if (!page) {
     `Unknown industry page "${slug}". Known: ${Object.keys(industryPages).join(", ")}`,
   );
 }
-/**
- * Document ID: the existing page with this slug (renamed pages keep their original ID, e.g. the IT
- * page is `industryPage-it-technology` with slug it-technology-accounting-services), else
- * `industryPage-<slug>`. Resolved in main().
- */
-let docId = `industryPage-${slug}`;
+/** Renamed pages keep their original ID (`sanityId`, e.g. `industryPage-it-technology`). */
+const docId = pageDocId("industryPage", page);
 
 /* ---------------------------------------------------------------- document */
 
@@ -59,7 +57,7 @@ async function buildIndustryPage() {
     _id: docId,
     _type: "industryPage",
     name: page.name,
-    slug: { _type: "slug", current: page.slug },
+    ...(await pageUrlFields(docId, page.slug)),
 
     hero: {
       _type: "heroSection",
@@ -190,11 +188,6 @@ async function buildIndustryPage() {
 
 async function main() {
   console.log(`Seeding industry page "${slug}" → ${projectId}/${dataset}`);
-  const existing: string | null = await client.fetch(
-    `*[_type == "industryPage" && slug.current == $slug && !(_id in path("drafts.**"))][0]._id`,
-    { slug: page.slug },
-  );
-  if (existing) docId = existing;
   const doc = await buildIndustryPage();
   console.log(`  ${uploads.size} images uploaded/reused`);
   await client.transaction().createOrReplace(doc).delete(`drafts.${docId}`).commit();

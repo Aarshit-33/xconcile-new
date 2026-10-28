@@ -34,9 +34,11 @@ export function HirePageTemplate({ content }: { content: HirePageContent }) {
       {/* Design: 43px from the strip to the intro on desktop. */}
       <Intro data={content.intro} className="lg:pt-[43px]" imageClassName="lg:min-h-[657px]" />
       <Challenges data={content.benefits} />
-      {/* No white band above Expertise on desktop (client request 2026-10-18); mobile keeps it. */}
-      <CardGrid data={content.expertise} className="mt-12 lg:mt-0" />
-      <EngagementModels data={content.models} className={band} />
+      {/* No white band above Expertise (desktop: client request 2026-10-18; mobile: client note
+          2026-10-28, 28-10-2026.svg "reduce space use 48px"). */}
+      <CardGrid data={content.expertise} />
+      {/* Mobile: just the section's 48px top padding after the dark Expertise (same note). */}
+      <EngagementModels data={content.models} className="lg:mt-20" />
       {/* Hiring Steps and Tools: same light grey as the Intro (client note 2026-10-27,
           page-updated/newShit/27-10-2026.svg "All hire page add bg color"). The white sections
           after them keep their full top padding. */}
@@ -47,7 +49,11 @@ export function HirePageTemplate({ content }: { content: HirePageContent }) {
       {/* Security is white since the 2026-10-17 redesign: no band after the dark Why Choose. */}
       <SecurityControls data={content.security} />
       {content.tools ? <ToolTabs data={content.tools} className="bg-surface-soft" /> : null}
-      <Faq data={content.faq} className={content.tools ? "bg-white" : "bg-white pt-0 lg:pt-0"} />
+      {/* pb-12: 48px before the CTA band on mobile (client note 2026-10-28; Faq's default is 80). */}
+      <Faq
+        data={content.faq}
+        className={content.tools ? "bg-white pb-12" : "bg-white pt-0 pb-12 lg:pt-0"}
+      />
       {/* Spec: don't copy the design's overlap of the CTA band onto the last FAQ rows. */}
       <CtaBand data={content.ctaBand} />
     </>

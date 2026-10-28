@@ -20,6 +20,8 @@ import {
   imageRef,
   keyed,
   link,
+  pageDocId,
+  pageUrlFields,
   projectId,
   richText,
   uploads,
@@ -30,7 +32,7 @@ const page = hirePages[slug];
 if (!page) {
   throw new Error(`Unknown hire page "${slug}". Known: ${Object.keys(hirePages).join(", ")}`);
 }
-const docId = `hirePage-${slug}`;
+const docId = pageDocId("hirePage", page);
 
 const image = async (src: string) => ({ _type: "image", ...(await imageRef(src)) });
 
@@ -44,7 +46,7 @@ async function buildHirePage() {
     _id: docId,
     _type: "hirePage",
     name: page.name,
-    slug: { _type: "slug", current: page.slug },
+    ...(await pageUrlFields(docId, page.slug)),
 
     hero: {
       _type: "heroSection",

@@ -451,10 +451,11 @@
     margin-right: 0 !important;
   }
   body {
-    /* Running copy is 400 (client request 2026-10-22; was font-medium 500). The b1/b2/b3 text
+    /* Running copy is 500 (client request 2026-10-28: "change all 400 to 500"; was 400 since
+       2026-10-22, 500 before that). The b1/b2/b3 text
        tokens carry no weight, so every description inherits this; headings have their own weight
        in the h* tokens, and UI text (buttons, labels, nav, tabs, eyebrows) sets its weight explicitly. */
-    @apply bg-background text-b1 font-normal text-body antialiased;
+    @apply bg-background text-b1 font-medium text-body antialiased;
   }
   h1,
   h2,

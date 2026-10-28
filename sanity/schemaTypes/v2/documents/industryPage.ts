@@ -1,6 +1,8 @@
 import { EarthGlobeIcon } from "@sanity/icons/EarthGlobe";
 import { defineField, defineType } from "sanity";
 
+import { pageUrlFields } from "../page-url-fields";
+
 /**
  * Sections in the same order as components/templates/industry-page.tsx. Each one is a field (with
  * its own Studio tab) whose type lives in ../sections and mirrors the matching block of
@@ -21,8 +23,8 @@ const sections: { name: string; title: string; type: string; required?: boolean 
 ];
 
 /**
- * New-site industry page (e.g. /industries/real-estate-construction). One document per page,
- * matched by slug; one field + one Studio tab per page section, like the service and hire pages.
+ * New-site industry page (e.g. /industries/real-estate-accounting-services). One document per page,
+ * matched by `_id` (the URL slug is editable); one field + one Studio tab per page section.
  * Named `industryPage` (not `industry`) so it never clashes with the legacy `industry` type
  * still registered here.
  */
@@ -55,16 +57,7 @@ export default defineType({
       description: "Used in the breadcrumb and the Service structured data (not shown on the page).",
       validation: (Rule) => Rule.required(),
     }),
-    defineField({
-      name: "slug",
-      title: "URL slug",
-      type: "slug",
-      group: "page",
-      description:
-        "The page address after /industries/, e.g. real-estate-construction. Locked: it links this document to its page on the site (a different slug would disconnect it).",
-      readOnly: true,
-      validation: (Rule) => Rule.required(),
-    }),
+    ...pageUrlFields("industry"),
   ],
   preview: {
     select: { title: "name", slug: "slug.current" },

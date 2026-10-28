@@ -25,7 +25,7 @@ export function ScheduleCta({
   arrow?: boolean;
   className?: string;
 }) {
-  const { openScheduler } = useCalendly();
+  const { openScheduler, warmProps } = useCalendly();
   return (
     <CtaPill
       variant={variant}
@@ -34,6 +34,7 @@ export function ScheduleCta({
       arrow={arrow}
       className={className}
       aria-haspopup="dialog"
+      {...warmProps}
       onClick={openScheduler}
     >
       {children}

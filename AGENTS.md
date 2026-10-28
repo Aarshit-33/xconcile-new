@@ -42,7 +42,7 @@ Priorities, in order: **pixel-match the design → SEO / Core Web Vitals → acc
 | Animation | **GSAP 3.15** + `@gsap/react` (ScrollTrigger, SplitText) for text reveal and parallax. **Motion** (Framer Motion) for simple enter/exit |
 | Forms | react-hook-form + zod 4 + `@hookform/resolvers`, shadcn `field` / `input` / `select` / `textarea` |
 | SEO | Next Metadata API, `app/sitemap.ts`, `app/robots.ts`, `schema-dts` typed JSON-LD |
-| Misc | `react-calendly` (popup scheduler), `@vercel/speed-insights`, Prettier + tailwind plugin |
+| Misc | Calendly inline iframe (`components/calendly/calendly-provider.tsx`: preloaded after page load + idle, persistent popup with spinner; no `react-calendly` since 2026-10-28), `@vercel/speed-insights`, Prettier + tailwind plugin |
 
 **Fonts:** Manrope (primary) and Outfit (footer, process titles, blog titles), loaded via `next/font` in `app/layout.tsx`.
 
@@ -67,18 +67,19 @@ app/
   layout.tsx              # root document shared with /studio: <html>/<body>, fonts, metadata, GTM consent default
   (website)/layout.tsx    # public-site group: globals.css + <SiteShell> (JSON-LD, GTM, Zoho, header/footer chrome)
   (website)/page.tsx      # Home: composes components/sections/* from content/home.ts (+ FAQ/Video/LocalBusiness JSON-LD)
-  (website)/[slug]/page.tsx # root-level service AND hire pages (live slugs) from the content/services and
-                          #   content/hire registries; real 404 for unknown slugs via ensureStatic='navigation'
+  (website)/[slug]/page.tsx # root-level service AND hire pages at their live slugs (sanity/lib/page-urls.ts);
+                          #   old slugs 301 there; real 404 for unknown slugs via ensureStatic='navigation'
                           #   (+ Service/Breadcrumb/FAQ(/Video) JSON-LD)
-  (website)/industries/[slug]/page.tsx # industry pages at the live /industries/:slug URLs (content/industries
-                          #   registry), same 404 handling and JSON-LD
+  (website)/industries/[slug]/page.tsx # industry pages at their live /industries/:slug URLs (page-urls.ts),
+                          #   same 301/404 handling and JSON-LD
   (website)/not-found.tsx # 404 for notFound() in website pages (unknown slug): body only, the group layout adds chrome
   not-found.tsx           # 404 for URLs matching no route (/a/b/c): wraps the same body in <SiteShell>.
                           #   Body = components/sections/not-found-content.tsx (content/not-found.ts). Never put
                           #   header/footer in the body or the (website) 404 shows them twice
   actions/submit-lead.ts  # lead form server action (Sanity contactSubmission + MS Graph email)
   globals.css             # DESIGN TOKENS: edit only to add tokens that exist in the Figma CSS
-  sitemap.ts, robots.ts   # crawl files (page slugs from the content registries, _updatedAt from Sanity)
+  sitemap.ts, robots.ts   # crawl files (live page URLs from sanity/lib/page-urls.ts, _updatedAt from Sanity)
+  llms.txt/route.ts       # /llms.txt (llmstxt.org): Markdown map of every page/post for AI assistants, same sources
   studio/[[...tool]]/     # embedded Sanity Studio. Renders bare like the old site's (studio) group: no site
                           #   chrome, tracking or globals.css. Title "Sanity Studio", noindex
   api/revalidate/         # Sanity webhook -> revalidateTag(_type, 'max')
@@ -127,6 +128,9 @@ sanity/
   lib/queries.ts          # getLatestPosts() for the blog teaser (reads `blogDataset`)
   lib/<page>.ts           # per-page loaders (home, service-page, hire-page, industry-page, not-found,
                           #   site-settings) + shared section mappers in sections.ts
+  lib/page-urls.ts        # LIVE URLS of service/hire/industry pages (see "Page URLs" in §5): Studio slug >
+                          #   code default, 301s for old slugs, resolveLinks()/withResolvedLinks() for loaders
+  actions/record-old-slug.ts # Studio Publish wrapper: a changed page slug keeps the old one in `oldSlugs`
   lib/image.ts            # urlFor()
   schemaTypes/            # v2/ page-builder types (documents, sections, objects) + contactSubmission
                           #   (written by the form server actions). Legacy old-site types were removed 2026-10-18
@@ -205,6 +209,13 @@ Reference it for Sanity schemas and queries, header structure, sitemap and API r
 - **Rhythm:** same 80px rule as Hire. The design's ~700px blank band above the CTA is a placeholder; use normal spacing.
 - **Adding a page:** copy `content/industries/real-estate-construction.ts`, replace the copy with that page's SVG text (skip sections the SVG doesn't draw), register it in `content/industries/index.ts`, then run `scripts/seed-industry-sanity.ts <slug>` to create its Sanity document.
 
+### Page URLs (service, hire and industry pages; user request 2026-10-28)
+- **Editable in Studio:** each page document's "URL slug" (Page tab) is the live URL; the content file's `slug` is only the default. Publishing a new slug moves the page, and `sanity/actions/record-old-slug.ts` adds the previous slug to the document's "Old URLs" (`oldSlugs`), which 301 to the live URL. Validation (`sanity/schemaTypes/v2/page-url-fields.ts`) blocks clashes with other pages/articles (live or old slugs) and reserved paths.
+- **One resolver:** `sanity/lib/page-urls.ts` (`getPageUrls()`): live slug per page, documents matched by `_id` (`sanityId` in the content file for renamed pages, else `<type>-<slug>`; IDs never change), redirects from the code default, `redirectFrom` and `oldSlugs`. Routes, canonicals, JSON-LD and the sitemap read it. Never build these pages' URLs from the content registries directly.
+- **Links follow automatically:** every page loader and Site Settings is wrapped in `withResolvedLinks` (or calls `resolveLinks`), which rewrites `href`/`url`/`link` values pointing at an old page URL (code content, Studio fields, blog bodies, menus, footer) to the live one. A new loader must do the same.
+- **Renaming in code** (rare): change `slug`, keep/add `sanityId` (the original document ID) and add the old slug to `redirectFrom`; update the Sanity document's slug too (Studio or a script like `scripts/rename-page-slugs-sanity.ts`), since the Studio slug wins.
+- **Client URL list applied 2026-10-28:** industries `ecommerce-accounting-services`, `accounting-outsourcing-professional-services`, `hospitality-accounting-services`, `healthcare-accounting-services`, `real-estate-accounting-services`; root `hire-virtual-cfo`, `hire-payroll-staff`, `hire-audit-assurance-staff`, `revenue-cycle-management-services`, `virtual-cfo-services`, `outsourced-payroll-compliance-services`, `multi-state-sales-tax-compliance`. Content file names (and Sanity IDs) keep the old slugs.
+
 ### Conventions established by the Home build
 - **Mobile first, one DOM.** Base classes = 390px mobile design, `lg:` = 1440px desktop design. Don't render separate mobile/desktop trees; switch layout with classes (`hidden lg:block` only for elements drawn on one breakpoint).
 - **Crawlable disclosure.** Accordions and tabs use `forceMount` so closed panels are in the HTML (see `components/ui/accordion.tsx`).
@@ -214,6 +225,7 @@ Reference it for Sanity schemas and queries, header structure, sitemap and API r
 - **Section ids (client request 2026-10-17): every `<section>` has a unique `id`** so any section can be linked to (`/#faq`, `/audit-outsourcing-services#process`). Render it as `<section id={sectionId(data, "<key>")}>` from `lib/section-ids.ts`: per-page override `anchorId` in the content (or the Studio "Section ID" field), else a legacy `id`, else the section type's default in `SECTION_IDS`. A new section type needs (1) a `SECTION_IDS` entry, (2) `SectionAnchor &` on its content type, (3) `anchorIdField("<key>")` as the first field of its Sanity object (validates format + uniqueness on the page), (4) `anchorId` passed through the page's Sanity mapper. If a template renders the same section type twice, give the second an `anchorId`. Anchor jumps clear the fixed header via `scroll-padding-top`.
 - **Header (client request 2026-10-14):** the desktop pill is `fixed` (stays at top 32 for the whole scroll) and identical on every page: white logo, white links, drawn 6%-white fill over a navy backing + blur so it reads on white sections too. Don't reintroduce per-page header themes. Anchor offsets: `scroll-padding-top` 88px mobile / 116px desktop (`globals.css`, desktop value = `--spacing-header-offset`). Anything `sticky` on lg+ must use `lg:top-header-offset` (116px), never a smaller top, or it slides under the fixed pill (the Challenges heading column did). Desktop dropdown panels copy the **old live site's mega menu** (client request 2026-10-16: 896px white panel, teal icon tiles, descriptions, dark "Ready to scale?" card; old-site hex colours, data in `headerNav` + `headerMenuPromo` in `content/navigation.ts`), and the pill's navy backing is 82% (slightly see-through, same request). Desktop dropdown panels are force-mounted; keep `keepOpenInsideNav` in `desktop-nav.tsx` or the links stop navigating (closed panels dismiss the menu on pointerdown). **Pill CTAs = `<CtaPill>`** (`components/shared/cta-pill.tsx`; reference look: the navbar "Schedule a Meeting"). `CtaLink`, `ScheduleCta` and `ScheduleMeetingButton` all render it; don't hand-build pills with `Button` + `ctaClassName`. The label colour is set on the label span for every state (`ctaLabelTone`) and pills are `no-underline!`, because containers that restyle descendant links (shadcn AccordionContent `[&_a]:hover:text-foreground`, the services accordion's `[&_a]:hover:text-white`) out-rank the pill's own classes; that once turned the accordion CTA's label white on the white hover pill. **CTA hover swap (client request):** every solid green arrow pill (navbar "Schedule a Meeting", hero, CTA bands, card CTAs) uses `ctaClassName({ swap })` + `<CtaContent swap>` from `components/shared/cta-styles.tsx`: on hover/focus the arrow circle slides to the left edge, the label slides right, and colours invert (#FFFFFF pill + green label + green hairline, green circle + white arrow); hover-out returns to the drawn state. `CtaLink`/`ScheduleCta` enable it automatically for solid + arrow. Arrow-less solid pills (pricing "Get Started") and `mobileSolid` CTAs keep the plain style. **No dark mode:** `globals.css` binds `dark:` to a `.dark` class that is never set (`@custom-variant dark`), so shadcn's `dark:*` classes don't apply for visitors whose OS is in dark mode (they made the CTA hover 50% transparent). Always check hover/colour changes with `colorScheme: "dark"` too.
 - **Headings are one string with `*green*` markup (client rule 2026-10-24).** Every H1/H2 (content files and Studio) is a single line of text; wrap the green part in asterisks (`"Why Businesses Choose Xconcile for *Outsourced Accounting*"`), `\*` for a literal asterisk. Render with `<HighlightText text={...} />` (`components/shared/highlight-text.tsx`; `SectionHeading` does it for you) and use `plainTitle()` from `lib/highlight.ts` wherever a heading becomes plain text (aria-labels, Rail labels, previews). No forced `<br>`, nowrap or no-break-space tricks: headings wrap naturally. Sanity type: `headingTitle` (a string with an unmatched-`*` check); the mappers still read the pre-2026-10-24 `{ before, highlight, after }` objects until `scripts/migrate-heading-titles.ts` has been run.
+- **Mobile type scale (client note 2026-10-28, `../28-10-2026.svg`):** below `lg`, card / accordion / FAQ / menu titles are 18px (`text-h4-m lg:text-h5`), never 20px; section descriptions and subtitles are 16px (`text-b1 lg:text-b3`). H1/H2 stay `text-h1-m`/`text-h2-m` (28px).
 - **Every width from 320px to 1920px must work, with no horizontal overflow.**
   - Mobile grids use `grid-cols-1` (minmax(0,1fr)) so a child's min-content can't widen the track.
   - Full-width pills wrap long labels instead of overflowing; `ctaClassName` already does this.
@@ -264,7 +276,7 @@ Reference it for Sanity schemas and queries, header structure, sitemap and API r
 
 **Video and third-party scripts**
 - Video uses a facade (click-to-load). Never autoload the player.
-- Load Calendly on demand. Zoho loads `lazyOnload`. GTM is consent-gated.
+- Calendly preloads only after the `load` event + idle (skipped with Data Saver), never earlier. Zoho loads `lazyOnload`. GTM is consent-gated.
 
 **Targets** (mobile p75)
 - LCP < 2.5s, INP < 200ms, CLS < 0.1, Lighthouse ≥ 90 in every category.
@@ -296,7 +308,7 @@ Restore or update the skills with `npx skills experimental_install` (from `skill
 ## 8. Open decisions (don't resolve on your own; ask)
 
 From report §9 and spec "Open decisions":
-1. **URL strategy.** Keep the live slugs (the current setup in `lib/routes.ts`) or move to the Figma slugs with 301s?
+1. **URL strategy.** Resolved 2026-10-28: the client's URL list is applied and slugs are editable in Studio (§5 "Page URLs").
 2. **Brand green contrast.** `#6ABE52` on white is 2.3:1. Is a darker text green, or dark text on green buttons, approved?
 3. **Missing designs.**
    - About, Contact, Blog, Team, Privacy, index pages.
