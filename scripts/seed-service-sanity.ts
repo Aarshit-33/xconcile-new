@@ -75,7 +75,7 @@ async function buildServicePage(page: ServicePageContent) {
       primaryCta: link(hero.primaryCta),
       ...(hero.secondaryCta ? { secondaryCta: link(hero.secondaryCta) } : {}),
       checks: keyed(
-        hero.checks.map((c) => ({ label: c.label, desktopOnly: c.desktopOnly ?? false })),
+        hero.checks.map((c) => ({ label: c.label, show: true })),
         "heroCheck",
       ),
     },
@@ -338,7 +338,7 @@ async function buildServicePage(page: ServicePageContent) {
       anchorId: sectionId(ctaBand, "ctaBand"),
       title: ctaBand.title,
       body: ctaBand.body,
-      cta: link(ctaBand.cta),
+      ...(ctaBand.cta ? { cta: link(ctaBand.cta) } : {}),
       ...(ctaBand.secondaryCta ? { secondaryCta: link(ctaBand.secondaryCta) } : {}),
       image: { _type: "image", ...(await imageRef(ctaBand.image.src)) },
     },

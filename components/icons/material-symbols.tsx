@@ -1,9 +1,10 @@
 /**
  * Material Symbols (Outlined, weight 400, 24px grid) used by the Figma design.
- * Path data copied from the public npm package `@material-symbols/svg-400@0.48.0`
+ * Path data copied from the public npm package `@material-symbols/svg-400@0.47.6`
  * (Apache License 2.0, https://github.com/google/material-design-icons). No runtime dependency.
  *
- * Generated file: add icons by downloading the outlined SVG and appending an entry below.
+ * UI icons used directly by components. Icons editors pick in Sanity live in
+ * site-icons.generated.ts (scripts/generate-site-icons.mjs).
  */
 import type { SVGProps } from "react";
 
@@ -421,14 +422,14 @@ export const DesktopWindowsIcon = createIcon(
 
 /**
  * Shield with a person badge (Hire "Restricted Client Access"). No match in
- * @material-symbols/svg-400@0.48.0: traced from the Hire main page.svg glyph (24px grid × 40).
+ * @material-symbols/svg-400@0.47.6: traced from the Hire main page.svg glyph (24px grid × 40).
  */
 export const ShieldPersonBadgeIcon = createIcon(
   "M722.4-297.6C734-309.2 740-323.2 740-340C740-356.8 734-370.8 722.4-382.4C710.8-394 696.8-400 680-400C663.2-400 649.2-394 637.6-382.4C626-370.8 620-356.8 620-340C620-323.2 626-309.2 637.6-297.6C649.2-286 663.2-280 680-280C696.8-280 710.8-286 722.4-297.6ZM680-160C700.8-160 719.6-164.8 737.2-174.4C754.4-184 768.4-196.8 779.2-212.8C764.4-221.6 748.8-228.4 732-232.8C715.2-237.6 698-240 680-240C662-240 644.8-237.6 628-232.8C611.2-228.4 595.6-221.6 581.2-212.8C591.6-196.8 605.6-184 622.8-174.4C640.4-164.8 659.2-160 680-160ZM480-80C387.3-103.2 310.8-156.4 250.5-239.6C190.2-322.4 160-414.8 160-516V-760L480-880L800-760V-532.8C787.2-538.4 774.4-543.2 761.2-547.6C747.6-552 734-555.2 720-557.2V-704L480-794L240-704V-516C240-484.8 244.2-453.2 252.5-422C260.8-390.8 272.5-360.8 287.5-332.4C302.5-304 320.7-278 342-254C363.3-230 387-210 413.2-194C420.4-172.8 430-152.4 442-132.8C454-113.6 467.6-96.4 482.8-80.8C482.4-80.8 482-80.8 481.6-80.4C481.2-80 480.8-80 480-80ZM680-80C624.8-80 577.6-99.6 538.4-138.4C499.6-177.6 480-224.8 480-280C480-335.2 499.6-382.4 538.4-421.6C577.6-460.4 624.8-480 680-480C735.2-480 782.4-460.4 821.6-421.6C860.4-382.4 880-335.2 880-280C880-224.8 860.4-177.6 821.6-138.4C782.4-99.6 735.2-80 680-80Z",
   "ShieldPersonBadgeIcon",
 );
 
-/* Healthcare industry page (2026-10-24): @material-symbols/svg-400@0.48.0, outlined. */
+/* Healthcare industry page (2026-10-24): @material-symbols/svg-400@0.47.6, outlined. */
 
 export const AssuredWorkloadIcon = createIcon(
   "M212-241v-339h60v339h-60Zm242 0v-339h60v339h-60ZM80-640v-53l400-228 400 228v53H80Zm134-60h532L480-852 214-700ZM80-121v-60h500q2 14 3.5 28.5T591-121H80Zm608-291v-168h60v138l-60 30ZM800 0q-69-17-114.5-79.5T640-218v-102l160-80 160 80v102q0 76-45.5 138.5T800 0Zm-21-120 142-142-28-28-114 114-59-59-28 28 87 87ZM214-700h532-532Z",
@@ -460,7 +461,7 @@ export const CleaningServicesIcon = createIcon(
   "CleaningServicesIcon",
 );
 
-/* Hire pages (audit, payroll, tax, virtual CFO; 2026-10-25): @material-symbols/svg-400@0.48.0. */
+/* Hire pages (audit, payroll, tax, virtual CFO; 2026-10-25): @material-symbols/svg-400@0.47.6. */
 
 export const TrackChangesIcon = createIcon(
   "M324-111.5Q251-143 197-197t-85.5-127Q80-397 80-480t31.5-156Q143-709 197-763t127-85.5Q397-880 480-880h30v326q22 9 36 29t14 45q0 33-23.5 56.5T480-400q-33 0-56.5-23.5T400-480q0-25 14-45t36-29v-104q-65 11-107.5 60.5T300-480q0 75 52.5 127.5T480-300q75 0 127.5-52.5T660-480q0-41-16-75t-44-59l43-43q35 33 56 78.5t21 98.5q0 100-70 170t-170 70q-100 0-170-70t-70-170q0-93 60-160.5T450-719v-100q-131 11-220.5 108T140-480q0 142 99 241t241 99q142 0 241-99t99-241q0-74-28.5-137T713-727l43-43q57 55 90.5 129.5T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80q-83 0-156-31.5Z",

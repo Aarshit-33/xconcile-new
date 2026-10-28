@@ -53,7 +53,7 @@ async function buildHome() {
       checks: keyed(
         hero.checks.map((c) => ({
           label: c.label,
-          desktopOnly: "desktopOnly" in c ? c.desktopOnly : false,
+          show: true,
         })),
         "heroCheck",
       ),

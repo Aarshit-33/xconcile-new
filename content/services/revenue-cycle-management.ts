@@ -1,3 +1,4 @@
+import { routes } from "@/lib/routes";
 /**
  * Revenue Cycle Management (`/revenue-cycle-management`, new page; no live URL yet).
  *
@@ -44,7 +45,7 @@ export const revenueCycleManagement: ServicePageContent = {
     subtitle:
       "Streamline key healthcare revenue cycle activities with professional support for eligibility, billing, claims, denials, payment posting, and accounts receivable.",
     // No contact section on service pages: CTAs open the Calendly popup.
-    primaryCta: { label: "Get Started", href: SCHEDULE_HREF },
+    primaryCta: { label: "Get Started", href: routes.contact() },
     secondaryCta: { label: "Talk to an RCM Expert", href: SCHEDULE_HREF },
     checks: [
       { label: "End-to-End RCM Support" },
@@ -101,7 +102,7 @@ export const revenueCycleManagement: ServicePageContent = {
     badge: "Key Challenges",
     title: "Simplify Medical Billing. Focus on Better Patient Care.",
     body: "Streamline your healthcare billing operations with Xconcile. Reduce administrative burdens, improve reimbursement visibility, and spend more time delivering quality care.",
-    cta: { label: "Let's Discuss Project", href: SCHEDULE_HREF }, // COPY FIX: "Lets"
+    cta: { label: "Let's Discuss Project", href: routes.contact() }, // COPY FIX: "Lets"
     items: [
       {
         tone: "rose",
@@ -116,18 +117,22 @@ export const revenueCycleManagement: ServicePageContent = {
         tone: "amber",
         icon: "trending_up",
         title: "Minimize Claim Denials",
-        body: ["Review claims carefully before submission to catch common errors that can lead to denials."],
+        body: [
+          "Review claims carefully before submission to catch common errors that can lead to denials.",
+        ],
       },
       {
         tone: "blue",
         icon: "deployed_code_account",
         title: "Reduce Administrative Burden",
-        body: ["Take care of routine billing and follow-up work so your staff has fewer tasks to manage."],
+        body: [
+          "Take care of routine billing and follow-up work so your staff has fewer tasks to manage.",
+        ],
       },
       {
         tone: "purple",
         // Drawn: handshake glyph (no handshake icon in the registry).
-        icon: "group",
+        icon: "handshake",
         title: "Better Patient Experience",
         body: ["Give patients clear billing information so they know what they owe and why."],
       },
@@ -148,13 +153,13 @@ export const revenueCycleManagement: ServicePageContent = {
     subtitle: "Get support across key stages of your healthcare revenue cycle.",
     items: [
       {
-        icon: "book_4",
+        icon: "verified_user",
         title: "Eligibility & Verification",
         // As drawn (copied from the real estate page: property-level transactions). Confirm the copy.
         body: "Maintain accurate property-level transactions, income, expenses, and ledgers for clear financial records.",
       },
       {
-        icon: "assured_workload",
+        icon: "fact_check",
         title: "Prior Authorization",
         body: "Support authorization workflows by coordinating required information based on payer requirements.",
       },
@@ -164,29 +169,29 @@ export const revenueCycleManagement: ServicePageContent = {
         body: "Support accurate coding workflows using available clinical and billing documentation.",
       },
       {
-        icon: "sync_alt",
+        icon: "receipt_long",
         title: "Claims Management",
         body: "Prepare, submit, track, and follow up on claims throughout the revenue cycle process.",
       },
       {
-        icon: "event_available",
+        icon: "payments",
         title: "Payment Posting",
         body: "Record payments, adjustments, and related transactions within the billing workflow.",
       },
       {
-        icon: "add_chart",
+        icon: "assignment_late",
         title: "Denial Management",
         body: "Review denied claims, identify issues, and support appropriate corrective actions.",
       },
       {
         // Drawn: phone handset glyph.
-        icon: "contact_phone",
+        icon: "call",
         title: "A/R Follow-Up",
         body: "Follow up on outstanding claims and receivables to support ongoing account resolution.",
       },
       {
         // Drawn: list-in-a-box glyph.
-        icon: "receipt_long",
+        icon: "request_quote",
         title: "Patient Billing",
         body: "Support recurring patient billing activities and help maintain consistent billing workflows.",
       },
@@ -205,17 +210,17 @@ export const revenueCycleManagement: ServicePageContent = {
         body: "Support across key stages of the revenue cycle.",
       },
       {
-        icon: "deployed_code_account",
+        icon: "article",
         title: "Fewer Billing Issues",
         body: "Catch common issues before they create delays.",
       },
       {
-        icon: "contact_phone",
+        icon: "person",
         title: "Experienced RCM Team",
         body: "Get support from professionals who understand healthcare billing.",
       },
       {
-        icon: "page_info",
+        icon: "contact_phone",
         title: "Flexible Support",
         body: "Choose support that fits your organization and workload.",
       },
@@ -241,7 +246,7 @@ export const revenueCycleManagement: ServicePageContent = {
     subtitle: "Get support across key stages of your healthcare revenue cycle.",
     items: [
       {
-        icon: "verified_user",
+        icon: "beenhere",
         title: "Credentialing",
         body: "Manage provider credentials and payer enrollment efficiently.",
       },
@@ -317,7 +322,11 @@ export const revenueCycleManagement: ServicePageContent = {
         title: "Logical Access Control",
         items: [
           { icon: "how_to_reg", title: "User-Based Access", body: "Identity and permissions" },
-          { icon: "shield_person_badge", title: "Restricted Client Access", body: "Limited permissions" },
+          {
+            icon: "shield_person_badge",
+            title: "Restricted Client Access",
+            body: "Limited permissions",
+          },
           { icon: "settings", title: "System Access Controls", body: "System configuration" },
         ],
       },
@@ -383,8 +392,8 @@ export const revenueCycleManagement: ServicePageContent = {
     // COPY FIX: drawn as "From day-to-day bookkeeping to property-level reporting, get accounting
     // support designed around your real estate operations and financial needs." (real estate copy).
     body: "From eligibility and claims to denials and A/R follow-up, get revenue cycle support designed around your healthcare operations and financial needs.",
-    cta: { label: "Talk to an Expert", href: SCHEDULE_HREF },
-    secondaryCta: { label: "Get Started", href: SCHEDULE_HREF },
+    cta: { label: "Talk to an Expert", href: routes.contact() },
+    secondaryCta: { label: "Get Started", href: routes.contact() },
     // The design draws a plain dark band (no photo); the shared service CTA photo is the fallback.
     image: { src: "/images/services/cta-handshake.jpg", alt: "", width: 1500, height: 1000 },
   },

@@ -1,7 +1,19 @@
 import { ThListIcon } from "@sanity/icons/ThList";
 import { defineArrayMember, defineField, defineType } from "sanity";
 
+import { iconPreview } from "../../../components/icon-picker-input";
 import { anchorIdField, badgeField, iconField, subtitleField } from "../fields";
+
+/** Group card colours: the Home "Key Challenges" tints (components/shared/card-tones.ts) + none. */
+const groupTones = [
+  { title: "Rose", value: "rose" },
+  { title: "Amber", value: "amber" },
+  { title: "Blue", value: "blue" },
+  { title: "Purple", value: "purple" },
+  { title: "Green", value: "green" },
+  { title: "White", value: "white" },
+  { title: "Transparent (no background)", value: "transparent" },
+];
 
 /** "Our Accounting Outsourcing Services" accordion (mirrors `ServicesContent`). */
 export default defineType({
@@ -90,14 +102,28 @@ export default defineType({
                       of: [defineArrayMember({ type: "string" })],
                       validation: (Rule) => Rule.required().min(1),
                     }),
+                    defineField({
+                      name: "tone",
+                      title: "Card colour",
+                      type: "string",
+                      description:
+                        "Same colours as the Home “Key Challenges” cards, or Transparent for no background. Empty = rose, amber, blue, purple, green in turn.",
+                      options: { list: groupTones },
+                    }),
                   ],
-                  preview: { select: { title: "title", items: "items" }, prepare: ({ title, items }) => ({ title, subtitle: `${items?.length ?? 0} items` }) },
+                  preview: {
+                    select: { title: "title", items: "items", tone: "tone" },
+                    prepare: ({ title, items, tone }) => ({
+                      title,
+                      subtitle: `${items?.length ?? 0} items${tone ? ` · ${tone}` : ""}`,
+                    }),
+                  },
                 }),
               ],
             }),
             defineField({ name: "cta", title: "Button", type: "ctaLink" }),
           ],
-          preview: { select: { title: "title", subtitle: "cta.href" } },
+          preview: iconPreview({ title: "title", subtitle: "cta.href" }),
         }),
       ],
       validation: (Rule) => Rule.required().min(1),

@@ -61,8 +61,8 @@ export default defineType({
       type: "slug",
       group: "page",
       description:
-        "The page address after /industries/, e.g. real-estate-construction. It must match an existing industry page on the site; changing it disconnects this document from its page.",
-      options: { source: "name" },
+        "The page address after /industries/, e.g. real-estate-construction. Locked: it links this document to its page on the site (a different slug would disconnect it).",
+      readOnly: true,
       validation: (Rule) => Rule.required(),
     }),
   ],

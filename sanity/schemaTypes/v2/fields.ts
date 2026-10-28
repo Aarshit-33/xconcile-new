@@ -7,6 +7,7 @@ import { defineField, type PreviewValue } from "sanity";
 import { iconRegistry } from "../../../components/icons/registry";
 import { plainTitle } from "../../../lib/highlight";
 import { SECTION_ID_PATTERN, SECTION_IDS, type SectionKey } from "../../../lib/section-ids";
+import { IconPickerInput } from "../../components/icon-picker-input";
 
 /** "Hide this section" switch, first field of a section object. Off by default. */
 export const hiddenField = () =>
@@ -14,7 +15,8 @@ export const hiddenField = () =>
     name: "hidden",
     title: "Hide this section",
     type: "boolean",
-    description: "On = the section is not shown on the page. Its content is kept, so you can show it again later.",
+    description:
+      "On = the section is not shown on the page. Its content is kept, so you can show it again later.",
     initialValue: false,
   });
 
@@ -29,7 +31,15 @@ export const sectionPreview = (label: string, select: { title?: string; media?: 
     hidden: "hidden",
     ...(select.media ? { media: select.media } : {}),
   },
-  prepare: ({ title, hidden, media }: { title?: unknown; hidden?: boolean; media?: PreviewValue["media"] }) => ({
+  prepare: ({
+    title,
+    hidden,
+    media,
+  }: {
+    title?: unknown;
+    hidden?: boolean;
+    media?: PreviewValue["media"];
+  }) => ({
     title: (typeof title === "string" && plainTitle(title)) || label,
     subtitle: hidden ? `${label} · Hidden` : label,
     ...(media ? { media } : {}),
@@ -63,11 +73,13 @@ export const anchorIdField = (key: SectionKey) =>
             typeof section === "object" &&
             (section as { anchorId?: unknown }).anchorId === value,
         );
-        return clash ? `Already used by the "${clash[0]}" section. Section IDs must be unique on a page.` : true;
+        return clash
+          ? `Already used by the "${clash[0]}" section. Section IDs must be unique on a page.`
+          : true;
       }),
   });
 
-/** Every icon the site can render (components/icons/registry.tsx), as a dropdown. */
+/** Every icon the site can render (components/icons/registry.tsx, generated set): allowed values. */
 export const iconOptions = Object.keys(iconRegistry)
   .sort()
   .map((value) => ({ title: value.replace(/_/g, " "), value }));
@@ -80,12 +92,14 @@ export const hrefRule = (value: unknown) =>
     ? true
     : "Must start with /, #, http(s)://, mailto: or tel:";
 
+/** Icon field: visual grid of the site's icons (sanity/components/icon-picker-input.tsx). */
 export const iconField = (name = "icon", title = "Icon") =>
   defineField({
     name,
     title,
     type: "string",
     options: { list: iconOptions },
+    components: { input: IconPickerInput },
     validation: (Rule) => Rule.required(),
   });
 

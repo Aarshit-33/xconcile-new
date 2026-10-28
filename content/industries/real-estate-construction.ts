@@ -45,13 +45,13 @@ export const realEstateConstruction: IndustryPageContent = {
     title: "Outsourced Accounting Services for Real Estate",
     subtitle:
       "Support your real estate clients with bookkeeping, property accounting, reconciliations, financial reporting, and ongoing accounting support through your existing systems.",
-    primaryCta: schedule("Talk to an expert"),
+    primaryCta: { label: "Talk to an expert", href: routes.contact() },
     // Same rule as "Explore our services": scrolls to this page's services grid.
     secondaryCta: { label: "Explore Our Expertise", href: "#expertise" },
     checks: [
       { label: "U.S. CPA & Accounting Firms" },
       { label: "Property Management Companies" },
-      { label: "Real Estate Investors", desktopOnly: true },
+      { label: "Real Estate Investors" },
     ],
   },
 
@@ -69,7 +69,10 @@ export const realEstateConstruction: IndustryPageContent = {
     title: "Accounting Expertise for Real Estate Businesses",
     body: [
       "Real estate businesses often manage complex ",
-      { text: "accounting and bookkeeping", href: routes.service("outsourced-accounting-and-bookkeeping") },
+      {
+        text: "accounting and bookkeeping",
+        href: routes.service("outsourced-accounting-and-bookkeeping"),
+      },
       " across multiple properties, entities, transactions, vendors, and financial accounts. Handling these responsibilities in-house can increase your team's workload and make it harder to keep financial records organized.",
     ] satisfies RichText,
     bodyMore: [
@@ -85,7 +88,7 @@ export const realEstateConstruction: IndustryPageContent = {
     },
     checks: ["Dedicated Resources", "US Accounting Experience", "Flexible Support"],
     checksStyle: "list",
-    cta: { label: "Hire Accounting Staff", href: routes.hireStaff("hire-bookkeeper-accountant") },
+    cta: { label: "Hire Accounting Staff", href: routes.contact() },
   },
 
   challenges: {
@@ -93,38 +96,48 @@ export const realEstateConstruction: IndustryPageContent = {
     title: "Common Real Estate Accounting Challenges",
     // COPY FIX: drawn sentence stops at "can work within"; completed with the page's own phrase.
     body: "Add experienced accounting capacity without the time and overhead of building an in-house team. A dedicated accounting professional can work within your existing systems.",
-    cta: schedule("Let's Discuss Project"), // COPY FIX: drawn as "Lets"
+    cta: { label: "Let's Discuss Project", href: routes.contact() }, // COPY FIX: drawn as "Lets"
     items: [
       {
         tone: "white",
         icon: "calculate",
         title: "Property-Level Accounting",
         // COPY FIX: closing period added (also on "Lease & CAM Accounting").
-        body: ["Managing income, expenses, assets, liabilities, and financial activity across individual properties requires organized property-level records."],
+        body: [
+          "Managing income, expenses, assets, liabilities, and financial activity across individual properties requires organized property-level records.",
+        ],
       },
       {
         tone: "white",
         icon: "account_balance",
         title: "Bank & Account Reconciliations",
-        body: ["Regular reconciliation is needed to identify missing transactions, duplicate entries, and differences between accounting records and bank statements."],
+        body: [
+          "Regular reconciliation is needed to identify missing transactions, duplicate entries, and differences between accounting records and bank statements.",
+        ],
       },
       {
         tone: "white",
         icon: "home",
         title: "Manage More Properties",
-        body: ["Managing financial information across multiple properties, entities, and ownership structures can make data collection, consolidation, and reporting more complex."],
+        body: [
+          "Managing financial information across multiple properties, entities, and ownership structures can make data collection, consolidation, and reporting more complex.",
+        ],
       },
       {
         tone: "white",
-        icon: "9k_plus",
+        icon: "real_estate_agent",
         title: "Lease & CAM Accounting",
-        body: ["Commercial properties can involve different lease terms, operating-expense allocations, CAM charges, and year-end reconciliations."],
+        body: [
+          "Commercial properties can involve different lease terms, operating-expense allocations, CAM charges, and year-end reconciliations.",
+        ],
       },
       {
         tone: "white",
         icon: "dictionary",
         title: "Manual Accounting Workloads",
-        body: ["Spreadsheets and fragmented processes can increase manual work around reconciliations, reporting, and financial data management as portfolios become more complex."],
+        body: [
+          "Spreadsheets and fragmented processes can increase manual work around reconciliations, reporting, and financial data management as portfolios become more complex.",
+        ],
       },
     ],
   },
@@ -140,32 +153,32 @@ export const realEstateConstruction: IndustryPageContent = {
     // request 2026-10-14); replace with approved text.
     items: [
       {
-        icon: "book_4",
+        icon: "menu_book",
         title: "Real Estate Bookkeeping",
         body: "Accurate books across properties, entities, and transactions.",
       },
       {
-        icon: "book_4",
+        icon: "sync",
         title: "Property Accounting",
         body: "Property-level income, expenses, and records kept organized.",
       },
       {
-        icon: "book_4",
+        icon: "account_balance",
         title: "Accounts Payable",
         body: "Vendor bills and property expenses recorded and tracked on time.",
       },
       {
-        icon: "book_4",
+        icon: "contact_phone",
         title: "Accounts Receivable",
         body: "Rent, tenant charges, and receivables monitored and reconciled.",
       },
       {
-        icon: "book_4",
+        icon: "payments",
         title: "Ledger Management",
         body: "General ledgers maintained and reconciled for every entity.",
       },
       {
-        icon: "book_4",
+        icon: "bar_chart_4_bars",
         title: "Month-End Close",
         body: "Adjustments and reviews that close every month on schedule.",
       },
@@ -182,7 +195,7 @@ export const realEstateConstruction: IndustryPageContent = {
     // whose "Focus" lines are the drawn row lines. Bold markers dropped.
     items: [
       {
-        icon: "calculate",
+        icon: "home_work",
         title: "Real Estate Development & Investment",
         body: "Capitalization, Fund Accounting, and Investor Reporting",
         groups: [
@@ -217,7 +230,7 @@ export const realEstateConstruction: IndustryPageContent = {
             items: [
               "Managing K-1 distributions for partnership interests",
               "1031 Exchange tracking for like-kind property swaps",
-              "Depreciation of \"Qualified Improvement Property\" (QIP)",
+              'Depreciation of "Qualified Improvement Property" (QIP)',
               "Cost segregation studies for accelerated depreciation",
             ],
           },
@@ -233,7 +246,7 @@ export const realEstateConstruction: IndustryPageContent = {
         ],
       },
       {
-        icon: "assignment",
+        icon: "real_estate_agent",
         title: "Property Management Companies",
         body: "Escrow Compliance and Tenant Ledgers",
         groups: [
@@ -283,7 +296,7 @@ export const realEstateConstruction: IndustryPageContent = {
         ],
       },
       {
-        icon: "import_contacts",
+        icon: "domain",
         title: "Construction & General Contracting",
         body: "Job Costing and Progress Billing",
         groups: [
@@ -335,7 +348,7 @@ export const realEstateConstruction: IndustryPageContent = {
         ],
       },
       {
-        icon: "add_chart",
+        icon: "engineering",
         title: "Architecture & Engineering (A&E) Firms",
         body: "Billable Utilization and Project Profitability",
         groups: [
@@ -386,7 +399,7 @@ export const realEstateConstruction: IndustryPageContent = {
         ],
       },
       {
-        icon: "sync",
+        icon: "help_clinic",
         title: "Interior Design & Home Staging",
         body: "Inventory Tracking and Sales Tax Management",
         groups: [
@@ -404,7 +417,7 @@ export const realEstateConstruction: IndustryPageContent = {
             items: [
               "Inventory management for staging furniture and accessories",
               "Project profitability analysis by client engagement",
-              "Tracking \"Work in Process\" for custom furniture orders",
+              'Tracking "Work in Process" for custom furniture orders',
               "Managing client invoicing for design services vs. product sales",
             ],
           },
@@ -453,13 +466,25 @@ export const realEstateConstruction: IndustryPageContent = {
         body: "Skilled professionals for bookkeeping and financial reporting.",
       },
       {
-        icon: "deployed_code_account",
+        icon: "beenhere",
         title: "U.S. Accounting Expertise",
         body: "Support aligned with U.S. accounting practices and workflows.",
       },
-      { icon: "contact_phone", title: "Financial Records", body: "Keep financial records accurate, organized, and up to date." },
-      { icon: "page_info", title: "Flexible Support", body: "Choose support that fits your accounting needs and workload." },
-      { icon: "add_chart", title: "Scalable Capacity", body: "Add accounting capacity as your business needs continue to grow." },
+      {
+        icon: "article",
+        title: "Financial Records",
+        body: "Keep financial records accurate, organized, and up to date.",
+      },
+      {
+        icon: "page_info",
+        title: "Flexible Support",
+        body: "Choose support that fits your accounting needs and workload.",
+      },
+      {
+        icon: "add_chart",
+        title: "Scalable Capacity",
+        body: "Add accounting capacity as your business needs continue to grow.",
+      },
     ],
     // Same four photos as Home (identical assets in the design).
     images: home.whyChoose.images,

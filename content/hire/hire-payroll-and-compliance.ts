@@ -47,14 +47,14 @@ export const hirePayrollAndCompliance: HirePageContent = {
     title: "Hire Dedicated Payroll Professionals for Your Business",
     subtitle:
       "Get dedicated payroll professionals to support payroll processing, reporting, employee records, compliance tasks, and other payroll needs. Flexible staffing options fit your existing workflows and team.",
-    primaryCta: schedule("Hire payroll professionals"),
+    primaryCta: { label: "Hire payroll professionals", href: routes.contact() },
     // Same rule as "Explore our services": scrolls to this page's expertise grid.
     secondaryCta: { label: "Explore Our Expertise", href: "#expertise" },
     checks: [
       { label: "Payroll Processing Support" },
       { label: "Multi-State Payroll Compliance" },
       // No mobile design supplied: third check hidden on mobile as on the reference page.
-      { label: "Dedicated Payroll Specialists", desktopOnly: true },
+      { label: "Dedicated Payroll Specialists" },
     ],
   },
 
@@ -76,7 +76,10 @@ export const hirePayrollAndCompliance: HirePageContent = {
     bodyMore: [
       "Our ",
       // Drawn as a link without a target: points at the payroll service page.
-      { text: "payroll professionals", href: routes.service("outsourced-payroll-and-compliance-services") },
+      {
+        text: "payroll professionals",
+        href: routes.service("outsourced-payroll-and-compliance-services"),
+      },
       " can work with your preferred processes, accounting systems, payroll platforms, and client workflows to deliver customized payroll support according to your business requirements.",
     ] satisfies RichText,
     bodyMoreLayout: "paragraph",
@@ -87,7 +90,11 @@ export const hirePayrollAndCompliance: HirePageContent = {
       height: 833,
     },
     // As drawn: "Flexible Engagement Models" and "Flexible Engagements" both appear. Confirm.
-    checks: ["Flexible Engagement Models", "U.S. Business & CPA Firm Support", "Flexible Engagements"],
+    checks: [
+      "Flexible Engagement Models",
+      "U.S. Business & CPA Firm Support",
+      "Flexible Engagements",
+    ],
     checksStyle: "list",
     cta: schedule("Build your payroll team"), // COPY FIX: drawn with double spaces ("your  payroll  team")
   },
@@ -96,7 +103,7 @@ export const hirePayrollAndCompliance: HirePageContent = {
     badge: "Key Benefits",
     title: "Why CPA Firms Hire Dedicated Payroll Professionals",
     body: "Add payroll capacity with dedicated professionals who work within your existing systems, processes, and payroll requirements.",
-    cta: schedule("Let's Discuss Project"), // COPY FIX: drawn as "Lets"
+    cta: { label: "Let's Discuss Project", href: routes.contact() }, // COPY FIX: drawn as "Lets"
     // As drawn: all five cards are leftover copy from the audit page (audit capacity, workpapers,
     // audit evidence). Kept verbatim until payroll copy is supplied. Confirm the copy.
     items: [
@@ -209,7 +216,7 @@ export const hirePayrollAndCompliance: HirePageContent = {
           "Payroll reconciliation support",
           "Payroll reporting assistance",
         ],
-        cta: schedule("Get Started"),
+        cta: { label: "Get Started", href: routes.contact() },
       },
       {
         number: "02", // COPY FIX: drawn as "01" (same number as the first card)
@@ -223,7 +230,7 @@ export const hirePayrollAndCompliance: HirePageContent = {
           "Payroll reconciliations & reporting",
           "Employee payroll record management",
         ],
-        cta: schedule("Choose Your Model"),
+        cta: { label: "Choose Your Model", href: routes.contact() },
         featured: true,
       },
       {
@@ -238,7 +245,7 @@ export const hirePayrollAndCompliance: HirePageContent = {
           "Multi-entity payroll projects",
           "Fixed-scope project support",
         ],
-        cta: schedule("Discuss Your Project"),
+        cta: { label: "Discuss Your Project", href: routes.contact() },
       },
     ],
   },
@@ -261,7 +268,10 @@ export const hirePayrollAndCompliance: HirePageContent = {
         title: "Meet the Professionals",
         body: "Review suitable payroll professionals based on your business and team requirements.",
       },
-      { title: "Select Your Support", body: "Choose a dedicated, ongoing, project-based, or seasonal engagement model." },
+      {
+        title: "Select Your Support",
+        body: "Choose a dedicated, ongoing, project-based, or seasonal engagement model.",
+      },
       {
         title: "Start Your Engagement",
         body: "Your selected professionals begin supporting your payroll work within your existing processes and workflows.",
@@ -314,30 +324,57 @@ export const hirePayrollAndCompliance: HirePageContent = {
         experience: "6 months – 2 years", // COPY FIX: drawn with a hyphen ("6 months - 2 years")
         responsibilities: [
           // COPY FIX: drawn with a leading space and "Auditing employee" also set in bold.
-          { label: "Time Tracking", text: "Auditing employee timesheets for accuracy and supervisor approval" },
-          { label: "Profile Management", text: "Setting up new hires in the payroll system and verifying W-4/I-9 data" },
-          { label: "Inquiry Support", text: "Responding to employee questions regarding paystubs or address changes" },
-          { label: "Data Entry", text: "Inputting employee information, pay rates, and deductions accurately" },
+          {
+            label: "Time Tracking",
+            text: "Auditing employee timesheets for accuracy and supervisor approval",
+          },
+          {
+            label: "Profile Management",
+            text: "Setting up new hires in the payroll system and verifying W-4/I-9 data",
+          },
+          {
+            label: "Inquiry Support",
+            text: "Responding to employee questions regarding paystubs or address changes",
+          },
+          {
+            label: "Data Entry",
+            text: "Inputting employee information, pay rates, and deductions accurately",
+          },
           { label: "Report Generation", text: "Creating basic payroll reports for review" },
         ],
-        cta: schedule("Get Started"),
+        cta: { label: "Get Started", href: routes.contact() },
       },
       {
         level: "Mid Level",
         title: "Payroll Specialist",
         experience: "3 – 5 years", // COPY FIX: drawn as "3-5 years"
         responsibilities: [
-          { label: "Full-Cycle Processing", text: "Executing multi-state payroll runs for hourly and salaried staff" },
-          { label: "Benefits Admin", text: "Tracking 401(k) deferrals, HSA contributions, and health insurance deductions" },
-          { label: "Tax Payments", text: "Calculating and initiating 941 (Federal) and SUI/SIT (State) tax deposits" },
+          {
+            label: "Full-Cycle Processing",
+            text: "Executing multi-state payroll runs for hourly and salaried staff",
+          },
+          {
+            label: "Benefits Admin",
+            text: "Tracking 401(k) deferrals, HSA contributions, and health insurance deductions",
+          },
+          {
+            label: "Tax Payments",
+            text: "Calculating and initiating 941 (Federal) and SUI/SIT (State) tax deposits",
+          },
           {
             label: "Garnishments",
             text: "Processing court-ordered wage garnishments for child support, student loans, or tax levies",
           },
-          { label: "Multi-State Compliance", text: "Managing payroll for employees across multiple state jurisdictions" },
-          { label: "Reconciliation", text: "Reconciling payroll liabilities and ensuring proper G/L posting" },
+          {
+            label: "Multi-State Compliance",
+            text: "Managing payroll for employees across multiple state jurisdictions",
+          },
+          {
+            label: "Reconciliation",
+            text: "Reconciling payroll liabilities and ensuring proper G/L posting",
+          },
         ],
-        cta: schedule("Get Started"),
+        cta: { label: "Get Started", href: routes.contact() },
         featured: true,
       },
       {
@@ -345,18 +382,36 @@ export const hirePayrollAndCompliance: HirePageContent = {
         title: "Payroll Compliance Manager",
         experience: "5+ years experience",
         responsibilities: [
-          { label: "Year-End Filing", text: "Leading the production and e-filing of W-2s and 1099-NECs" },
-          { label: "Nexus Registration", text: "Opening new state and local tax accounts for remote employees" },
-          { label: "Workers Comp Audits", text: "Preparing payroll data and reports for annual insurance audits" },
-          { label: "Compliance Management", text: "Ensuring adherence to federal, state, and local payroll regulations" },
+          {
+            label: "Year-End Filing",
+            text: "Leading the production and e-filing of W-2s and 1099-NECs",
+          },
+          {
+            label: "Nexus Registration",
+            text: "Opening new state and local tax accounts for remote employees",
+          },
+          {
+            label: "Workers Comp Audits",
+            text: "Preparing payroll data and reports for annual insurance audits",
+          },
+          {
+            label: "Compliance Management",
+            text: "Ensuring adherence to federal, state, and local payroll regulations",
+          },
           {
             label: "Process Optimization",
             text: "Implementing best practices and workflow improvements for payroll operations",
           },
-          { label: "Team Leadership", text: "Supervising junior payroll staff and performing quality reviews" },
-          { label: "Audit Support", text: "Managing payroll audits and responding to agency inquiries" },
+          {
+            label: "Team Leadership",
+            text: "Supervising junior payroll staff and performing quality reviews",
+          },
+          {
+            label: "Audit Support",
+            text: "Managing payroll audits and responding to agency inquiries",
+          },
         ],
-        cta: schedule("Get Started"),
+        cta: { label: "Get Started", href: routes.contact() },
       },
     ],
   },
@@ -378,7 +433,7 @@ export const hirePayrollAndCompliance: HirePageContent = {
           width: 828,
           height: 466,
         },
-        cta: schedule("Get Started"),
+        cta: { label: "Get Started", href: routes.contact() },
       },
       {
         title: "Small & Medium Businesses",
@@ -389,7 +444,7 @@ export const hirePayrollAndCompliance: HirePageContent = {
           width: 828,
           height: 466,
         },
-        cta: schedule("Get Started"),
+        cta: { label: "Get Started", href: routes.contact() },
       },
       {
         title: "CPA & Accounting Firms",
@@ -401,7 +456,7 @@ export const hirePayrollAndCompliance: HirePageContent = {
           width: 829,
           height: 553,
         },
-        cta: schedule("Get Started"),
+        cta: { label: "Get Started", href: routes.contact() },
       },
     ],
   },
@@ -433,7 +488,7 @@ export const hirePayrollAndCompliance: HirePageContent = {
         body: "Clear tasks, deliverables, updates, and communication.",
       },
       {
-        icon: "add_chart",
+        icon: "person",
         title: "Dedicated Coordination",
         body: "A dedicated contact keeps payroll tasks and timelines organized.",
       },
@@ -479,7 +534,11 @@ export const hirePayrollAndCompliance: HirePageContent = {
         title: "Logical Access Control",
         items: [
           { icon: "how_to_reg", title: "User-Based Access", body: "Identity and permissions" },
-          { icon: "shield_person_badge", title: "Restricted Client Access", body: "Limited permissions" },
+          {
+            icon: "shield_person_badge",
+            title: "Restricted Client Access",
+            body: "Limited permissions",
+          },
           { icon: "settings", title: "System Access Controls", body: "System configuration" },
         ],
       },
@@ -510,9 +569,24 @@ export const hirePayrollAndCompliance: HirePageContent = {
           { name: "FreshBooks", logo: "/images/tools/freshbooks.png", width: 80, height: 80 },
         ],
       },
-      { id: "time-tracking-scheduling", icon: "dvr", label: "Time Tracking & Scheduling", tools: [] },
-      { id: "accounting-integration", icon: "analytics", label: "Accounting Integration", tools: [] },
-      { id: "hr-management-systems", icon: "assignment", label: "HR Management Systems (HRIS)", tools: [] },
+      {
+        id: "time-tracking-scheduling",
+        icon: "dvr",
+        label: "Time Tracking & Scheduling",
+        tools: [],
+      },
+      {
+        id: "accounting-integration",
+        icon: "analytics",
+        label: "Accounting Integration",
+        tools: [],
+      },
+      {
+        id: "hr-management-systems",
+        icon: "assignment",
+        label: "HR Management Systems (HRIS)",
+        tools: [],
+      },
     ],
   },
 

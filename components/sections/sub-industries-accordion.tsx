@@ -1,19 +1,34 @@
 "use client";
 
-import { Icon } from "@/components/icons/registry";
 import { AddIcon, RemoveIcon } from "@/components/icons/material-symbols";
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+import { SvgPathIcon } from "@/components/icons/svg-path-icon";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 import type { SubIndustriesContent } from "@/content/types";
 import { cn } from "@/lib/utils";
 
 /** Number + icon + title/line, shared by accordion rows and static rows (geometry as drawn). */
-function RowHead({ item, index }: { item: SubIndustriesContent["items"][number]; index: number }) {
+function RowHead({
+  item,
+  index,
+  iconPath,
+}: {
+  item: SubIndustriesContent["items"][number];
+  index: number;
+  iconPath?: string;
+}) {
   return (
     <>
       <span aria-hidden className="w-5 shrink-0 text-b1 font-medium text-brand lg:w-[17px]">
         {String(index + 1).padStart(2, "0")}
       </span>
-      <Icon name={item.icon} className="size-6 shrink-0 text-brand lg:ml-[30px]" />
+      {iconPath ? (
+        <SvgPathIcon d={iconPath} className="size-6 shrink-0 text-brand lg:ml-[30px]" />
+      ) : null}
       <span className="flex min-w-0 flex-1 flex-col gap-2 lg:ml-10">
         <span className="text-h4-m text-heading transition-colors group-hover/sub:text-brand group-data-open/sub:text-brand lg:text-h5">
           {item.title}
@@ -31,15 +46,27 @@ function RowHead({ item, index }: { item: SubIndustriesContent["items"][number];
  * at a time, all closed at first, title green on hover/open, "−" when open, details indented
  * under the title (143px on desktop) as grouped lists with green dots. Panels are force-mounted
  * so the details are in the server HTML. Rows without `groups` render as static rows.
+ * `iconPaths[i]`: row i's icon path from the server parent (sub-industries.tsx), so this client
+ * component doesn't bundle the whole icon set.
  */
-export function SubIndustriesAccordion({ items }: { items: SubIndustriesContent["items"] }) {
+export function SubIndustriesAccordion({
+  items,
+  iconPaths,
+}: {
+  items: SubIndustriesContent["items"];
+  iconPaths: (string | undefined)[];
+}) {
   return (
     <Accordion type="single" collapsible className="border-b border-hairline">
       {items.map((item, i) =>
         item.groups?.length ? (
-          <AccordionItem key={item.title} value={`sub-${i}`} className="group/sub border-t border-hairline not-last:border-b-0">
-            <AccordionTrigger className="items-start gap-4 rounded-none border-0 py-6 text-left font-normal hover:no-underline focus-visible:ring-inset lg:items-center **:data-[slot=accordion-trigger-icon]:hidden">
-              <RowHead item={item} index={i} />
+          <AccordionItem
+            key={item.title}
+            value={`sub-${i}`}
+            className="group/sub border-t border-hairline not-last:border-b-0"
+          >
+            <AccordionTrigger className="items-start gap-4 rounded-none border-0 py-6 text-left font-normal hover:no-underline focus-visible:ring-inset **:data-[slot=accordion-trigger-icon]:hidden lg:items-center">
+              <RowHead item={item} index={i} iconPath={iconPaths[i]} />
               <span
                 aria-hidden
                 className="flex size-7 shrink-0 items-center justify-center rounded-full border border-hairline bg-surface-muted p-0.5"
@@ -48,7 +75,10 @@ export function SubIndustriesAccordion({ items }: { items: SubIndustriesContent[
                 <RemoveIcon className="hidden size-6 text-brand group-data-open/sub:block" />
               </span>
             </AccordionTrigger>
-            <AccordionContent forceMount className="pb-6 lg:pr-[52px] lg:pb-8 lg:pl-[143px] [&_p:not(:last-child)]:mb-0">
+            <AccordionContent
+              forceMount
+              className="pb-6 lg:pr-[52px] lg:pb-8 lg:pl-[143px] [&_p:not(:last-child)]:mb-0"
+            >
               <div className="grid gap-6 border-t border-hairline pt-6 sm:grid-cols-2 lg:grid-cols-3 lg:gap-x-10">
                 {item.groups.map((g) => (
                   <div key={g.title} className="flex flex-col gap-3">
@@ -56,7 +86,10 @@ export function SubIndustriesAccordion({ items }: { items: SubIndustriesContent[
                     <ul className="flex flex-col gap-2 text-b2 text-body">
                       {g.items.map((k) => (
                         <li key={k} className="flex gap-2">
-                          <span aria-hidden className="mt-1.5 size-2 shrink-0 rounded-full bg-brand" />
+                          <span
+                            aria-hidden
+                            className="mt-1.5 size-2 shrink-0 rounded-full bg-brand"
+                          />
                           {k}
                         </li>
                       ))}
@@ -67,9 +100,12 @@ export function SubIndustriesAccordion({ items }: { items: SubIndustriesContent[
             </AccordionContent>
           </AccordionItem>
         ) : (
-          <div key={item.title} className={cn("flex items-start gap-4 border-t border-hairline py-6 lg:items-center")}>
+          <div
+            key={item.title}
+            className={cn("flex items-start gap-4 border-t border-hairline py-6 lg:items-center")}
+          >
             <h3 className="contents">
-              <RowHead item={item} index={i} />
+              <RowHead item={item} index={i} iconPath={iconPaths[i]} />
             </h3>
           </div>
         ),

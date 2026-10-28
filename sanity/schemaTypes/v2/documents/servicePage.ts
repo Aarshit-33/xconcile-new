@@ -70,8 +70,8 @@ export default defineType({
       type: "slug",
       group: "page",
       description:
-        "The page address without the leading slash, e.g. audit-outsourcing-services. It must match an existing service page on the site; changing it disconnects this document from its page.",
-      options: { source: "name" },
+        "The page address without the leading slash, e.g. audit-outsourcing-services. Locked: it links this document to its page on the site (a different slug would disconnect it).",
+      readOnly: true,
       validation: (Rule) => Rule.required(),
     }),
   ],

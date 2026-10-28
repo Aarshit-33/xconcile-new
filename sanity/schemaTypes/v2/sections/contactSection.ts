@@ -1,6 +1,12 @@
 import { EnvelopeIcon } from "@sanity/icons/Envelope";
 import { defineArrayMember, defineField, defineType } from "sanity";
 
+import {
+  TrustIconPickerInput,
+  iconListOptions,
+  iconPreview,
+  trustIconSet,
+} from "../../../components/icon-picker-input";
 import { anchorIdField } from "../fields";
 
 /** Label + placeholder for one form input. Required rules stay in code (lib/inquiry-schema.ts). */
@@ -69,13 +75,9 @@ export default defineType({
               name: "icon",
               title: "Icon",
               type: "string",
-              options: {
-                list: [
-                  { title: "Lightning bolt", value: "bolt" },
-                  { title: "Lock", value: "lock" },
-                  { title: "Check circle", value: "check" },
-                ],
-              },
+              // Lightning bolt / Lock / Check circle (the original three) or any site icon.
+              options: { list: iconListOptions(trustIconSet) },
+              components: { input: TrustIconPickerInput },
               validation: (Rule) => Rule.required(),
             }),
             defineField({
@@ -86,7 +88,7 @@ export default defineType({
             }),
             defineField({ name: "desc", title: "Text", type: "string" }),
           ],
-          preview: { select: { title: "label", subtitle: "desc" } },
+          preview: iconPreview({ title: "label", subtitle: "desc" }, trustIconSet),
         }),
       ],
       validation: (Rule) => Rule.max(4),

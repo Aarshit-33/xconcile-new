@@ -55,7 +55,7 @@ async function buildHirePage() {
       primaryCta: link(hero.primaryCta),
       ...(hero.secondaryCta ? { secondaryCta: link(hero.secondaryCta) } : {}),
       checks: keyed(
-        hero.checks.map((c) => ({ label: c.label, desktopOnly: c.desktopOnly ?? false })),
+        hero.checks.map((c) => ({ label: c.label, show: true })),
         "heroCheck",
       ),
     },
@@ -258,7 +258,7 @@ async function buildHirePage() {
       anchorId: sectionId(ctaBand, "ctaBand"),
       title: ctaBand.title,
       body: ctaBand.body,
-      cta: link(ctaBand.cta),
+      ...(ctaBand.cta ? { cta: link(ctaBand.cta) } : {}),
       image: await image(ctaBand.image.src),
     },
 

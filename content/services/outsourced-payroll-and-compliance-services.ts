@@ -40,7 +40,7 @@ export const outsourcedPayrollAndComplianceServices: ServicePageContent = {
     subtitle:
       "Xconcile provides outsourced payroll support for U.S. businesses and CPA firms, helping manage payroll processing, reporting, compliance, and related tasks",
     // No contact section on service pages: CTAs open the Calendly popup.
-    primaryCta: { label: "Get expert payroll support", href: SCHEDULE_HREF },
+    primaryCta: { label: "Get expert payroll support", href: routes.contact() },
     // Client rule: "Explore our services" scrolls to this page's services section.
     secondaryCta: { label: "Explore Our Services", href: "#services" },
     checks: [{ label: "ISO 27001 - ISO 27701" }, { label: "US GAAP Expertise" }],
@@ -85,29 +85,29 @@ export const outsourcedPayrollAndComplianceServices: ServicePageContent = {
     badge: "Key Challenges",
     title: "Why Businesses & Accounting Firms Outsource Payroll Work",
     body: "Payroll involves complex calculations, deadlines, and compliance requirements. Xconcile helps businesses and CPA firms manage payroll processing and reporting with reliable support.",
-    cta: { label: "Let's Discuss Project", href: SCHEDULE_HREF }, // COPY FIX: "Lets"
+    cta: { label: "Let's Discuss Project", href: routes.contact() }, // COPY FIX: "Lets"
     items: [
       {
         tone: "rose",
-        icon: "person_search",
+        icon: "hourglass_top",
         title: "Time-Consuming Payroll Tasks",
         body: ["Recurring payroll activities can take valuable time from your team."],
       },
       {
         tone: "amber",
-        icon: "trending_up",
+        icon: "verified_user",
         title: "Payroll Compliance Requirements",
         body: ["Stay organized with changing payroll and tax-related requirements."],
       },
       {
         tone: "blue",
-        icon: "paid",
+        icon: "edit_note",
         title: "Manual Data Management",
         body: ["Reduce workload from repetitive payroll processes and reporting."],
       },
       {
         tone: "purple",
-        icon: "visibility_off",
+        icon: "groups_2",
         title: "Limited Internal Capacity",
         body: ["Get additional payroll support when your workload increases."],
       },
@@ -120,14 +120,15 @@ export const outsourcedPayrollAndComplianceServices: ServicePageContent = {
     title: "Our Outsourced Payroll Services",
     // COPY FIX: drawn as "Support for sales tax registration, filings, reporting, and compliance
     // across multiple states." (copied from the sales tax page). Confirm payroll wording.
-    subtitle: "Support for payroll processing, tax filings, reporting, and compliance across multiple states.",
+    subtitle:
+      "Support for payroll processing, tax filings, reporting, and compliance across multiple states.",
     initiallyVisible: 5,
     // Fallback rows (drawn titles + subtitles). `groups`: copied from
     // docs/content/Payroll & Compliance.md (H3 1–5), "Task:"/"Micro-Task:" prefixes and markdown
     // removed.
     items: [
       {
-        icon: "calculate",
+        icon: "account_balance_wallet",
         title: "Full-Cycle Payroll Processing",
         description: "Timely and accurate pay delivery for diverse workforces",
         groups: [
@@ -136,27 +137,27 @@ export const outsourcedPayrollAndComplianceServices: ServicePageContent = {
             items: [
               "Processing payroll for all frequencies (Weekly, Bi-weekly, Semi-monthly, and Monthly).",
               "Handling multiple pay types: Salary, Hourly (Regular/Overtime), Commissions, and Bonuses.",
-              "Managing \"Final Paycheck\" requirements for terminated employees (meeting state-specific immediate payment laws).",
+              'Managing "Final Paycheck" requirements for terminated employees (meeting state-specific immediate payment laws).',
             ],
           },
           {
             title: "Data Integration & Entry",
             items: [
               "Syncing time-tracking software (TSheets, ClockShark) with the payroll system.",
-              "Auditing manual timesheets for \"Buddy Punching\" or missing supervisor approvals.",
+              'Auditing manual timesheets for "Buddy Punching" or missing supervisor approvals.',
             ],
           },
           {
             title: "Payment Distribution",
             items: [
               "Coordinating Direct Deposit (ACH) files and printing physical checks (where required).",
-              "Loading and managing \"Pay Cards\" for unbanked employees.",
+              'Loading and managing "Pay Cards" for unbanked employees.',
             ],
           },
         ],
       },
       {
-        icon: "assignment",
+        icon: "account_balance",
         title: "Multi-State Payroll Tax Compliance",
         description: "Navigating the complexity of 50 different state tax jurisdictions",
         groups: [
@@ -177,16 +178,16 @@ export const outsourcedPayrollAndComplianceServices: ServicePageContent = {
           {
             title: "Regulatory Reporting",
             items: [
-              "Filing \"New Hire Reporting\" forms with state agencies within 20 days of hire.",
-              "Responding to \"Notice of Tax Rate\" changes from state unemployment agencies.",
+              'Filing "New Hire Reporting" forms with state agencies within 20 days of hire.',
+              'Responding to "Notice of Tax Rate" changes from state unemployment agencies.',
             ],
           },
         ],
       },
       {
-        icon: "import_contacts",
+        icon: "shield_person",
         title: "Benefits & Deduction Administration",
-        description: "Precision in \"Gross-to-Net\" calculations",
+        description: 'Precision in "Gross-to-Net" calculations',
         groups: [
           {
             title: "Retirement & Insurance",
@@ -206,7 +207,7 @@ export const outsourcedPayrollAndComplianceServices: ServicePageContent = {
           {
             title: "Workers' Compensation",
             items: [
-              "Setting up \"Pay-as-you-go\" Workers’ Comp integrations.",
+              'Setting up "Pay-as-you-go" Workers’ Comp integrations.',
               "Preparing the annual payroll audit reports for workers’ comp insurance providers.",
             ],
           },
@@ -227,7 +228,7 @@ export const outsourcedPayrollAndComplianceServices: ServicePageContent = {
           {
             title: "Compliance Audits",
             items: [
-              "Performing year-end \"Reasonableness Tests\" to catch errors before the IRS does.",
+              'Performing year-end "Reasonableness Tests" to catch errors before the IRS does.',
               "Ensuring taxable fringe benefits (like personal use of company car) are added to W-2s.",
             ],
           },
@@ -235,9 +236,9 @@ export const outsourcedPayrollAndComplianceServices: ServicePageContent = {
       },
       {
         // Drawn with the same icon as row 04.
-        icon: "add_chart",
+        icon: "group",
         title: "HR Administrative Support",
-        description: "The \"People\" side of the payroll process",
+        description: 'The "People" side of the payroll process',
         groups: [
           {
             title: "Onboarding & Offboarding",
@@ -261,7 +262,8 @@ export const outsourcedPayrollAndComplianceServices: ServicePageContent = {
   caseStudies: {
     badge: "Testimonials",
     title: "Trusted by Our Clients",
-    subtitle: "See how Xconcile helps businesses improve efficiency, visibility, and financial operations.",
+    subtitle:
+      "See how Xconcile helps businesses improve efficiency, visibility, and financial operations.",
     // Only "CPA Firms" has copy in the design; other drawn tabs (Real Estate, E-commerce,
     // Construction, Restaurants) appear once their case studies exist. Never invent client results.
     items: [
@@ -271,7 +273,8 @@ export const outsourcedPayrollAndComplianceServices: ServicePageContent = {
         title: "CPA Firms",
         challenge: "Growing workload and limited accounting capacity.",
         solution: "Dedicated outsourced accounting support.",
-        result: "Better financial visibility, streamlined operations, and reduced accounting workload.",
+        result:
+          "Better financial visibility, streamlined operations, and reduced accounting workload.",
         // NOT IN DESIGN: impact figure reused from Home; confirm with the client.
         impact: home.caseStudies.items[0].impact,
         // The drawn photo is Home's CPA case-study photo (verified against the design image).
@@ -285,7 +288,8 @@ export const outsourcedPayrollAndComplianceServices: ServicePageContent = {
   process: {
     badge: "How It Works",
     title: "Our Payroll Support Process",
-    subtitle: "Our process covers payroll requirements, system setup, processing, reporting, and compliance tasks.",
+    subtitle:
+      "Our process covers payroll requirements, system setup, processing, reporting, and compliance tasks.",
     steps: [
       {
         icon: "search",
@@ -354,23 +358,41 @@ export const outsourcedPayrollAndComplianceServices: ServicePageContent = {
         // COPY FIX: drawn as "Education sales tax reporting and compliance support" (copied from
         // the sales tax page).
         body: "Education payroll reporting and compliance support",
-        image: { src: "/images/industries/education.jpg", alt: "Students working at desks in a classroom", width: 500, height: 311 },
+        image: {
+          src: "/images/industries/education.jpg",
+          alt: "Students working at desks in a classroom",
+          width: 500,
+          height: 311,
+        },
       },
       {
         title: "Pharmaceutical",
         body: "Payroll support for pharmaceutical teams and business operations.",
-        image: { src: "/images/industries/pharmaceutical.jpg", alt: "Pharmacist taking stock from pharmacy shelves", width: 500, height: 333 },
+        image: {
+          src: "/images/industries/pharmaceutical.jpg",
+          alt: "Pharmacist taking stock from pharmacy shelves",
+          width: 500,
+          height: 333,
+        },
       },
       {
         title: "eCommerce",
         body: "Manage payroll needs for growing online businesses and teams.",
         href: routes.industry("tech-ecommerce"),
-        image: { src: "/images/industries/ecommerce.jpg", alt: "Online seller packing orders at a desk", width: 500, height: 334 },
+        image: {
+          src: "/images/industries/ecommerce.jpg",
+          alt: "Online seller packing orders at a desk",
+          width: 500,
+          height: 334,
+        },
       },
       {
         title: "Manufacturing",
         body: "Organized payroll support for manufacturing workforce needs.",
-        image: { ...home.industries.items[0].image, alt: "Sparks flying from metal grinding in a factory" },
+        image: {
+          ...home.industries.items[0].image,
+          alt: "Sparks flying from metal grinding in a factory",
+        },
       },
     ],
   },
@@ -393,8 +415,16 @@ export const outsourcedPayrollAndComplianceServices: ServicePageContent = {
         title: "Payroll Expertise",
         body: "Professionals familiar with U.S. payroll workflows",
       },
-      { icon: "contact_phone", title: "Flexible Support", body: "Choose payroll support based on your business needs" },
-      { icon: "page_info", title: "Secure Data Handling", body: "Structured processes to protect sensitive payroll data" },
+      {
+        icon: "contact_phone",
+        title: "Flexible Support",
+        body: "Choose payroll support based on your business needs",
+      },
+      {
+        icon: "page_info",
+        title: "Secure Data Handling",
+        body: "Structured processes to protect sensitive payroll data",
+      },
       {
         icon: "add_chart",
         title: "Scalable Payroll Support",
@@ -421,7 +451,12 @@ export const outsourcedPayrollAndComplianceServices: ServicePageContent = {
         tools: [
           // COPY FIX: drawn as "CaseWare Working Papers" (audit software, copied from the audit
           // page) next to the QuickBooks logo; the payroll copy names QuickBooks Online.
-          { name: "QuickBooks Online", logo: "/images/tools/quickbooks.png", width: 80, height: 80 },
+          {
+            name: "QuickBooks Online",
+            logo: "/images/tools/quickbooks.png",
+            width: 80,
+            height: 80,
+          },
           { name: "Xero", logo: "/images/tools/xero.png", width: 80, height: 80 },
           { name: "NetSuite", logo: "/images/tools/netsuite.svg", width: 34, height: 32 },
           { name: "Sage", logo: "/images/tools/sage.png", width: 160, height: 90 },
@@ -440,7 +475,12 @@ export const outsourcedPayrollAndComplianceServices: ServicePageContent = {
         id: "payroll-software",
         icon: "dvr",
         label: "Payroll Software",
-        tools: [{ name: "Gusto" }, { name: "ADP Run/Workforce Now" }, { name: "Paychex" }, { name: "Rippling" }],
+        tools: [
+          { name: "Gusto" },
+          { name: "ADP Run/Workforce Now" },
+          { name: "Paychex" },
+          { name: "Rippling" },
+        ],
       },
       {
         id: "time-tracking",

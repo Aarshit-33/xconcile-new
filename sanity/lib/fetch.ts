@@ -11,8 +11,6 @@ type SanityFetchOptions = {
   params?: QueryParams;
   /** Cache tags, normally the Sanity `_type`(s) the query reads. Revalidated by /api/revalidate. */
   tags?: string[];
-  /** Read from another dataset of the same project (e.g. blog posts from `blogDataset`). */
-  dataset?: string;
 };
 
 /**
@@ -27,7 +25,6 @@ export async function sanityFetch<T = any>({
   query,
   params = {},
   tags = [],
-  dataset,
 }: SanityFetchOptions): Promise<T> {
   "use cache";
   // Production: a Sanity webhook hits /api/revalidate on publish and expires the tag at once
@@ -53,6 +50,5 @@ export async function sanityFetch<T = any>({
     return null as T;
   }
 
-  const reader = dataset && dataset !== client.config().dataset ? client.withConfig({ dataset }) : client;
-  return reader.fetch<T>(query, params);
+  return client.fetch<T>(query, params);
 }

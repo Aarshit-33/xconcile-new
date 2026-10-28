@@ -28,14 +28,32 @@ import {
 const slug = process.argv[2] ?? "real-estate-construction";
 const page = industryPages[slug];
 if (!page) {
-  throw new Error(`Unknown industry page "${slug}". Known: ${Object.keys(industryPages).join(", ")}`);
+  throw new Error(
+    `Unknown industry page "${slug}". Known: ${Object.keys(industryPages).join(", ")}`,
+  );
 }
-const docId = `industryPage-${slug}`;
+/**
+ * Document ID: the existing page with this slug (renamed pages keep their original ID, e.g. the IT
+ * page is `industryPage-it-technology` with slug it-technology-accounting-services), else
+ * `industryPage-<slug>`. Resolved in main().
+ */
+let docId = `industryPage-${slug}`;
 
 /* ---------------------------------------------------------------- document */
 
 async function buildIndustryPage() {
-  const { hero, features, intro, challenges, services, subIndustries, whyChoose, faq, ctaBand, seo } = page;
+  const {
+    hero,
+    features,
+    intro,
+    challenges,
+    services,
+    subIndustries,
+    whyChoose,
+    faq,
+    ctaBand,
+    seo,
+  } = page;
 
   return {
     _id: docId,
@@ -52,7 +70,7 @@ async function buildIndustryPage() {
       primaryCta: link(hero.primaryCta),
       ...(hero.secondaryCta ? { secondaryCta: link(hero.secondaryCta) } : {}),
       checks: keyed(
-        hero.checks.map((c) => ({ label: c.label, desktopOnly: c.desktopOnly ?? false })),
+        hero.checks.map((c) => ({ label: c.label, show: true })),
         "heroCheck",
       ),
     },
@@ -86,7 +104,12 @@ async function buildIndustryPage() {
       body: challenges.body,
       ...(challenges.cta ? { cta: link(challenges.cta) } : {}),
       items: keyed(
-        challenges.items.map((c) => ({ tone: c.tone, icon: c.icon, title: c.title, body: richText(c.body) })),
+        challenges.items.map((c) => ({
+          tone: c.tone,
+          icon: c.icon,
+          title: c.title,
+          body: richText(c.body),
+        })),
         "challengeCard",
       ),
     },
@@ -98,7 +121,11 @@ async function buildIndustryPage() {
       title: services.title,
       subtitle: services.subtitle,
       items: keyed(
-        services.items.map((x) => ({ icon: x.icon, title: x.title, ...(x.body ? { body: x.body } : {}) })),
+        services.items.map((x) => ({
+          icon: x.icon,
+          title: x.title,
+          ...(x.body ? { body: x.body } : {}),
+        })),
         "gridTile",
       ),
     },
@@ -148,16 +175,26 @@ async function buildIndustryPage() {
       anchorId: sectionId(ctaBand, "ctaBand"),
       title: ctaBand.title,
       body: ctaBand.body,
-      cta: link(ctaBand.cta),
+      ...(ctaBand.cta ? { cta: link(ctaBand.cta) } : {}),
       image: { _type: "image", ...(await imageRef(ctaBand.image.src)) },
     },
 
-    seo: { _type: "seoMeta", title: seo.title, description: seo.description, keywords: seo.keywords ?? [] },
+    seo: {
+      _type: "seoMeta",
+      title: seo.title,
+      description: seo.description,
+      keywords: seo.keywords ?? [],
+    },
   };
 }
 
 async function main() {
   console.log(`Seeding industry page "${slug}" → ${projectId}/${dataset}`);
+  const existing: string | null = await client.fetch(
+    `*[_type == "industryPage" && slug.current == $slug && !(_id in path("drafts.**"))][0]._id`,
+    { slug: page.slug },
+  );
+  if (existing) docId = existing;
   const doc = await buildIndustryPage();
   console.log(`  ${uploads.size} images uploaded/reused`);
   await client.transaction().createOrReplace(doc).delete(`drafts.${docId}`).commit();

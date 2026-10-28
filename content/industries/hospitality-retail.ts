@@ -49,7 +49,7 @@ export const hospitalityRetail: IndustryPageContent = {
     title: "Outsourced Hospitality Accounting & Bookkeeping Services",
     subtitle:
       "Keep your hospitality business financially organized with reliable accounting and bookkeeping support. We help hotels, restaurants, resorts, and other hospitality businesses maintain accurate books and track financial performance.",
-    primaryCta: schedule("Talk to an expert"),
+    primaryCta: { label: "Talk to an expert", href: routes.contact() },
     // Same rule as "Explore our services": scrolls to this page's services grid.
     secondaryCta: { label: "Explore Our Expertise", href: "#expertise" },
     // The design draws two checks only (no third, desktop-only one).
@@ -60,7 +60,11 @@ export const hospitalityRetail: IndustryPageContent = {
     label: "Why work with Xconcile",
     items: [
       // COPY FIX: drawn as "Healthcare Expertise" (left over from the healthcare page).
-      { icon: "person_check", title: "Hospitality Expertise", body: "Accounting support for hospitality businesses." },
+      {
+        icon: "person_check",
+        title: "Hospitality Expertise",
+        body: "Accounting support for hospitality businesses.",
+      },
       { icon: "cached", title: "Flexible Support", body: "Support that fits your business needs." },
       { icon: "settings", title: "Existing Workflows", body: "Works with your current systems." },
       { icon: "lock", title: "Secure Data Handling", body: "Protecting your financial data." },
@@ -73,7 +77,10 @@ export const hospitalityRetail: IndustryPageContent = {
       "Hospitality businesses manage high transaction volumes, changing revenue, payroll, vendor payments, and seasonal fluctuations. As business activity changes, keeping financial records and payroll organized can become more demanding.",
     ] satisfies RichText,
     bodyMore: [
-      { text: "Outsourced payroll services", href: routes.service("outsourced-payroll-and-compliance-services") },
+      {
+        text: "Outsourced payroll services",
+        href: routes.service("outsourced-payroll-and-compliance-services"),
+      },
       " give hospitality businesses added support with payroll processing, records, reporting, and ongoing payroll requirements.",
     ] satisfies RichText,
     bodyMoreLayout: "paragraph",
@@ -83,9 +90,13 @@ export const hospitalityRetail: IndustryPageContent = {
       width: 1500,
       height: 1000,
     },
-    checks: ["Hospitality-focused expertise", "Monthly financial reporting", "Dedicated accounting support"],
+    checks: [
+      "Hospitality-focused expertise",
+      "Monthly financial reporting",
+      "Dedicated accounting support",
+    ],
     checksStyle: "list",
-    cta: { label: "Hire Accounting Staff", href: routes.hireStaff("hire-bookkeeper-accountant") },
+    cta: { label: "Hire Accounting Staff", href: routes.contact() },
   },
 
   challenges: {
@@ -93,37 +104,41 @@ export const hospitalityRetail: IndustryPageContent = {
     title: "Common Financial Challenges for Hospitality Businesses",
     // As drawn: the sentence ends with a colon and leads into the cards.
     body: "Managing hospitality finances can be complex. Hotels, restaurants, resorts, and other hospitality businesses often need to manage:",
-    cta: schedule("Let's Discuss Project"), // COPY FIX: drawn as "Lets"
+    cta: { label: "Let's Discuss Project", href: routes.contact() }, // COPY FIX: drawn as "Lets"
     items: [
       {
         tone: "white",
-        icon: "calculate",
+        icon: "monitoring",
         title: "High Transaction Volume",
         body: ["Managing sales and payments from multiple sources can quickly become difficult."],
       },
       {
         tone: "white",
-        icon: "account_balance",
+        icon: "currency_exchange",
         title: "Daily Sales Reconciliation",
         body: ["Making sure daily sales and payment records match helps keep your books accurate."],
       },
       {
         tone: "white",
-        icon: "home",
+        icon: "groups_2",
         title: "Payroll & Labor Costs",
         body: ["Tracking wages, staff expenses, and payroll records can take time and attention."],
       },
       {
         tone: "white",
-        icon: "9k_plus",
+        icon: "assignment",
         title: "Vendor Bills & Payments",
-        body: ["Keeping up with invoices and vendor payments helps prevent missed or overdue bills."],
+        body: [
+          "Keeping up with invoices and vendor payments helps prevent missed or overdue bills.",
+        ],
       },
       {
         tone: "white",
-        icon: "dictionary",
+        icon: "add_chart",
         title: "Monthly Financial Reporting",
-        body: ["Clear, up-to-date reports give you a better view of your business's financial performance."],
+        body: [
+          "Clear, up-to-date reports give you a better view of your business's financial performance.",
+        ],
       },
     ],
   },
@@ -136,26 +151,27 @@ export const hospitalityRetail: IndustryPageContent = {
     subtitle: "We offer accounting support to meet the needs of hospitality businesses.",
     // Six tiles, as drawn (3 + 3), all with the same book_4 glyph and no body line.
     items: [
-      { icon: "book_4", title: "Daily Bookkeeping" },
-      { icon: "book_4", title: "Accounts Payable & Receivable" },
-      { icon: "book_4", title: "Bank & Credit Card Reconciliations" },
-      { icon: "book_4", title: "Payroll Accounting Support" },
-      { icon: "book_4", title: "Revenue & Expense Tracking" },
-      { icon: "book_4", title: "Financial Statement Preparation" },
+      { icon: "menu_book", title: "Daily Bookkeeping" },
+      { icon: "sync", title: "Accounts Payable & Receivable" },
+      { icon: "account_balance", title: "Bank & Credit Card Reconciliations" },
+      { icon: "contact_phone", title: "Payroll Accounting Support" },
+      { icon: "payments", title: "Revenue & Expense Tracking" },
+      { icon: "bar_chart_4_bars", title: "Financial Statement Preparation" },
     ],
   },
 
   subIndustries: {
     badge: "Sub-Industries",
     title: "Types of Hospitality Businesses We Support",
-    subtitle: "Our accounting support can be tailored to different hospitality business models, including:",
+    subtitle:
+      "Our accounting support can be tailored to different hospitality business models, including:",
     // Rows 1–3 are drawn (titles, focus lines, icons) and the design has no "Show more" button,
     // so only these three show (the doc's other rows are not used). Titles, focus lines and
     // accordion details: docs/content/industries/hospitality-retail.md ("Sub-Industries We
     // Serve"), bold markers dropped.
     items: [
       {
-        icon: "calculate",
+        icon: "dine_lamp",
         title: "Restaurants & Quick Service (QSR)",
         body: "Daily Sales Reconciliation and Prime Cost Control",
         groups: [
@@ -208,7 +224,7 @@ export const hospitalityRetail: IndustryPageContent = {
         ],
       },
       {
-        icon: "assignment",
+        icon: "bath_bedrock",
         title: "Hotels, Resorts & Boutique Lodging",
         body: "Night Audit Oversight and Occupancy Metrics",
         groups: [
@@ -261,7 +277,7 @@ export const hospitalityRetail: IndustryPageContent = {
         ],
       },
       {
-        icon: "import_contacts",
+        icon: "groups_2",
         title: "Franchise Operations (Multi-Unit)",
         body: "Consolidated Reporting and Franchisor Compliance",
         groups: [
@@ -287,7 +303,7 @@ export const hospitalityRetail: IndustryPageContent = {
             title: "Payroll",
             items: [
               "Centralized payroll processing for hundreds of employees across locations",
-              "Managing \"Joint Employer\" liability risks",
+              'Managing "Joint Employer" liability risks',
               "Multi-state payroll for franchises spanning state lines",
               "Standardized job codes and pay rates across units",
             ],
@@ -318,7 +334,8 @@ export const hospitalityRetail: IndustryPageContent = {
   whyChoose: {
     badge: "Why Choose Us",
     title: "Why Hospitality Businesses Trust Our Accounting Services",
-    subtitle: "Choose an accounting partner that understands the financial demands of hospitality operations.",
+    subtitle:
+      "Choose an accounting partner that understands the financial demands of hospitality operations.",
     // Five features as drawn (2 + 2 + 1); glyphs as on the healthcare page (same icon slots).
     features: [
       {
@@ -331,14 +348,18 @@ export const hospitalityRetail: IndustryPageContent = {
         title: "Industry-Focused Support",
         body: "Customized hospitality accounting support.",
       },
-      { icon: "contact_phone", title: "Consistent Processes", body: "Keep bookkeeping and reconciliations organized." },
+      {
+        icon: "brightness_5",
+        title: "Consistent Processes",
+        body: "Keep bookkeeping and reconciliations organized.",
+      },
       {
         icon: "page_info",
         title: "Confidentiality & Security",
         body: "Protect sensitive financial data with secure processes.",
       },
       {
-        icon: "add_chart",
+        icon: "contact_phone",
         title: "Flexible Accounting Support",
         body: "Flexible support that fits your accounting needs.",
       },

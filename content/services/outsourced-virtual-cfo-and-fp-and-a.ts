@@ -46,7 +46,7 @@ export const outsourcedVirtualCfoAndFpAndA: ServicePageContent = {
     subtitle:
       "Get clear financial insights and ongoing support for budgeting, forecasting, cash flow management, and financial reporting, helping you make informed business decisions.",
     // No contact section on service pages: CTAs open the Calendly popup.
-    primaryCta: { label: "Get expert CFO support", href: SCHEDULE_HREF }, // COPY FIX: "cfo"
+    primaryCta: { label: "Get expert CFO support", href: routes.contact() }, // COPY FIX: "cfo"
     // Client rule: "Explore our services" scrolls to this page's services section.
     secondaryCta: { label: "Explore Our Services", href: "#services" },
     checks: [{ label: "Financial dashboard" }, { label: "Business growth charts" }],
@@ -93,7 +93,7 @@ export const outsourcedVirtualCfoAndFpAndA: ServicePageContent = {
     items: [
       {
         tone: "rose",
-        icon: "person_search",
+        icon: "visibility",
         title: "Limited Financial Visibility",
         body: [
           "Outdated or disconnected reports can make it hard to see where your business stands each month.",
@@ -103,7 +103,9 @@ export const outsourcedVirtualCfoAndFpAndA: ServicePageContent = {
         tone: "amber",
         icon: "trending_up",
         title: "Unclear Future Planning",
-        body: ["Without regular forecasts, it can be difficult to plan for hiring, growth, or slower periods."],
+        body: [
+          "Without regular forecasts, it can be difficult to plan for hiring, growth, or slower periods.",
+        ],
       },
       {
         tone: "blue",
@@ -115,7 +117,7 @@ export const outsourcedVirtualCfoAndFpAndA: ServicePageContent = {
       },
       {
         tone: "purple",
-        icon: "visibility_off",
+        icon: "contact_phone",
         title: "Lack of Strategic Finance Support",
         body: [
           "Bookkeeping keeps your records up to date, but you may still need financial guidance to plan and make better business decisions.",
@@ -128,7 +130,8 @@ export const outsourcedVirtualCfoAndFpAndA: ServicePageContent = {
     id: "services",
     badge: "Services",
     title: "Our Virtual CFO Services",
-    subtitle: "Get the financial support and insights you need to plan ahead and make better business decisions.",
+    subtitle:
+      "Get the financial support and insights you need to plan ahead and make better business decisions.",
     initiallyVisible: 5,
     // Fallback rows (drawn titles + subtitles). In Studio, Services → each row can also get
     // "Grouped lists" (task lists shown when the row is open).
@@ -141,36 +144,36 @@ export const outsourcedVirtualCfoAndFpAndA: ServicePageContent = {
           {
             title: "Budgeting & Rolling Forecasts",
             items: [
-              "Developing annual \"bottom-up\" budgets aligned with departmental goals.",
+              'Developing annual "bottom-up" budgets aligned with departmental goals.',
               "Creating 12-month rolling forecasts that adapt as market conditions change.",
               "Performing Variance Analysis (Budget vs. Actual) to explain why targets were missed or exceeded.",
             ],
           },
           {
-            title: "Scenario & \"What-If\" Modeling",
+            title: 'Scenario & "What-If" Modeling',
             items: [
               "Building dynamic models to test the impact of strategic moves (e.g., What happens if we increase prices by 5%?).",
-              "Hiring models to determine the ROI and \"break-even\" point of a new sales representative or developer.",
+              'Hiring models to determine the ROI and "break-even" point of a new sales representative or developer.',
             ],
           },
           {
             title: "Cash Flow Management",
             items: [
-              "Creating 13-Week Cash Flow Projections to manage short-term liquidity and avoid \"cash crunches.\"",
-              "Analyzing the \"Cash Conversion Cycle\" to speed up collections and optimize vendor payments.",
+              'Creating 13-Week Cash Flow Projections to manage short-term liquidity and avoid "cash crunches."',
+              'Analyzing the "Cash Conversion Cycle" to speed up collections and optimize vendor payments.',
             ],
           },
         ],
       },
       {
-        icon: "assignment",
+        icon: "cognition",
         title: "Strategic Advisory & Decision Support",
-        description: "Acting as the \"Right Hand\" to the CEO/Owner",
+        description: 'Acting as the "Right Hand" to the CEO/Owner',
         groups: [
           {
             title: "Profitability & Margin Analysis",
             items: [
-              "Product/Service Line Profitability: Identifying which offerings are high-margin and which are \"money-losers.\"",
+              'Product/Service Line Profitability: Identifying which offerings are high-margin and which are "money-losers."',
               "Customer Profitability: Calculating the cost to serve specific clients vs. the revenue they generate.",
             ],
           },
@@ -178,20 +181,20 @@ export const outsourcedVirtualCfoAndFpAndA: ServicePageContent = {
             title: "Break-Even & Pricing Strategy",
             items: [
               "Calculating the precise revenue point where the business covers all fixed and variable costs.",
-              "Analyzing competitor pricing and market trends to advise on \"Optimal Price\" positioning.",
+              'Analyzing competitor pricing and market trends to advise on "Optimal Price" positioning.',
             ],
           },
           {
             title: "Board & Stakeholder Presentations",
             items: [
-              "Preparing monthly \"Executive Summary\" decks for Board meetings or investors.",
+              'Preparing monthly "Executive Summary" decks for Board meetings or investors.',
               "Translating complex financial data into simple, actionable narratives for non-financial founders.",
             ],
           },
         ],
       },
       {
-        icon: "import_contacts",
+        icon: "query_stats",
         title: "Business Intelligence (BI) & KPI Dashboards",
         description: "Real-time visibility into the health of the business",
         groups: [
@@ -218,41 +221,43 @@ export const outsourcedVirtualCfoAndFpAndA: ServicePageContent = {
         ],
       },
       {
-        icon: "add_chart",
+        icon: "account_balance_wallet",
         title: "Capital Structure & M&A Support",
         description: "Helping the business find and manage money",
         groups: [
           {
             title: "Fundraising Readiness",
             items: [
-              "Preparing \"Pro-Forma\" financial statements required for Bank Loans or Venture Capital.",
-              "Managing the \"Financial Data Room\" for potential investors during the due diligence process.",
+              'Preparing "Pro-Forma" financial statements required for Bank Loans or Venture Capital.',
+              'Managing the "Financial Data Room" for potential investors during the due diligence process.',
             ],
           },
           {
             title: "Mergers & Acquisitions (M&A)",
             items: [
-              "Buy-side Due Diligence: Reviewing the target company’s books to find \"red flags.\"",
+              'Buy-side Due Diligence: Reviewing the target company’s books to find "red flags."',
               "Sell-side Preparation: Cleaning up financials to maximize the company’s valuation before a sale.",
             ],
           },
           {
             title: "Capital Allocation",
-            items: ["Advising on whether to reinvest profits into R&D, pay off debt, or distribute dividends."],
+            items: [
+              "Advising on whether to reinvest profits into R&D, pay off debt, or distribute dividends.",
+            ],
           },
         ],
       },
       {
         // The design repeats row 04's chart icon here.
-        icon: "add_chart",
+        icon: "fact_check",
         title: "Fractional Controller & Compliance Oversight",
-        description: "Strengthening the internal financial \"backbone\"",
+        description: 'Strengthening the internal financial "backbone"',
         groups: [
           {
             title: "Internal Control Enhancement",
             items: [
-              "Implementing \"Check and Balance\" procedures to prevent fraud and embezzlement.",
-              "Developing a \"Month-End Close Checklist\" to ensure books are closed in under 5 days.",
+              'Implementing "Check and Balance" procedures to prevent fraud and embezzlement.',
+              'Developing a "Month-End Close Checklist" to ensure books are closed in under 5 days.',
             ],
           },
           {
@@ -270,7 +275,8 @@ export const outsourcedVirtualCfoAndFpAndA: ServicePageContent = {
   caseStudies: {
     badge: "Testimonials",
     title: "Trusted by Our Clients",
-    subtitle: "See how Xconcile helps businesses improve efficiency, visibility, and financial operations.",
+    subtitle:
+      "See how Xconcile helps businesses improve efficiency, visibility, and financial operations.",
     // Only "CPA Firms" has copy in the design; the other drawn tabs (Real Estate, E-commerce,
     // Construction, Restaurants) appear once their case studies exist. Never invent client results.
     items: [
@@ -280,7 +286,8 @@ export const outsourcedVirtualCfoAndFpAndA: ServicePageContent = {
         title: "CPA Firms",
         challenge: "Growing workload and limited accounting capacity.",
         solution: "Dedicated outsourced accounting support.",
-        result: "Better financial visibility, streamlined operations, and reduced accounting workload.",
+        result:
+          "Better financial visibility, streamlined operations, and reduced accounting workload.",
         // NOT IN DESIGN: impact figure reused from Home; confirm with the client.
         impact: home.caseStudies.items[0].impact,
         // The design draws the Home case-study photo.
@@ -294,7 +301,8 @@ export const outsourcedVirtualCfoAndFpAndA: ServicePageContent = {
   process: {
     badge: "How It Works",
     title: "How Our Virtual CFO Process Works",
-    subtitle: "A clear, structured approach to help you plan, manage, and improve your business finances.",
+    subtitle:
+      "A clear, structured approach to help you plan, manage, and improve your business finances.",
     steps: [
       {
         icon: "search",
@@ -339,7 +347,10 @@ export const outsourcedVirtualCfoAndFpAndA: ServicePageContent = {
         title: "Professional Services",
         body: "Financial support for growing service businesses",
         href: routes.industry("professional-services"),
-        image: { ...home.industries.items[0].image, alt: "Sparks flying from metal grinding in a workshop" },
+        image: {
+          ...home.industries.items[0].image,
+          alt: "Sparks flying from metal grinding in a workshop",
+        },
       },
       {
         title: "Healthcare",
@@ -363,23 +374,41 @@ export const outsourcedVirtualCfoAndFpAndA: ServicePageContent = {
         title: "CPA Firms",
         body: "Virtual CFO support for growing CPA firms",
         href: routes.industry("professional-services"),
-        image: { src: "/images/industries/education.jpg", alt: "Students working at desks in a classroom", width: 500, height: 311 },
+        image: {
+          src: "/images/industries/education.jpg",
+          alt: "Students working at desks in a classroom",
+          width: 500,
+          height: 311,
+        },
       },
       {
         title: "Pharmaceutical",
         body: "Financial support for growing pharma businesses",
-        image: { src: "/images/industries/pharmaceutical.jpg", alt: "Pharmacist taking stock from pharmacy shelves", width: 500, height: 333 },
+        image: {
+          src: "/images/industries/pharmaceutical.jpg",
+          alt: "Pharmacist taking stock from pharmacy shelves",
+          width: 500,
+          height: 333,
+        },
       },
       {
         title: "eCommerce",
         body: "Financial guidance for growing eCommerce businesses",
         href: routes.industry("tech-ecommerce"),
-        image: { src: "/images/industries/ecommerce.jpg", alt: "Online seller packing orders at a desk", width: 500, height: 334 },
+        image: {
+          src: "/images/industries/ecommerce.jpg",
+          alt: "Online seller packing orders at a desk",
+          width: 500,
+          height: 334,
+        },
       },
       {
         title: "Manufacturing",
         body: "Financial support for growing manufacturers",
-        image: { ...home.industries.items[0].image, alt: "Sparks flying from metal grinding in a factory" },
+        image: {
+          ...home.industries.items[0].image,
+          alt: "Sparks flying from metal grinding in a factory",
+        },
       },
     ],
   },
@@ -391,7 +420,7 @@ export const outsourcedVirtualCfoAndFpAndA: ServicePageContent = {
       "Get reliable, accurate, and cost-effective accounting support from experienced professionals who help US businesses streamline finances and focus on growth.",
     features: [
       {
-        icon: "contextual_token_add",
+        icon: "calculate",
         title: "Finance Expertise",
         body: "Work with professionals familiar with accounting processes",
       },
@@ -406,7 +435,7 @@ export const outsourcedVirtualCfoAndFpAndA: ServicePageContent = {
         body: "Choose CFO support based on your business requirements",
       },
       {
-        icon: "page_info",
+        icon: "add_chart",
         title: "Reliable Reporting",
         body: "Maintain accurate reports for informed financial planning",
       },
@@ -443,7 +472,7 @@ export const outsourcedVirtualCfoAndFpAndA: ServicePageContent = {
       {
         q: "What does a Virtual CFO do?",
         a: [
-          "A Virtual CFO builds budgets and rolling forecasts, prepares cash flow projections, runs \"what-if\" scenario models, analyzes profitability and pricing, sets up KPI dashboards, supports fundraising and M&A preparation, and strengthens internal controls and the month-end close.",
+          'A Virtual CFO builds budgets and rolling forecasts, prepares cash flow projections, runs "what-if" scenario models, analyzes profitability and pricing, sets up KPI dashboards, supports fundraising and M&A preparation, and strengthens internal controls and the month-end close.',
         ],
       },
       {
@@ -476,7 +505,7 @@ export const outsourcedVirtualCfoAndFpAndA: ServicePageContent = {
   ctaBand: {
     title: "Need Strategic Financial Support for Your Business?",
     body: "Get Virtual CFO and FP&A support to improve financial visibility, planning, and decision-making.",
-    cta: { label: "Get Started", href: SCHEDULE_HREF },
+    cta: { label: "Get Started", href: routes.contact() },
     // NOT IN DESIGN: the band is drawn on a plain teal fill with no photo; the template's shared
     // band photo is reused (`image` is required).
     image: { src: "/images/services/cta-handshake.jpg", alt: "", width: 1500, height: 1000 },

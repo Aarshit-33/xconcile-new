@@ -49,20 +49,24 @@ export const medicalHealth: IndustryPageContent = {
     subtitle:
       "We provide specialized outsourced accounting services for healthcare businesses, helping providers manage bookkeeping, reporting, and day-to-day financial operations.",
     // Labels as drawn (the older design's CSS export still says "Get in Touch" on both buttons).
-    primaryCta: schedule("Talk to an expert"),
+    primaryCta: { label: "Talk to an expert", href: routes.contact() },
     // Same rule as "Explore our services": scrolls to this page's services grid.
     secondaryCta: { label: "Explore Our Expertise", href: "#expertise" },
     checks: [
       { label: "Healthcare Experience" },
       { label: "Flexible Engagements" },
-      { label: "U.S. Business Focus", desktopOnly: true },
+      { label: "U.S. Business Focus" },
     ],
   },
 
   features: {
     label: "Why work with Xconcile",
     items: [
-      { icon: "person_check", title: "Healthcare Expertise", body: "Specialized healthcare accounting." },
+      {
+        icon: "person_check",
+        title: "Healthcare Expertise",
+        body: "Specialized healthcare accounting.",
+      },
       { icon: "cached", title: "Flexible Support", body: "Support that fits your needs." },
       { icon: "settings", title: "Existing Workflows", body: "Fits your existing systems." },
       { icon: "lock", title: "Secure Data Handling", body: "Protecting your financial data." },
@@ -75,7 +79,10 @@ export const medicalHealth: IndustryPageContent = {
     body: [
       // COPY FIX: drawn as "keeping financial records kept organized and current ."
       "Healthcare businesses have unique accounting needs, from managing daily transactions and expenses to keeping financial records organized and current. Xconcile provides ",
-      { text: "outsourced accounting", href: routes.service("outsourced-accounting-and-bookkeeping") },
+      {
+        text: "outsourced accounting",
+        href: routes.service("outsourced-accounting-and-bookkeeping"),
+      },
       " solutions for healthcare businesses in the U.S., helping healthcare businesses and CPA firms manage bookkeeping, reconciliations, financial reporting, and ongoing accounting work within their existing workflows.",
     ] satisfies RichText,
     bodyMore: [
@@ -91,38 +98,46 @@ export const medicalHealth: IndustryPageContent = {
     },
     checks: ["Dedicated Resources", "US Accounting Experience", "Flexible Support"],
     checksStyle: "list",
-    cta: { label: "Hire Accounting Staff", href: routes.hireStaff("hire-bookkeeper-accountant") },
+    cta: { label: "Hire Accounting Staff", href: routes.contact() },
   },
 
   challenges: {
     badge: "Key Challenges",
     title: "Common Accounting Challenges in Healthcare",
     body: "Healthcare businesses often manage complex financial activity while their teams focus on patients, employees, and day-to-day operations.",
-    cta: schedule("Let's Discuss Project"), // COPY FIX: drawn as "Lets"
+    cta: { label: "Let's Discuss Project", href: routes.contact() }, // COPY FIX: drawn as "Lets"
     items: [
       {
         tone: "white",
-        icon: "calculate",
+        icon: "monitoring",
         title: "Growing Accounting Workload",
-        body: ["As your healthcare business grows, recurring accounting tasks can take more time away from your core operations."],
+        body: [
+          "As your healthcare business grows, recurring accounting tasks can take more time away from your core operations.",
+        ],
       },
       {
         tone: "white",
-        icon: "account_balance",
+        icon: "assignment",
         title: "Inconsistent Financial Records",
-        body: ["Disorganized transactions and delayed reconciliations can make financial reporting harder to manage."],
+        body: [
+          "Disorganized transactions and delayed reconciliations can make financial reporting harder to manage.",
+        ],
       },
       {
         tone: "white",
         icon: "home",
         title: "Limited Internal Accounting Capacity",
-        body: ["Small and growing healthcare businesses may not need a full in-house accounting department."],
+        body: [
+          "Small and growing healthcare businesses may not need a full in-house accounting department.",
+        ],
       },
       {
         tone: "white",
         icon: "9k_plus",
         title: "Month-End Pressure",
-        body: ["Closing and reporting can become difficult when accounting tasks accumulate throughout the month."],
+        body: [
+          "Closing and reporting can become difficult when accounting tasks accumulate throughout the month.",
+        ],
       },
     ],
   },
@@ -173,7 +188,7 @@ export const medicalHealth: IndustryPageContent = {
         body: "Maintain accurate account classifications and organized general ledger records.",
       },
       {
-        icon: "cleaning_services",
+        icon: "mop",
         title: "Accounting Cleanup",
         body: "Bring disorganized or outdated books up to date and establish a more consistent accounting process.",
       },
@@ -192,7 +207,7 @@ export const medicalHealth: IndustryPageContent = {
     // ("Sub-Industries We Serve"), bold markers dropped.
     items: [
       {
-        icon: "calculate",
+        icon: "medical_services",
         title: "General & Specialized Medical Practices",
         body: "Revenue Cycle Management and Insurance Reconciliation",
         groups: [
@@ -244,7 +259,7 @@ export const medicalHealth: IndustryPageContent = {
         ],
       },
       {
-        icon: "assignment",
+        icon: "dentistry",
         title: "Dental & Orthodontic Clinics",
         body: "Treatment Plan Tracking and Lab Invoice Management",
         groups: [
@@ -309,7 +324,7 @@ export const medicalHealth: IndustryPageContent = {
           {
             title: "Accounting",
             items: [
-              "Monitoring \"No-show\" costs and utilization rates",
+              'Monitoring "No-show" costs and utilization rates',
               "Tracking therapist productivity and session capacity",
               "Managing grant-funded programs for non-profit mental health centers",
             ],
@@ -341,7 +356,7 @@ export const medicalHealth: IndustryPageContent = {
         ],
       },
       {
-        icon: "add_chart",
+        icon: "cognition",
         title: "Physical Therapy & Chiropractic Centers",
         body: "Visit Authorization Tracking and DME Sales",
         groups: [
@@ -390,7 +405,7 @@ export const medicalHealth: IndustryPageContent = {
         ],
       },
       {
-        icon: "sync",
+        icon: "dermatology",
         title: "Dermatology & Medical Spas",
         body: "Dual-Entity Accounting (Medical vs. Retail/Wellness)",
         groups: [
@@ -424,7 +439,7 @@ export const medicalHealth: IndustryPageContent = {
           {
             title: "Tax Preparation",
             items: [
-              "Managing \"Dual-Entity\" structures (Medical PC vs. Retail/Wellness LLC)",
+              'Managing "Dual-Entity" structures (Medical PC vs. Retail/Wellness LLC)',
               "Retail sales tax filings for product sales",
               "Nexus considerations for multi-state operations",
               "Equipment depreciation for laser systems",
@@ -443,7 +458,7 @@ export const medicalHealth: IndustryPageContent = {
       },
       {
         // NOT IN DESIGN: rows 6–8 are hidden in the design, so their icons are not drawn.
-        icon: "query_stats",
+        icon: "monitor_heart",
         title: "Outpatient & Diagnostic Centers",
         body: "Capital Equipment Tracking and Multi-Departmental Allocation",
         groups: [
@@ -490,7 +505,7 @@ export const medicalHealth: IndustryPageContent = {
         ],
       },
       {
-        icon: "home",
+        icon: "clean_hands",
         title: "Home Healthcare Services",
         body: "Mileage Tracking and Medicaid/Medicare Billing",
         groups: [
@@ -537,7 +552,7 @@ export const medicalHealth: IndustryPageContent = {
         ],
       },
       {
-        icon: "health_and_safety",
+        icon: "pill",
         title: "Pharmacy & Medical Supplies",
         body: "Inventory Valuation and PBM Reconciliations",
         groups: [
@@ -594,18 +609,30 @@ export const medicalHealth: IndustryPageContent = {
       "Build a stronger accounting function with experienced professionals who understand U.S. business requirements, accounting workflows, and day-to-day financial operations.",
     features: [
       {
-        icon: "contextual_token_add",
+        icon: "deployed_code_account",
         title: "Experienced Professionals",
         body: "Skilled professionals for bookkeeping and financial reporting.",
       },
       {
-        icon: "deployed_code_account",
+        icon: "beenhere",
         title: "U.S. Accounting Expertise",
         body: "Support aligned with U.S. accounting practices and workflows.",
       },
-      { icon: "contact_phone", title: "Financial Records", body: "Keep financial records accurate, organized, and up to date." },
-      { icon: "page_info", title: "Flexible Support", body: "Choose support that fits your accounting needs and workload." },
-      { icon: "add_chart", title: "Scalable Capacity", body: "Add accounting capacity as your business needs continue to grow." },
+      {
+        icon: "article",
+        title: "Financial Records",
+        body: "Keep financial records accurate, organized, and up to date.",
+      },
+      {
+        icon: "page_info",
+        title: "Flexible Support",
+        body: "Choose support that fits your accounting needs and workload.",
+      },
+      {
+        icon: "add_chart",
+        title: "Scalable Capacity",
+        body: "Add accounting capacity as your business needs continue to grow.",
+      },
     ],
     // Same four photos as Home (identical assets in the design).
     images: home.whyChoose.images,

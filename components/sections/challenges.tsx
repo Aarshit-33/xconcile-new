@@ -1,4 +1,5 @@
 import { Icon } from "@/components/icons/registry";
+import { cardTones as tones } from "@/components/shared/card-tones";
 import { CtaLink } from "@/components/shared/cta";
 import { Rail } from "@/components/shared/rail";
 import { RichText } from "@/components/shared/rich-text";
@@ -8,49 +9,7 @@ import { cn } from "@/lib/utils";
 import { plainTitle } from "@/lib/highlight";
 import { sectionId } from "@/lib/section-ids";
 
-/**
- * `hover` (client request 2026-10-16): each card deepens within its OWN tint instead of the shared
- * `cardHover` veil. The shade is the tone's tile/line colour at 50%, so it sits between the resting
- * card background and the icon tile (the tile stays visible).
- */
-const tones = {
-  rose: {
-    card: "bg-tint-rose border-tint-rose-line",
-    hover: "hover:bg-tint-rose-line/50",
-    tile: "bg-tint-rose-line",
-    icon: "text-tint-rose-ink",
-  },
-  amber: {
-    card: "bg-tint-amber border-tint-amber-line",
-    hover: "hover:bg-tint-amber-line/50",
-    tile: "bg-tint-amber-line",
-    icon: "text-tint-amber-ink",
-  },
-  blue: {
-    card: "bg-tint-blue border-tint-blue-line",
-    hover: "hover:bg-tint-blue-line/50",
-    tile: "bg-tint-blue-line",
-    icon: "text-tint-blue-ink",
-  },
-  purple: {
-    card: "bg-tint-purple border-tint-purple-line",
-    hover: "hover:bg-tint-purple-line/50",
-    tile: "bg-tint-purple-line",
-    icon: "text-tint-purple-ink",
-  },
-  green: {
-    card: "bg-tint-green border-hairline",
-    hover: "hover:bg-brand-tile/50",
-    tile: "bg-brand-tile",
-    icon: "text-brand",
-  },
-  white: {
-    card: "bg-white border-hairline",
-    hover: "hover:bg-brand-50/50",
-    tile: "bg-brand-50",
-    icon: "text-brand",
-  },
-} as const;
+// Card colours + hover: components/shared/card-tones.ts (shared with the services group cards).
 
 /**
  * B5 Challenges. Mobile: heading, then a snap rail of tinted cards with the progress bar, then

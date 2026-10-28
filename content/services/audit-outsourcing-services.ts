@@ -46,10 +46,13 @@ export const auditOutsourcingServices: ServicePageContent = {
     subtitle:
       "Get reliable audit outsourcing services for U.S. CPA firms, with support for audit planning, financial statement audits, documentation, testing, and assurance work.",
     // No contact section on service pages: CTAs open the Calendly popup.
-    primaryCta: { label: "Get expert audit support", href: SCHEDULE_HREF },
+    primaryCta: { label: "Get expert audit support", href: routes.contact() },
     // Client rule: "Explore our services" scrolls to this page's services section.
     secondaryCta: { label: "Explore Our Services", href: "#services" },
-    checks: [{ label: "Experienced audit professionals" }, { label: "Secure & confidential workflow" }],
+    checks: [
+      { label: "Experienced audit professionals" },
+      { label: "Secure & confidential workflow" },
+    ],
   },
 
   stats: {
@@ -66,7 +69,10 @@ export const auditOutsourcingServices: ServicePageContent = {
     title: "Your Trusted Partner for Outsourced Audit Support",
     body: [
       "Xconcile provides outsourced audit and assurance support for CPA firms and businesses that need reliable help with audit workloads, documentation, and financial reporting. Our ",
-      { text: "audit experienced professionals", href: routes.hireStaff("hire-audit-and-assurance") },
+      {
+        text: "audit experienced professionals",
+        href: routes.hireStaff("hire-audit-and-assurance"),
+      },
       " work with your existing processes to support audit engagements without disrupting the way your team operates.",
     ] satisfies RichText,
     bodyMore: [
@@ -80,7 +86,11 @@ export const auditOutsourcingServices: ServicePageContent = {
       width: 1271,
       height: 848,
     },
-    checks: ["Reliable Audit Support", "Secure & confidential workflow", "Flexible Engagement Models"],
+    checks: [
+      "Reliable Audit Support",
+      "Secure & confidential workflow",
+      "Flexible Engagement Models",
+    ],
     checksStyle: "list",
     cta: { label: "Get Audit Support", href: SCHEDULE_HREF },
   },
@@ -89,11 +99,11 @@ export const auditOutsourcingServices: ServicePageContent = {
     badge: "Key Challenges",
     title: "Why Businesses & Accounting Firms Outsource Audit Work",
     body: "Outsourcing audit work helps businesses and accounting firms manage workloads, add skilled support, and keep audit tasks organized without increasing internal staffing.",
-    cta: { label: "Let's Discuss Project", href: SCHEDULE_HREF }, // COPY FIX: "Lets"
+    cta: { label: "Let's Discuss Project", href: routes.contact() }, // COPY FIX: "Lets"
     items: [
       {
         tone: "rose",
-        icon: "group_add",
+        icon: "contextual_token_add",
         title: "Increase Audit Capacity",
         body: [
           "Expand your audit team with experienced professionals when workloads increase or you need extra support to manage engagements and complete audit work on time.",
@@ -101,7 +111,7 @@ export const auditOutsourcingServices: ServicePageContent = {
       },
       {
         tone: "amber",
-        icon: "trending_up",
+        icon: "trending_down",
         title: "Reduce Hiring Pressure",
         body: [
           "Get additional audit support without hiring permanent employees when you need extra team capacity for specific workloads or engagements.",
@@ -109,7 +119,7 @@ export const auditOutsourcingServices: ServicePageContent = {
       },
       {
         tone: "blue",
-        icon: "paid",
+        icon: "monitoring",
         title: "Handle Seasonal Demand",
         body: [
           "Add audit support when workloads increase so your team can handle more engagements without hiring permanent staff.",
@@ -117,7 +127,7 @@ export const auditOutsourcingServices: ServicePageContent = {
       },
       {
         tone: "purple",
-        icon: "visibility",
+        icon: "groups_2",
         title: "Focus Internal Teams",
         body: [
           "Free up your experienced staff to focus on audit review and client needs while routine tasks are handled by support staff.",
@@ -132,7 +142,8 @@ export const auditOutsourcingServices: ServicePageContent = {
     title: "*Audit* Outsourcing Services",
     // COPY FIX: drawn as "our outsourced accounting services help businesses maintain accurate
     // financial records," (lower-case, trailing comma; Home placeholder). Confirm audit wording.
-    subtitle: "Our outsourced accounting services help businesses maintain accurate financial records.",
+    subtitle:
+      "Our outsourced accounting services help businesses maintain accurate financial records.",
     initiallyVisible: 5,
     // Fallback rows (drawn titles + subtitles). In Studio, Services → each row can also get
     // "Grouped lists" (task lists shown when the row is open).
@@ -140,7 +151,7 @@ export const auditOutsourcingServices: ServicePageContent = {
     // docs/content/Audit & Assurance.md (H3 1–5), "Task:" prefixes and markdown removed.
     items: [
       {
-        icon: "calculate",
+        icon: "book_4",
         title: "Audit Planning & Risk Assessment",
         description: "Strategic groundwork to ensure a focused and efficient audit",
         groups: [
@@ -156,19 +167,21 @@ export const auditOutsourcingServices: ServicePageContent = {
             items: [
               "Calculating Overall Materiality and Performance Materiality based on the chosen benchmark (e.g., Total Assets or Revenue).",
               "Preparing Planning Analytics (Flux Analysis) to identify significant account balances and unusual trends.",
-              "Documenting the \"Understanding of the Entity\" and identifying fraud risk factors.",
+              'Documenting the "Understanding of the Entity" and identifying fraud risk factors.',
             ],
           },
           {
             title: "PBC (Provided by Client) Management",
-            items: ["Creating and managing a detailed PBC Checklist to track document status and follow up on missing items."],
+            items: [
+              "Creating and managing a detailed PBC Checklist to track document status and follow up on missing items.",
+            ],
           },
         ],
       },
       {
         icon: "assignment",
         title: "Substantive Testing & Execution",
-        description: "The \"Heavy Lifting\" of verifying account balances",
+        description: 'The "Heavy Lifting" of verifying account balances',
         groups: [
           {
             title: "Sample Selection & Testing",
@@ -181,24 +194,24 @@ export const auditOutsourcingServices: ServicePageContent = {
           {
             title: "Account-Specific Scrutiny",
             items: [
-              "Cash: Preparing bank reconciliations and performing \"Casting\" procedures on bank statements.",
+              'Cash: Preparing bank reconciliations and performing "Casting" procedures on bank statements.',
               "Accounts Receivable: Managing the Confirmation Process (preparing, sending, and tracking responses via Confirmation.com).",
-              "Inventory: Reviewing physical inventory count sheets and performing \"Price Testing\" (lower of cost or market).",
+              'Inventory: Reviewing physical inventory count sheets and performing "Price Testing" (lower of cost or market).',
               "Search for Unrecorded Liabilities: Reviewing post-balance sheet payments to ensure proper period cutoff.",
             ],
           },
         ],
       },
       {
-        icon: "import_contacts",
+        icon: "beenhere",
         title: "Internal Control & Compliance Testing",
-        description: "Testing the \"Plumbing\" of the organization",
+        description: 'Testing the "Plumbing" of the organization',
         groups: [
           {
             title: "Walkthroughs & Narratives",
             items: [
               "Documenting process walkthroughs (Sales, Payroll, Purchasing) through flowcharts and narratives.",
-              "Identifying \"Key Controls\" within the transaction cycles.",
+              'Identifying "Key Controls" within the transaction cycles.',
             ],
           },
           {
@@ -210,14 +223,16 @@ export const auditOutsourcingServices: ServicePageContent = {
           },
           {
             title: "Compliance Audits",
-            items: ["Verifying adherence to industry-specific regulations (e.g., HIPAA for Healthcare or HUD for Real Estate)."],
+            items: [
+              "Verifying adherence to industry-specific regulations (e.g., HIPAA for Healthcare or HUD for Real Estate).",
+            ],
           },
         ],
       },
       {
         icon: "add_chart",
         title: "Financial Statement Preparation & Finalization",
-        description: "The \"Last Mile\" of the audit engagement",
+        description: 'The "Last Mile" of the audit engagement',
         groups: [
           {
             title: "Reporting & Disclosure",
@@ -229,7 +244,7 @@ export const auditOutsourcingServices: ServicePageContent = {
           {
             title: "Tie-out & Quality Review",
             items: [
-              "Performing a \"Mathematical Accuracy\" (Casting) check on the entire financial report.",
+              'Performing a "Mathematical Accuracy" (Casting) check on the entire financial report.',
               "Indexing & Cross-Referencing: Linking every number in the financial statements back to the supporting lead schedule.",
             ],
           },
@@ -237,19 +252,21 @@ export const auditOutsourcingServices: ServicePageContent = {
             title: "Completion Procedures",
             items: [
               "Drafting the Management Letter Points (MLPs) and the Audit Summary Memo.",
-              "Preparing the \"Representation Letter\" for management signature.",
+              'Preparing the "Representation Letter" for management signature.',
             ],
           },
         ],
       },
       {
-        icon: "sync",
+        icon: "contact_phone",
         title: "Specialized Audit Support (Niche Areas)",
         description: "High-margin expertise for specific US requirements",
         groups: [
           {
             title: "Employee Benefit Plan (EBP) Audits",
-            items: ["Testing participant eligibility, contributions, and distributions for 401(k) or 403(b) plans."],
+            items: [
+              "Testing participant eligibility, contributions, and distributions for 401(k) or 403(b) plans.",
+            ],
           },
           {
             title: "Governmental & Single Audits",
@@ -271,7 +288,8 @@ export const auditOutsourcingServices: ServicePageContent = {
   caseStudies: {
     badge: "Testimonials",
     title: "Trusted by Businesses & CPA Firms",
-    subtitle: "See how Xconcile helps businesses improve efficiency, visibility, and financial operations.",
+    subtitle:
+      "See how Xconcile helps businesses improve efficiency, visibility, and financial operations.",
     // Only "CPA Firms" has copy in the design; other drawn tabs appear once their case studies
     // exist. Never invent client results.
     items: [
@@ -280,7 +298,8 @@ export const auditOutsourcingServices: ServicePageContent = {
         label: "CPA Firms",
         title: "CPA Firms",
         challenge: "Growing audit workloads were putting pressure on the firm’s internal team.",
-        solution: "Dedicated outsourced audit support to streamline workflows and improve efficiency.",
+        solution:
+          "Dedicated outsourced audit support to streamline workflows and improve efficiency.",
         result: "Increased audit capacity, faster turnaround times, and reduced team workload.",
         // The 2026-10-25 design draws an audit-specific case study (own copy and photo) without an
         // impact card. Every case-study field stays filled (user request 2026-10-25), so it keeps
@@ -371,23 +390,41 @@ export const auditOutsourcingServices: ServicePageContent = {
       {
         title: "Education",
         body: "Audit support for tuition, expenses, and financial records.",
-        image: { src: "/images/industries/education.jpg", alt: "Students working at desks in a classroom", width: 500, height: 311 },
+        image: {
+          src: "/images/industries/education.jpg",
+          alt: "Students working at desks in a classroom",
+          width: 500,
+          height: 311,
+        },
       },
       {
         title: "Pharmaceutical",
         body: "Audit support for inventory, expenses, and compliance.",
-        image: { src: "/images/industries/pharmaceutical.jpg", alt: "Pharmacist taking stock from pharmacy shelves", width: 500, height: 333 },
+        image: {
+          src: "/images/industries/pharmaceutical.jpg",
+          alt: "Pharmacist taking stock from pharmacy shelves",
+          width: 500,
+          height: 333,
+        },
       },
       {
         title: "eCommerce",
         body: "Audit support for sales, payments, inventory, and tax.",
         href: routes.industry("tech-ecommerce"),
-        image: { src: "/images/industries/ecommerce.jpg", alt: "Online seller packing orders at a desk", width: 500, height: 334 },
+        image: {
+          src: "/images/industries/ecommerce.jpg",
+          alt: "Online seller packing orders at a desk",
+          width: 500,
+          height: 334,
+        },
       },
       {
         title: "Manufacturing",
         body: "Audit support for inventory, costs, and financial records.",
-        image: { ...home.industries.items[0].image, alt: "Sparks flying from metal grinding in a factory" },
+        image: {
+          ...home.industries.items[0].image,
+          alt: "Sparks flying from metal grinding in a factory",
+        },
       },
     ],
   },
@@ -408,8 +445,16 @@ export const auditOutsourcingServices: ServicePageContent = {
         title: "Access Audit Expertise",
         body: "Get expert support for audit testing, workpapers, and documentation.",
       },
-      { icon: "contact_phone", title: "Support Busy Seasons", body: "Add skilled accounting support when audit workloads increase." },
-      { icon: "page_info", title: "Maintain Your Workflow", body: "Work seamlessly with your existing audit tools and processes." },
+      {
+        icon: "contact_phone",
+        title: "Support Busy Seasons",
+        body: "Add skilled accounting support when audit workloads increase.",
+      },
+      {
+        icon: "page_info",
+        title: "Maintain Your Workflow",
+        body: "Work seamlessly with your existing audit tools and processes.",
+      },
       {
         icon: "add_chart",
         title: "Improve Audit Efficiency",

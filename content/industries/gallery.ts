@@ -47,7 +47,7 @@ export const industriesGallery: IndustriesGalleryContent = {
     title: "Industry-Specific Accounting Services",
     subtitle:
       "Every industry has different financial challenges. From inventory and job costing to revenue recognition, cash flow, and management reporting, your accounting should reflect how your business actually operates.",
-    primaryCta: schedule("Talk to an expert"),
+    primaryCta: { label: "Talk to an expert", href: routes.contact() },
     // The design draws one button only (no secondary CTA).
     checks: [{ label: "Trusted by 12+ industries" }, { label: "Dedicated accounting teams" }],
   },
@@ -141,7 +141,12 @@ export const industriesGallery: IndustriesGalleryContent = {
       {
         title: "Transportation",
         body: "Fleet costing, fuel expenses, and freight billing.",
-        image: photo("transportation", "Shipping containers and trucks in a freight yard", 548, 365),
+        image: photo(
+          "transportation",
+          "Shipping containers and trucks in a freight yard",
+          548,
+          365,
+        ),
       },
       {
         title: "Travel",

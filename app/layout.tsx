@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Manrope, Outfit } from "next/font/google";
 import Script from "next/script";
 
+import { absoluteUrl } from "@/lib/routes";
 import { siteConfig } from "@/lib/site-config";
 
 // Document shell shared by the public site and the embedded Studio (/studio).
@@ -32,12 +33,12 @@ export const metadata: Metadata = {
   authors: [{ name: siteConfig.name }],
   creator: siteConfig.name,
   publisher: siteConfig.name,
-  alternates: { canonical: "/" },
+  alternates: { canonical: absoluteUrl("/") },
   formatDetection: { email: false, address: false, telephone: false },
   openGraph: {
     type: "website",
     locale: siteConfig.locale,
-    url: "/",
+    url: absoluteUrl("/"),
     siteName: siteConfig.name,
     title: siteConfig.defaultTitle,
     description: siteConfig.defaultDescription,
@@ -49,17 +50,22 @@ export const metadata: Metadata = {
     description: siteConfig.defaultDescription,
     images: [siteConfig.ogImage],
   },
-  robots: {
-    index: true,
-    follow: true,
-    googleBot: {
-      index: true,
-      follow: true,
-      "max-video-preview": -1,
-      "max-image-preview": "large",
-      "max-snippet": -1,
-    },
-  },
+  // Indexable only on the live deployment (NEXT_PUBLIC_SITE_ENV=production, as in app/robots.ts);
+  // previews/staging get noindex here and an X-Robots-Tag header (next.config.ts). Audit SEO6.
+  robots:
+    process.env.NEXT_PUBLIC_SITE_ENV === "production"
+      ? {
+          index: true,
+          follow: true,
+          googleBot: {
+            index: true,
+            follow: true,
+            "max-video-preview": -1,
+            "max-image-preview": "large",
+            "max-snippet": -1,
+          },
+        }
+      : { index: false, follow: false },
   verification: { google: siteConfig.googleSiteVerification },
 };
 

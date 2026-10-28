@@ -4,31 +4,16 @@ import { Icon } from "@/components/icons/registry";
 import { CtaLink } from "@/components/shared/cta";
 import { SectionHeading } from "@/components/shared/section-heading";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { ALL_DEVICES, type CaseStudiesContent, type CaseStudy, type Device } from "@/content/types";
+import type { CaseStudiesContent, CaseStudy } from "@/content/types";
 import { sectionId } from "@/lib/section-ids";
-import { cn } from "@/lib/utils";
-
-/**
- * Show/hide per screen size (Studio → Case study → Impact → Show on). Literal class names so
- * Tailwind generates them: mobile < 768px (base), tablet 768–1023px (md), laptop ≥ 1024px (lg).
- */
-const deviceClasses: Record<Device, [shown: string, hidden: string]> = {
-  mobile: ["flex", "hidden"],
-  tablet: ["md:flex", "md:hidden"],
-  laptop: ["lg:flex", "lg:hidden"],
-};
-
-function visibleOn(devices: Device[] = ALL_DEVICES) {
-  return ALL_DEVICES.map((d) => deviceClasses[d][devices.includes(d) ? 0 : 1]).join(" ");
-}
 
 /**
  * B7 Case-study tabs ("Trusted by Businesses & CPA Firms").
  * Mobile: centred heading, scrollable pill tab bar, then title → photo (with the
  * "Workload Impact" card) → Challenge / Solution / Result → full-width solid CTA.
  * Desktop: centred tab bar, bordered card (radius 0 0 8 8) with copy left, photo right.
- * The impact card was drawn on mobile only; it now shows on the screens picked in Studio (default
- * all, user request 2026-10-25) and its icon is editable.
+ * The impact card was drawn on mobile only; it now shows on every screen size, with one Studio
+ * switch ("Show impact card", user request 2026-10-26; was a per-device list) and an editable icon.
  * Only tabs that have content are rendered, and every panel is in the HTML (forceMount).
  * All panels share one grid cell and inactive ones are only `invisible` (not removed), so the card
  * is always as tall as the longest case study and the page doesn't jump when switching tabs
@@ -86,11 +71,8 @@ export function CaseStudies({ data }: { data: CaseStudiesContent }) {
               <CaseStudyImage image={item.image} />
               {item.impact ? (
                 <div
-                  className={cn(
-                    // Laptop: a compact card in the photo's bottom-left corner (not drawn on desktop).
-                    "absolute inset-x-3.5 bottom-2 items-center gap-4 rounded-md bg-white px-4 py-2 lg:right-auto lg:bottom-6 lg:left-6 lg:pr-8 lg:shadow-md",
-                    visibleOn(item.impact.devices),
-                  )}
+                  // Laptop: a compact card in the photo's bottom-left corner (not drawn on desktop).
+                  className="absolute inset-x-3.5 bottom-2 flex items-center gap-4 rounded-md bg-white px-4 py-2 lg:right-auto lg:bottom-6 lg:left-6 lg:pr-8 lg:shadow-md"
                 >
                   <span className="flex size-10 shrink-0 items-center justify-center rounded-full bg-brand-100">
                     <Icon name={item.impact.icon ?? "trending_down"} className="size-6 text-brand" />

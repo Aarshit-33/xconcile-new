@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Suspense } from "react";
 
 import { BlogTeaser } from "@/components/sections/blog-teaser";
 import { CaseStudies } from "@/components/sections/case-studies";
@@ -16,7 +17,13 @@ import { Tools } from "@/components/sections/tools";
 import { WhyChoose } from "@/components/sections/why-choose";
 import { JsonLd } from "@/components/seo/json-ld";
 import { richTextToPlain } from "@/components/shared/rich-text";
-import { buildMetadata, faqJsonLd, localBusinessJsonLd, videoJsonLd } from "@/lib/seo";
+import {
+  buildMetadata,
+  faqJsonLd,
+  localBusinessJsonLd,
+  stripBrandSuffix,
+  videoJsonLd,
+} from "@/lib/seo";
 import { getHome } from "@/sanity/lib/home";
 import { getSiteSettings } from "@/sanity/lib/site-settings";
 
@@ -30,7 +37,7 @@ export async function generateMetadata(): Promise<Metadata> {
       path: "/",
     }),
     // The root layout's title template doesn't apply to the root page itself.
-    title: { absolute: `${seo.title} | Xconcile` },
+    title: { absolute: `${stripBrandSuffix(seo.title)} | Xconcile` },
   };
 }
 
@@ -50,15 +57,15 @@ export default async function HomePage() {
           ...home.testimonials.videos
             .filter((v, i, all) => all.findIndex((o) => o.youtubeId === v.youtubeId) === i)
             .map((v) =>
-            videoJsonLd({
-              youtubeId: v.youtubeId,
-              title: v.title,
-              description: `${v.name}, ${v.company}, on working with Xconcile.`,
-              thumbnail: v.poster.src,
-              uploadDate: v.uploadDate,
-              duration: v.duration,
-            }),
-          ),
+              videoJsonLd({
+                youtubeId: v.youtubeId,
+                title: v.title,
+                description: `${v.name}, ${v.company}, on working with Xconcile.`,
+                thumbnail: v.poster.src,
+                uploadDate: v.uploadDate,
+                duration: v.duration,
+              }),
+            ),
           ...localBusinessJsonLd(settings),
         ]}
       />
@@ -74,7 +81,13 @@ export default async function HomePage() {
       <WhyChoose data={home.whyChoose} />
       <Tools data={home.tools} />
       <Testimonials data={home.testimonials} />
-      <BlogTeaser data={home.blog} />
+      {/* Suspense: blog posts come from another dataset (sanity/lib/queries.ts). When that cache
+          entry is cold (after a deploy/edit) or the query is slow, Next would otherwise block the
+          whole route ("uncached data during prerendering", 2026-10-26). Cached = still in the
+          prerendered HTML; otherwise it streams in. Below the fold, so no visible placeholder. */}
+      <Suspense fallback={null}>
+        <BlogTeaser data={home.blog} />
+      </Suspense>
       <Faq data={home.faq} />
       {/*
         Old-site contact section (client request 2026-10-15). To restore the Figma design:

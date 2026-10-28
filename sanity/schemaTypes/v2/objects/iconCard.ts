@@ -1,5 +1,6 @@
 import { defineField, defineType } from "sanity";
 
+import { iconPreview } from "../../../components/icon-picker-input";
 import { iconField } from "../fields";
 
 /** Icon + title + short text card (process steps, Why Choose features). */
@@ -23,5 +24,5 @@ export default defineType({
       validation: (Rule) => Rule.required(),
     }),
   ],
-  preview: { select: { title: "title", subtitle: "body" } },
+  preview: iconPreview({ title: "title", subtitle: "body" }),
 });

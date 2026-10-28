@@ -54,9 +54,12 @@ export type NavIconName = keyof typeof paths;
 /** Icon names, offered as a dropdown in Sanity (Site Settings → Header). Keep this file free of "@/" imports: the Sanity CLI loads it. */
 export const NAV_ICON_NAMES = Object.keys(paths) as NavIconName[];
 
-export function NavIcon({ name, className }: { name: NavIconName; className?: string }) {
+export const isNavIconName = (name: unknown): name is NavIconName =>
+  typeof name === "string" && Object.hasOwn(paths, name);
+
+export function NavIcon({ name, className }: { name: string; className?: string }) {
   // Names come from the CMS too; an unknown one falls back to the generic briefcase.
-  const icon = paths[name] ?? paths.briefcase;
+  const icon = isNavIconName(name) ? paths[name] : paths.briefcase;
   return (
     <svg aria-hidden className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
       {icon.map((d) => (

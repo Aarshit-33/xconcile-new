@@ -44,7 +44,7 @@ async function buildAboutPage() {
       primaryCta: link(hero.primaryCta),
       ...(hero.secondaryCta ? { secondaryCta: link(hero.secondaryCta) } : {}),
       checks: keyed(
-        hero.checks.map((c) => ({ label: c.label, desktopOnly: c.desktopOnly ?? false })),
+        hero.checks.map((c) => ({ label: c.label, show: true })),
         "heroCheck",
       ),
     },

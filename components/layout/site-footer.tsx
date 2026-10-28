@@ -9,10 +9,14 @@ import {
   YouTubeIcon,
 } from "@/components/icons/brand-icons";
 import { CallIcon, MailIcon } from "@/components/icons/material-symbols";
+import { routes } from "@/lib/routes";
 import { getSiteSettings, type SocialPlatform } from "@/sanity/lib/site-settings";
 import { CopyrightYear } from "./copyright-year";
 
-const socialIcons: Record<SocialPlatform, (props: React.SVGProps<SVGSVGElement>) => React.ReactNode> = {
+const socialIcons: Record<
+  SocialPlatform,
+  (props: React.SVGProps<SVGSVGElement>) => React.ReactNode
+> = {
   facebook: FacebookIcon,
   instagram: InstagramIcon,
   linkedin: LinkedInIcon,
@@ -33,7 +37,11 @@ export async function SiteFooter() {
   const { footer, contact, offices, social } = await getSiteSettings();
 
   return (
-    <footer className="bg-footer font-display text-white">
+    // -mt-px: the footer tucks 1px under the section above. At 125% / 150% display scaling the
+    // dark CTA band and the footer met in the middle of a device pixel, each covering part of it,
+    // and the white page showed through as a light line (user report 2026-10-27). The CTA band
+    // paints above the footer (it's positioned), so the overlap hides nothing.
+    <footer className="-mt-px bg-footer font-display text-white">
       <div className="container-site pt-12 lg:pt-[71px]">
         {/* Row 1: brand + link columns. Mobile/tablet: 48px between groups (user request
             2026-10-18; was 24px, the same as the link spacing, so groups ran together). */}
@@ -41,27 +49,37 @@ export async function SiteFooter() {
           <div className="flex flex-col gap-10 lg:gap-6 xl:w-[348px]">
             <div className="flex flex-col gap-4">
               <Link href="/" aria-label="Xconcile home" className="w-fit">
-                <Image src="/images/brand/logo-white.png" alt="Xconcile" width={256} height={88} className="h-12 w-auto" />
+                <Image
+                  src="/images/brand/logo-white.png"
+                  alt="Xconcile"
+                  width={256}
+                  height={88}
+                  className="h-12 w-auto"
+                />
               </Link>
               {/* Fills its column at every width (user requests 2026-10-24: the 336/254px caps left
                   an empty band on tablets and ~94px unused in the 348px desktop column). */}
-              <p className="text-b1 leading-5 font-normal text-footer-text">
-                {footer.description}
-              </p>
+              <p className="text-b1 leading-5 font-normal text-footer-text">{footer.description}</p>
             </div>
             <ul className="flex flex-col gap-6 font-sans text-b2 font-medium">
-              {/* Studio → Footer → Show phone numbers. */}
+              {/* Studio → Footer → Show phone numbers. Every screen size (user request 2026-10-26;
+                  they were drawn in the mobile footer only). */}
               {(footer.showPhones ? contact.phones : []).map((p) => (
-                // Phones are drawn in the mobile footer only.
-                <li key={p.tel} className="lg:hidden">
-                  <a href={`tel:${p.tel}`} className="relative flex items-center gap-3 before:absolute before:inset-x-0 before:-inset-y-2.5 hover:text-brand">
+                <li key={p.tel}>
+                  <a
+                    href={`tel:${p.tel}`}
+                    className="relative flex items-center gap-3 before:absolute before:inset-x-0 before:-inset-y-2.5 hover:text-brand"
+                  >
                     <CallIcon className="size-6" />({p.label}) {p.display}
                   </a>
                 </li>
               ))}
               <li>
                 {/* before:*: invisible 44px-tall tap areas on the footer links/icons (no visual change). */}
-                <a href={`mailto:${contact.email}`} className="relative flex items-center gap-3 before:absolute before:inset-x-0 before:-inset-y-2.5 hover:text-brand">
+                <a
+                  href={`mailto:${contact.email}`}
+                  className="relative flex items-center gap-3 before:absolute before:inset-x-0 before:-inset-y-2.5 hover:text-brand"
+                >
                   <MailIcon className="size-6" />
                   {contact.email}
                 </a>
@@ -91,15 +109,17 @@ export async function SiteFooter() {
           >
             {footer.columns.map((col) => (
               <div key={col.title} className="flex flex-col gap-8">
-                <h2 className="font-display text-[24px] leading-[30px] font-semibold text-[#f5f5f5]">{col.title}</h2>
+                <h2 className="font-display text-[24px] leading-[30px] font-semibold text-[#f5f5f5]">
+                  {col.title}
+                </h2>
                 {/* Same 24px rhythm in every column so rows align (client request 2026-10-22; the
-                    design drew Company with 30px). */}
+                    design drew Company with 30px). Links 14px (client note 2026-10-27; was 16px). */}
                 <ul className="flex flex-col gap-6">
                   {col.links.map((link) => (
                     <li key={link.label}>
                       <Link
                         href={link.href}
-                        className="relative block w-fit text-b1 leading-5 font-normal text-footer-text transition-colors before:absolute before:inset-x-0 before:-inset-y-3 hover:text-brand xl:whitespace-nowrap"
+                        className="relative block w-fit text-b2 leading-5 font-normal text-footer-text transition-colors before:absolute before:inset-x-0 before:-inset-y-3 hover:text-brand xl:whitespace-nowrap"
                       >
                         {link.label}
                       </Link>
@@ -153,16 +173,27 @@ export async function SiteFooter() {
                   />
                   {o.name}
                 </p>
-                <address className="text-b1 leading-5 font-normal not-italic text-on-dark">{o.lines}</address>
+                <address className="text-b1 leading-5 font-normal text-on-dark not-italic">
+                  {o.lines}
+                </address>
               </li>
             ))}
           </ul>
         </div>
 
-        {/* Row 3: copyright */}
+        {/* Row 3: copyright + Privacy Policy (NOT IN DESIGN: legal link added 2026-10-27). */}
         <div className="border-t border-[rgb(242_242_242/0.2)] py-6 text-center">
           <p className="text-b2 leading-[18px] font-normal text-on-dark">
-            © <CopyrightYear /> {footer.copyrightName} All rights reserved.
+            © <CopyrightYear /> {footer.copyrightName} All rights reserved.{" "}
+            <span aria-hidden className="px-1">
+              ·
+            </span>
+            <Link
+              href={routes.privacy()}
+              className="inline-block py-1 underline-offset-2 hover:text-white hover:underline"
+            >
+              Privacy Policy
+            </Link>
           </p>
         </div>
       </div>

@@ -48,13 +48,13 @@ export const hireBookkeeperAccountant: HirePageContent = {
     title: "Hire *Dedicated* Accounting Professionals for your Business",
     subtitle:
       "Get dedicated accounting professionals to support bookkeeping, reconciliations, financial reporting, month-end close, and other accounting needs. We support U.S. business owners and CPA firms with flexible staffing options that fit their existing workflows.",
-    primaryCta: schedule("Hire accounting professionals"),
+    primaryCta: { label: "Hire accounting professionals", href: routes.contact() },
     // Same rule as "Explore our services": scrolls to this page's expertise grid.
     secondaryCta: { label: "Explore Our Expertise", href: "#expertise" },
     checks: [
       { label: "U.S. Accounting Support" },
       { label: "Flexible Engagements" },
-      { label: "Experienced Professionals", desktopOnly: true },
+      { label: "Experienced Professionals" },
     ],
   },
 
@@ -75,7 +75,10 @@ export const hireBookkeeperAccountant: HirePageContent = {
     ],
     bodyMore: [
       "Xconcile provides ",
-      { text: "outsourced accounting and bookkeeping services", href: routes.service("outsourced-accounting-and-bookkeeping") },
+      {
+        text: "outsourced accounting and bookkeeping services",
+        href: routes.service("outsourced-accounting-and-bookkeeping"),
+      },
       " through dedicated accounting professionals who work around your requirements. Our team can support day-to-day bookkeeping, reconciliations, financial reporting, month-end activities, and other accounting tasks within your existing systems and workflows. You can choose the level of support you need and build a ",
       // Drawn as a link without a target: points at this page's engagement models.
       { text: "dedicated accounting team", href: "#hiring-models" },
@@ -101,31 +104,39 @@ export const hireBookkeeperAccountant: HirePageContent = {
     badge: "Key Benefits",
     title: "Why Businesses Hire Dedicated Accounting Professionals?",
     body: "Scale your accounting support without adding to your in-house team. Our dedicated professionals handle routine tasks and support your daily accounting needs.",
-    cta: schedule("Let's Discuss Project"), // COPY FIX: drawn as "Lets"
+    cta: { label: "Let's Discuss Project", href: routes.contact() }, // COPY FIX: drawn as "Lets"
     items: [
       {
         tone: "white",
-        icon: "group_search",
+        icon: "book_5",
         title: "Handle Day-to-Day Accounting",
-        body: ["Handle bookkeeping, reconciliations, payroll, financial records, and routine accounting tasks accurately."],
+        body: [
+          "Handle bookkeeping, reconciliations, payroll, financial records, and routine accounting tasks accurately.",
+        ],
       },
       {
         tone: "white",
         icon: "how_to_reg",
         title: "Stay Tax Compliant",
-        body: ["Keep up with changing tax regulations, prepare accurate returns, and identify legitimate tax-planning opportunities."],
+        body: [
+          "Keep up with changing tax regulations, prepare accurate returns, and identify legitimate tax-planning opportunities.",
+        ],
       },
       {
         tone: "white",
         icon: "add_chart",
         title: "Improve Cash Flow & Financial Control",
-        body: ["Monitor income and expenses, prepare cash-flow forecasts, and help maintain healthy working capital."],
+        body: [
+          "Monitor income and expenses, prepare cash-flow forecasts, and help maintain healthy working capital.",
+        ],
       },
       {
         tone: "white",
-        icon: "electric_bolt",
+        icon: "monitoring",
         title: "Support Business Growth",
-        body: ["Build budgets, financial forecasts, and reports that help with expansion, funding, investment decisions, and long-term planning."],
+        body: [
+          "Build budgets, financial forecasts, and reports that help with expansion, funding, investment decisions, and long-term planning.",
+        ],
       },
     ],
   },
@@ -141,32 +152,32 @@ export const hireBookkeeperAccountant: HirePageContent = {
     // request 2026-10-14); replace with approved text.
     items: [
       {
-        icon: "book_4",
+        icon: "menu_book",
         title: "Accounting & Bookkeeping",
         body: "Day-to-day transactions recorded and categorized to keep your books accurate.",
       },
       {
-        icon: "book_4",
+        icon: "sync",
         title: "Bank & CC Reconciliation",
         body: "Regular bank and credit card reconciliations to catch missing or duplicate entries.",
       },
       {
-        icon: "book_4",
+        icon: "account_balance",
         title: "Month-End Close",
         body: "Adjusting entries, accruals, and reviews to close each month on schedule.",
       },
       {
-        icon: "book_4",
+        icon: "contact_phone",
         title: "Accounts Payable & Receivable",
         body: "Vendor bills, customer invoices, and payments tracked end to end.",
       },
       {
-        icon: "book_4",
+        icon: "payments",
         title: "Financial Statements",
         body: "Monthly P&L and balance sheets prepared for review and decisions.",
       },
       {
-        icon: "book_4",
+        icon: "bar_chart_4_bars",
         title: "Payroll & Sales Tax Support",
         body: "Payroll and sales tax records supported within your existing systems.",
       },
@@ -187,8 +198,13 @@ export const hireBookkeeperAccountant: HirePageContent = {
         title: "Hourly Accounting Support",
         tagline: "Flexible help when you need it",
         body: "Handle overflow, catch-up, cleanup, and variable accounting workloads.",
-        features: ["Pay-as-you-go hours", "Month-end surge help", "Prior-period reconciliation", "No retainer commitment"],
-        cta: schedule("Get Started"),
+        features: [
+          "Pay-as-you-go hours",
+          "Month-end surge help",
+          "Prior-period reconciliation",
+          "No retainer commitment",
+        ],
+        cta: { label: "Get Started", href: routes.contact() },
       },
       {
         number: "02",
@@ -202,7 +218,7 @@ export const hireBookkeeperAccountant: HirePageContent = {
           "Prior-period reconciliation",
           "Controller supervision",
         ],
-        cta: schedule("Choose Your Model"),
+        cta: { label: "Choose Your Model", href: routes.contact() },
         featured: true,
       },
       {
@@ -217,7 +233,7 @@ export const hireBookkeeperAccountant: HirePageContent = {
           "M&A due diligence readiness",
           "Fixed-fee milestones",
         ],
-        cta: schedule("Discuss Your Project"),
+        cta: { label: "Discuss Your Project", href: routes.contact() },
       },
     ],
   },
@@ -232,9 +248,18 @@ export const hireBookkeeperAccountant: HirePageContent = {
         title: "Share Your Requirements",
         body: "Tell us about your accounting tasks, workload, systems, and support needs.",
       },
-      { title: "Discuss Your Needs", body: "Review the experience level and type of accounting support required." },
-      { title: "Meet the Professionals", body: "Review accounting professionals based on your specific requirements." },
-      { title: "Select Your Engagement", body: "Choose the engagement model that fits your workload and requirements." },
+      {
+        title: "Discuss Your Needs",
+        body: "Review the experience level and type of accounting support required.",
+      },
+      {
+        title: "Meet the Professionals",
+        body: "Review accounting professionals based on your specific requirements.",
+      },
+      {
+        title: "Select Your Engagement",
+        body: "Choose the engagement model that fits your workload and requirements.",
+      },
       {
         title: "Start Working Together",
         body: "Your selected professionals begin working within your existing processes and systems.",
@@ -284,26 +309,56 @@ export const hireBookkeeperAccountant: HirePageContent = {
         title: "Associate Bookkeeper",
         experience: "6 months – 2 years",
         responsibilities: [
-          { label: "Daily Transaction Processing", text: "Categorizing bank and credit card transactions with high accuracy" },
-          { label: "AP/AR Assistance", text: "Entering vendor bills, matching receipts via Dext/Hubdoc, and generating basic customer invoices" },
-          { label: "Bank Feed Management", text: "Monitoring bank feed connectivity and resolving simple sync errors" },
-          { label: "Data Organization", text: "Maintaining a digital filing system for all source documents (SOC2 compliant)" },
-          { label: "Basic Reconciliations", text: "Performing straightforward bank and credit card reconciliations" },
+          {
+            label: "Daily Transaction Processing",
+            text: "Categorizing bank and credit card transactions with high accuracy",
+          },
+          {
+            label: "AP/AR Assistance",
+            text: "Entering vendor bills, matching receipts via Dext/Hubdoc, and generating basic customer invoices",
+          },
+          {
+            label: "Bank Feed Management",
+            text: "Monitoring bank feed connectivity and resolving simple sync errors",
+          },
+          {
+            label: "Data Organization",
+            text: "Maintaining a digital filing system for all source documents (SOC2 compliant)",
+          },
+          {
+            label: "Basic Reconciliations",
+            text: "Performing straightforward bank and credit card reconciliations",
+          },
         ],
-        cta: schedule("Get Started"),
+        cta: { label: "Get Started", href: routes.contact() },
       },
       {
         level: "Mid Level",
         title: "Senior Bookkeeper/ Accountant",
         experience: "2 – 5 years",
         responsibilities: [
-          { label: "Complex Reconciliations", text: "Handling high-volume merchant accounts (Stripe, Shopify, PayPal) and multi-currency reconciliations" },
-          { label: "Month-End Close", text: "Preparing adjusting journal entries for accruals, deferrals, and prepaid expenses" },
-          { label: "Inter-company Accounting", text: "Reconciling \"Due To/From\" accounts for clients with multiple business entities" },
-          { label: "Fixed Asset Management", text: "Maintaining depreciation schedules and recording asset disposals" },
-          { label: "Financial Statement Preparation", text: "Generating monthly P&L and Balance Sheet with variance analysis" },
+          {
+            label: "Complex Reconciliations",
+            text: "Handling high-volume merchant accounts (Stripe, Shopify, PayPal) and multi-currency reconciliations",
+          },
+          {
+            label: "Month-End Close",
+            text: "Preparing adjusting journal entries for accruals, deferrals, and prepaid expenses",
+          },
+          {
+            label: "Inter-company Accounting",
+            text: 'Reconciling "Due To/From" accounts for clients with multiple business entities',
+          },
+          {
+            label: "Fixed Asset Management",
+            text: "Maintaining depreciation schedules and recording asset disposals",
+          },
+          {
+            label: "Financial Statement Preparation",
+            text: "Generating monthly P&L and Balance Sheet with variance analysis",
+          },
         ],
-        cta: schedule("Get Started"),
+        cta: { label: "Get Started", href: routes.contact() },
         featured: true,
       },
       {
@@ -311,15 +366,36 @@ export const hireBookkeeperAccountant: HirePageContent = {
         title: "Accounting Manager / Supervisor",
         experience: "5+ years experience",
         responsibilities: [
-          { label: "Financial Review", text: "Performing final quality reviews of the General Ledger and Trial Balance for US GAAP compliance" },
-          { label: "Cleanup & Backlog", text: "Leading forensic \"cleanup\" projects for messy historical books" },
-          { label: "Systems Integration", text: "Setting up the \"Accounting App Stack\" (connecting CRM, Inventory, and Ledger systems)" },
-          { label: "CPA Liaison", text: "Preparing year-end workpaper packages for the client's tax CPA to minimize queries" },
-          { label: "Team Leadership", text: "Supervising junior and mid-level bookkeepers, performing quality reviews" },
-          { label: "Process Optimization", text: "Implementing best practices and workflow improvements" },
-          { label: "Strategic Advisory", text: "Providing insights on financial trends and recommending improvements" },
+          {
+            label: "Financial Review",
+            text: "Performing final quality reviews of the General Ledger and Trial Balance for US GAAP compliance",
+          },
+          {
+            label: "Cleanup & Backlog",
+            text: 'Leading forensic "cleanup" projects for messy historical books',
+          },
+          {
+            label: "Systems Integration",
+            text: 'Setting up the "Accounting App Stack" (connecting CRM, Inventory, and Ledger systems)',
+          },
+          {
+            label: "CPA Liaison",
+            text: "Preparing year-end workpaper packages for the client's tax CPA to minimize queries",
+          },
+          {
+            label: "Team Leadership",
+            text: "Supervising junior and mid-level bookkeepers, performing quality reviews",
+          },
+          {
+            label: "Process Optimization",
+            text: "Implementing best practices and workflow improvements",
+          },
+          {
+            label: "Strategic Advisory",
+            text: "Providing insights on financial trends and recommending improvements",
+          },
         ],
-        cta: schedule("Get Started"),
+        cta: { label: "Get Started", href: routes.contact() },
       },
     ],
   },
@@ -339,7 +415,7 @@ export const hireBookkeeperAccountant: HirePageContent = {
           width: 828,
           height: 466,
         },
-        cta: schedule("Get Started"),
+        cta: { label: "Get Started", href: routes.contact() },
       },
       {
         title: "Small & Medium Businesses",
@@ -350,7 +426,7 @@ export const hireBookkeeperAccountant: HirePageContent = {
           width: 828,
           height: 466,
         },
-        cta: schedule("Get Started"),
+        cta: { label: "Get Started", href: routes.contact() },
       },
       {
         title: "CPA & Accounting Firms",
@@ -361,7 +437,7 @@ export const hireBookkeeperAccountant: HirePageContent = {
           width: 829,
           height: 553,
         },
-        cta: schedule("Get Started"),
+        cta: { label: "Get Started", href: routes.contact() },
       },
     ],
   },
@@ -439,7 +515,11 @@ export const hireBookkeeperAccountant: HirePageContent = {
         title: "Logical Access Control",
         items: [
           { icon: "how_to_reg", title: "User-Based Access", body: "Identity and permissions" },
-          { icon: "shield_person_badge", title: "Restricted Client Access", body: "Limited permissions" },
+          {
+            icon: "shield_person_badge",
+            title: "Restricted Client Access",
+            body: "Limited permissions",
+          },
           { icon: "settings", title: "System Access Controls", body: "System configuration" },
         ],
       },
@@ -472,8 +552,18 @@ export const hireBookkeeperAccountant: HirePageContent = {
         ],
       },
       { id: "audit-software", icon: "dvr", label: "Audit Software", tools: [] },
-      { id: "data-analytics-testing", icon: "analytics", label: "Data Analytics & Testing", tools: [] },
-      { id: "confirmation-documentation", icon: "assignment", label: "Confirmation & Documentation", tools: [] },
+      {
+        id: "data-analytics-testing",
+        icon: "analytics",
+        label: "Data Analytics & Testing",
+        tools: [],
+      },
+      {
+        id: "confirmation-documentation",
+        icon: "assignment",
+        label: "Confirmation & Documentation",
+        tools: [],
+      },
       // The design repeats "Audit Software" as a fifth tab (search_check_2 icon).
       { id: "audit-software-2", icon: "search_check_2", label: "Audit Software", tools: [] },
     ],

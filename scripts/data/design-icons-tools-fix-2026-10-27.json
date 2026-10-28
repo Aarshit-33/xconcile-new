@@ -1,0 +1,5 @@
+[
+ {"path": "/hire-audit-and-assurance", "sec": "tools", "label": "Audit Software", "from": "search_check_2", "to": "calculate"},
+ {"path": "/hire-audit-and-assurance", "sec": "tools", "label": "Research & Reference", "from": "search", "to": "search_check_2"},
+ {"path": "/outsourced-tax-preparation", "sec": "tools", "label": "Sales & Use Tax", "from": "search", "to": "search_check_2"}
+]

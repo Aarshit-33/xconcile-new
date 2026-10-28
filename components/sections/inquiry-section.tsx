@@ -1,5 +1,6 @@
 import { InquiryForm } from "@/components/forms/inquiry-form";
 import { CheckCircleIcon, ElectricBoltIcon, LockIcon } from "@/components/icons/material-symbols";
+import { Icon as SiteIcon, isIconName } from "@/components/icons/registry";
 import { FadeUp } from "@/components/motion/fade-up";
 import { RevealText } from "@/components/motion/reveal-text";
 import { HighlightText } from "@/components/shared/highlight-text";
@@ -7,6 +8,7 @@ import type { home } from "@/content/home";
 import { cn } from "@/lib/utils";
 import { sectionId } from "@/lib/section-ids";
 
+/** The original three trust icons; any other name from Sanity is a site icon (registry). */
 const trustIcons = { bolt: ElectricBoltIcon, lock: LockIcon, check: CheckCircleIcon };
 
 /**
@@ -23,15 +25,19 @@ const trustIcons = { bolt: ElectricBoltIcon, lock: LockIcon, check: CheckCircleI
 export function InquirySection({
   data,
   contactEmail,
+  titleAs = "h2",
   className,
 }: {
   data: typeof home.inquiry;
   /** Shown in the form's error message (Site Settings → Contact). */
   contactEmail?: string;
+  /** "h1" on the Contact page, where this section is the page's main heading. */
+  titleAs?: "h1" | "h2";
   className?: string;
 }) {
   return (
-    <section id={sectionId(data, "contact")}
+    <section
+      id={sectionId(data, "contact")}
       aria-labelledby="inquiry-title"
       className={cn(
         // md:py-12: 48px on tablets like the other sections; 96px from lg (audit L7c).
@@ -58,24 +64,35 @@ export function InquirySection({
           </FadeUp>
 
           <RevealText
-            as="h2"
+            as={titleAs}
             id="inquiry-title"
-            className="mb-6 text-4xl leading-[1.1] font-bold tracking-tight text-white md:text-5xl"
+            className="mb-6 text-[28px] leading-[1.1] font-bold tracking-tight text-white md:text-5xl"
           >
             <HighlightText text={data.title} />
           </RevealText>
 
-          <FadeUp as="p" delay={0.12} className="mb-12 text-lg leading-relaxed font-normal text-white/80">
+          <FadeUp
+            as="p"
+            delay={0.12}
+            className="mb-12 text-lg leading-relaxed font-normal text-white/80"
+          >
             {data.body}
           </FadeUp>
 
           <ul className="space-y-6">
             {data.trust.map((item) => {
-              const Icon = trustIcons[item.icon];
+              const name: string = item.icon;
+              const Legacy = Object.hasOwn(trustIcons, name)
+                ? trustIcons[name as keyof typeof trustIcons]
+                : undefined;
               return (
                 <li key={item.label} className="flex items-start gap-5">
                   <span className="flex size-12 shrink-0 items-center justify-center rounded-2xl border border-white/10 bg-white/10 text-brand">
-                    <Icon className="size-5" />
+                    {Legacy ? (
+                      <Legacy className="size-5" />
+                    ) : isIconName(name) ? (
+                      <SiteIcon name={name} className="size-5" />
+                    ) : null}
                   </span>
                   <span>
                     {/* Titles in white (client request 2026-10-24; was brand green); descriptions stay white/70. */}

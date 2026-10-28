@@ -50,13 +50,13 @@ export const hireTaxPreparationStaff: HirePageContent = {
     title: "Hire Dedicated Tax Preparation Staff",
     subtitle:
       "Build a reliable tax preparation team without the time and cost of managing every hiring detail. Get access to trained tax professionals who can support your firm with accurate, organized, and timely tax preparation work.",
-    primaryCta: schedule("Hire tax professionals"),
+    primaryCta: { label: "Hire tax professionals", href: routes.contact() },
     // Same rule as "Explore our services": scrolls to this page's expertise grid.
     secondaryCta: { label: "Explore Our Expertise", href: "#expertise" },
     checks: [
       { label: "Experienced Tax Professionals" },
       { label: "U.S. Tax Expertise" },
-      { label: "Flexible Engagement Models", desktopOnly: true },
+      { label: "Flexible Engagement Models" },
     ],
   },
 
@@ -101,37 +101,43 @@ export const hireTaxPreparationStaff: HirePageContent = {
     badge: "Key Benefits",
     title: "Why CPA Firms Hire Tax Preparation Staff",
     body: "Get additional tax preparation support when workloads increase, deadlines approach, or your existing team needs help managing returns and related tax work.",
-    cta: schedule("Let's Discuss Project"), // COPY FIX: drawn as "Lets"
+    cta: { label: "Let's Discuss Project", href: routes.contact() }, // COPY FIX: drawn as "Lets"
     items: [
       {
         tone: "white",
-        icon: "group_search",
+        icon: "groups_2",
         title: "Increase Tax Preparation Capacity",
         body: ["Add experienced tax professionals to help your team manage more tax work."],
       },
       {
         tone: "white",
-        icon: "how_to_reg",
+        icon: "trending_down",
         title: "Reduce Workload",
         body: ["Get help with tax preparation, workpapers, research, and other routine tax tasks."],
       },
       {
         tone: "white",
-        icon: "add_chart",
+        icon: "how_to_reg",
         title: "Support Filing Deadlines",
-        body: ["Add support during busy tax seasons and manage higher workloads around important deadlines."],
+        body: [
+          "Add support during busy tax seasons and manage higher workloads around important deadlines.",
+        ],
       },
       {
         tone: "white",
-        icon: "electric_bolt",
+        icon: "contact_phone",
         title: "Flexible Support",
-        body: ["Choose the level of support you need, from seasonal help to ongoing dedicated tax professionals."],
+        body: [
+          "Choose the level of support you need, from seasonal help to ongoing dedicated tax professionals.",
+        ],
       },
       {
         tone: "white",
         icon: "track_changes",
         title: "Focus on Higher-Priority Work",
-        body: ["Reduce routine tax work so your CPAs and senior staff can focus on clients, reviews, and other important work."],
+        body: [
+          "Reduce routine tax work so your CPAs and senior staff can focus on clients, reviews, and other important work.",
+        ],
       },
     ],
   },
@@ -149,28 +155,28 @@ export const hireTaxPreparationStaff: HirePageContent = {
         body: "Support the preparation of individual income tax returns, including organizing client information, entering tax data, and preparing supporting documentation.",
       },
       {
-        icon: "assured_workload",
+        icon: "sync_alt",
         title: "Business Tax Return Preparation",
         body: "Assist with business and entity tax return preparation by handling tax data, documentation, supporting schedules, and other preparation tasks.",
       },
       {
-        icon: "event_available",
+        icon: "handshake",
         title: "Partnership Tax Return Support",
         body: "Provide assistance with partnership return preparation, including organizing financial information, preparing supporting workpapers, and compiling required documentation.",
       },
       {
-        icon: "receipt_long",
+        icon: "clinical_notes",
         title: "Corporate Tax Return Support",
         body: "Help prepare corporate tax returns and supporting documentation while following your firm's established processes and review procedures.",
       },
       {
-        icon: "add_chart",
+        icon: "clarify",
         title: "Tax Data Entry",
         body: "Handle repetitive tax data entry and organize tax documents, financial records, and supporting information to keep your preparation workflow efficient.",
       },
       {
         // The design repeats the add_chart glyph from the previous tile.
-        icon: "add_chart",
+        icon: "contact_phone",
         title: "Tax Season Support",
         body: "Add additional tax preparation capacity during busy season, filing deadlines, and periods of increased workload without expanding your permanent internal team.",
       },
@@ -192,7 +198,7 @@ export const hireTaxPreparationStaff: HirePageContent = {
         tagline: "Flexible help when you need it",
         body: "Flexible help when tax season gets busy",
         features: ["Seasonal support", "1040 & business", "Overflow help", "Flexible terms"],
-        cta: schedule("Hire Seasonal"),
+        cta: { label: "Hire Seasonal", href: routes.contact() },
       },
       {
         number: "02", // COPY FIX: drawn as "01" (duplicate of the first card)
@@ -201,7 +207,7 @@ export const hireTaxPreparationStaff: HirePageContent = {
         // As drawn: the design repeats the tagline as the body. Confirm the copy.
         body: "Consistent support from a dedicated professional",
         features: ["Dedicated staff", "1040–1120-S", "Custom SOPs", "Review-ready"],
-        cta: schedule("Hire Dedicated"),
+        cta: { label: "Hire Dedicated", href: routes.contact() },
         featured: true,
       },
       {
@@ -212,7 +218,7 @@ export const hireTaxPreparationStaff: HirePageContent = {
         tagline: "Focused support for defined assignments",
         body: "Focused support for defined tax projects",
         features: ["Backlog cleanup", "Extensions", "Multi-state", "Fixed scope"],
-        cta: schedule("Discuss Project"),
+        cta: { label: "Discuss Project", href: routes.contact() },
       },
     ],
   },
@@ -228,10 +234,22 @@ export const hireTaxPreparationStaff: HirePageContent = {
         title: "Share Your Requirements",
         body: "We learn about your workload, tax services, systems, and staffing needs.",
       },
-      { title: "Discuss Your Needs", body: "Identify professionals based on the skills and experience you require." },
-      { title: "Meet the Professionals", body: "Professionals work within your existing systems and processes." },
-      { title: "Select Your Support", body: "Your dedicated staff begins supporting your defined tax activities." },
-      { title: "Start Your Engagement", body: "Adjust your level of tax staffing as your workload changes." },
+      {
+        title: "Discuss Your Needs",
+        body: "Identify professionals based on the skills and experience you require.",
+      },
+      {
+        title: "Meet the Professionals",
+        body: "Professionals work within your existing systems and processes.",
+      },
+      {
+        title: "Select Your Support",
+        body: "Your dedicated staff begins supporting your defined tax activities.",
+      },
+      {
+        title: "Start Your Engagement",
+        body: "Adjust your level of tax staffing as your workload changes.",
+      },
     ],
     // Same photos as the accounting page.
     photos: [
@@ -281,13 +299,28 @@ export const hireTaxPreparationStaff: HirePageContent = {
         title: "Associate Tax Preparer",
         experience: "6 months - 2 years",
         responsibilities: [
-          { label: "Tax Indexing", text: "Sorting and bookmarking digital tax organizers into standardized PDF workpapers" },
-          { label: "Basic Form 1040", text: "Entering data for simple individual returns (W-2, Interest, and Dividends)" },
-          { label: "Drafting Workpapers", text: "Creating lead schedules for simple Schedule C (Sole Proprietor) businesses" },
-          { label: "Pro-forma Migration", text: "Rolling forward previous year data into the current year software" },
-          { label: "Document Organization", text: "Managing and organizing tax source documents with proper indexing" },
+          {
+            label: "Tax Indexing",
+            text: "Sorting and bookmarking digital tax organizers into standardized PDF workpapers",
+          },
+          {
+            label: "Basic Form 1040",
+            text: "Entering data for simple individual returns (W-2, Interest, and Dividends)",
+          },
+          {
+            label: "Drafting Workpapers",
+            text: "Creating lead schedules for simple Schedule C (Sole Proprietor) businesses",
+          },
+          {
+            label: "Pro-forma Migration",
+            text: "Rolling forward previous year data into the current year software",
+          },
+          {
+            label: "Document Organization",
+            text: "Managing and organizing tax source documents with proper indexing",
+          },
         ],
-        cta: schedule("Get Started"),
+        cta: { label: "Get Started", href: routes.contact() },
       },
       {
         level: "Mid Level",
@@ -295,17 +328,32 @@ export const hireTaxPreparationStaff: HirePageContent = {
         // As drawn; the old site says "2-5 years". Confirm the range.
         experience: "3-5 years",
         responsibilities: [
-          { label: "Entity Returns", text: "Preparing Form 1065 (Partnerships) and Form 1120S (S-Corps)" },
-          { label: "Book-to-Tax (M-1)", text: "Calculating adjustments between financial net income and taxable income" },
-          { label: "Depreciation Logic", text: "Calculating MACRS, Section 179, and Bonus Depreciation for business assets" },
-          { label: "Sales Tax Compliance", text: "Managing multi-state nexus studies and filing via TaxJar or Avalara" },
+          {
+            label: "Entity Returns",
+            text: "Preparing Form 1065 (Partnerships) and Form 1120S (S-Corps)",
+          },
+          {
+            label: "Book-to-Tax (M-1)",
+            text: "Calculating adjustments between financial net income and taxable income",
+          },
+          {
+            label: "Depreciation Logic",
+            text: "Calculating MACRS, Section 179, and Bonus Depreciation for business assets",
+          },
+          {
+            label: "Sales Tax Compliance",
+            text: "Managing multi-state nexus studies and filing via TaxJar or Avalara",
+          },
           {
             label: "Complex Schedules",
             text: "Preparing Schedule E (Rental Properties), Schedule D (Capital Gains), Schedule C (Business)",
           },
-          { label: "State Tax Returns", text: "Preparing multi-state individual and business tax returns" },
+          {
+            label: "State Tax Returns",
+            text: "Preparing multi-state individual and business tax returns",
+          },
         ],
-        cta: schedule("Get Started"),
+        cta: { label: "Get Started", href: routes.contact() },
         featured: true,
       },
       {
@@ -321,12 +369,24 @@ export const hireTaxPreparationStaff: HirePageContent = {
             label: "Advanced Form 1040",
             text: "Handling High-Net-Worth individuals with complex Schedule E (Rentals) and multi-state K-1s",
           },
-          { label: "Notice Resolution", text: "Drafting formal responses to IRS and State tax notices" },
-          { label: "Estate & Trust", text: "Preparing Form 1041 (Fiduciary) and Form 706 (Estate/Gift Tax)" },
-          { label: "Tax Planning", text: "Providing strategic tax planning advice and optimization strategies" },
-          { label: "Quality Review", text: "Performing final quality reviews of complex returns prepared by junior staff" },
+          {
+            label: "Notice Resolution",
+            text: "Drafting formal responses to IRS and State tax notices",
+          },
+          {
+            label: "Estate & Trust",
+            text: "Preparing Form 1041 (Fiduciary) and Form 706 (Estate/Gift Tax)",
+          },
+          {
+            label: "Tax Planning",
+            text: "Providing strategic tax planning advice and optimization strategies",
+          },
+          {
+            label: "Quality Review",
+            text: "Performing final quality reviews of complex returns prepared by junior staff",
+          },
         ],
-        cta: schedule("Get Started"),
+        cta: { label: "Get Started", href: routes.contact() },
       },
     ],
   },
@@ -349,7 +409,7 @@ export const hireTaxPreparationStaff: HirePageContent = {
           width: 828,
           height: 466,
         },
-        cta: schedule("Get Started"),
+        cta: { label: "Get Started", href: routes.contact() },
       },
       {
         title: "Small & Medium Businesses",
@@ -360,7 +420,7 @@ export const hireTaxPreparationStaff: HirePageContent = {
           width: 828,
           height: 466,
         },
-        cta: schedule("Get Started"),
+        cta: { label: "Get Started", href: routes.contact() },
       },
       {
         title: "CPA & Accounting Firms",
@@ -371,7 +431,7 @@ export const hireTaxPreparationStaff: HirePageContent = {
           width: 829,
           height: 553,
         },
-        cta: schedule("Get Started"),
+        cta: { label: "Get Started", href: routes.contact() },
       },
     ],
   },
@@ -391,12 +451,12 @@ export const hireTaxPreparationStaff: HirePageContent = {
         body: "Skilled professionals with experience in tax preparation.",
       },
       {
-        icon: "deployed_code_account",
+        icon: "trending_down",
         title: "Reduce Team Workload",
         body: "Give your team support with routine tax tasks.", // COPY FIX: drawn as "routine audit tasks"
       },
       {
-        icon: "contact_phone",
+        icon: "deployed_code_account",
         title: "U.S.-Focused Expertise",
         body: "Support built around U.S. tax preparation requirements.",
       },
@@ -406,7 +466,7 @@ export const hireTaxPreparationStaff: HirePageContent = {
         body: "Choose support that fits your workload and staffing needs.",
       },
       {
-        icon: "add_chart",
+        icon: "brightness_5",
         title: "Workflow Integration",
         body: "Work within your existing systems, processes, and tools.",
       },
@@ -450,7 +510,11 @@ export const hireTaxPreparationStaff: HirePageContent = {
         title: "Logical Access Control",
         items: [
           { icon: "how_to_reg", title: "User-Based Access", body: "Identity and permissions" },
-          { icon: "shield_person_badge", title: "Restricted Client Access", body: "Limited permissions" },
+          {
+            icon: "shield_person_badge",
+            title: "Restricted Client Access",
+            body: "Limited permissions",
+          },
           { icon: "settings", title: "System Access Controls", body: "System configuration" },
         ],
       },
@@ -483,8 +547,18 @@ export const hireTaxPreparationStaff: HirePageContent = {
         ],
       },
       { id: "audit-software", icon: "dvr", label: "Audit Software", tools: [] },
-      { id: "data-analytics-testing", icon: "analytics", label: "Data Analytics & Testing", tools: [] },
-      { id: "confirmation-documentation", icon: "assignment", label: "Confirmation & Documentation", tools: [] },
+      {
+        id: "data-analytics-testing",
+        icon: "analytics",
+        label: "Data Analytics & Testing",
+        tools: [],
+      },
+      {
+        id: "confirmation-documentation",
+        icon: "assignment",
+        label: "Confirmation & Documentation",
+        tools: [],
+      },
       // The design repeats "Audit Software" as a fifth tab (search_check_2 icon).
       { id: "audit-software-2", icon: "search_check_2", label: "Audit Software", tools: [] },
     ],
@@ -493,7 +567,8 @@ export const hireTaxPreparationStaff: HirePageContent = {
   faq: {
     badge: "FAQ",
     title: "Frequently asked questions",
-    intro: "Learn more about tax preparation staffing, costs, qualifications, and flexible support.",
+    intro:
+      "Learn more about tax preparation staffing, costs, qualifications, and flexible support.",
     // NOT IN DESIGN: the design draws the questions collapsed, without answers. Each answer
     // only restates claims made elsewhere on this page; confirm.
     items: [

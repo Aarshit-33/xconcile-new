@@ -37,18 +37,19 @@ export function HirePageTemplate({ content }: { content: HirePageContent }) {
       {/* No white band above Expertise on desktop (client request 2026-10-18); mobile keeps it. */}
       <CardGrid data={content.expertise} className="mt-12 lg:mt-0" />
       <EngagementModels data={content.models} className={band} />
-      <HiringSteps data={content.steps} />
-      <ExperienceLevels data={content.levels} className="pt-0 lg:pt-0" />
+      {/* Hiring Steps and Tools: same light grey as the Intro (client note 2026-10-27,
+          page-updated/newShit/27-10-2026.svg "All hire page add bg color"). The white sections
+          after them keep their full top padding. */}
+      <HiringSteps data={content.steps} className="bg-surface-soft" />
+      <ExperienceLevels data={content.levels} />
       <AudienceCards data={content.audiences} />
       <WhyChoose data={content.whyChoose} className={band} />
-      {/* Security is white since the 2026-10-17 redesign: no band after the dark Why Choose, and
-          the white Tools section below drops its top padding (80px rhythm). */}
+      {/* Security is white since the 2026-10-17 redesign: no band after the dark Why Choose. */}
       <SecurityControls data={content.security} />
-      {/* Tools and FAQ are white on this page (grey on service pages). */}
-      {content.tools ? <ToolTabs data={content.tools} className="pt-0 lg:pt-0" /> : null}
-      <Faq data={content.faq} className="bg-white pt-0 lg:pt-0" />
+      {content.tools ? <ToolTabs data={content.tools} className="bg-surface-soft" /> : null}
+      <Faq data={content.faq} className={content.tools ? "bg-white" : "bg-white pt-0 lg:pt-0"} />
       {/* Spec: don't copy the design's overlap of the CTA band onto the last FAQ rows. */}
-      <CtaBand data={content.ctaBand} titleClassName="max-w-[657px]" />
+      <CtaBand data={content.ctaBand} />
     </>
   );
 }

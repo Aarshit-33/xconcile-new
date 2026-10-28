@@ -1,6 +1,7 @@
 import { WrenchIcon } from "@sanity/icons/Wrench";
 import { defineArrayMember, defineField, defineType } from "sanity";
 
+import { iconMedia } from "../../../components/icon-picker-input";
 import { anchorIdField, badgeField, hiddenField, iconField, sectionPreview, subtitleField, titleField } from "../fields";
 
 /**
@@ -75,10 +76,11 @@ export default defineType({
             }),
           ],
           preview: {
-            select: { title: "label", tools: "tools" },
-            prepare: ({ title, tools }) => ({
+            select: { title: "label", tools: "tools", icon: "icon" },
+            prepare: ({ title, tools, icon }) => ({
               title,
               subtitle: tools?.length ? `${tools.length} tools` : "Hidden (no tools)",
+              media: iconMedia(icon),
             }),
           },
         }),

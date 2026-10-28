@@ -1,6 +1,16 @@
 import "server-only";
 
-import { headerMenuPromo, headerNav, footerNav, type MenuGroup, type MenuPromo, type NavLink } from "@/content/navigation";
+import { isNavIconName } from "@/components/icons/nav-icons";
+import { siteIconPath } from "@/components/icons/registry";
+import {
+  headerMenuPromo,
+  headerNav,
+  footerNav,
+  type MenuGroup,
+  type MenuPromo,
+  type NavLink,
+} from "@/content/navigation";
+import { routes } from "@/lib/routes";
 import { siteConfig } from "@/lib/site-config";
 
 import { sanityFetch } from "./fetch";
@@ -60,7 +70,8 @@ const socialLabels: Record<SocialPlatform, string> = {
   youtube: "YouTube",
 };
 
-const isSocialPlatform = (p: unknown): p is SocialPlatform => typeof p === "string" && Object.hasOwn(socialLabels, p);
+const isSocialPlatform = (p: unknown): p is SocialPlatform =>
+  typeof p === "string" && Object.hasOwn(socialLabels, p);
 
 /** Code values: what the site showed before Site Settings existed, and the fallback for empty fields. */
 const FALLBACK_BADGES: FooterBadge[] = siteConfig.footerBadges.map((b) => ({ ...b }));
@@ -86,7 +97,7 @@ export const FALLBACK_SETTINGS: SiteSettings = {
   sidePanel: {
     title: "About Us",
     body: "Xconcile provides outsourced accounting, bookkeeping, tax, and audit services for U.S. businesses and CPA firms, with experienced professionals who fit your workflows and financial needs.",
-    cta: { label: "Get in Touch", href: "/#contact" },
+    cta: { label: "Get in Touch", href: routes.contact() },
     phone: siteConfig.contact.phones[0],
     email: siteConfig.contact.email,
     address: siteConfig.offices.find((o) => o.country === "us")?.lines,
@@ -108,7 +119,8 @@ const list = <T>(arr: Raw, map: (x: Raw) => T | undefined): T[] | undefined => {
   return out.length ? out : undefined;
 };
 
-const navLink = (l: Raw): NavLink | undefined => (l?.label && l?.href ? { label: l.label, href: l.href } : undefined);
+const navLink = (l: Raw): NavLink | undefined =>
+  l?.label && l?.href ? { label: l.label, href: l.href } : undefined;
 
 /**
  * Site-wide settings from the Sanity `siteSettings` singleton (Studio → Site Settings (New
@@ -120,13 +132,24 @@ const navLink = (l: Raw): NavLink | undefined => (l?.label && l?.href ? { label:
  * Called by the header, footer, site shell and Home; `sanityFetch` is cached, so it is one query.
  */
 export async function getSiteSettings(): Promise<SiteSettings> {
-  const d: Raw = await sanityFetch({ query: SITE_SETTINGS_QUERY, tags: ["siteSettings"] }).catch(() => null);
+  const d: Raw = await sanityFetch({ query: SITE_SETTINGS_QUERY, tags: ["siteSettings"] }).catch(
+    () => null,
+  );
   if (!d) return FALLBACK_SETTINGS;
   const f = FALLBACK_SETTINGS;
 
   const menus = list<MenuGroup>(d.header?.menus, (m) => {
+    // Menu icons: the old outline set (nav-icons.tsx) or any site icon; a site icon's path is
+    // resolved here so the client mega menu doesn't bundle every icon (user request 2026-10-27).
     const items = list(m?.items, (l) =>
-      navLink(l) && l.icon && l.description ? { ...navLink(l)!, icon: l.icon, description: l.description } : undefined,
+      navLink(l) && l.icon && l.description
+        ? {
+            ...navLink(l)!,
+            icon: l.icon,
+            iconPath: isNavIconName(l.icon) ? undefined : siteIconPath(l.icon),
+            description: l.description,
+          }
+        : undefined,
     );
     return m?.label && items ? { label: m.label, promo: m.showPromo !== false, items } : undefined;
   });
@@ -134,14 +157,18 @@ export async function getSiteSettings(): Promise<SiteSettings> {
 
   const social = list<SocialLink>(d.social, (s) => {
     const url = s?.url?.trim();
-    return url && isSocialPlatform(s?.platform) ? { platform: s.platform, label: socialLabels[s.platform as SocialPlatform], url } : undefined;
+    return url && isSocialPlatform(s?.platform)
+      ? { platform: s.platform, label: socialLabels[s.platform as SocialPlatform], url }
+      : undefined;
   });
 
   const contact: SiteSettings["contact"] = {
     email: d.contact?.email || f.contact.email,
     phones:
       list<ContactPhone>(d.contact?.phones, (x) =>
-        x?.label && x?.display && x?.tel ? { label: x.label, display: x.display, tel: x.tel } : undefined,
+        x?.label && x?.display && x?.tel
+          ? { label: x.label, display: x.display, tel: x.tel }
+          : undefined,
       ) ?? f.contact.phones,
   };
   const offices =
@@ -202,7 +229,8 @@ function resolveSidePanel(sp: Raw, contact: SiteSettings["contact"], offices: Of
   const phone =
     sp?.showPhone === false
       ? undefined
-      : (wantPhone && contact.phones.find((p) => p.label.toLowerCase() === wantPhone)) || contact.phones[0];
+      : (wantPhone && contact.phones.find((p) => p.label.toLowerCase() === wantPhone)) ||
+        contact.phones[0];
   const country = sp?.office === "in" ? "in" : "us";
   return {
     title: sp?.title?.trim() || f.title,

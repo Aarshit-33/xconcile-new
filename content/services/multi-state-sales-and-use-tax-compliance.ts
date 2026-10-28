@@ -44,7 +44,7 @@ export const multiStateSalesAndUseTaxCompliance: ServicePageContent = {
     subtitle:
       "Manage multi-state sales tax requirements with support for registrations, taxability reviews, filings, and ongoing compliance.",
     // No contact section on service pages: CTAs open the Calendly popup.
-    primaryCta: { label: "Get expert sales support", href: SCHEDULE_HREF },
+    primaryCta: { label: "Get expert sales support", href: routes.contact() },
     // Client rule: "Explore our services" scrolls to this page's services section.
     secondaryCta: { label: "Explore Our Services", href: "#services" },
     checks: [{ label: "ISO 27001 - ISO 27701" }, { label: "US GAAP Expertise" }],
@@ -78,7 +78,11 @@ export const multiStateSalesAndUseTaxCompliance: ServicePageContent = {
       width: 1480,
       height: 986,
     },
-    checks: ["Multi-State Sales Tax Support", "Sales Tax Filing Support", "Product Taxability Reviews"],
+    checks: [
+      "Multi-State Sales Tax Support",
+      "Sales Tax Filing Support",
+      "Product Taxability Reviews",
+    ],
     checksStyle: "list",
     cta: { label: "Discuss Your Sales Tax Needs", href: SCHEDULE_HREF },
   },
@@ -87,11 +91,11 @@ export const multiStateSalesAndUseTaxCompliance: ServicePageContent = {
     badge: "Key Challenges",
     title: "Managing Multi-State Sales Tax Can Be Challenging",
     body: "Managing sales tax across multiple states can be complex. Xconcile helps businesses and CPA firms stay organized and compliant.",
-    cta: { label: "Let's Discuss Project", href: SCHEDULE_HREF }, // COPY FIX: "Lets"
+    cta: { label: "Let's Discuss Project", href: routes.contact() }, // COPY FIX: "Lets"
     items: [
       {
         tone: "rose",
-        icon: "person_search",
+        icon: "account_balance",
         title: "Multiple State Requirements",
         body: [
           "Each state has its own registration, filing, and reporting rules, making it difficult to keep up as your business expands.",
@@ -99,7 +103,7 @@ export const multiStateSalesAndUseTaxCompliance: ServicePageContent = {
       },
       {
         tone: "amber",
-        icon: "trending_up",
+        icon: "autorenew",
         title: "Changing Tax Rules",
         body: [
           "Sales tax rates, thresholds, and exemptions can change, so keeping your processes up to date takes ongoing attention.",
@@ -107,7 +111,7 @@ export const multiStateSalesAndUseTaxCompliance: ServicePageContent = {
       },
       {
         tone: "blue",
-        icon: "paid",
+        icon: "monitoring",
         title: "Growing Transaction Volumes",
         body: [
           "More sales across multiple states mean more transactions to review, track, and report accurately.",
@@ -130,7 +134,8 @@ export const multiStateSalesAndUseTaxCompliance: ServicePageContent = {
     id: "services",
     badge: "Services",
     title: "Our Sales Tax Compliance Services",
-    subtitle: "Support for sales tax registration, filings, reporting, and compliance across multiple states.",
+    subtitle:
+      "Support for sales tax registration, filings, reporting, and compliance across multiple states.",
     initiallyVisible: 5,
     // Fallback rows (drawn titles + subtitles). `groups`: copied from docs/content/Tax
     // Preparation.md (H3 4, Indirect Tax), "Task:" prefixes and markdown removed; each task is
@@ -138,7 +143,7 @@ export const multiStateSalesAndUseTaxCompliance: ServicePageContent = {
     // row has no list (the doc's "Audit Support" task is not drawn as a row).
     items: [
       {
-        icon: "calculate",
+        icon: "radar",
         title: "Nexus Identification & Monitoring",
         description: "Proactive compliance tracking",
         groups: [
@@ -152,7 +157,9 @@ export const multiStateSalesAndUseTaxCompliance: ServicePageContent = {
         icon: "assignment",
         title: "Registration & Permitting",
         description: "Complete multi-state setup",
-        groups: [{ title: "Compliance & Filing", items: ["Registration for State Sales Tax permits."] }],
+        groups: [
+          { title: "Compliance & Filing", items: ["Registration for State Sales Tax permits."] },
+        ],
       },
       {
         icon: "import_contacts",
@@ -178,7 +185,8 @@ export const multiStateSalesAndUseTaxCompliance: ServicePageContent = {
   caseStudies: {
     badge: "Testimonials",
     title: "Trusted by Businesses & CPA Firms",
-    subtitle: "See how Xconcile helps businesses improve efficiency, visibility, and financial operations.",
+    subtitle:
+      "See how Xconcile helps businesses improve efficiency, visibility, and financial operations.",
     // Only "CPA Firms" has copy in the design (other drawn tabs: Real Estate, E-commerce,
     // Construction, Restaurants); they appear once their case studies exist. Never invent
     // client results.
@@ -189,7 +197,8 @@ export const multiStateSalesAndUseTaxCompliance: ServicePageContent = {
         title: "CPA Firms",
         challenge: "Growing workload and limited accounting capacity.",
         solution: "Dedicated outsourced accounting support.",
-        result: "Better financial visibility, streamlined operations, and reduced accounting workload.",
+        result:
+          "Better financial visibility, streamlined operations, and reduced accounting workload.",
         // NOT IN DESIGN: impact figure reused from Home; confirm with the client.
         impact: home.caseStudies.items[0].impact,
         // Same photo as Home's CPA case study (incl. its mobile art direction).
@@ -272,23 +281,41 @@ export const multiStateSalesAndUseTaxCompliance: ServicePageContent = {
       {
         title: "Education",
         body: "Education sales tax reporting and compliance support",
-        image: { src: "/images/industries/education.jpg", alt: "Students working at desks in a classroom", width: 500, height: 311 },
+        image: {
+          src: "/images/industries/education.jpg",
+          alt: "Students working at desks in a classroom",
+          width: 500,
+          height: 311,
+        },
       },
       {
         title: "Pharmaceutical",
         body: "Sales tax support for pharma products and distribution",
-        image: { src: "/images/industries/pharmaceutical.jpg", alt: "Pharmacist taking stock from pharmacy shelves", width: 500, height: 333 },
+        image: {
+          src: "/images/industries/pharmaceutical.jpg",
+          alt: "Pharmacist taking stock from pharmacy shelves",
+          width: 500,
+          height: 333,
+        },
       },
       {
         title: "eCommerce",
         body: "Sales tax compliance support for online businesses",
         href: routes.industry("tech-ecommerce"),
-        image: { src: "/images/industries/ecommerce.jpg", alt: "Online seller packing orders at a desk", width: 500, height: 334 },
+        image: {
+          src: "/images/industries/ecommerce.jpg",
+          alt: "Online seller packing orders at a desk",
+          width: 500,
+          height: 334,
+        },
       },
       {
         title: "Manufacturing",
         body: "Manufacturing sales tax compliance and reporting support",
-        image: { ...home.industries.items[0].image, alt: "Sparks flying from metal grinding in a factory" },
+        image: {
+          ...home.industries.items[0].image,
+          alt: "Sparks flying from metal grinding in a factory",
+        },
       },
     ],
   },
@@ -314,9 +341,13 @@ export const multiStateSalesAndUseTaxCompliance: ServicePageContent = {
         title: "Flexible Support",
         body: "Flexible support tailored to your accounting workload and needs.",
       },
-      { icon: "page_info", title: "Accurate Reporting", body: "Maintain organized and accurate compliance records." },
       {
-        icon: "add_chart",
+        icon: "page_info",
+        title: "Accurate Reporting",
+        body: "Maintain organized and accurate compliance records.",
+      },
+      {
+        icon: "beenhere",
         title: "Data Security",
         body: "Controlled workflows help protect sensitive financial information.",
       },

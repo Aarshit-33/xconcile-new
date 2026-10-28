@@ -16,7 +16,6 @@
    made the navbar CTA hover 50% transparent). Bind it to a `.dark` class that is never set. */
 @custom-variant dark (&:is(.dark *));
 
-
 /*
  * Xconcile design tokens
  * Source of truth: ../pages svg, css & png/ (page.svg + page.css per page) and
@@ -68,13 +67,16 @@
 @theme {
   /* ---- Brand palette (exact Figma values) ---- */
   --color-brand: #6abe52; /* primary green */
+  --color-brand-hover: #4f9a3a; /* darker green: inline link hover (client note 2026-10-27) */
   --color-brand-50: #f3f8f2; /* badges, active tab bg, process icon tile */
   --color-brand-100: #e7f6e2; /* icon chips */
   --color-brand-tile: #e6fae1; /* challenge card 5 icon tile */
   --color-brand-border: rgb(106 190 82 / 0.2); /* badge border */
   --color-brand-faint: rgb(106 190 82 / 0.1); /* hero badge border */
   --color-brand-tile-dark: rgb(106 190 82 / 0.16); /* icon tile on dark cards */
-  --color-brand-glow: rgb(41 175 3 / 0.17); /* hero radial glow (2026-10-21 palette; was brand/0.17) */
+  --color-brand-glow: rgb(
+    41 175 3 / 0.17
+  ); /* hero radial glow (2026-10-21 palette; was brand/0.17) */
 
   --color-heading: #28272a;
   --color-heading-alt: #2a2d31; /* case-study title, industry cards, FAQ */
@@ -137,8 +139,8 @@
   --text-h1: 56px;
   --text-h1--line-height: 72px;
   --text-h1--font-weight: 700;
-  --text-h1-m: 36px;
-  --text-h1-m--line-height: 42px;
+  --text-h1-m: 28px; /* client note 2026-10-27: no 36px headings on mobile (was 36/42) */
+  --text-h1-m--line-height: 36px;
   --text-h1-m--font-weight: 700;
 
   --text-h2: 40px;
@@ -249,11 +251,40 @@
   );
 }
 
-/* Final CTA band (inner pages): photo + navy overlay. Set the photo via --cta-image */
+/* Final CTA band (inner pages): photo + navy overlay. Set the photo via --cta-image.
+   Photo (::before) and the 90% navy overlay (::after) are two layers that overhang the band by
+   2px on every side, and the band clips them (`overflow: hidden`). Every device pixel inside
+   the band is therefore fully covered by photo + overlay, and the band's edge is anti-aliased
+   once, on the already tinted result. User report 2026-10-27 ("minor pixels left at the bottom
+   without overlay"): with photo + overlay as background layers, or as two layers of exactly the
+   band's size, Chrome at 125% / 150% display scaling anti-aliased each layer's edge separately
+   (or snapped one and not the other), so the band's last pixel row let the photo through
+   (measured with the scratch cta-edge probe: last row brightness 57–78 vs ~30 for the band).
+   The navy base colour shows if the photo hasn't loaded. `isolation` keeps both layers under
+   the content without giving the children z-indexes. */
 @utility bg-cta-overlay {
-  background-image: linear-gradient(rgb(19 33 44 / 0.9), rgb(19 33 44 / 0.9)), var(--cta-image, none);
-  background-size: cover;
-  background-position: center;
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  background-color: rgb(19 33 44);
+  &::before,
+  &::after {
+    content: "";
+    position: absolute;
+    inset: -2px;
+    pointer-events: none;
+  }
+  &::before {
+    z-index: -2;
+    background-image: var(--cta-image, none);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
+  &::after {
+    z-index: -1;
+    background-color: rgb(19 33 44 / 0.9);
+  }
 }
 
 /* Horizontal scrollers (mobile tab bars) */
@@ -266,13 +297,15 @@
 
 /* Inline links inside body copy (RichText, form notices, cookie banner). Design used #2C00A1;
    the normalization spec replaced it with dark text + a green underline. Client request
-   2026-10-22: no underline, the whole link in brand green; hover only dims it a little. */
+   2026-10-22: no underline, the whole link in brand green. Hover goes to a DARKER green
+   (client note 2026-10-27, page-updated/newShit/27-10-2026.svg: was opacity 0.8, which read
+   lighter). */
 @utility link-inline {
   color: var(--color-brand);
   text-decoration-line: none;
-  transition: opacity 150ms;
+  transition: color 150ms;
   &:hover {
-    opacity: 0.8;
+    color: var(--color-brand-hover);
   }
 }
 

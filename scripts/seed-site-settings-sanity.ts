@@ -32,7 +32,12 @@ async function buildSiteSettings() {
           label: m.label,
           showPromo: m.promo,
           items: keyed(
-            m.items.map((l) => ({ label: l.label, href: l.href, icon: l.icon, description: l.description })),
+            m.items.map((l) => ({
+              label: l.label,
+              href: l.href,
+              icon: l.icon,
+              description: l.description,
+            })),
             "navMenuLink",
           ),
         })),
@@ -91,7 +96,7 @@ async function buildSiteSettings() {
     sidePanel: {
       title: "About Us",
       body: "Xconcile provides outsourced accounting, bookkeeping, tax, and audit services for U.S. businesses and CPA firms, with experienced professionals who fit your workflows and financial needs.",
-      cta: { label: "Get in Touch", href: "/#contact" },
+      cta: { label: "Get in Touch", href: "/contact" },
       phoneLabel: "Sales",
       office: "us",
     },

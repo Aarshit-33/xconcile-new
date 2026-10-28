@@ -64,7 +64,7 @@ export const about: AboutPageContent = {
     subtitle:
       "Outsource accounting and tax preparation work to experienced professionals supporting U.S. businesses and CPA firms.",
     // The page has its own contact form, so the button scrolls to it.
-    primaryCta: { label: "Talk to our accounting team", href: "#contact" },
+    primaryCta: { label: "Talk to our accounting team", href: routes.contact() },
     checks: [],
   },
 
@@ -82,7 +82,10 @@ export const about: AboutPageContent = {
     title: "Your Trusted Partner for Accounting, Tax & Financial Support",
     body: [
       "Xconcile provides ",
-      { text: "outsourced accounting", href: routes.service("outsourced-accounting-and-bookkeeping") },
+      {
+        text: "outsourced accounting",
+        href: routes.service("outsourced-accounting-and-bookkeeping"),
+      },
       ", bookkeeping, tax preparation, and financial support for U.S. businesses and CPA firms. Our professionals work alongside your existing team to manage accounting tasks, maintain accurate records, and support your financial operations.",
     ] satisfies RichText,
     bodyMore: [
@@ -206,12 +209,12 @@ export const about: AboutPageContent = {
       "Our accounting professionals support core accounting activities, from bookkeeping and reconciliations to month-end close and financial reporting.",
     // The design draws the same book glyph on every tile and no text under the titles.
     items: [
-      { icon: "book_4", title: "Bookkeeping & Accounting" },
-      { icon: "book_4", title: "Tax Preparation" },
-      { icon: "book_4", title: "Audit & Assurance" },
-      { icon: "book_4", title: "Payroll & Compliance" },
-      { icon: "book_4", title: "Sales Tax Compliance" },
-      { icon: "book_4", title: "Virtual CFO & FP&A" },
+      { icon: "calculate", title: "Bookkeeping & Accounting" },
+      { icon: "import_contacts", title: "Tax Preparation" },
+      { icon: "assignment", title: "Audit & Assurance" },
+      { icon: "sync", title: "Payroll & Compliance" },
+      { icon: "assignment_add", title: "Sales Tax Compliance" },
+      { icon: "query_stats", title: "Virtual CFO & FP&A" },
     ],
   },
 

@@ -44,11 +44,12 @@ export function Intro({
   const titleId = `${id}-title`;
 
   return (
-    <section id={id} aria-labelledby={titleId} className={cn("relative overflow-hidden section-y", className)}>
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-0 bg-surface-soft"
-      />
+    <section
+      id={id}
+      aria-labelledby={titleId}
+      className={cn("relative overflow-hidden section-y", className)}
+    >
+      <div aria-hidden className="pointer-events-none absolute inset-0 bg-surface-soft" />
       <div
         className={cn(
           "relative container-site grid gap-8 lg:gap-6",
@@ -62,7 +63,9 @@ export function Intro({
             // Inner pages: the photo fills the row (= the text column when it is taller, so it
             // reaches the CTA; user request 2026-10-25), never shorter than the drawn 635x609 box
             // (templates pass their own minimum via imageClassName). object-cover crops it.
-            list ? "lg:aspect-auto lg:min-h-[609px] lg:self-stretch" : "lg:aspect-auto lg:h-[576px]",
+            list
+              ? "lg:aspect-auto lg:min-h-[609px] lg:self-stretch"
+              : "lg:aspect-auto lg:h-[576px]",
             // Half the section is this photo: splash + zoom on hover, on every page (client
             // request 2026-10-22; was Home-only). Both utilities live in globals.css.
             "img-splash img-zoom",
@@ -145,8 +148,10 @@ export function Intro({
             {!data.checks.length ? null : list ? (
               <>
                 {/* Optional label above the list (RCM design: "Promising Features"). */}
-                {data.checksTitle ? <p className="text-b1 font-medium text-heading">{data.checksTitle}</p> : null}
-                <ul className="flex flex-col gap-6 border-b border-hairline pb-8 text-b1 text-body">
+                {data.checksTitle ? (
+                  <p className="text-b1 font-medium text-heading">{data.checksTitle}</p>
+                ) : null}
+                <ul className="flex flex-col gap-4 border-b border-hairline pb-8 text-b1 text-body">
                   {data.checks.map((c) => (
                     <CheckItem key={c} className="gap-4" iconClassName="size-6">
                       {c}

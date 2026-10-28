@@ -1,6 +1,10 @@
 import Image from "next/image";
 
-import { CheckCircleFillIcon, CheckSmallIcon, StarFillIcon } from "@/components/icons/material-symbols";
+import {
+  CheckCircleFillIcon,
+  CheckSmallIcon,
+  StarFillIcon,
+} from "@/components/icons/material-symbols";
 import { ParallaxImageFrame } from "@/components/motion/parallax";
 import { RevealList } from "@/components/motion/reveal-list";
 import { SectionHeading } from "@/components/shared/section-heading";
@@ -38,7 +42,7 @@ export function HiringSteps({ data, className }: { data: HiringStepsContent; cla
           subtitleClassName="max-w-[715px]"
         />
 
-        <div className="grid gap-8 rounded-md border border-hairline bg-surface-soft p-4 lg:grid-cols-[minmax(0,570fr)_minmax(0,636fr)] lg:justify-between lg:gap-10 lg:p-6">
+        <div className="grid gap-8 rounded-md border border-hairline bg-white p-4 lg:grid-cols-[minmax(0,570fr)_minmax(0,636fr)] lg:justify-between lg:gap-10 lg:p-6">
           {/* Each whole step (marker, text and its dashed connector) rises like the card sections
               around it (RevealList; whole-card motion since 2026-10-22). No overflow-hidden on
               the li: the dashed line runs past it on purpose. */}
@@ -69,7 +73,7 @@ export function HiringSteps({ data, className }: { data: HiringStepsContent; cla
                   key={photo.src}
                   amount={3}
                   // Half the section: splash + zoom on hover (client request 2026-10-22).
-                  className="img-splash img-zoom aspect-[306/386] rounded-[20px] border border-slate-200/80 bg-slate-100 shadow-xs"
+                  className="img-splash aspect-[306/386] img-zoom rounded-[20px] border border-slate-200/80 bg-slate-100 shadow-xs"
                 >
                   <Image
                     src={photo.src}
@@ -108,8 +112,12 @@ export function HiringSteps({ data, className }: { data: HiringStepsContent; cla
                   ))}
                 </div>
                 <p className="flex flex-col">
-                  <span className="text-h3 leading-6 font-bold text-slate-900">{data.proof.value}</span>
-                  <span className="text-b2 leading-6 font-medium text-slate-500">{data.proof.label}</span>
+                  <span className="text-h3 leading-6 font-bold text-slate-900">
+                    {data.proof.value}
+                  </span>
+                  <span className="text-b2 leading-6 font-medium text-slate-500">
+                    {data.proof.label}
+                  </span>
                 </p>
               </div>
               <p className="flex items-center gap-2 rounded-[10px] border border-amber-200/70 bg-amber-50 px-3.5 py-1 text-b2 font-medium text-amber-800">
@@ -120,7 +128,10 @@ export function HiringSteps({ data, className }: { data: HiringStepsContent; cla
 
             <ul className="flex flex-wrap justify-between gap-x-6 gap-y-2 border-t border-hairline pt-3.5">
               {data.trust.map((t) => (
-                <li key={t} className="flex items-center gap-2 text-b2 leading-6 font-medium text-slate-600">
+                <li
+                  key={t}
+                  className="flex items-center gap-2 text-b2 leading-6 font-medium text-slate-600"
+                >
                   <CheckCircleFillIcon className="size-5 shrink-0 text-brand" />
                   {t}
                 </li>

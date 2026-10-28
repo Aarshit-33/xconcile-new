@@ -1,6 +1,7 @@
 import { DocumentTextIcon } from "@sanity/icons/DocumentText";
 import { defineArrayMember, defineField, defineType } from "sanity";
 
+import { iconPreview } from "../../../components/icon-picker-input";
 import { anchorIdField, hiddenField, iconField, sectionPreview } from "../fields";
 
 /** "Your Accounting Team, Without the Overhead" (mirrors `IntroContent`). */
@@ -78,7 +79,7 @@ export default defineType({
               validation: (Rule) => Rule.required(),
             }),
           ],
-          preview: { select: { title: "label", subtitle: "icon" } },
+          preview: iconPreview({ title: "label" }),
         }),
       ],
       validation: (Rule) => Rule.max(3),

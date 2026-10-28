@@ -1,3 +1,4 @@
+import { siteIconPath } from "@/components/icons/registry";
 import { FadeUp } from "@/components/motion/fade-up";
 import { RevealText } from "@/components/motion/reveal-text";
 import { HighlightText } from "@/components/shared/highlight-text";
@@ -12,7 +13,11 @@ import { sectionId } from "@/lib/section-ids";
  */
 export function Services({ data }: { data: ServicesContent }) {
   return (
-    <section id={sectionId(data, "services")} aria-labelledby="services-title" className="bg-dark-gradient section-y">
+    <section
+      id={sectionId(data, "services")}
+      aria-labelledby="services-title"
+      className="bg-dark-gradient section-y"
+    >
       <div className="container-site flex flex-col gap-8 lg:gap-12">
         <div className="mx-auto flex max-w-[776px] flex-col items-center gap-4 text-center">
           {/* Badge + subtitle fade up like every section heading (2026-10-18). */}
@@ -29,7 +34,11 @@ export function Services({ data }: { data: ServicesContent }) {
             {data.subtitle}
           </FadeUp>
         </div>
-        <ServicesAccordionList data={data} />
+        {/* Icon paths resolved here (server) so the client list doesn't bundle every icon. */}
+        <ServicesAccordionList
+          data={data}
+          iconPaths={data.items.map((item) => siteIconPath(item.icon))}
+        />
       </div>
     </section>
   );

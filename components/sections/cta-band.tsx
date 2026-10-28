@@ -15,6 +15,8 @@ import { sectionId } from "@/lib/section-ids";
  * The photo is a CSS background (decorative) served through the next/image optimizer.
  * Optional `secondaryCta`: outline button beside the solid one (RCM design "Get Started"), same
  * style as the hero's secondary button; the pair stacks full-width on phones.
+ * Either button can be switched off in Studio ("Show main button" / "Show second button"), so
+ * the band may show both, one, or no button.
  */
 export function CtaBand({
   data,
@@ -41,7 +43,9 @@ export function CtaBand({
       style={{ "--cta-image": `url(${src})` } as React.CSSProperties}
     >
       <div className="container-site flex flex-col items-center gap-8 text-center lg:gap-10">
-        <div className="flex max-w-[927px] flex-col items-center gap-4 lg:gap-8">
+        {/* 927px content column (design width; was 1020px briefly on 2026-10-26). Tablets
+            (768–1023px): 600px so heading and text don't run edge to edge (user request 2026-10-26). */}
+        <div className="flex max-w-[927px] flex-col items-center gap-4 md:max-w-[600px] lg:max-w-[927px] lg:gap-8">
           <RevealText
             as="h2"
             id={titleId}
@@ -49,11 +53,12 @@ export function CtaBand({
           >
             <HighlightText text={data.title} />
           </RevealText>
-          <FadeUp as="p" delay={0.12} className="max-w-[725px] text-b1 font-normal text-on-dark lg:text-b3">
+          {/* Fills the 927px column (user request 2026-10-26; was max-w-[725px]). */}
+          <FadeUp as="p" delay={0.12} className="text-b1 font-normal text-on-dark lg:text-b3">
             {data.body}
           </FadeUp>
         </div>
-        {data.secondaryCta ? (
+        {data.cta && data.secondaryCta ? (
           <div className="flex w-full flex-col items-stretch gap-4 md:w-auto md:flex-row md:items-center md:justify-center">
             <CtaLink href={data.cta.href} className="w-full justify-center md:w-auto">
               {data.cta.label}
@@ -66,9 +71,18 @@ export function CtaBand({
               {data.secondaryCta.label}
             </CtaLink>
           </div>
-        ) : (
+        ) : data.cta ? (
           <CtaLink href={data.cta.href}>{data.cta.label}</CtaLink>
-        )}
+        ) : data.secondaryCta ? (
+          // Second button alone (main one switched off in Studio): keeps its outline style.
+          <CtaLink
+            href={data.secondaryCta.href}
+            variant="outline-dark"
+            className="hover:bg-[#FFFFFF] hover:text-brand dark:hover:bg-[#FFFFFF] dark:hover:text-brand"
+          >
+            {data.secondaryCta.label}
+          </CtaLink>
+        ) : null}
       </div>
     </section>
   );

@@ -62,7 +62,7 @@ export async function getServicePage(
   const d: Raw = await sanityFetch({
     query: SERVICE_PAGE_QUERY,
     params: { slug: f.slug },
-    tags: ["servicePage"],
+    tags: ["servicePage", "caseStudy"],
   });
   if (!d) return { content: f };
 

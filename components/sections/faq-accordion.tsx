@@ -2,7 +2,12 @@
 
 import { AddIcon, RemoveIcon } from "@/components/icons/material-symbols";
 import { RichText } from "@/components/shared/rich-text";
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 import type { FaqItem } from "@/content/types";
 
 /**
@@ -13,11 +18,7 @@ import type { FaqItem } from "@/content/types";
  */
 export function FaqAccordion({ items }: { items: FaqItem[] }) {
   return (
-    <Accordion
-      type="single"
-      collapsible
-      className="gap-4 lg:gap-6"
-    >
+    <Accordion type="single" collapsible className="gap-4 lg:gap-6">
       {items.map((item, i) => (
         <AccordionItem
           key={item.q}
@@ -25,14 +26,14 @@ export function FaqAccordion({ items }: { items: FaqItem[] }) {
           className="group/faq border-b border-hairline pb-8 not-last:border-b data-open:border-brand"
         >
           {/* before:*: invisible 44px-tall tap area around the 28px question row (no visual change). */}
-          <AccordionTrigger className="items-center gap-4 rounded-none border-0 p-0 text-h5 font-semibold text-heading-alt transition-colors before:absolute before:inset-x-0 before:-inset-y-2 hover:text-brand hover:no-underline focus-visible:ring-offset-4 group-data-open/faq:text-brand **:data-[slot=accordion-trigger-icon]:hidden">
+          <AccordionTrigger className="items-center gap-4 rounded-none border-0 p-0 text-h5 font-semibold text-heading-alt transition-colors group-data-open/faq:text-brand before:absolute before:inset-x-0 before:-inset-y-2 hover:text-brand hover:no-underline focus-visible:ring-offset-4 **:data-[slot=accordion-trigger-icon]:hidden">
             <span className="flex-1">{item.q}</span>
             <AddIcon className="size-6 shrink-0 text-body group-data-open/faq:hidden" />
             <RemoveIcon className="hidden size-6 shrink-0 text-brand group-data-open/faq:block" />
           </AccordionTrigger>
           <AccordionContent
             forceMount
-            className="pt-4 pb-0 text-b1 text-body [&_a]:hover:text-brand"
+            className="pt-4 pb-0 text-b1 text-body [&_a]:hover:text-brand-hover"
           >
             <p>
               <RichText value={item.a} />

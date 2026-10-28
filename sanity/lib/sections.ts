@@ -30,6 +30,7 @@ import type {
   WhyChooseContent,
 } from "@/content/types";
 import { toHighlightString } from "@/lib/highlight";
+import { routes } from "@/lib/routes";
 
 /**
  * One mapper per v2 section type (sanity/schemaTypes/v2/sections): raw GROQ result → the shape
@@ -49,7 +50,7 @@ export const SECTION_PROJECTION = {
   // Stat icons (RCM "HIPAA Compliant") need their asset URL.
   stats: `stats{ ..., items[]{ ..., "image": image${IMG} } }`,
   intro: `intro{ ..., "image": image${IMG} }`,
-  caseStudies: `caseStudies{ ..., items[]{ ..., "id": id.current, "image": image${IMG}, "mobileImage": mobileImage${IMG} } }`,
+  caseStudies: `caseStudies{ ..., items[]{ ..., "id": id.current, "image": image${IMG}, "mobileImage": mobileImage${IMG}, "caseStudySlug": caseStudy->slug.current } }`,
   industries: `industries{ ..., items[]{ ..., "image": image${IMG} } }`,
   whyChoose: `whyChoose{ ..., "images": images[]${IMG} }`,
   tools: `tools{ ..., items[]{ name, "logo": logo${IMG} } }`,
@@ -86,7 +87,8 @@ export function richText(blocks: Raw): RichText | undefined {
   return out;
 }
 
-export const link = (l: Raw) => (l?.label && l?.href ? { label: l.label, href: l.href } : undefined);
+export const link = (l: Raw) =>
+  l?.label && l?.href ? { label: l.label, href: l.href } : undefined;
 /**
  * Heading (`headingTitle`): one string with `*green*` markup (lib/highlight.ts). Documents saved
  * before 2026-10-24 may still hold the old `{ before, highlight, after }` object; it is converted
@@ -105,7 +107,14 @@ const itemLink = (l: Raw, fallback: Link | undefined): Link =>
 /** SEO meta keywords (`seoMeta.keywords`): trimmed, de-duplicated Sanity list, else the code list. */
 export function keywords(d: Raw, f: string[] | undefined): string[] | undefined {
   const list = Array.isArray(d)
-    ? [...new Set(d.filter((k: unknown): k is string => typeof k === "string").map((k) => k.trim()).filter(Boolean))]
+    ? [
+        ...new Set(
+          d
+            .filter((k: unknown): k is string => typeof k === "string")
+            .map((k) => k.trim())
+            .filter(Boolean),
+        ),
+      ]
     : [];
   return list.length ? list : f;
 }
@@ -120,12 +129,14 @@ export function mapHero(d: Raw, f: HeroContent): HeroContent {
         title: heading(d.title) ?? f.title,
         subtitle: d.subtitle ?? f.subtitle,
         primaryCta: link(d.primaryCta) ?? f.primaryCta,
-        secondaryCta: link(d.secondaryCta) ?? f.secondaryCta,
+        // "Show second button" off = no button (not the code fallback); unset = shown.
+        secondaryCta:
+          d.showSecondaryCta === false ? undefined : (link(d.secondaryCta) ?? f.secondaryCta),
+        // One "Show" switch per item, same on every screen size (user request 2026-10-26). The
+        // old "Desktop only" value is ignored, so those items now show on phones/tablets too.
         checks:
-          d.checks?.map((c: Raw) => ({
-            label: c.label,
-            desktopOnly: c.desktopOnly || undefined,
-          })) ?? f.checks,
+          d.checks?.filter((c: Raw) => c.show !== false).map((c: Raw) => ({ label: c.label })) ??
+          f.checks,
       }
     : f;
 }
@@ -202,7 +213,12 @@ export function mapServices(d: Raw, f: ServicesContent): ServicesContent {
             // Grouped lists (service pages; the field is hidden on Home).
             groups: x.groups?.length
               ? x.groups
-                  .map((g: Raw) => ({ title: g.title ?? "", items: (g.items ?? []).filter(Boolean) }))
+                  .map((g: Raw) => ({
+                    title: g.title ?? "",
+                    items: (g.items ?? []).filter(Boolean),
+                    // Card colour (Key Challenges tint or transparent); empty = default cycle.
+                    ...(g.tone ? { tone: g.tone } : {}),
+                  }))
                   .filter((g: { title: string; items: string[] }) => g.title && g.items.length)
               : undefined,
             cta: link(x.cta),
@@ -210,6 +226,15 @@ export function mapServices(d: Raw, f: ServicesContent): ServicesContent {
       }
     : f;
 }
+
+/**
+ * Impact card switch ("Show impact card", one setting for every screen size since 2026-10-26).
+ * Unset: documents saved with the old per-device "Show on" list keep a fully unticked list as
+ * hidden; any ticked device now means every screen.
+ */
+const impactShown = (impact: Raw) =>
+  impact.show === true ||
+  (impact.show !== false && !(Array.isArray(impact.devices) && impact.devices.length === 0));
 
 export function mapCaseStudies(d: Raw, f: CaseStudiesContent): CaseStudiesContent {
   return d
@@ -231,20 +256,26 @@ export function mapCaseStudies(d: Raw, f: CaseStudiesContent): CaseStudiesConten
                 solution: x.solution,
                 result: x.result,
                 impact:
-                  x.impact?.label && x.impact?.value
+                  x.impact?.label && x.impact?.value && impactShown(x.impact)
                     ? {
                         label: x.impact.label,
                         value: x.impact.value,
                         icon: x.impact.icon || undefined,
-                        // Not set (documents saved before 2026-10-25) = every screen.
-                        devices: Array.isArray(x.impact.devices) ? x.impact.devices : undefined,
                       }
                     : undefined,
                 image: {
                   ...img(x.image)!,
-                  ...(mobile ? { mobile: { src: mobile.src, width: mobile.width, height: mobile.height } } : {}),
+                  ...(mobile
+                    ? { mobile: { src: mobile.src, width: mobile.width, height: mobile.height } }
+                    : {}),
                 },
-                cta: { label: x.cta?.label ?? "", href: x.cta?.href ?? undefined },
+                // A picked case study page wins over the typed Link (user request 2026-10-27).
+                cta: {
+                  label: x.cta?.label || "View Case Study",
+                  href: x.caseStudySlug
+                    ? routes.caseStudy(x.caseStudySlug)
+                    : (x.cta?.href ?? undefined),
+                },
               };
             }) ?? f.items,
       }
@@ -258,7 +289,8 @@ export function mapProcess(d: Raw, f: ProcessContent): ProcessContent {
         badge: d.badge ?? f.badge,
         title: d.title ?? f.title,
         subtitle: d.subtitle ?? f.subtitle,
-        steps: d.steps?.map((x: Raw) => ({ icon: x.icon, title: x.title, body: x.body })) ?? f.steps,
+        steps:
+          d.steps?.map((x: Raw) => ({ icon: x.icon, title: x.title, body: x.body })) ?? f.steps,
       }
     : f;
 }
@@ -339,7 +371,9 @@ export function mapToolTabs(d: Raw, f: ToolTabsContent | undefined): ToolTabsCon
         label: c.label,
         tools: (c.tools ?? []).map((t: Raw) => {
           const logo = img(t.logo);
-          return logo ? { name: t.name, logo: logo.src, width: logo.width, height: logo.height } : { name: t.name };
+          return logo
+            ? { name: t.name, logo: logo.src, width: logo.width, height: logo.height }
+            : { name: t.name };
         }),
       })) ??
       f?.categories ??
@@ -407,9 +441,12 @@ export function mapCtaBand(d: Raw, f: CtaBandContent): CtaBandContent {
     anchorId: d.anchorId || undefined,
     title: d.title ?? f.title,
     body: d.body ?? f.body,
-    cta: link(d.cta) ?? f.cta,
+    // "Show … button" switches off = no button (not the code fallback). Unset (documents saved
+    // before the switches existed) = shown.
+    cta: d.showCta === false ? undefined : (link(d.cta) ?? f.cta),
     // Optional second button (RCM design); a half-filled Studio link falls back to the code one.
-    secondaryCta: link(d.secondaryCta) ?? f.secondaryCta,
+    secondaryCta:
+      d.showSecondaryCta === false ? undefined : (link(d.secondaryCta) ?? f.secondaryCta),
     image: image ? { ...image, alt: "" } : f.image,
   };
 }
@@ -422,7 +459,8 @@ export function mapFeatureCards(d: Raw, f: FeatureCardsContent): FeatureCardsCon
         badge: d.badge ?? f.badge,
         title: heading(d.title) ?? f.title,
         subtitle: d.subtitle ?? f.subtitle,
-        items: d.items?.map((x: Raw) => ({ icon: x.icon, title: x.title, body: x.body })) ?? f.items,
+        items:
+          d.items?.map((x: Raw) => ({ icon: x.icon, title: x.title, body: x.body })) ?? f.items,
       }
     : f;
 }
@@ -434,7 +472,8 @@ export function mapFeatureStrip(d: Raw, f: FeatureStripContent): FeatureStripCon
     ? {
         anchorId: d.anchorId || undefined,
         label: d.label ?? f.label,
-        items: d.items?.map((x: Raw) => ({ icon: x.icon, title: x.title, body: x.body })) ?? f.items,
+        items:
+          d.items?.map((x: Raw) => ({ icon: x.icon, title: x.title, body: x.body })) ?? f.items,
       }
     : f;
 }
@@ -448,7 +487,8 @@ export function mapCardGrid(d: Raw, f: CardGridContent): CardGridContent {
         title: heading(d.title) ?? f.title,
         subtitle: d.subtitle ?? f.subtitle,
         items:
-          d.items?.map((x: Raw) => ({ icon: x.icon, title: x.title, body: x.body || undefined })) ?? f.items,
+          d.items?.map((x: Raw) => ({ icon: x.icon, title: x.title, body: x.body || undefined })) ??
+          f.items,
       }
     : f;
 }
@@ -517,7 +557,10 @@ export function mapExperienceLevels(d: Raw, f: ExperienceLevelsContent): Experie
             level: x.level ?? "",
             title: x.title,
             experience: x.experience ?? "",
-            responsibilities: (x.responsibilities ?? []).map((r: Raw) => ({ label: r.label, text: r.text })),
+            responsibilities: (x.responsibilities ?? []).map((r: Raw) => ({
+              label: r.label,
+              text: r.text,
+            })),
             cta: itemLink(x.cta, f.items[i]?.cta),
             featured: x.featured || undefined,
           })) ?? f.items,
@@ -556,7 +599,11 @@ export function mapSecurityControls(d: Raw, f: SecurityControlsContent): Securit
         groups:
           d.groups?.map((g: Raw) => ({
             title: g.title,
-            items: (g.items ?? []).map((x: Raw) => ({ icon: x.icon, title: x.title, body: x.body })),
+            items: (g.items ?? []).map((x: Raw) => ({
+              icon: x.icon,
+              title: x.title,
+              body: x.body,
+            })),
           })) ?? f.groups,
       }
     : f;
@@ -576,7 +623,12 @@ export function mapSubIndustries(d: Raw, f: SubIndustriesContent): SubIndustries
             const groups = (x.groups ?? [])
               .map((g: Raw) => ({ title: g.title ?? "", items: (g.items ?? []).filter(Boolean) }))
               .filter((g: { title: string; items: string[] }) => g.title && g.items.length);
-            return { icon: x.icon, title: x.title, body: x.body, ...(groups.length ? { groups } : {}) };
+            return {
+              icon: x.icon,
+              title: x.title,
+              body: x.body,
+              ...(groups.length ? { groups } : {}),
+            };
           }) ?? f.items,
       }
     : f;

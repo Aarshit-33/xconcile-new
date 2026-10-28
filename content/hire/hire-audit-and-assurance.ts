@@ -47,13 +47,13 @@ export const hireAuditAndAssurance: HirePageContent = {
     title: "Hire Audit & Assurance Professionals for Your Business",
     subtitle:
       "Get experienced audit and assurance support to strengthen financial reporting, streamline audit preparation, and help your accounting team manage complex engagements with confidence.",
-    primaryCta: schedule("Hire audit professionals"),
+    primaryCta: { label: "Hire audit professionals", href: routes.contact() },
     // Same rule as "Explore our services": scrolls to this page's expertise grid.
     secondaryCta: { label: "Explore Our Expertise", href: "#expertise" },
     checks: [
       { label: "Audit & Assurance Expertise" },
       { label: "Flexible Staffing Models" },
-      { label: "Experienced Professionals", desktopOnly: true },
+      { label: "Experienced Professionals" },
     ],
   },
 
@@ -85,7 +85,11 @@ export const hireAuditAndAssurance: HirePageContent = {
       width: 1480,
       height: 986,
     },
-    checks: ["Flexible Engagement Models", "U.S. Business & CPA Firm Support", "Flexible Engagements"],
+    checks: [
+      "Flexible Engagement Models",
+      "U.S. Business & CPA Firm Support",
+      "Flexible Engagements",
+    ],
     checksStyle: "list",
     cta: schedule("Build your audit team"), // COPY FIX: drawn as "Build your  audit  team" (double spaces)
   },
@@ -94,23 +98,26 @@ export const hireAuditAndAssurance: HirePageContent = {
     badge: "Key Benefits",
     title: "Why Businesses Hire Audit & Assurance Professionals?", // COPY FIX: drawn as "Why businesses"
     body: "Build accounting capacity with dedicated professionals supporting your existing workflows and needs.",
-    cta: schedule("Let's Discuss Project"), // COPY FIX: drawn as "Lets"
+    cta: { label: "Let's Discuss Project", href: routes.contact() }, // COPY FIX: drawn as "Lets"
     items: [
       {
         tone: "white",
-        icon: "group_search",
+        icon: "groups_2",
         title: "Increase Your Team's Capacity",
         body: [
           "Add ",
           // Drawn as a green underlined link without a target: points at the Hire Dedicated
           // Accounting Professionals page.
-          { text: "accounting professionals", href: routes.hireStaff("hire-bookkeeper-accountant") },
+          {
+            text: "accounting professionals",
+            href: routes.hireStaff("hire-bookkeeper-accountant"),
+          },
           " when workloads increase without committing to a permanent increase in headcount.",
         ],
       },
       {
         tone: "white",
-        icon: "how_to_reg",
+        icon: "assignment",
         title: "Improve Documentation",
         body: [
           "Organized schedules, reconciliations, supporting documentation, and workpapers can make engagement workflows easier to manage.",
@@ -118,7 +125,7 @@ export const hireAuditAndAssurance: HirePageContent = {
       },
       {
         tone: "white",
-        icon: "add_chart",
+        icon: "trending_down",
         title: "Reduce Workload Pressure",
         body: [
           "Support your audit team during busy periods so senior professionals can focus on review, analysis, and client communication.",
@@ -126,13 +133,15 @@ export const hireAuditAndAssurance: HirePageContent = {
       },
       {
         tone: "white",
-        icon: "electric_bolt",
+        icon: "contact_phone",
         title: "Support Multiple Engagements",
-        body: ["CPA firms can add resources when multiple audits, reviews, compilations, or other engagements overlap."],
+        body: [
+          "CPA firms can add resources when multiple audits, reviews, compilations, or other engagements overlap.",
+        ],
       },
       {
         tone: "white",
-        icon: "track_changes",
+        icon: "tune",
         title: "Scale Up or Down",
         body: [
           "Choose an engagement structure based on your workload rather than maintaining the same staffing level year-round.",
@@ -155,22 +164,22 @@ export const hireAuditAndAssurance: HirePageContent = {
         body: "Support audit procedures, testing, documentation, and workpapers.",
       },
       {
-        icon: "assured_workload",
+        icon: "article",
         title: "Audit Documentation",
         body: "Prepare and organize documentation and supporting audit evidence.",
       },
       {
-        icon: "event_available",
+        icon: "fact_check",
         title: "Testing & Procedures",
         body: "Assist with account testing, transaction testing, and other audit procedures.",
       },
       {
-        icon: "receipt_long",
+        icon: "tune",
         title: "Flexible Staffing Options",
         body: "Scale audit support based on your workload, engagement schedules, and changing business requirements.",
       },
       {
-        icon: "add_chart",
+        icon: "person",
         title: "Workpaper Support",
         body: "Help prepare, update, and organize audit workpapers.",
       },
@@ -198,7 +207,7 @@ export const hireAuditAndAssurance: HirePageContent = {
           "Compliance checks and documentation",
           "Flexible, pay-as-you-go support",
         ],
-        cta: schedule("Get Started"),
+        cta: { label: "Get Started", href: routes.contact() },
       },
       {
         number: "02", // COPY FIX: drawn as "01" (duplicates the first card's number)
@@ -211,7 +220,7 @@ export const hireAuditAndAssurance: HirePageContent = {
           "Regulatory compliance and reporting",
           "Ongoing audit and assurance support",
         ],
-        cta: schedule("Hire Your Professionals"),
+        cta: { label: "Hire Your Professionals", href: routes.contact() },
         featured: true,
       },
       {
@@ -227,7 +236,7 @@ export const hireAuditAndAssurance: HirePageContent = {
           "Due diligence and financial reviews",
           "Project-based deliverables and timelines",
         ],
-        cta: schedule("Discuss Your Project"),
+        cta: { label: "Discuss Your Project", href: routes.contact() },
       },
     ],
   },
@@ -246,9 +255,15 @@ export const hireAuditAndAssurance: HirePageContent = {
         title: "Discuss Your Needs",
         body: "We review your requirements and determine the experience level and type of audit support needed.",
       },
-      { title: "Meet the Professionals", body: "Review suitable audit professionals based on your specific requirements." },
+      {
+        title: "Meet the Professionals",
+        body: "Review suitable audit professionals based on your specific requirements.",
+      },
       // COPY FIX: drawn with a leading space (" Select Your Engagement").
-      { title: "Select Your Engagement", body: "Choose the engagement model that fits your workload and business needs." },
+      {
+        title: "Select Your Engagement",
+        body: "Choose the engagement model that fits your workload and business needs.",
+      },
       {
         title: "Start Your Engagement",
         body: "Your selected professionals begin working within your existing processes and workflows.",
@@ -300,14 +315,32 @@ export const hireAuditAndAssurance: HirePageContent = {
         title: "Audit Associate",
         experience: "6 months – 2 years", // COPY FIX: drawn with a hyphen ("6 months - 2 years")
         responsibilities: [
-          { label: "Substantive Testing", text: "Performing vouching and tracing of transactions to source documents" },
-          { label: "Confirmations", text: "Managing the bank and AR/AP confirmation process via Confirmation.com" },
-          { label: "Roll-forwards", text: "Updating the current year audit file with prior-year balances and notes" },
-          { label: "Sample Selection", text: "Selecting samples using IDEA or ACL for testing procedures" },
-          { label: "Documentation", text: "Preparing audit workpapers with proper indexing and cross-referencing" },
-          { label: "PBC Tracking", text: "Helping to track Provided by Client documents and follow up on missing items" },
+          {
+            label: "Substantive Testing",
+            text: "Performing vouching and tracing of transactions to source documents",
+          },
+          {
+            label: "Confirmations",
+            text: "Managing the bank and AR/AP confirmation process via Confirmation.com",
+          },
+          {
+            label: "Roll-forwards",
+            text: "Updating the current year audit file with prior-year balances and notes",
+          },
+          {
+            label: "Sample Selection",
+            text: "Selecting samples using IDEA or ACL for testing procedures",
+          },
+          {
+            label: "Documentation",
+            text: "Preparing audit workpapers with proper indexing and cross-referencing",
+          },
+          {
+            label: "PBC Tracking",
+            text: "Helping to track Provided by Client documents and follow up on missing items",
+          },
         ],
-        cta: schedule("Get Started"),
+        cta: { label: "Get Started", href: routes.contact() },
       },
       {
         level: "Mid Level",
@@ -318,10 +351,19 @@ export const hireAuditAndAssurance: HirePageContent = {
             label: "Control Testing",
             text: "Documenting walkthroughs and testing the operating effectiveness of internal controls",
           },
-          { label: "Financial Drafting", text: "Preparing draft financial statements including mandatory GAAP disclosures" },
+          {
+            label: "Financial Drafting",
+            text: "Preparing draft financial statements including mandatory GAAP disclosures",
+          },
           // COPY FIX: drawn as "multi- state". As drawn otherwise (sales tax on an audit card).
-          { label: "Sales Tax Compliance", text: "Managing multi-state nexus studies and filing via TaxJar or Avalara" },
-          { label: "Account Analysis", text: "Performing complex account reconciliations and analytical procedures" },
+          {
+            label: "Sales Tax Compliance",
+            text: "Managing multi-state nexus studies and filing via TaxJar or Avalara",
+          },
+          {
+            label: "Account Analysis",
+            text: "Performing complex account reconciliations and analytical procedures",
+          },
           {
             label: "Risk Assessment",
             text: "Assisting with risk assessment procedures and identifying areas of audit focus",
@@ -331,7 +373,7 @@ export const hireAuditAndAssurance: HirePageContent = {
             text: "Interfacing with client accounting staff to gather information and resolve queries",
           },
         ],
-        cta: schedule("Get Started"),
+        cta: { label: "Get Started", href: routes.contact() },
         featured: true,
       },
       {
@@ -339,13 +381,22 @@ export const hireAuditAndAssurance: HirePageContent = {
         title: "Audit Manager",
         experience: "5+ years experience",
         responsibilities: [
-          { label: "Risk Assessment", text: "Calculating materiality and identifying areas of high risk/fraud" },
-          { label: "Quality Review", text: "Performing a second-level review of workpapers to ensure GAAS compliance" },
+          {
+            label: "Risk Assessment",
+            text: "Calculating materiality and identifying areas of high risk/fraud",
+          },
+          {
+            label: "Quality Review",
+            text: "Performing a second-level review of workpapers to ensure GAAS compliance",
+          },
           {
             label: "Specialized Audits",
             text: "Leading 401(k) Employee Benefit Plan audits or Single Audits (Uniform Guidance)",
           },
-          { label: "Planning & Strategy", text: "Developing audit strategies and engagement planning documentation" },
+          {
+            label: "Planning & Strategy",
+            text: "Developing audit strategies and engagement planning documentation",
+          },
           {
             label: "Team Supervision",
             text: "Supervising junior and senior associates, performing quality reviews of their work",
@@ -359,7 +410,7 @@ export const hireAuditAndAssurance: HirePageContent = {
             text: "Providing recommendations for improving internal controls and processes",
           },
         ],
-        cta: schedule("Get Started"),
+        cta: { label: "Get Started", href: routes.contact() },
       },
     ],
   },
@@ -380,7 +431,7 @@ export const hireAuditAndAssurance: HirePageContent = {
           width: 828,
           height: 466,
         },
-        cta: schedule("Get Started"),
+        cta: { label: "Get Started", href: routes.contact() },
       },
       {
         title: "Small & Medium Businesses",
@@ -391,7 +442,7 @@ export const hireAuditAndAssurance: HirePageContent = {
           width: 828,
           height: 466,
         },
-        cta: schedule("Get Started"),
+        cta: { label: "Get Started", href: routes.contact() },
       },
       {
         title: "CPA & Accounting Firms",
@@ -402,7 +453,7 @@ export const hireAuditAndAssurance: HirePageContent = {
           width: 829,
           height: 553,
         },
-        cta: schedule("Get Started"),
+        cta: { label: "Get Started", href: routes.contact() },
       },
     ],
   },
@@ -424,17 +475,17 @@ export const hireAuditAndAssurance: HirePageContent = {
         body: "Choose project, dedicated, seasonal, or ongoing audit support.",
       },
       {
-        icon: "contact_phone",
+        icon: "page_info",
         title: "Scalable Capacity",
         body: "Add audit resources as workloads and engagement needs change.",
       },
       {
-        icon: "page_info",
+        icon: "contact_phone",
         title: "Structured Communication",
         body: "Clear tasks, deliverables, reviews, and communication procedures.",
       },
       {
-        icon: "add_chart",
+        icon: "event_available",
         title: "Dedicated Coordination",
         body: "A designated contact keeps tasks, timelines, and communication organized.",
       },
@@ -481,7 +532,11 @@ export const hireAuditAndAssurance: HirePageContent = {
         title: "Logical Access Control",
         items: [
           { icon: "how_to_reg", title: "User-Based Access", body: "Identity and permissions" },
-          { icon: "shield_person_badge", title: "Restricted Client Access", body: "Limited permissions" },
+          {
+            icon: "shield_person_badge",
+            title: "Restricted Client Access",
+            body: "Limited permissions",
+          },
           { icon: "settings", title: "System Access Controls", body: "System configuration" },
         ],
       },
@@ -513,10 +568,20 @@ export const hireAuditAndAssurance: HirePageContent = {
         ],
       },
       { id: "audit-software", icon: "dvr", label: "Audit Software", tools: [] },
-      { id: "data-analytics-testing", icon: "analytics", label: "Data Analytics & Testing", tools: [] },
-      { id: "confirmation-documentation", icon: "assignment", label: "Confirmation & Documentation", tools: [] },
+      {
+        id: "data-analytics-testing",
+        icon: "analytics",
+        label: "Data Analytics & Testing",
+        tools: [],
+      },
+      {
+        id: "confirmation-documentation",
+        icon: "assignment",
+        label: "Confirmation & Documentation",
+        tools: [],
+      },
       // The design repeats "Audit Software" as a fifth tab (search_check_2 icon).
-      { id: "audit-software-2", icon: "search_check_2", label: "Audit Software", tools: [] },
+      { id: "audit-software-2", icon: "calculate", label: "Audit Software", tools: [] },
     ],
   },
 

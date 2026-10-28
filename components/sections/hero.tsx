@@ -10,8 +10,8 @@ import { cn } from "@/lib/utils";
 import { sectionId } from "@/lib/section-ids";
 
 /**
- * B1 Hero. Mobile: centred, one full-width CTA, two checks. Desktop: left-aligned, two CTAs,
- * three checks, faded X watermark (parallax). Green glow on every screen.
+ * B1 Hero. Mobile: centred, full-width CTAs. Desktop: left-aligned, CTAs side by side, faded X
+ * watermark (parallax). Buttons and checks are the same on every screen. Green glow everywhere.
  * Entrance uses CSS (starts at first paint) so the LCP text is never held back by JS.
  */
 /** `variant="inner"`: inner-page spacing (audit design: 743px tall, content at 224px). */
@@ -145,10 +145,10 @@ export function Hero({
               )}
               style={rise(320)}
             >
+              {/* Every item on every screen size (user request 2026-10-26; "Desktop only" items
+                  used to be hidden below lg). Studio's "Show" switch removes an item everywhere. */}
               {data.checks.map((c) => (
-                <CheckItem key={c.label} className={cn(c.desktopOnly && "hidden lg:flex")}>
-                  {c.label}
-                </CheckItem>
+                <CheckItem key={c.label}>{c.label}</CheckItem>
               ))}
             </ul>
           ) : null}

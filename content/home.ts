@@ -45,14 +45,14 @@ export const home = {
     title: "Outsourced *Accounting* Services for US Businesses",
     subtitle:
       "We provide outsourced accounting and bookkeeping services for U.S. businesses and CPA firms, including reconciliations, financial reporting, AP, AR, and ongoing accounting support.",
-    primaryCta: { label: "Get a Free Consultation", href: "#contact" },
+    primaryCta: { label: "Get a Free Consultation", href: routes.contact() },
     // Client rule: "Explore our services" scrolls to this page's own services section.
     secondaryCta: { label: "Explore Our Services", href: "#services" },
-    /** `desktopOnly` items are not drawn in the mobile design. */
+    /** Shown on every screen size. */
     checks: [
       { label: "ISO/IEC 27001:2022" },
       { label: "US GAAP Expertise" },
-      { label: "Experienced accounting professionals", desktopOnly: true },
+      { label: "Experienced accounting professionals" },
     ],
   },
 
@@ -96,7 +96,7 @@ export const home = {
     badge: "Key Challenges",
     title: "Common Accounting Challenges Businesses Face",
     body: "Managing accounting in-house can become time-consuming as your business grows. From hiring skilled professionals to handling increasing transaction volumes, accounting demands can put pressure on your team and resources.",
-    cta: { label: "Let's Discuss Project", href: "#contact" }, // COPY FIX: apostrophe
+    cta: { label: "Let's Discuss Project", href: routes.contact() }, // COPY FIX: apostrophe
     items: [
       {
         tone: "rose",
@@ -334,12 +334,11 @@ export const home = {
         result:
           "Improved financial visibility, streamlined day-to-day operations, and reduced internal accounting workload.",
         // Drawn on mobile only; shown on every screen since 2026-10-25 (user request). Editable in
-        // Studio → Home Page → Case Studies → Impact card (icon, Show on).
+        // Studio → Home Page → Case Studies → Impact card (icon, Show impact card).
         impact: {
           label: "Workload Impact",
           value: "42% Reduced",
           icon: "trending_down",
-          devices: ["mobile", "tablet", "laptop"],
         } satisfies CaseStudyImpact,
         image: {
           src: "/images/home/case-study-cpa.jpg",
@@ -374,7 +373,6 @@ export const home = {
           label: "Raise in leads",
           value: "10+",
           icon: "trending_up",
-          devices: ["mobile", "tablet", "laptop"],
         } satisfies CaseStudyImpact,
         image: {
           src: "/images/industries/real-estate-intro.jpg",

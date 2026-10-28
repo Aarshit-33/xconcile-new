@@ -1,6 +1,7 @@
 /**
- * IT & Technology Accounting Services (`/industries/it-technology`, new slug: the live site has
- * no separate IT page).
+ * IT & Technology Accounting Services (`/industries/it-technology-accounting-services`: the Figma
+ * page name, client note 2026-10-27 in page-updated/newShit/27-10-2026.svg; was
+ * `/industries/it-technology`, which now 301s here). The live site has no separate IT page.
  *
  * Source (user request 2026-10-25): the Figma design
  * `../pages/industry/it-technology-accounting-services.svg` (rendered to PNG and read visually),
@@ -16,14 +17,13 @@
  */
 import { home } from "@/content/home";
 import type { IndustryPageContent } from "@/content/industries/types";
-import { SCHEDULE_HREF, type RichText } from "@/content/types";
+import type { RichText } from "@/content/types";
 import { routes } from "@/lib/routes";
 
 /** The page has no contact section, so CTAs open the Calendly popup (client rule). */
-const schedule = (label: string) => ({ label, href: SCHEDULE_HREF });
 
 export const itTechnology: IndustryPageContent = {
-  slug: "it-technology",
+  slug: "it-technology-accounting-services",
   name: "IT & Technology Accounting Services",
 
   seo: {
@@ -51,20 +51,24 @@ export const itTechnology: IndustryPageContent = {
     subtitle:
       "Keep your financial records organized and your accounting work on track with outsourced accounting support built for IT and technology businesses.",
     // Labels from the PNG (the CSS export still says "Get in Touch" on both buttons).
-    primaryCta: schedule("Talk to an expert"),
+    primaryCta: { label: "Talk to an expert", href: routes.contact() },
     // Same rule as "Explore our services": scrolls to this page's services grid.
     secondaryCta: { label: "Explore Our Expertise", href: "#expertise" },
     checks: [
       { label: "U.S. Accounting Expertise" },
       { label: "Accurate books & financial reporting" },
-      { label: "Flexible outsourced accounting", desktopOnly: true },
+      { label: "Flexible outsourced accounting" },
     ],
   },
 
   features: {
     label: "Why work with Xconcile",
     items: [
-      { icon: "person_check", title: "Technology Expertise", body: "Accounting built for IT & technology businesses." },
+      {
+        icon: "person_check",
+        title: "Technology Expertise",
+        body: "Accounting built for IT & technology businesses.",
+      },
       { icon: "cached", title: "Flexible Support", body: "Flexible support for your business." },
       { icon: "settings", title: "Seamless Workflows", body: "Fits your existing workflow." },
       // COPY FIX: closing period added.
@@ -90,44 +94,54 @@ export const itTechnology: IndustryPageContent = {
     },
     checks: ["Accurate Bookkeeping", "Financial Reporting", "Ongoing Accounting Support"],
     checksStyle: "list",
-    cta: { label: "Hire Accounting Staff", href: routes.hireStaff("hire-bookkeeper-accountant") },
+    cta: { label: "Hire Accounting Staff", href: routes.contact() },
   },
 
   challenges: {
     badge: "Key Challenges",
     title: "Accounting Challenges IT & Technology Businesses Face",
     body: "Technology businesses focus on products, customers, and growth. Managing revenue, software systems, and project costs can make accounting more demanding as they grow.",
-    cta: schedule("Let's Discuss Project"), // COPY FIX: drawn as "Lets"
+    cta: { label: "Let's Discuss Project", href: routes.contact() }, // COPY FIX: drawn as "Lets"
     items: [
       {
         tone: "white",
         icon: "calculate",
         title: "Managing Project-Based Finances",
-        body: ["Tracking project costs, revenue, and profitability can become difficult across multiple projects."],
+        body: [
+          "Tracking project costs, revenue, and profitability can become difficult across multiple projects.",
+        ],
       },
       {
         tone: "white",
         icon: "account_balance",
         title: "Growing Transaction Volume",
-        body: ["As the business grows, handling invoices, expenses, payments, and reconciliations can take more time."],
+        body: [
+          "As the business grows, handling invoices, expenses, payments, and reconciliations can take more time.",
+        ],
       },
       {
         tone: "white",
-        icon: "home",
+        icon: "account_balance_wallet",
         title: "Tracking Revenue and Cash Flow",
-        body: ["Subscription billing, recurring revenue, and changing project payments can make cash flow harder to manage."],
+        body: [
+          "Subscription billing, recurring revenue, and changing project payments can make cash flow harder to manage.",
+        ],
       },
       {
         tone: "white",
-        icon: "9k_plus",
+        icon: "add_chart",
         title: "Accurate Financial Reporting",
-        body: ["Maintaining accurate books and timely financial reporting becomes more challenging as operations expand."],
+        body: [
+          "Maintaining accurate books and timely financial reporting becomes more challenging as operations expand.",
+        ],
       },
       {
         tone: "white",
         icon: "dictionary",
         title: "Payroll & Contractor Payments",
-        body: ["Managing employees, contractors, and payroll requirements can add to the accounting workload."],
+        body: [
+          "Managing employees, contractors, and payroll requirements can add to the accounting workload.",
+        ],
       },
     ],
   },
@@ -137,7 +151,8 @@ export const itTechnology: IndustryPageContent = {
     badge: "Expertise",
     // As drawn: no green highlight in this heading.
     title: "IT & Technology Accounting & Bookkeeping Services",
-    subtitle: "We help technology businesses with accounting, bookkeeping, and financial reporting.",
+    subtitle:
+      "We help technology businesses with accounting, bookkeeping, and financial reporting.",
     // Six tiles with their own glyphs and lines, as drawn (4 + 2 in the design).
     items: [
       {
@@ -156,7 +171,7 @@ export const itTechnology: IndustryPageContent = {
         body: "Prepare regular financial reports to help you track revenue, expenses, and overall business performance.",
       },
       {
-        icon: "sync_alt",
+        icon: "receipt_long",
         title: "Revenue & Expense Tracking",
         body: "Track project revenue, subscriptions, software costs, contractors, payroll, and operating expenses.",
       },
@@ -166,7 +181,7 @@ export const itTechnology: IndustryPageContent = {
         body: "Manage vendor bills, customer invoices, payments, and outstanding balances.",
       },
       {
-        icon: "add_chart",
+        icon: "calendar_month",
         title: "Month-End Close",
         // COPY FIX: closing period added.
         body: "Handle recurring month-end tasks, account reviews, and financial close activities.",
@@ -179,7 +194,8 @@ export const itTechnology: IndustryPageContent = {
     // COPY FIX: drawn as "Accounting Support Across Professional Services" (professional-services
     // page leftover); the drawn subtitle is about technology businesses.
     title: "Accounting Support Across IT & Technology",
-    subtitle: "We provide accounting support for a range of technology and technology-enabled businesses.",
+    subtitle:
+      "We provide accounting support for a range of technology and technology-enabled businesses.",
     // Five rows, titles, lines and icons as drawn (the design numbers the fifth row "04"; the
     // component numbers rows itself). Accordion details (the design draws the "+" but no panel):
     // only "SaaS & Software Development" in docs/content/industries/tech-ecommerce.md
@@ -189,7 +205,7 @@ export const itTechnology: IndustryPageContent = {
     // details are SAMPLE CONTENT (NOT IN DESIGN; user request 2026-10-25), replace with client copy.
     items: [
       {
-        icon: "calculate",
+        icon: "browser_updated",
         title: "IT Services Companies",
         body: "Manage project revenue, expenses, payroll, and contractors.",
         // SAMPLE CONTENT (NOT IN DESIGN; user request 2026-10-25 "add sample data").
@@ -239,7 +255,7 @@ export const itTechnology: IndustryPageContent = {
         ],
       },
       {
-        icon: "assignment",
+        icon: "backup",
         title: "SaaS Companies",
         body: "Track recurring revenue, subscriptions, and operating expenses.",
         groups: [
@@ -292,7 +308,7 @@ export const itTechnology: IndustryPageContent = {
         ],
       },
       {
-        icon: "import_contacts",
+        icon: "developer_mode_tv",
         title: "Software Companies",
         body: "Get bookkeeping and financial reporting support.",
         // SAMPLE CONTENT (NOT IN DESIGN).
@@ -342,7 +358,7 @@ export const itTechnology: IndustryPageContent = {
         ],
       },
       {
-        icon: "import_contacts",
+        icon: "engineering",
         title: "Technology Consultants",
         body: "Manage invoices, projects, contractors, and expenses.",
         // SAMPLE CONTENT (NOT IN DESIGN).
@@ -392,7 +408,7 @@ export const itTechnology: IndustryPageContent = {
         ],
       },
       {
-        icon: "import_contacts",
+        icon: "rocket_launch",
         title: "Tech Startups",
         body: "Build an organized accounting foundation as you grow.",
         // SAMPLE CONTENT (NOT IN DESIGN).
@@ -453,14 +469,30 @@ export const itTechnology: IndustryPageContent = {
       "Get accounting support designed around your sales channels, financial processes, and business requirements.",
     features: [
       {
-        icon: "contextual_token_add",
+        icon: "deployed_code_account",
         title: "Experienced Professionals",
         body: "Work with specialists who understand your accounting needs.",
       },
-      { icon: "deployed_code_account", title: "Clear Reporting", body: "Get clear reports on revenue, expenses, profit, and cash." },
-      { icon: "contact_phone", title: "Scalable Support", body: "Flexible support that grows with your business and team." },
-      { icon: "page_info", title: "Accurate Records", body: "Keep financial records accurate, organized, and up to date." },
-      { icon: "add_chart", title: "Smooth Workflows", body: "Keep recurring accounting tasks simple and workflows clear." },
+      {
+        icon: "contextual_token_add",
+        title: "Clear Reporting",
+        body: "Get clear reports on revenue, expenses, profit, and cash.",
+      },
+      {
+        icon: "contact_phone",
+        title: "Scalable Support",
+        body: "Flexible support that grows with your business and team.",
+      },
+      {
+        icon: "fact_check",
+        title: "Accurate Records",
+        body: "Keep financial records accurate, organized, and up to date.",
+      },
+      {
+        icon: "account_tree",
+        title: "Smooth Workflows",
+        body: "Keep recurring accounting tasks simple and workflows clear.",
+      },
     ],
     // Same four photos as Home (identical assets in the design).
     images: home.whyChoose.images,
@@ -533,7 +565,7 @@ export const itTechnology: IndustryPageContent = {
     title: "Need Accounting Support for Your IT & Technology Business?",
     body: "Keep your books organized, understand your financials, and spend more time building your technology business.",
     // Label from the PNG (the CSS export says "Get in Touch").
-    cta: schedule("Get Started Today"),
+    cta: { label: "Get Started Today", href: routes.contact() },
     // The design draws a flat teal band; the real-estate CTA band component uses a photo, so the
     // same handshake photo is kept (decorative).
     image: { src: "/images/services/cta-handshake.jpg", alt: "", width: 1500, height: 1000 },

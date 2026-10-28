@@ -48,13 +48,13 @@ export const hireVirtualCfoAndFpAndA: HirePageContent = {
     title: "Hire a Virtual CFO for Your Business",
     subtitle:
       "Get access to experienced Virtual CFO professionals who can support financial planning, forecasting, cash flow management, reporting, budgeting, and strategic financial analysis.",
-    primaryCta: schedule("Hire a virtual CFO"), // COPY FIX: drawn as "Hire a virtual cfo"
+    primaryCta: { label: "Hire a virtual CFO", href: routes.contact() }, // COPY FIX: drawn as "Hire a virtual cfo"
     // Same rule as "Explore our services": scrolls to this page's expertise grid.
     secondaryCta: { label: "Explore Our Expertise", href: "#expertise" },
     checks: [
       { label: "U.S.-Focused Financial Expertise" },
       { label: "Experienced CFO Professionals" },
-      { label: "Flexible Engagement Models", desktopOnly: true },
+      { label: "Flexible Engagement Models" },
     ],
   },
 
@@ -70,7 +70,11 @@ export const hireVirtualCfoAndFpAndA: HirePageContent = {
       },
       { icon: "cached", title: "Flexible Support", body: "Support tailored to your needs" },
       // COPY FIX: drawn in Title Case ("Works With Your Existing Workflows"); sentence case like the other tiles.
-      { icon: "settings", title: "Seamless Integration", body: "Works with your existing workflows" },
+      {
+        icon: "settings",
+        title: "Seamless Integration",
+        body: "Works with your existing workflows",
+      },
       { icon: "lock", title: "Secure Data Handling", body: "Your financial data is protected" },
     ],
   },
@@ -83,7 +87,10 @@ export const hireVirtualCfoAndFpAndA: HirePageContent = {
     bodyMore: [
       "Xconcile provides ",
       // Drawn as a green link without a target: points at the Virtual CFO service page.
-      { text: "outsourced virtual CFO services", href: routes.service("outsourced-virtual-cfo-and-fp-and-a") },
+      {
+        text: "outsourced virtual CFO services",
+        href: routes.service("outsourced-virtual-cfo-and-fp-and-a"),
+      },
       " for U.S. businesses that need ongoing or project-based financial support. Our professionals work with your team on financial planning, cash flow forecasting, budgeting, management reporting, profitability analysis, and investor needs, giving you reliable financial information to support planning and decision-making.",
     ] satisfies RichText,
     bodyMoreLayout: "paragraph",
@@ -106,30 +113,36 @@ export const hireVirtualCfoAndFpAndA: HirePageContent = {
     badge: "Key Benefits",
     title: "Why Businesses Hire a Virtual CFO",
     body: "Growing businesses can get experienced financial support without hiring a full-time CFO. A Virtual CFO helps with cash flow, financial planning, growth, and key business decisions.",
-    cta: schedule("Let's Discuss Project"), // COPY FIX: drawn as "Lets"
+    cta: { label: "Let's Discuss Project", href: routes.contact() }, // COPY FIX: drawn as "Lets"
     items: [
       {
         tone: "white",
-        icon: "group_search",
+        icon: "contact_phone",
         title: "Cost-Efficient CFO Support",
-        body: ["Get CFO support based on your business needs without the cost of hiring a full-time CFO."],
+        body: [
+          "Get CFO support based on your business needs without the cost of hiring a full-time CFO.",
+        ],
       },
       {
         tone: "white",
-        icon: "how_to_reg",
+        icon: "currency_exchange",
         title: "Financial Planning",
-        body: ["Create budgets, forecasts, financial models and plans to help you make better financial decisions."],
+        body: [
+          "Create budgets, forecasts, financial models and plans to help you make better financial decisions.",
+        ],
       },
       {
         tone: "white",
-        icon: "add_chart",
+        icon: "request_quote",
         title: "Cash Flow Management",
         // COPY FIX: drawn without the closing period.
-        body: ["Track your cash flow, plan for upcoming expenses, and maintain a clear view of your business finances."],
+        body: [
+          "Track your cash flow, plan for upcoming expenses, and maintain a clear view of your business finances.",
+        ],
       },
       {
         tone: "white",
-        icon: "electric_bolt",
+        icon: "monitoring",
         title: "Investor Readiness & Fundraising",
         body: [
           "Prepare financial models, reports, and supporting documents to help you confidently prepare for investors and lenders.",
@@ -137,12 +150,15 @@ export const hireVirtualCfoAndFpAndA: HirePageContent = {
       },
       {
         tone: "white",
-        icon: "track_changes",
+        icon: "verified_user",
         title: "Compliance & Risk Management",
         body: [
           "Keep your financial processes organized, improve internal controls, and prepare for tax, compliance, and audit requirements with ",
           // As drawn: a green link to the tax preparation service (odd on a CFO page). Confirm.
-          { text: "outsourced tax preparation support", href: routes.service("outsourced-tax-preparation") },
+          {
+            text: "outsourced tax preparation support",
+            href: routes.service("outsourced-tax-preparation"),
+          },
           ".",
         ],
       },
@@ -161,12 +177,12 @@ export const hireVirtualCfoAndFpAndA: HirePageContent = {
         body: "Build financial plans tied to your growth goals, so decisions are backed by numbers, not guesswork.",
       },
       {
-        icon: "assured_workload",
+        icon: "payments",
         title: "Budgeting & Forecasting", // COPY FIX: drawn with a leading space
         body: "Create budgets and rolling forecasts that update as your business and market conditions change.",
       },
       {
-        icon: "event_available",
+        icon: "sync_alt",
         title: "Cash Flow Management",
         body: "Track inflows and outflows, spot shortfalls early, and improve short- and long-term cash visibility.",
       },
@@ -181,7 +197,7 @@ export const hireVirtualCfoAndFpAndA: HirePageContent = {
         body: "Turn raw financial data into dashboards and KPI reports your leadership team can act on.",
       },
       {
-        icon: "add_chart",
+        icon: "call",
         title: "Ongoing CFO Advisory",
         body: "Get regular guidance from a finance professional who understands your business and priorities.",
       },
@@ -192,7 +208,8 @@ export const hireVirtualCfoAndFpAndA: HirePageContent = {
     id: "hiring-models",
     badge: "Engagement Models",
     title: "Choose the Virtual CFO Support That Fits Your Business",
-    subtitle: "Select a flexible engagement based on your financial needs, workload, and level of support.",
+    subtitle:
+      "Select a flexible engagement based on your financial needs, workload, and level of support.",
     featuredLabel: "Most Popular",
     items: [
       {
@@ -201,16 +218,26 @@ export const hireVirtualCfoAndFpAndA: HirePageContent = {
         title: "Part-Time Virtual CFO",
         tagline: "Flexible help when you need it",
         body: "Get ongoing CFO support without hiring a full-time executive.",
-        features: ["Regular financial reviews", "Budgeting and forecasting", "Cash flow planning", "Management reporting"],
-        cta: schedule("Get Started"),
+        features: [
+          "Regular financial reviews",
+          "Budgeting and forecasting",
+          "Cash flow planning",
+          "Management reporting",
+        ],
+        cta: { label: "Get Started", href: routes.contact() },
       },
       {
         number: "02", // COPY FIX: drawn as "01" (duplicates the first card)
         title: "Dedicated Virtual CFO",
         tagline: "Consistent support from a dedicated professional",
         body: "Work with a dedicated CFO professional who understands your business and financial priorities.",
-        features: ["Ongoing financial oversight", "Regular reporting and analysis", "Financial planning", "Business decision support"],
-        cta: schedule("Choose Your Model"),
+        features: [
+          "Ongoing financial oversight",
+          "Regular reporting and analysis",
+          "Financial planning",
+          "Business decision support",
+        ],
+        cta: { label: "Choose Your Model", href: routes.contact() },
         featured: true,
       },
       {
@@ -219,8 +246,13 @@ export const hireVirtualCfoAndFpAndA: HirePageContent = {
         title: "Project-Based CFO Support",
         tagline: "Focused support for defined assignments",
         body: "Get focused financial expertise for a specific project or business need.",
-        features: ["Financial analysis", "Forecasting projects", "Business planning", "Financial model support"],
-        cta: schedule("Discuss Your Project"),
+        features: [
+          "Financial analysis",
+          "Forecasting projects",
+          "Business planning",
+          "Financial model support",
+        ],
+        cta: { label: "Discuss Your Project", href: routes.contact() },
       },
     ],
   },
@@ -231,7 +263,10 @@ export const hireVirtualCfoAndFpAndA: HirePageContent = {
     subtitle:
       "Choose the most elastic model of engagement that suits your needs to maximize returns within your budget.",
     steps: [
-      { title: "Tell Us About Your Business", body: "Share your business, financial needs, and current challenges." },
+      {
+        title: "Tell Us About Your Business",
+        body: "Share your business, financial needs, and current challenges.",
+      },
       {
         title: "Define Your CFO Requirements",
         body: "We understand your requirements and determine the right level of CFO support.",
@@ -299,28 +334,64 @@ export const hireVirtualCfoAndFpAndA: HirePageContent = {
         title: "Financial Analyst",
         experience: "6 months - 2 years",
         responsibilities: [
-          { label: "Data Visualization", text: "Updating monthly KPI dashboards and charts using Power BI, Tableau, or Fathom" },
-          { label: "Budgeting Support", text: "Gathering historical data to assist in the creation of departmental budgets" },
-          { label: "Ratio Analysis", text: "Calculating liquidity, leverage, and profitability ratios for financial health assessment" },
-          { label: "Report Generation", text: "Creating standardized financial reports and presentations" },
-          { label: "Data Management", text: "Maintaining financial databases and ensuring data accuracy" },
-          { label: "Ad-hoc Analysis", text: "Supporting senior analysts with special projects and research" },
+          {
+            label: "Data Visualization",
+            text: "Updating monthly KPI dashboards and charts using Power BI, Tableau, or Fathom",
+          },
+          {
+            label: "Budgeting Support",
+            text: "Gathering historical data to assist in the creation of departmental budgets",
+          },
+          {
+            label: "Ratio Analysis",
+            text: "Calculating liquidity, leverage, and profitability ratios for financial health assessment",
+          },
+          {
+            label: "Report Generation",
+            text: "Creating standardized financial reports and presentations",
+          },
+          {
+            label: "Data Management",
+            text: "Maintaining financial databases and ensuring data accuracy",
+          },
+          {
+            label: "Ad-hoc Analysis",
+            text: "Supporting senior analysts with special projects and research",
+          },
         ],
-        cta: schedule("Get Started"),
+        cta: { label: "Get Started", href: routes.contact() },
       },
       {
         level: "Mid Level",
         title: "Senior FP&A Analyst",
         experience: "3-5 years",
         responsibilities: [
-          { label: "Rolling Forecasts", text: "Building and maintaining 12-month rolling financial forecasts that adapt to market conditions" },
-          { label: "Cash Flow Modeling", text: "Creating 13-week cash flow projections to manage short-term liquidity and avoid cash crunches" },
-          { label: "Scenario Planning", text: "Building \"What-if\" models for price changes, new product launches, or expansion scenarios" },
-          { label: "Variance Analysis", text: "Performing detailed budget vs. actual analysis to explain performance gaps" },
-          { label: "Profitability Analysis", text: "Analyzing product/service line profitability and customer profitability" },
-          { label: "Board Presentations", text: "Preparing monthly executive summary decks for board meetings or investors" },
+          {
+            label: "Rolling Forecasts",
+            text: "Building and maintaining 12-month rolling financial forecasts that adapt to market conditions",
+          },
+          {
+            label: "Cash Flow Modeling",
+            text: "Creating 13-week cash flow projections to manage short-term liquidity and avoid cash crunches",
+          },
+          {
+            label: "Scenario Planning",
+            text: 'Building "What-if" models for price changes, new product launches, or expansion scenarios',
+          },
+          {
+            label: "Variance Analysis",
+            text: "Performing detailed budget vs. actual analysis to explain performance gaps",
+          },
+          {
+            label: "Profitability Analysis",
+            text: "Analyzing product/service line profitability and customer profitability",
+          },
+          {
+            label: "Board Presentations",
+            text: "Preparing monthly executive summary decks for board meetings or investors",
+          },
         ],
-        cta: schedule("Get Started"),
+        cta: { label: "Get Started", href: routes.contact() },
         featured: true,
       },
       {
@@ -328,15 +399,36 @@ export const hireVirtualCfoAndFpAndA: HirePageContent = {
         title: "Fractional CFO / Controller",
         experience: "5+ years experience",
         responsibilities: [
-          { label: "Strategic Advisory", text: "Presenting financial narratives to the Board of Directors or investors with strategic recommendations" },
-          { label: "M&A Support", text: "Managing the \"Data Room\" and financial due diligence for business sales or acquisitions" },
-          { label: "Capital Allocation", text: "Advising on debt vs. equity funding and ROI on major capital expenditures" },
-          { label: "Financial Strategy", text: "Developing long-term financial strategies aligned with business growth objectives" },
-          { label: "Process Optimization", text: "Implementing financial controls, policies, and best practices" },
-          { label: "Team Leadership", text: "Supervising finance team members and ensuring quality deliverables" },
-          { label: "Fundraising Support", text: "Preparing pro-forma statements and investor presentations for capital raises" },
+          {
+            label: "Strategic Advisory",
+            text: "Presenting financial narratives to the Board of Directors or investors with strategic recommendations",
+          },
+          {
+            label: "M&A Support",
+            text: 'Managing the "Data Room" and financial due diligence for business sales or acquisitions',
+          },
+          {
+            label: "Capital Allocation",
+            text: "Advising on debt vs. equity funding and ROI on major capital expenditures",
+          },
+          {
+            label: "Financial Strategy",
+            text: "Developing long-term financial strategies aligned with business growth objectives",
+          },
+          {
+            label: "Process Optimization",
+            text: "Implementing financial controls, policies, and best practices",
+          },
+          {
+            label: "Team Leadership",
+            text: "Supervising finance team members and ensuring quality deliverables",
+          },
+          {
+            label: "Fundraising Support",
+            text: "Preparing pro-forma statements and investor presentations for capital raises",
+          },
         ],
-        cta: schedule("Get Started"),
+        cta: { label: "Get Started", href: routes.contact() },
       },
     ],
   },
@@ -359,7 +451,7 @@ export const hireVirtualCfoAndFpAndA: HirePageContent = {
           width: 828,
           height: 466,
         },
-        cta: schedule("Get Started"),
+        cta: { label: "Get Started", href: routes.contact() },
       },
       {
         title: "Small & Medium Businesses",
@@ -370,7 +462,7 @@ export const hireVirtualCfoAndFpAndA: HirePageContent = {
           width: 828,
           height: 466,
         },
-        cta: schedule("Get Started"),
+        cta: { label: "Get Started", href: routes.contact() },
       },
       {
         title: "CPA & Accounting Firms",
@@ -381,7 +473,7 @@ export const hireVirtualCfoAndFpAndA: HirePageContent = {
           width: 829,
           height: 553,
         },
-        cta: schedule("Get Started"),
+        cta: { label: "Get Started", href: routes.contact() },
       },
     ],
   },
@@ -458,7 +550,11 @@ export const hireVirtualCfoAndFpAndA: HirePageContent = {
         title: "Logical Access Control",
         items: [
           { icon: "how_to_reg", title: "User-Based Access", body: "Identity and permissions" },
-          { icon: "shield_person_badge", title: "Restricted Client Access", body: "Limited permissions" },
+          {
+            icon: "shield_person_badge",
+            title: "Restricted Client Access",
+            body: "Limited permissions",
+          },
           { icon: "settings", title: "System Access Controls", body: "System configuration" },
         ],
       },
@@ -490,8 +586,18 @@ export const hireVirtualCfoAndFpAndA: HirePageContent = {
         ],
       },
       { id: "audit-software", icon: "dvr", label: "Audit Software", tools: [] },
-      { id: "data-analytics-testing", icon: "analytics", label: "Data Analytics & Testing", tools: [] },
-      { id: "confirmation-documentation", icon: "assignment", label: "Confirmation & Documentation", tools: [] },
+      {
+        id: "data-analytics-testing",
+        icon: "analytics",
+        label: "Data Analytics & Testing",
+        tools: [],
+      },
+      {
+        id: "confirmation-documentation",
+        icon: "assignment",
+        label: "Confirmation & Documentation",
+        tools: [],
+      },
       // The design repeats "Audit Software" as a fifth tab (search_check_2 icon).
       { id: "audit-software-2", icon: "search_check_2", label: "Audit Software", tools: [] },
     ],

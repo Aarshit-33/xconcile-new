@@ -1,6 +1,7 @@
 import { WarningOutlineIcon } from "@sanity/icons/WarningOutline";
 import { defineArrayMember, defineField, defineType } from "sanity";
 
+import { iconPreview } from "../../../components/icon-picker-input";
 import { anchorIdField, badgeField, hiddenField, iconField, sectionPreview } from "../fields";
 
 const tones = [
@@ -72,7 +73,7 @@ export default defineType({
               validation: (Rule) => Rule.required(),
             }),
           ],
-          preview: { select: { title: "title", subtitle: "tone" } },
+          preview: iconPreview({ title: "title", subtitle: "tone" }),
         }),
       ],
       validation: (Rule) => Rule.required().min(1),

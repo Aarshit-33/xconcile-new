@@ -1,14 +1,8 @@
 import { CaseIcon } from "@sanity/icons/Case";
 import { defineArrayMember, defineField, defineType } from "sanity";
 
+import { OptionalIconPickerInput } from "../../../components/icon-picker-input";
 import { anchorIdField, badgeField, iconOptions, subtitleField, titleField } from "../fields";
-
-/** Screen sizes for the impact card (same breakpoints as the site: <768 / 768–1023 / ≥1024px). */
-const deviceOptions = [
-  { title: "Mobile (phones)", value: "mobile" },
-  { title: "Tablet", value: "tablet" },
-  { title: "Laptop / desktop", value: "laptop" },
-];
 
 /** "Trusted by Businesses & CPA Firms" tabbed case studies (mirrors `CaseStudiesContent`). */
 export default defineType({
@@ -79,7 +73,8 @@ export default defineType({
               name: "impact",
               title: "Impact card",
               type: "object",
-              description: "The small white card over the photo. Leave Label or Value empty to hide it.",
+              description:
+                "The small white card over the photo. Leave Label or Value empty to hide it.",
               options: { collapsible: false },
               fields: [
                 defineField({
@@ -100,16 +95,19 @@ export default defineType({
                   type: "string",
                   description: "Round icon on the left of the card. Empty = trending down.",
                   options: { list: iconOptions },
+                  components: { input: OptionalIconPickerInput },
                   initialValue: "trending_down",
                 }),
+                // One switch for every screen size (user request 2026-10-26); replaces the
+                // per-device "Show on" list. A legacy list with nothing ticked still hides the
+                // card until this switch is set (sanity/lib/sections.ts → mapCaseStudies).
                 defineField({
-                  name: "devices",
-                  title: "Show on",
-                  type: "array",
-                  description: "Screens the card appears on. Untick all to hide it everywhere.",
-                  of: [{ type: "string" }],
-                  options: { list: deviceOptions, layout: "grid" },
-                  initialValue: ["mobile", "tablet", "laptop"],
+                  name: "show",
+                  title: "Show impact card",
+                  type: "boolean",
+                  description:
+                    "Off = hidden on every screen size. On = shown on every screen size.",
+                  initialValue: true,
                 }),
               ],
             }),
@@ -125,6 +123,15 @@ export default defineType({
               type: "image",
               description: "Optional different photo for mobile. Uses the desktop alt text.",
               options: { hotspot: true },
+            }),
+            defineField({
+              name: "caseStudy",
+              title: "Case study page",
+              type: "reference",
+              to: [{ type: "caseStudy" }],
+              options: { disableNew: true },
+              description:
+                "The page the button opens (Studio → Case Studies). Overrides the Button's Link. Empty = the Button's Link.",
             }),
             defineField({ name: "cta", title: "Button", type: "optionalLink" }),
           ],

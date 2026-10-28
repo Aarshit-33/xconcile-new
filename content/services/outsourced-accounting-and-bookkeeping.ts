@@ -44,7 +44,7 @@ export const outsourcedAccountingAndBookkeeping: ServicePageContent = {
     subtitle:
       "Xconcile provides dedicated accounting support for U.S. businesses and CPA firms, including bookkeeping, financial reporting, payroll, tax, and ongoing finance services.",
     // No contact section on service pages: CTAs open the Calendly popup.
-    primaryCta: { label: "Get expert accounting support", href: SCHEDULE_HREF },
+    primaryCta: { label: "Get expert accounting support", href: routes.contact() },
     // Client rule: "Explore our services" scrolls to this page's services section.
     secondaryCta: { label: "Explore Our Services", href: "#services" },
     checks: [
@@ -100,7 +100,7 @@ export const outsourcedAccountingAndBookkeeping: ServicePageContent = {
     badge: "Key Challenges",
     title: "Why Businesses & CPA Firms Outsource Accounting Work",
     body: "Businesses and CPA firms use outsourced accounting services to manage talent shortages, control costs, and handle changing workloads.",
-    cta: { label: "Let's Discuss Project", href: SCHEDULE_HREF }, // COPY FIX: "Lets"
+    cta: { label: "Let's Discuss Project", href: routes.contact() }, // COPY FIX: "Lets"
     items: [
       {
         tone: "rose",
@@ -114,7 +114,7 @@ export const outsourcedAccountingAndBookkeeping: ServicePageContent = {
       },
       {
         tone: "amber",
-        icon: "trending_up",
+        icon: "paid",
         title: "Cost-Effective Accounting Support",
         body: [
           "Outsourcing helps businesses manage costs by reducing expenses for hiring, salaries, benefits, training, and office overhead.",
@@ -122,7 +122,7 @@ export const outsourcedAccountingAndBookkeeping: ServicePageContent = {
       },
       {
         tone: "blue",
-        icon: "paid",
+        icon: "contact_phone",
         title: "Scale Support With Seasonal Demand",
         body: [
           "Adjust accounting support based on seasonal demand, with additional capacity during tax and audit seasons and reduce support when busy periods end.",
@@ -130,7 +130,7 @@ export const outsourcedAccountingAndBookkeeping: ServicePageContent = {
       },
       {
         tone: "purple",
-        icon: "visibility_off",
+        icon: "card_travel",
         title: "Focus on Core Business", // COPY FIX: drawn "Focus on core business" (other titles are title case)
         body: [
           "Outsourcing accounting tasks allows internal teams to focus on core business operations and strategic growth.",
@@ -159,14 +159,14 @@ export const outsourcedAccountingAndBookkeeping: ServicePageContent = {
             title: "Chart of Accounts (COA) Optimization",
             items: [
               "Mapping COA to industry standards (e.g., specialized accounts for Real Estate or SaaS).",
-              "Cleaning up redundant or \"ghost\" accounts to streamline reporting.",
+              'Cleaning up redundant or "ghost" accounts to streamline reporting.',
             ],
           },
           {
             title: "Daily Transaction Processing",
             items: [
               "Real-time coding of bank and credit card feeds.",
-              "Splitting single transactions into multiple categories (e.g., a Staples receipt split between \"Office Supplies\" and \"Computer Hardware\").",
+              'Splitting single transactions into multiple categories (e.g., a Staples receipt split between "Office Supplies" and "Computer Hardware").',
               "Recording owner-paid business expenses (Accountable Plans).",
             ],
           },
@@ -174,7 +174,7 @@ export const outsourcedAccountingAndBookkeeping: ServicePageContent = {
             title: "Cloud Ecosystem Management",
             items: [
               "Setting up and syncing third-party apps (Hubdoc, Dext, or Expensify) with the main ledger.",
-              "Monitoring bank feed health and resolving \"broken\" connections immediately.",
+              'Monitoring bank feed health and resolving "broken" connections immediately.',
             ],
           },
         ],
@@ -193,7 +193,9 @@ export const outsourcedAccountingAndBookkeeping: ServicePageContent = {
           },
           {
             title: "The 3-Way Matching Workflow",
-            items: ["Verifying that the Purchase Order (PO) matches the Receiving Report, which matches the Vendor Invoice."],
+            items: [
+              "Verifying that the Purchase Order (PO) matches the Receiving Report, which matches the Vendor Invoice.",
+            ],
           },
           {
             title: "Expense Management",
@@ -205,28 +207,28 @@ export const outsourcedAccountingAndBookkeeping: ServicePageContent = {
           {
             title: "Payment Strategy",
             items: [
-              "Identifying \"Early Payment Discounts\" to save client money.",
-              "Weekly \"Payable Aging\" reviews to decide which bills to pay based on available cash.",
+              'Identifying "Early Payment Discounts" to save client money.',
+              'Weekly "Payable Aging" reviews to decide which bills to pay based on available cash.',
             ],
           },
         ],
       },
       {
-        icon: "import_contacts",
+        icon: "receipt",
         title: "Accounts Receivable: Order-to-Cash (O2C)",
         description: "Accelerating cash inflow and reducing Bad Debt",
         groups: [
           {
             title: "Revenue Recognition & Invoicing",
             items: [
-              "Managing \"Deferred Revenue\" for subscription-based models.",
-              "Creating \"Progress Billings\" for long-term construction or consulting projects.",
+              'Managing "Deferred Revenue" for subscription-based models.',
+              'Creating "Progress Billings" for long-term construction or consulting projects.',
             ],
           },
           {
             title: "Collection & Dunning Services",
             items: [
-              "Setting up automated \"Gentle Nudge\" emails for invoices 1, 7, and 15 days overdue.",
+              'Setting up automated "Gentle Nudge" emails for invoices 1, 7, and 15 days overdue.',
               "Documenting collection notes (calls made, promises to pay) directly in the accounting software.",
             ],
           },
@@ -234,26 +236,28 @@ export const outsourcedAccountingAndBookkeeping: ServicePageContent = {
             title: "Cash Application",
             items: [
               "Applying partial payments to specific invoice line items.",
-              "Recording and reconciling merchant fees (Stripe/Square) so the \"Gross Revenue\" remains accurate.",
+              'Recording and reconciling merchant fees (Stripe/Square) so the "Gross Revenue" remains accurate.',
             ],
           },
           {
             title: "Customer Credit Management",
-            items: ["Reviewing \"Aged Receivables\" to flag high-risk customers before new orders are fulfilled."],
+            items: [
+              'Reviewing "Aged Receivables" to flag high-risk customers before new orders are fulfilled.',
+            ],
           },
         ],
       },
       {
-        icon: "add_chart",
+        icon: "balance",
         title: "Reconciliations & Month-End Excellence",
         description: "Ensuring the Balance Sheet is 100% accurate every 30 days",
         groups: [
           {
             title: "Advanced Reconciliations",
             items: [
-              "Merchant Account Sync: Reconciling \"Net Deposits\" from Amazon/Shopify to \"Gross Sales.\"",
+              'Merchant Account Sync: Reconciling "Net Deposits" from Amazon/Shopify to "Gross Sales."',
               "Loan & Lease Reconciliation: Splitting monthly payments into Principal and Interest based on amortization schedules.",
-              "Inter-company \"Due To/From\": Ensuring balances between parent and subsidiary companies net to zero.",
+              'Inter-company "Due To/From": Ensuring balances between parent and subsidiary companies net to zero.',
             ],
           },
           {
@@ -267,14 +271,14 @@ export const outsourcedAccountingAndBookkeeping: ServicePageContent = {
           {
             title: "Reporting & Review",
             items: [
-              "Generating a \"Management Reporting Package\" (P&L, Balance Sheet, Cash Flow).",
-              "Performing a \"Trend Analysis\" to spot unusual spikes in expenses (e.g., why is \"Utilities\" 40% higher this month?).",
+              'Generating a "Management Reporting Package" (P&L, Balance Sheet, Cash Flow).',
+              'Performing a "Trend Analysis" to spot unusual spikes in expenses (e.g., why is "Utilities" 40% higher this month?).',
             ],
           },
         ],
       },
       {
-        icon: "sync",
+        icon: "mop",
         title: "Catch-up & Clean-up Services",
         description: "Bringing historical data up to date for taxes or funding",
         // The docs list three flat bullets with bold leads; each lead becomes a group title.
@@ -285,11 +289,15 @@ export const outsourcedAccountingAndBookkeeping: ServicePageContent = {
           },
           {
             title: "Balance Sheet Forensic Review",
-            items: ["Investigating old balances in \"Uncategorized Assets\" or \"Opening Balance Equity.\""],
+            items: [
+              'Investigating old balances in "Uncategorized Assets" or "Opening Balance Equity."',
+            ],
           },
           {
             title: "Audit-Ready Packaging",
-            items: ["Preparing a \"Permanent File\" of all high-value contracts and asset purchases for future audits."],
+            items: [
+              'Preparing a "Permanent File" of all high-value contracts and asset purchases for future audits.',
+            ],
           },
         ],
       },
@@ -299,7 +307,8 @@ export const outsourcedAccountingAndBookkeeping: ServicePageContent = {
   caseStudies: {
     badge: "Testimonials",
     title: "Trusted by Businesses & CPA Firms",
-    subtitle: "See how Xconcile helps businesses improve efficiency, visibility, and financial operations.",
+    subtitle:
+      "See how Xconcile helps businesses improve efficiency, visibility, and financial operations.",
     // Only "CPA Firms" has copy in the design (tabs drawn: CPA Firms, Real Estate, E-commerce,
     // Construction, Restaurants); other tabs appear once their case studies exist. Never invent
     // client results.
@@ -310,7 +319,8 @@ export const outsourcedAccountingAndBookkeeping: ServicePageContent = {
         title: "CPA Firms",
         challenge: "Growing workload and limited accounting capacity.",
         solution: "Dedicated outsourced accounting support.",
-        result: "Better financial visibility, streamlined operations, and reduced accounting workload.",
+        result:
+          "Better financial visibility, streamlined operations, and reduced accounting workload.",
         // NOT IN DESIGN: impact figure reused from Home; confirm with the client.
         impact: home.caseStudies.items[0].impact,
         // Same photo as Home's CPA-firm case study.
@@ -394,26 +404,44 @@ export const outsourcedAccountingAndBookkeeping: ServicePageContent = {
         // COPY FIX: drawn as "Simplify admissions, student records, and administrative" (sentence
         // cut off, no period). Confirm the missing word.
         body: "Simplify admissions, student records, and administrative tasks.",
-        image: { src: "/images/industries/education.jpg", alt: "Students working at desks in a classroom", width: 500, height: 311 },
+        image: {
+          src: "/images/industries/education.jpg",
+          alt: "Students working at desks in a classroom",
+          width: 500,
+          height: 311,
+        },
       },
       {
         title: "Pharmaceutical",
         // COPY FIX: drawn without the closing period.
         body: "Improve compliance, inventory tracking, and distribution.",
-        image: { src: "/images/industries/pharmaceutical.jpg", alt: "Pharmacist taking stock from pharmacy shelves", width: 500, height: 333 },
+        image: {
+          src: "/images/industries/pharmaceutical.jpg",
+          alt: "Pharmacist taking stock from pharmacy shelves",
+          width: 500,
+          height: 333,
+        },
       },
       {
         title: "eCommerce",
         // COPY FIX: drawn as "Multi-channel books, inventory COGS, sales tax." (missing comma).
         body: "Multi-channel books, inventory, COGS, sales tax.",
         href: routes.industry("tech-ecommerce"),
-        image: { src: "/images/industries/ecommerce.jpg", alt: "Online seller packing orders at a desk", width: 500, height: 334 },
+        image: {
+          src: "/images/industries/ecommerce.jpg",
+          alt: "Online seller packing orders at a desk",
+          width: 500,
+          height: 334,
+        },
       },
       {
         title: "Manufacturing",
         body: "Optimize production, inventory, and supply chain operations.",
         // No manufacturing industry page exists, so no link.
-        image: { ...home.industries.items[0].image, alt: "Sparks flying from metal grinding in a factory" },
+        image: {
+          ...home.industries.items[0].image,
+          alt: "Sparks flying from metal grinding in a factory",
+        },
       },
     ],
   },
@@ -440,13 +468,13 @@ export const outsourcedAccountingAndBookkeeping: ServicePageContent = {
         body: "Flexible support tailored to your accounting workload and needs.",
       },
       {
-        icon: "page_info",
+        icon: "person",
         title: "CPA & Business Support",
         // The design links "Accounting support"; feature bodies are plain strings, so no link.
         body: "Accounting support built for CPA firms and growing businesses.",
       },
       {
-        icon: "add_chart",
+        icon: "beenhere",
         title: "Data Security",
         body: "Controlled workflows help protect sensitive financial information.",
       },
@@ -537,13 +565,22 @@ export const outsourcedAccountingAndBookkeeping: ServicePageContent = {
         q: "What outsourced accounting services does Xconcile provide?",
         a: [
           "Alongside accounting and bookkeeping, Xconcile provides ",
-          { text: "outsourced tax preparation", href: routes.service("outsourced-tax-preparation") },
+          {
+            text: "outsourced tax preparation",
+            href: routes.service("outsourced-tax-preparation"),
+          },
           ", ",
-          { text: "payroll and compliance", href: routes.service("outsourced-payroll-and-compliance-services") },
+          {
+            text: "payroll and compliance",
+            href: routes.service("outsourced-payroll-and-compliance-services"),
+          },
           ", ",
           { text: "audit and assurance", href: routes.service("audit-outsourcing-services") },
           ", and ",
-          { text: "Virtual CFO and FP&A", href: routes.service("outsourced-virtual-cfo-and-fp-and-a") },
+          {
+            text: "Virtual CFO and FP&A",
+            href: routes.service("outsourced-virtual-cfo-and-fp-and-a"),
+          },
           " services for U.S. businesses and CPA firms.",
         ],
       },
@@ -557,7 +594,10 @@ export const outsourcedAccountingAndBookkeeping: ServicePageContent = {
         q: "How much do outsourced tax preparation services cost?",
         a: [
           "It depends on the number and complexity of returns and how much preparation and review support you need. See our ",
-          { text: "outsourced tax preparation", href: routes.service("outsourced-tax-preparation") },
+          {
+            text: "outsourced tax preparation",
+            href: routes.service("outsourced-tax-preparation"),
+          },
           " page, or share your requirements to get a scoped proposal.",
         ],
       },
@@ -573,7 +613,7 @@ export const outsourcedAccountingAndBookkeeping: ServicePageContent = {
   ctaBand: {
     title: "Build the Right Accounting Team for Your Needs",
     body: "Get dedicated accounting professionals matched to your workload, skills, and business requirements.",
-    cta: { label: "Talk to an Expert", href: SCHEDULE_HREF },
+    cta: { label: "Talk to an Expert", href: routes.contact() },
     // The design draws a plain dark band here; the shared service-page photo is the fallback.
     image: { src: "/images/services/cta-handshake.jpg", alt: "", width: 1500, height: 1000 },
   },

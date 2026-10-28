@@ -78,7 +78,7 @@ const HOME_QUERY = /* groq */ `*[_id == "home"][0]{
  * Each section's Studio "Section ID" becomes its `anchorId` (the section's #id, lib/section-ids.ts).
  */
 export async function getHome(): Promise<HomeContent> {
-  const d: Raw = await sanityFetch({ query: HOME_QUERY, tags: ["home"] });
+  const d: Raw = await sanityFetch({ query: HOME_QUERY, tags: ["home", "caseStudy"] });
   if (!d) return fallback;
   const f = fallback;
 
@@ -107,48 +107,55 @@ export async function getHome(): Promise<HomeContent> {
     // Figma contact section: not used on Home (see app/(website)/page.tsx), stays code-driven.
     contact: f.contact,
 
-    inquiry: d.contact
-      ? {
-          ...f.inquiry,
-          // Section ID from Studio wins over the code default (#contact, used by hero/challenges CTAs).
-          id: d.contact.anchorId || f.inquiry.id,
-          eyebrow: d.contact.eyebrow ?? f.inquiry.eyebrow,
-          title: heading(d.contact.title) ?? f.inquiry.title,
-          body: d.contact.body ?? f.inquiry.body,
-          trust:
-            d.contact.trust?.map((t: Raw) => ({
-              icon: t.icon,
-              label: t.label,
-              desc: t.desc ?? "",
-            })) ?? f.inquiry.trust,
-          tagline: d.contact.tagline ?? f.inquiry.tagline,
-          form: (() => {
-            const sf = d.contact.form ?? {};
-            const ff = f.inquiry.form;
-            // Labels/placeholders from Sanity; `required` always from code (server validation).
-            const field = <K extends keyof typeof ff.fields>(k: K) => ({
-              ...ff.fields[k],
-              ...(sf.fields?.[k]?.label ? { label: sf.fields[k].label } : {}),
-              ...(sf.fields?.[k]?.placeholder ? { placeholder: sf.fields[k].placeholder } : {}),
-            });
-            return {
-              title: sf.title ?? ff.title,
-              note: sf.note ?? ff.note,
-              fields: {
-                name: field("name"),
-                email: field("email"),
-                phone: field("phone"),
-                company: field("company"),
-                service: field("service"),
-                message: field("message"),
-              },
-              submit: sf.submit ?? ff.submit,
-              submitting: sf.submitting ?? ff.submitting,
-              success: sf.success ?? ff.success,
-              error: sf.error ?? ff.error,
-            };
-          })(),
-        }
-      : f.inquiry,
+    inquiry: mapInquiry(d.contact, f.inquiry),
+  };
+}
+
+export type InquiryContent = typeof home.inquiry;
+
+/**
+ * Contact section (`contactSection`, InquirySection) → content shape. Empty fields fall back to
+ * `f`. Shared by Home, About (Home's copy) and the Contact page (its own copy, or Home's).
+ */
+export function mapInquiry(c: Raw, f: InquiryContent): InquiryContent {
+  if (!c) return f;
+  const sf = c.form ?? {};
+  const ff = f.form;
+  // Labels/placeholders from Sanity; `required` always from code (server validation).
+  const field = <K extends keyof typeof ff.fields>(k: K) => ({
+    ...ff.fields[k],
+    ...(sf.fields?.[k]?.label ? { label: sf.fields[k].label } : {}),
+    ...(sf.fields?.[k]?.placeholder ? { placeholder: sf.fields[k].placeholder } : {}),
+  });
+  return {
+    ...f,
+    // Section ID from Studio wins over the code default (#contact, used by hero/challenges CTAs).
+    id: c.anchorId || f.id,
+    eyebrow: c.eyebrow ?? f.eyebrow,
+    title: heading(c.title) ?? f.title,
+    body: c.body ?? f.body,
+    trust:
+      c.trust?.map((t: Raw) => ({
+        icon: t.icon,
+        label: t.label,
+        desc: t.desc ?? "",
+      })) ?? f.trust,
+    tagline: c.tagline ?? f.tagline,
+    form: {
+      title: sf.title ?? ff.title,
+      note: sf.note ?? ff.note,
+      fields: {
+        name: field("name"),
+        email: field("email"),
+        phone: field("phone"),
+        company: field("company"),
+        service: field("service"),
+        message: field("message"),
+      },
+      submit: sf.submit ?? ff.submit,
+      submitting: sf.submitting ?? ff.submitting,
+      success: sf.success ?? ff.success,
+      error: sf.error ?? ff.error,
+    },
   };
 }

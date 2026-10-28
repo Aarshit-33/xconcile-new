@@ -1,6 +1,7 @@
 import { LockIcon } from "@sanity/icons/Lock";
 import { defineArrayMember, defineField, defineType } from "sanity";
 
+import { iconPreview } from "../../../components/icon-picker-input";
 import { anchorIdField, badgeField, hiddenField, iconField, sectionPreview, subtitleField, titleField } from "../fields";
 
 /**
@@ -67,7 +68,7 @@ export default defineType({
                       validation: (Rule) => Rule.required(),
                     }),
                   ],
-                  preview: { select: { title: "title", subtitle: "body" } },
+                  preview: iconPreview({ title: "title", subtitle: "body" }),
                 }),
               ],
               validation: (Rule) => Rule.required().min(1),

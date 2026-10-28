@@ -41,8 +41,8 @@ export type HeroContent = SectionAnchor & {
   subtitle: string;
   primaryCta: Link;
   secondaryCta?: Link;
-  /** `desktopOnly` items are not drawn in the mobile design. */
-  checks: { label: string; desktopOnly?: boolean }[];
+  /** Shown on every screen size (Studio: one "Show" switch per item; hidden items are left out). */
+  checks: { label: string }[];
 };
 
 export type StatsContent = SectionAnchor & {
@@ -79,6 +79,8 @@ export type IntroContent = SectionAnchor & {
 
 /** `white`: white cards with #F3F8F2 icon tiles (Hire "Key Benefits"). */
 export type ChallengeTone = "rose" | "amber" | "blue" | "purple" | "green" | "white";
+/** Services accordion group card: a Key Challenges tint, or no background. */
+export type GroupTone = ChallengeTone | "transparent";
 
 export type ChallengesContent = SectionAnchor & {
   badge: string;
@@ -96,8 +98,11 @@ export type ServiceItem = {
   /** Flat list (Home): "Key services:" + bullets. */
   keyLabel?: string;
   keyItems?: string[];
-  /** Grouped list (service pages, from Sanity `serviceAreas[].sections`). */
-  groups?: { title: string; items: string[] }[];
+  /**
+   * Grouped list (service pages, from Sanity `serviceAreas[].sections`). Each group is a card;
+   * `tone`: Key Challenges tint or `transparent`. Empty = Home challenges order by position.
+   */
+  groups?: { title: string; items: string[]; tone?: GroupTone }[];
   /** Link to the service's own page; omitted for sub-services of the current page. */
   cta?: Link;
 };
@@ -112,18 +117,15 @@ export type ServicesContent = SectionAnchor & {
   items: ServiceItem[];
 };
 
-/** Screen sizes a block can be limited to: mobile < 768px, tablet 768–1023px, laptop ≥ 1024px. */
-export type Device = "mobile" | "tablet" | "laptop";
-export const ALL_DEVICES: Device[] = ["mobile", "tablet", "laptop"];
-
-/** The highlight card over a case-study photo (e.g. "Workload Impact / 42% Reduced"). */
+/**
+ * The highlight card over a case-study photo (e.g. "Workload Impact / 42% Reduced"). Shown on
+ * every screen size; Studio "Show impact card" off = left out (`impact` undefined).
+ */
 export type CaseStudyImpact = {
   label: string;
   value: string;
   /** Round icon on the left. Default: trending_down. */
   icon?: IconName;
-  /** Screens the card shows on. Default: all. Empty list = hidden everywhere. */
-  devices?: Device[];
 };
 
 export type CaseStudy = {
@@ -206,7 +208,12 @@ export type TestimonialsContent = SectionAnchor & {
   videos: TestimonialVideo[];
 };
 
-export type BlogContent = SectionAnchor & { badge: string; title: string; subtitle: string; cta: Link };
+export type BlogContent = SectionAnchor & {
+  badge: string;
+  title: string;
+  subtitle: string;
+  cta: Link;
+};
 
 export type FaqItem = { q: string; a: RichText };
 
@@ -221,7 +228,8 @@ export type FaqContent = SectionAnchor & {
 export type CtaBandContent = SectionAnchor & {
   title: string;
   body: string;
-  cta: Link;
+  /** Optional: Studio "Show main button" off = no button. */
+  cta?: Link;
   /** Outline button next to the main one (RCM design: "Get Started"). */
   secondaryCta?: Link;
   image: ImageAsset;

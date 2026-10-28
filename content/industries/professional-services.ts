@@ -52,13 +52,13 @@ export const professionalServices: IndustryPageContent = {
     subtitle:
       "Keep your books, reporting, payroll, and other accounting activities organized with flexible support for U.S. professional services firms and CPA firms.",
     // Labels from the design (the CSS export still says "Get in Touch" on both buttons).
-    primaryCta: schedule("Talk to an expert"),
+    primaryCta: { label: "Talk to an expert", href: routes.contact() },
     // Same rule as "Explore our services": scrolls to this page's services grid.
     secondaryCta: { label: "Explore Our Expertise", href: "#expertise" },
     checks: [
       { label: "U.S. Accounting Expertise" },
       { label: "Experienced Professionals" },
-      { label: "Flexible Engagements", desktopOnly: true },
+      { label: "Flexible Engagements" },
     ],
   },
 
@@ -93,47 +93,57 @@ export const professionalServices: IndustryPageContent = {
       width: 1500,
       height: 1000,
     },
-    checks: ["U.S.-focused accounting workflows", "Dedicated accounting professionals", "Flexible engagement options"],
+    checks: [
+      "U.S.-focused accounting workflows",
+      "Dedicated accounting professionals",
+      "Flexible engagement options",
+    ],
     checksStyle: "list",
-    cta: { label: "Hire Accounting Staff", href: routes.hireStaff("hire-bookkeeper-accountant") },
+    cta: { label: "Hire Accounting Staff", href: routes.contact() },
   },
 
   challenges: {
     badge: "Key Challenges",
     title: "Common Accounting Challenges for Professional Services",
     body: "Running a professional services firm requires your attention on clients, employees, projects, and growth. Accounting tasks can easily become a distraction.",
-    cta: schedule("Let's Discuss Project"), // COPY FIX: drawn as "Lets"
+    cta: { label: "Let's Discuss Project", href: routes.contact() }, // COPY FIX: drawn as "Lets"
     // Five cards, as drawn.
     items: [
       {
         tone: "white",
         icon: "calculate",
         title: "Inconsistent Bookkeeping",
-        body: ["Keep transactions categorized and financial records maintained on a regular schedule."],
+        body: [
+          "Keep transactions categorized and financial records maintained on a regular schedule.",
+        ],
       },
       {
         tone: "white",
-        icon: "account_balance",
+        icon: "add_chart",
         title: "Delayed Financial Reports",
-        body: ["Get timely financial information so you can better understand how your business is performing."],
+        body: [
+          "Get timely financial information so you can better understand how your business is performing.",
+        ],
       },
       {
         tone: "white",
-        icon: "home",
+        icon: "assignment",
         title: "Complex Billing & Receivables",
         body: ["Stay organized with invoicing, accounts receivable, and payment tracking."],
       },
       {
         tone: "white",
-        icon: "9k_plus",
+        icon: "currency_exchange",
         title: "Cash Flow Visibility",
         body: ["Understand what is coming in, what is going out, and where your cash stands."],
       },
       {
         tone: "white",
-        icon: "dictionary",
+        icon: "monitoring",
         title: "Growing Accounting Workloads",
-        body: ["Get additional accounting capacity as your firm adds clients, employees, or locations."],
+        body: [
+          "Get additional accounting capacity as your firm adds clients, employees, or locations.",
+        ],
       },
     ],
   },
@@ -165,7 +175,7 @@ export const professionalServices: IndustryPageContent = {
         body: "Improve visibility into outstanding invoices with organized billing records, receivables tracking, and reporting.",
       },
       {
-        icon: "sync_alt",
+        icon: "add_chart",
         title: "Financial Reporting",
         body: "Receive timely financial reports that help you understand revenue, expenses, profitability, cash flow, and overall financial performance.",
       },
@@ -175,18 +185,18 @@ export const professionalServices: IndustryPageContent = {
         body: "A consistent month-end process helps identify discrepancies, reconcile accounts, and prepare reliable financial statements.",
       },
       {
-        icon: "add_chart",
+        icon: "person",
         title: "Ongoing Accounting Support",
         // COPY FIX: drawn starting lowercase ("accounting needs can change…").
         body: "Accounting needs can change as your business grows. Our services can adapt to your requirements.",
       },
       {
-        icon: "article",
+        icon: "calendar_lock",
         title: "Month-End Close",
         body: "Create a consistent month-end process to review accounts and prepare accurate financial statements.",
       },
       {
-        icon: "cleaning_services",
+        icon: "mop",
         title: "Catch-Up & Cleanup",
         body: "Update outdated or messy books so you can move forward with reliable financial data.",
       },
@@ -204,7 +214,7 @@ export const professionalServices: IndustryPageContent = {
     // dropped.
     items: [
       {
-        icon: "calculate",
+        icon: "gavel",
         title: "Law Firms & Legal Services",
         body: "IOLTA Compliance and Matter-Based Accounting",
         groups: [
@@ -213,7 +223,7 @@ export const professionalServices: IndustryPageContent = {
             items: [
               // COPY FIX: colon added after the lead-in (the doc has none on this bullet only).
               "Trust Accounting (IOLTA): Maintaining separate ledgers for client funds to ensure no co-mingling with firm operating funds",
-              "Matter Cost Tracking: Recording \"Hard Costs\" (filing fees, court reporters) and \"Soft Costs\" (copies, postage) billable to clients",
+              'Matter Cost Tracking: Recording "Hard Costs" (filing fees, court reporters) and "Soft Costs" (copies, postage) billable to clients',
               "Managing retainer advances and client deposits",
               "Recording billable vs. non-billable time",
             ],
@@ -254,14 +264,14 @@ export const professionalServices: IndustryPageContent = {
         ],
       },
       {
-        icon: "assignment",
+        icon: "encrypted",
         title: "Insurance Agencies & Brokerages",
         body: "Commission Reconciliation and Fiduciary Duties",
         groups: [
           {
             title: "Bookkeeping",
             items: [
-              "Premium Trust Accounting: Tracking \"Agency Bill\" premiums that must be remitted to carriers",
+              'Premium Trust Accounting: Tracking "Agency Bill" premiums that must be remitted to carriers',
               "Commission Reconciliation: Matching monthly carrier commission statements against internal AMS records",
               "Managing E&O (Errors & Omissions) insurance payments",
             ],
@@ -269,7 +279,7 @@ export const professionalServices: IndustryPageContent = {
           {
             title: "Accounting",
             items: [
-              "Revenue Recognition: Tracking \"Direct Bill\" commissions vs. \"Agency Bill\" earnings",
+              'Revenue Recognition: Tracking "Direct Bill" commissions vs. "Agency Bill" earnings',
               "EBITDA Analysis: Monitoring the valuation of the agency for potential M&A or internal buyouts",
               "Managing commission splits and overrides",
             ],
@@ -285,7 +295,7 @@ export const professionalServices: IndustryPageContent = {
           {
             title: "Tax Preparation",
             items: [
-              "Managing amortization of \"Purchased Intangibles\" (if the agency bought a book of business)",
+              'Managing amortization of "Purchased Intangibles" (if the agency bought a book of business)',
               "Multi-state nexus for licensed brokers writing business in multiple states",
               "1099-MISC reporting for independent insurance agents",
             ],
@@ -301,7 +311,7 @@ export const professionalServices: IndustryPageContent = {
         ],
       },
       {
-        icon: "import_contacts",
+        icon: "add_chart",
         title: "Management & Business Consulting",
         body: "Project Profitability and Utilization Reporting",
         groups: [
@@ -349,7 +359,7 @@ export const professionalServices: IndustryPageContent = {
         ],
       },
       {
-        icon: "import_contacts",
+        icon: "groups_2",
         title: "Staffing & Recruitment Agencies",
         body: "High-Volume Payroll and Cash Flow Management",
         groups: [
@@ -372,7 +382,7 @@ export const professionalServices: IndustryPageContent = {
           {
             title: "Payroll",
             items: [
-              "The Core Task: Weekly or bi-weekly payroll for hundreds of \"temp\" employees",
+              'The Core Task: Weekly or bi-weekly payroll for hundreds of "temp" employees',
               "Handling garnishments, multi-state taxes, and benefits administration",
               "Managing on-hire and off-hire processes efficiently",
             ],
@@ -402,11 +412,12 @@ export const professionalServices: IndustryPageContent = {
   whyChoose: {
     badge: "Why Choose Us",
     title: "Why Professional Service Firms Choose Outsourced Accounting",
-    subtitle: "Get accounting support that fits your existing processes, workload, and business requirements.",
+    subtitle:
+      "Get accounting support that fits your existing processes, workload, and business requirements.",
     // Titles and lines from the design (the CSS export has an older set of five cards).
     features: [
       {
-        icon: "contextual_token_add",
+        icon: "deployed_code_account",
         title: "Experienced Professionals",
         body: "Work with professionals experienced in accounting and financial activities.",
       },
@@ -420,8 +431,16 @@ export const professionalServices: IndustryPageContent = {
         title: "Financial Records",
         body: "Keep your books, reconciliations, and financial information organized.",
       },
-      { icon: "page_info", title: "Flexible Support", body: "Choose a support model based on your accounting requirements." },
-      { icon: "add_chart", title: "Scalable Capacity", body: "Adjust your accounting support as your workload changes." },
+      {
+        icon: "page_info",
+        title: "Flexible Support",
+        body: "Choose a support model based on your accounting requirements.",
+      },
+      {
+        icon: "add_chart",
+        title: "Scalable Capacity",
+        body: "Adjust your accounting support as your workload changes.",
+      },
     ],
     // Same four photos as Home (identical assets in the design).
     images: home.whyChoose.images,

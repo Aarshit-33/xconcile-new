@@ -1,3 +1,4 @@
+import { siteIconPath } from "@/components/icons/registry";
 import { SectionHeading } from "@/components/shared/section-heading";
 import type { SubIndustriesContent } from "@/content/types";
 import { cn } from "@/lib/utils";
@@ -15,9 +16,19 @@ import { SubIndustriesAccordion } from "./sub-industries-accordion";
  * (content `groups`, see SubIndustriesAccordion). No mobile design: the number and icon stay,
  * gaps tighten.
  */
-export function SubIndustries({ data, className }: { data: SubIndustriesContent; className?: string }) {
+export function SubIndustries({
+  data,
+  className,
+}: {
+  data: SubIndustriesContent;
+  className?: string;
+}) {
   return (
-    <section id={sectionId(data, "subIndustries")} aria-labelledby="sub-industries-title" className={cn("section-y", className)}>
+    <section
+      id={sectionId(data, "subIndustries")}
+      aria-labelledby="sub-industries-title"
+      className={cn("section-y", className)}
+    >
       <div className="container-site flex flex-col gap-8 lg:gap-12">
         <SectionHeading
           eyebrow={data.badge}
@@ -27,7 +38,10 @@ export function SubIndustries({ data, className }: { data: SubIndustriesContent;
           subtitleClassName="max-w-[824px]"
         />
 
-        <SubIndustriesAccordion items={data.items} />
+        <SubIndustriesAccordion
+          items={data.items}
+          iconPaths={data.items.map((item) => siteIconPath(item.icon))}
+        />
       </div>
     </section>
   );

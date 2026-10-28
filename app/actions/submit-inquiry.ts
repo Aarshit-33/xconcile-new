@@ -6,7 +6,7 @@ import { z } from "zod";
 import { inquiryServiceLabel } from "@/lib/inquiry-options";
 import { inquirySchema, type InquiryField, type InquiryFormInput } from "@/lib/inquiry-schema";
 import { isMailConfigured, leadEmailHtml, sendAdminMail } from "@/lib/mail";
-import { writeToken } from "@/sanity/env";
+import { writeToken } from "@/sanity/env.server";
 import { writeClient } from "@/sanity/lib/client";
 
 export type InquiryResult =
@@ -60,7 +60,9 @@ export async function submitInquiry(input: InquiryFormInput): Promise<InquiryRes
       console.error("[submitInquiry] Sanity save failed", error);
     }
   } else {
-    console.warn("[submitInquiry] SANITY_API_TOKEN is not set; submission not stored");
+    console.warn(
+      "[submitInquiry] No Sanity write token (SANITY_API_WRITE_TOKEN or SANITY_API_TOKEN); submission not stored",
+    );
   }
 
   if (isMailConfigured()) {

@@ -71,8 +71,8 @@ export const industryPages: NavLink[] = [
   { label: "Hospitality", href: routes.industry("hospitality-retail") },
   { label: "Professional Services", href: routes.industry("professional-services") },
   { label: "E-commerce", href: routes.industry("tech-ecommerce") },
-  // Separate IT/Technology page (design it-technology-accounting-services.svg; new URL).
-  { label: "IT & Technology", href: routes.industry("it-technology") },
+  // Separate IT/Technology page (design it-technology-accounting-services.svg; URL = page name).
+  { label: "IT & Technology", href: routes.industry("it-technology-accounting-services") },
 ];
 
 export const companyLinks: NavLink[] = [
@@ -81,10 +81,20 @@ export const companyLinks: NavLink[] = [
   { label: "Contact", href: routes.contact() },
 ];
 
-export const resourceLinks: NavLink[] = [{ label: "Blog", href: routes.blog() }];
+export const resourceLinks: NavLink[] = [
+  { label: "Blog", href: routes.blog() },
+  { label: "Case Studies", href: routes.caseStudies() },
+];
 
-/** Mega-menu entry: label + link + the old site's icon and one-line description. */
-export type MenuLink = NavLink & { description: string; icon: NavIconName };
+/**
+ * Mega-menu entry: label + link + the old site's icon and one-line description. `icon`: an outline
+ * menu icon (nav-icons.tsx) or, from Sanity, any site icon name; then `iconPath` holds its path.
+ */
+export type MenuLink = NavLink & {
+  description: string;
+  icon: NavIconName | (string & {});
+  iconPath?: string;
+};
 
 /** One navbar dropdown. Editable in Sanity (Site Settings → Header); these values are the fallback. */
 export type MenuGroup = { label: string; promo: boolean; items: MenuLink[] };
@@ -229,6 +239,13 @@ export const headerNav: MenuGroup[] = [
         icon: "newspaper",
         description: "Explore our latest accounting tips, guides, and business insights.",
       },
+      // NOT ON THE OLD SITE (new page, 2026-10-27): the gallery's subtitle.
+      {
+        ...resourceLinks[1],
+        icon: "briefcase",
+        description:
+          "See how Xconcile helps CPA firms and U.S. businesses with real accounting challenges.",
+      },
     ],
   },
   {
@@ -331,7 +348,7 @@ export const footerNav: { title: string; links: NavLink[] }[] = [
       { label: "E-commerce", href: routes.industry("tech-ecommerce") },
       // "IT technology" removed: same page as "Technology" below (audit L11).
       { label: "Retail", href: routes.industry("hospitality-retail") },
-      { label: "Technology", href: routes.industry("it-technology") },
+      { label: "Technology", href: routes.industry("it-technology-accounting-services") },
       { label: "Construction", href: routes.industry("real-estate-construction") },
     ],
   },

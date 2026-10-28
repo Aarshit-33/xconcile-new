@@ -1,7 +1,12 @@
 import { CogIcon } from "@sanity/icons/Cog";
 import { defineArrayMember, defineField, defineType } from "sanity";
 
-import { NAV_ICON_NAMES } from "../../../../components/icons/nav-icons";
+import {
+  NavIconPickerInput,
+  iconListOptions,
+  iconPreview,
+  navIconSet,
+} from "../../../components/icon-picker-input";
 import { hrefRule } from "../fields";
 
 const linkFields = () => [
@@ -32,14 +37,16 @@ const header = defineField({
       name: "ctaLabel",
       title: "Navbar button label",
       type: "string",
-      description: "The green button in the navbar and the mobile menu. It opens the meeting scheduler (Booking tab).",
+      description:
+        "The green button in the navbar and the mobile menu. It opens the meeting scheduler (Booking tab).",
       validation: (Rule) => Rule.required().max(30),
     }),
     defineField({
       name: "menus",
       title: "Menus",
       type: "array",
-      description: "Navbar dropdowns, left to right. The mobile menu shows the same entries as an accordion.",
+      description:
+        "Navbar dropdowns, left to right. The mobile menu shows the same entries as an accordion.",
       of: [
         defineArrayMember({
           name: "navMenu",
@@ -75,7 +82,9 @@ const header = defineField({
                       name: "icon",
                       title: "Icon",
                       type: "string",
-                      options: { list: NAV_ICON_NAMES.map((value) => ({ title: value.replace(/-/g, " "), value })) },
+                      // Old-site outline menu icons or any site icon (desktop-nav.tsx renders both).
+                      options: { list: iconListOptions(navIconSet) },
+                      components: { input: NavIconPickerInput },
                       validation: (Rule) => Rule.required(),
                     }),
                     defineField({
@@ -87,7 +96,7 @@ const header = defineField({
                       validation: (Rule) => Rule.required(),
                     }),
                   ],
-                  preview: { select: { title: "label", subtitle: "href" } },
+                  preview: iconPreview({ title: "label", subtitle: "href" }, navIconSet),
                 }),
               ],
               validation: (Rule) => Rule.required().min(1),
@@ -106,11 +115,28 @@ const header = defineField({
       title: "Menu promo card",
       type: "object",
       options: { collapsible: true, collapsed: true },
-      description: "Shown in menus with “Show the promo card” on. Its button opens the meeting scheduler.",
+      description:
+        "Shown in menus with “Show the promo card” on. Its button opens the meeting scheduler.",
       fields: [
-        defineField({ name: "badge", title: "Badge", type: "string", validation: (Rule) => Rule.required() }),
-        defineField({ name: "title", title: "Title", type: "string", validation: (Rule) => Rule.required() }),
-        defineField({ name: "body", title: "Text", type: "text", rows: 2, validation: (Rule) => Rule.required() }),
+        defineField({
+          name: "badge",
+          title: "Badge",
+          type: "string",
+          validation: (Rule) => Rule.required(),
+        }),
+        defineField({
+          name: "title",
+          title: "Title",
+          type: "string",
+          validation: (Rule) => Rule.required(),
+        }),
+        defineField({
+          name: "body",
+          title: "Text",
+          type: "text",
+          rows: 2,
+          validation: (Rule) => Rule.required(),
+        }),
         defineField({
           name: "buttonLabel",
           title: "Button label",
@@ -143,7 +169,7 @@ const footer = defineField({
       title: "Show phone numbers",
       type: "boolean",
       description:
-        "Off = hide the phone numbers (Contact & Offices → Phone numbers) under the footer logo. The footer shows them on mobile and tablet; the desktop footer design has none.",
+        "Off = hide the phone numbers (Contact & Offices → Phone numbers) under the footer logo. On = shown on every screen size.",
       initialValue: true,
     }),
     defineField({
@@ -156,7 +182,12 @@ const footer = defineField({
           title: "Column",
           type: "object",
           fields: [
-            defineField({ name: "title", title: "Heading", type: "string", validation: (Rule) => Rule.required() }),
+            defineField({
+              name: "title",
+              title: "Heading",
+              type: "string",
+              validation: (Rule) => Rule.required(),
+            }),
             defineField({
               name: "links",
               title: "Links",
@@ -192,7 +223,12 @@ const footer = defineField({
           title: "Badge",
           type: "object",
           fields: [
-            defineField({ name: "image", title: "Image", type: "altImage", validation: (Rule) => Rule.required() }),
+            defineField({
+              name: "image",
+              title: "Image",
+              type: "altImage",
+              validation: (Rule) => Rule.required(),
+            }),
             defineField({
               name: "size",
               title: "Display size (px)",
@@ -223,7 +259,8 @@ const contact = defineField({
   type: "object",
   group: "contact",
   options: { collapsible: false },
-  description: "Also used in the Organization / LocalBusiness data Google reads, so keep it accurate.",
+  description:
+    "Also used in the Organization / LocalBusiness data Google reads, so keep it accurate.",
   fields: [
     defineField({
       name: "email",
@@ -237,21 +274,34 @@ const contact = defineField({
       title: "Phone numbers",
       type: "array",
       description:
-        "Shown in the footer (mobile/tablet) and the desktop side panel. Hide them with Footer → Show phone numbers and Side panel → Show phone number.",
+        "Shown in the footer and the desktop side panel. Hide them with Footer → Show phone numbers and Side panel → Show phone number.",
       of: [
         defineArrayMember({
           name: "contactPhone",
           title: "Phone",
           type: "object",
           fields: [
-            defineField({ name: "label", title: "Label", type: "string", description: "e.g. Sales", validation: (Rule) => Rule.required() }),
-            defineField({ name: "display", title: "Number as shown", type: "string", description: "e.g. +91 798 494-9224", validation: (Rule) => Rule.required() }),
+            defineField({
+              name: "label",
+              title: "Label",
+              type: "string",
+              description: "e.g. Sales",
+              validation: (Rule) => Rule.required(),
+            }),
+            defineField({
+              name: "display",
+              title: "Number as shown",
+              type: "string",
+              description: "e.g. +91 798 494-9224",
+              validation: (Rule) => Rule.required(),
+            }),
             defineField({
               name: "tel",
               title: "Number to dial",
               type: "string",
               description: "International format without spaces, e.g. +917984949224",
-              validation: (Rule) => Rule.required().regex(/^\+\d{6,15}$/, { name: "international number" }),
+              validation: (Rule) =>
+                Rule.required().regex(/^\+\d{6,15}$/, { name: "international number" }),
             }),
           ],
           preview: { select: { title: "label", subtitle: "display" } },
@@ -268,12 +318,23 @@ const contact = defineField({
           title: "Office",
           type: "object",
           fields: [
-            defineField({ name: "name", title: "Name", type: "string", description: "e.g. India", validation: (Rule) => Rule.required() }),
+            defineField({
+              name: "name",
+              title: "Name",
+              type: "string",
+              description: "e.g. India",
+              validation: (Rule) => Rule.required(),
+            }),
             defineField({
               name: "country",
               title: "Flag",
               type: "string",
-              options: { list: [{ title: "India", value: "in" }, { title: "United States", value: "us" }] },
+              options: {
+                list: [
+                  { title: "India", value: "in" },
+                  { title: "United States", value: "us" },
+                ],
+              },
               validation: (Rule) => Rule.required(),
             }),
             defineField({
@@ -283,10 +344,30 @@ const contact = defineField({
               rows: 2,
               validation: (Rule) => Rule.required(),
             }),
-            defineField({ name: "streetAddress", title: "Street (for Google)", type: "string", validation: (Rule) => Rule.required() }),
-            defineField({ name: "addressLocality", title: "City (for Google)", type: "string", validation: (Rule) => Rule.required() }),
-            defineField({ name: "addressRegion", title: "State / region (for Google)", type: "string", validation: (Rule) => Rule.required() }),
-            defineField({ name: "postalCode", title: "Postal code (for Google)", type: "string", validation: (Rule) => Rule.required() }),
+            defineField({
+              name: "streetAddress",
+              title: "Street (for Google)",
+              type: "string",
+              validation: (Rule) => Rule.required(),
+            }),
+            defineField({
+              name: "addressLocality",
+              title: "City (for Google)",
+              type: "string",
+              validation: (Rule) => Rule.required(),
+            }),
+            defineField({
+              name: "addressRegion",
+              title: "State / region (for Google)",
+              type: "string",
+              validation: (Rule) => Rule.required(),
+            }),
+            defineField({
+              name: "postalCode",
+              title: "Postal code (for Google)",
+              type: "string",
+              validation: (Rule) => Rule.required(),
+            }),
             defineField({
               name: "addressCountry",
               title: "Country code (for Google)",
@@ -307,7 +388,8 @@ const social = defineField({
   title: "Social media",
   type: "array",
   group: "social",
-  description: "Footer “Follow us” icons, in this order. Also listed as the company's profiles for Google (sameAs).",
+  description:
+    "Footer “Follow us” icons, in this order. Also listed as the company's profiles for Google (sameAs).",
   of: [
     defineArrayMember({
       name: "socialLink",
@@ -352,7 +434,8 @@ const booking = defineField({
       name: "calendlyUrl",
       title: "Calendly page",
       type: "url",
-      description: "Every “Schedule a Meeting” / “Free Consultation” button opens this page in a popup.",
+      description:
+        "Every “Schedule a Meeting” / “Free Consultation” button opens this page in a popup.",
       validation: (Rule) => Rule.required().uri({ scheme: ["https"] }),
     }),
   ],
@@ -405,7 +488,8 @@ const sidePanel = defineField({
       name: "phoneLabel",
       title: "Phone to show",
       type: "string",
-      description: "Label of a number from Contact & Offices → Phone numbers, e.g. Sales. Empty = the first number.",
+      description:
+        "Label of a number from Contact & Offices → Phone numbers, e.g. Sales. Empty = the first number.",
       hidden: ({ parent }) => parent?.showPhone === false,
     }),
     defineField({
@@ -413,7 +497,13 @@ const sidePanel = defineField({
       title: "Address to show",
       type: "string",
       description: "Which office address from Contact & Offices is shown.",
-      options: { list: [{ title: "United States", value: "us" }, { title: "India", value: "in" }], layout: "radio" },
+      options: {
+        list: [
+          { title: "United States", value: "us" },
+          { title: "India", value: "in" },
+        ],
+        layout: "radio",
+      },
       initialValue: "us",
     }),
   ],

@@ -45,7 +45,7 @@ export const outsourcedTaxPreparation: ServicePageContent = {
       "Scale your firm's capacity and eliminate tax-season burnout with precision white-label support.",
     // No contact section on service pages: CTAs open the Calendly popup.
     // COPY FIX: drawn as "Get expert tex support".
-    primaryCta: { label: "Get expert tax support", href: SCHEDULE_HREF },
+    primaryCta: { label: "Get expert tax support", href: routes.contact() },
     // Client rule: "Explore our services" scrolls to this page's services section.
     secondaryCta: { label: "Explore Our Services", href: "#services" },
     checks: [
@@ -72,7 +72,10 @@ export const outsourcedTaxPreparation: ServicePageContent = {
     ] satisfies RichText,
     bodyMore: [
       "Xconcile provides ",
-      { text: "outsourced tax preparation support", href: routes.hireStaff("hire-tax-preparation-staff") },
+      {
+        text: "outsourced tax preparation support",
+        href: routes.hireStaff("hire-tax-preparation-staff"),
+      },
       " for U.S. CPA firms, helping extend your team's capacity when you need it. Our professionals can handle tax return preparation, workpapers, supporting documentation, and other tax-related tasks within your established processes and software. Whether you need seasonal support or ongoing assistance, you can choose the level of support that fits your firm's workload.",
     ],
     bodyMoreLayout: "paragraph",
@@ -82,7 +85,11 @@ export const outsourcedTaxPreparation: ServicePageContent = {
       width: 1480,
       height: 986,
     },
-    checks: ["Trusted Tax Preparation Support", "Experienced Tax Professionals", "Secure, Confidential Processes"],
+    checks: [
+      "Trusted Tax Preparation Support",
+      "Experienced Tax Professionals",
+      "Secure, Confidential Processes",
+    ],
     checksStyle: "list",
     // COPY FIX: drawn as "Talk to an Audit Expert" (pasted from the audit page).
     cta: { label: "Talk to a Tax Expert", href: SCHEDULE_HREF },
@@ -92,7 +99,7 @@ export const outsourcedTaxPreparation: ServicePageContent = {
     badge: "Key Challenges",
     title: "Why Businesses and CPA Firms Outsource Tax Preparation",
     body: "When tax workloads increase, keeping up with every deadline can be difficult. Outsourcing gives businesses and CPA firms extra preparation support when they need it.",
-    cta: { label: "Let's Discuss Project", href: SCHEDULE_HREF }, // COPY FIX: "Lets"
+    cta: { label: "Let's Discuss Project", href: routes.contact() }, // COPY FIX: "Lets"
     items: [
       {
         tone: "rose",
@@ -112,7 +119,7 @@ export const outsourcedTaxPreparation: ServicePageContent = {
       },
       {
         tone: "blue",
-        icon: "paid",
+        icon: "article",
         title: "Keep Tax Documentation Organized", // COPY FIX: drawn as "Keep Audit Documentation Organized"
         body: [
           "Keep tax records and supporting documents organized so your team can review returns more easily.",
@@ -122,7 +129,9 @@ export const outsourcedTaxPreparation: ServicePageContent = {
         tone: "purple",
         icon: "visibility_off",
         title: "Manage Multiple Returns", // COPY FIX: drawn as "Manage Multiple Audits"
-        body: ["Handle more client tax returns while keeping workloads manageable and deadlines on track."],
+        body: [
+          "Handle more client tax returns while keeping workloads manageable and deadlines on track.",
+        ],
       },
     ],
   },
@@ -138,14 +147,14 @@ export const outsourcedTaxPreparation: ServicePageContent = {
     // markdown removed.
     items: [
       {
-        icon: "calculate",
+        icon: "person",
         title: "Individual Tax Preparation (Form 1040)",
         description: "Accuracy, optimization of credits, and seamless data flow",
         groups: [
           {
             title: "Workpaper Preparation & Indexing",
             items: [
-              "Organizing digital \"shoeboxes\" into bookmarked, hyperlinked PDF workpapers.",
+              'Organizing digital "shoeboxes" into bookmarked, hyperlinked PDF workpapers.',
               "Cross-referencing source documents (W-2, 1099, 1098) with the draft tax return.",
             ],
           },
@@ -167,7 +176,7 @@ export const outsourcedTaxPreparation: ServicePageContent = {
         ],
       },
       {
-        icon: "assignment",
+        icon: "card_travel",
         title: "Business Tax Compliance (1065, 1120, 1120S)",
         description: "Precision in book-to-tax adjustments and shareholder reporting",
         groups: [
@@ -223,7 +232,7 @@ export const outsourcedTaxPreparation: ServicePageContent = {
         ],
       },
       {
-        icon: "add_chart",
+        icon: "receipt",
         title: "Indirect Tax (Sales & Use Tax)",
         description: "Multi-state Nexus protection for E-commerce and Retail",
         groups: [
@@ -241,18 +250,22 @@ export const outsourcedTaxPreparation: ServicePageContent = {
           },
           {
             title: "Audit Support",
-            items: ["Gathering documentation for State Sales Tax audits and responding to nexus inquiries."],
+            items: [
+              "Gathering documentation for State Sales Tax audits and responding to nexus inquiries.",
+            ],
           },
         ],
       },
       {
-        icon: "sync",
+        icon: "account_balance",
         title: "Specialized Statutory & Trust Filings",
         description: "Niche tax areas for high-net-worth and non-profit clients",
         groups: [
           {
             title: "Exempt Organizations",
-            items: ["Form 990 / 990-PF: Annual information returns for Non-profits and Private Foundations."],
+            items: [
+              "Form 990 / 990-PF: Annual information returns for Non-profits and Private Foundations.",
+            ],
           },
           {
             title: "Trust & Estate Taxation",
@@ -269,7 +282,8 @@ export const outsourcedTaxPreparation: ServicePageContent = {
   caseStudies: {
     badge: "Testimonials",
     title: "Trusted by Businesses & CPA Firms",
-    subtitle: "See how Xconcile helps businesses improve efficiency, visibility, and financial operations.",
+    subtitle:
+      "See how Xconcile helps businesses improve efficiency, visibility, and financial operations.",
     // Only "CPA Firms" has copy in the design; other drawn tabs (Real Estate, E-commerce,
     // Construction, Restaurants) appear once their case studies exist. Never invent client results.
     items: [
@@ -279,7 +293,8 @@ export const outsourcedTaxPreparation: ServicePageContent = {
         title: "CPA Firms",
         challenge: "Growing workload and limited accounting capacity.",
         solution: "Dedicated outsourced accounting support.",
-        result: "Better financial visibility, streamlined operations, and reduced accounting workload.",
+        result:
+          "Better financial visibility, streamlined operations, and reduced accounting workload.",
         // NOT IN DESIGN: impact figure reused from Home; confirm with the client.
         impact: home.caseStudies.items[0].impact,
         // Same photo as Home's case study.
@@ -293,7 +308,8 @@ export const outsourcedTaxPreparation: ServicePageContent = {
   process: {
     badge: "How It Works",
     title: "Our Tax Preparation Outsourcing Process",
-    subtitle: "Our process covers tax requirements, document preparation, return preparation, review, and finalization.",
+    subtitle:
+      "Our process covers tax requirements, document preparation, return preparation, review, and finalization.",
     steps: [
       {
         icon: "search",
@@ -327,7 +343,8 @@ export const outsourcedTaxPreparation: ServicePageContent = {
     badge: "Industries We Serve",
     // COPY FIX: drawn with a double space ("Tax  Expertise").
     title: "Tax Expertise Across Industries",
-    subtitle: "Tax support that fits the structure, operations, and filing requirements of your business.",
+    subtitle:
+      "Tax support that fits the structure, operations, and filing requirements of your business.",
     // NOT IN DESIGN: no button beside the heading; `href: undefined` keeps it hidden.
     cta: { label: "Explore More", href: undefined },
     // Links use the live industry slugs; Education, Pharmaceutical and Manufacturing have no
@@ -363,24 +380,42 @@ export const outsourcedTaxPreparation: ServicePageContent = {
         title: "Education",
         // COPY FIX: drawn as "Simplify admissions, student records, and administrative" (cut off).
         body: "Simplify admissions, student records, and administrative tasks.",
-        image: { src: "/images/industries/education.jpg", alt: "Students working at desks in a classroom", width: 500, height: 311 },
+        image: {
+          src: "/images/industries/education.jpg",
+          alt: "Students working at desks in a classroom",
+          width: 500,
+          height: 311,
+        },
       },
       {
         title: "Pharmaceutical",
         // COPY FIX: drawn without the final period.
         body: "Improve compliance, inventory tracking, and distribution.",
-        image: { src: "/images/industries/pharmaceutical.jpg", alt: "Pharmacist taking stock from pharmacy shelves", width: 500, height: 333 },
+        image: {
+          src: "/images/industries/pharmaceutical.jpg",
+          alt: "Pharmacist taking stock from pharmacy shelves",
+          width: 500,
+          height: 333,
+        },
       },
       {
         title: "eCommerce",
         body: "Multi-channel bookkeeping, inventory, COGS, and sales tax.",
         href: routes.industry("tech-ecommerce"),
-        image: { src: "/images/industries/ecommerce.jpg", alt: "Online seller packing orders at a desk", width: 500, height: 334 },
+        image: {
+          src: "/images/industries/ecommerce.jpg",
+          alt: "Online seller packing orders at a desk",
+          width: 500,
+          height: 334,
+        },
       },
       {
         title: "Manufacturing",
         body: "Optimize production, inventory, and supply chain operations.",
-        image: { ...home.industries.items[0].image, alt: "Sparks flying from metal grinding in a factory" },
+        image: {
+          ...home.industries.items[0].image,
+          alt: "Sparks flying from metal grinding in a factory",
+        },
       },
     ],
   },
@@ -401,8 +436,16 @@ export const outsourcedTaxPreparation: ServicePageContent = {
         title: "Tax Preparation Support",
         body: "Reliable support for tax preparation, tax filing, and financial documentation.",
       },
-      { icon: "contact_phone", title: "Support Busy Seasons", body: "Scale your team during peak tax and accounting periods." },
-      { icon: "page_info", title: "Flexible Support", body: "Support that fits your processes, workload, and priorities." },
+      {
+        icon: "contact_phone",
+        title: "Support Busy Seasons",
+        body: "Scale your team during peak tax and accounting periods.",
+      },
+      {
+        icon: "page_info",
+        title: "Flexible Support",
+        body: "Support that fits your processes, workload, and priorities.",
+      },
       {
         icon: "add_chart",
         title: "Data Security",
@@ -448,7 +491,12 @@ export const outsourcedTaxPreparation: ServicePageContent = {
           { name: "UltraTax CS" },
           { name: "Lacerte" },
           { name: "CCH Axcess" },
-          { name: "Drake Software", logo: "/images/tools/drake-software.png", width: 80, height: 80 },
+          {
+            name: "Drake Software",
+            logo: "/images/tools/drake-software.png",
+            width: 80,
+            height: 80,
+          },
         ],
       },
       {
@@ -467,7 +515,7 @@ export const outsourcedTaxPreparation: ServicePageContent = {
       },
       {
         id: "sales-use-tax",
-        icon: "search",
+        icon: "search_check_2",
         // COPY FIX: drawn as a second "Audit Software" tab (duplicate label).
         label: "Sales & Use Tax",
         tools: [{ name: "Avalara" }, { name: "TaxJar" }],

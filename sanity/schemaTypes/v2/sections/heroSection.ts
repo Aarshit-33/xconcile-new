@@ -41,16 +41,24 @@ export default defineType({
       validation: (Rule) => Rule.required(),
     }),
     defineField({
+      name: "showSecondaryCta",
+      title: "Show second button",
+      type: "boolean",
+      description: "Off = no second button. On = it shows on every screen size.",
+      initialValue: true,
+    }),
+    defineField({
       name: "secondaryCta",
       title: "Secondary Button",
       type: "ctaLink",
-      description: "Optional. Desktop only.",
+      description: "Optional outline button next to the primary one.",
+      hidden: ({ parent }) => parent?.showSecondaryCta === false,
     }),
     defineField({
       name: "checks",
       title: "Check Items",
       type: "array",
-      description: "Short trust points with a check icon under the buttons.",
+      description: "Short trust points with a check icon under the buttons. Each one shows on every screen size.",
       of: [
         defineArrayMember({
           name: "heroCheck",
@@ -63,19 +71,21 @@ export default defineType({
               type: "string",
               validation: (Rule) => Rule.required().max(60),
             }),
+            // One switch for every screen size (user request 2026-10-26). Replaces "Desktop only",
+            // which hid the item on phones and tablets; old values of that field are ignored.
             defineField({
-              name: "desktopOnly",
-              title: "Desktop only",
+              name: "show",
+              title: "Show",
               type: "boolean",
-              description: "Hide on mobile.",
-              initialValue: false,
+              description: "Off = hidden on every screen size. On = shown on every screen size.",
+              initialValue: true,
             }),
           ],
           preview: {
-            select: { title: "label", desktopOnly: "desktopOnly" },
-            prepare: ({ title, desktopOnly }) => ({
+            select: { title: "label", show: "show" },
+            prepare: ({ title, show }) => ({
               title,
-              subtitle: desktopOnly ? "Desktop only" : "All devices",
+              subtitle: show === false ? "Hidden" : "Shown",
             }),
           },
         }),

@@ -6,14 +6,25 @@
 import type { SchemaTypeDefinition } from "sanity";
 
 import aboutPage from "./documents/aboutPage";
+import author from "./documents/author";
+import blogPage from "./documents/blogPage";
+import blogPost from "./documents/blogPost";
+import caseStudiesPage from "./documents/caseStudiesPage";
+import caseStudy from "./documents/caseStudy";
 import home from "./documents/home";
 import hirePage from "./documents/hirePage";
 import industriesPage from "./documents/industriesPage";
 import industryPage from "./documents/industryPage";
+import newsletterSubscription from "./documents/newsletterSubscription";
 import notFoundPage from "./documents/notFoundPage";
+import contactPage from "./documents/contactPage";
+import privacyPage from "./documents/privacyPage";
+import seoArticle from "./documents/seoArticle";
 import servicePage from "./documents/servicePage";
 import siteSettings from "./documents/siteSettings";
 import altImage from "./objects/altImage";
+import { articleBody, articleImage, articleTable } from "./objects/articleBody";
+import { caseStudyBody, caseStudyHighlights, caseStudyStats } from "./objects/caseStudyBody";
 import ctaLink from "./objects/ctaLink";
 import headingTitle from "./objects/headingTitle";
 import iconCard from "./objects/iconCard";
@@ -23,6 +34,7 @@ import richText from "./objects/richText";
 import seoMeta from "./objects/seoMeta";
 import statItem from "./objects/statItem";
 import audienceCardsSection from "./sections/audienceCardsSection";
+import blogPostsSection from "./sections/blogPostsSection";
 import blogSection from "./sections/blogSection";
 import cardGridSection from "./sections/cardGridSection";
 import caseStudiesSection from "./sections/caseStudiesSection";
@@ -54,6 +66,12 @@ import whyChooseSection from "./sections/whyChooseSection";
 export const v2Types: SchemaTypeDefinition[] = [
   // Objects
   altImage,
+  articleImage,
+  articleTable,
+  articleBody,
+  caseStudyHighlights,
+  caseStudyStats,
+  caseStudyBody,
   ctaLink,
   headingTitle,
   iconCard,
@@ -97,6 +115,8 @@ export const v2Types: SchemaTypeDefinition[] = [
   founderSection,
   teamSection,
   leadContactSection,
+  // Blog gallery (/blog)
+  blogPostsSection,
 
   // Documents
   home,
@@ -105,6 +125,15 @@ export const v2Types: SchemaTypeDefinition[] = [
   hirePage,
   industryPage,
   industriesPage,
+  blogPage,
+  blogPost,
+  author,
+  caseStudiesPage,
+  caseStudy,
+  seoArticle,
+  newsletterSubscription,
   notFoundPage,
+  privacyPage,
+  contactPage,
   siteSettings,
 ];

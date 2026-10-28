@@ -2,11 +2,17 @@
 
 import { useState } from "react";
 
-import { Icon } from "@/components/icons/registry";
 import { AddIcon, ArrowBackIosNewIcon, RemoveIcon } from "@/components/icons/material-symbols";
+import { SvgPathIcon } from "@/components/icons/svg-path-icon";
+import { cardTones, defaultToneCycle } from "@/components/shared/card-tones";
 import { CtaLink } from "@/components/shared/cta";
 import { ctaClassName } from "@/components/shared/cta-styles";
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 import { Button } from "@/components/ui/button";
 import type { ServicesContent } from "@/content/types";
 import { cn } from "@/lib/utils";
@@ -22,8 +28,16 @@ import { cn } from "@/lib/utils";
  * default). The design drew item 1 open on mobile and green on desktop; both dropped, along with
  * the old "pristine" workaround that kept item 1 open-but-hidden on desktop.
  * Client rule: service items turn green on hover.
+ * `iconPaths[i]`: item i's icon path, resolved by the server parent (services.tsx) so this client
+ * component doesn't bundle the whole icon set.
  */
-export function ServicesAccordionList({ data }: { data: ServicesContent }) {
+export function ServicesAccordionList({
+  data,
+  iconPaths,
+}: {
+  data: ServicesContent;
+  iconPaths: (string | undefined)[];
+}) {
   const [showAll, setShowAll] = useState(false);
   const hiddenCount = Math.max(0, data.items.length - data.initiallyVisible);
 
@@ -43,11 +57,13 @@ export function ServicesAccordionList({ data }: { data: ServicesContent }) {
               !showAll && i >= data.initiallyVisible && "lg:hidden",
             )}
           >
-            <AccordionTrigger className="min-w-0 items-center gap-4 rounded-none px-4 py-6 group-data-open/item:items-start group-data-open/item:px-0 hover:no-underline focus-visible:ring-inset lg:gap-0 lg:px-0 lg:group-data-open/item:items-center **:data-[slot=accordion-trigger-icon]:hidden">
+            <AccordionTrigger className="min-w-0 items-center gap-4 rounded-none px-4 py-6 group-data-open/item:items-start group-data-open/item:px-0 hover:no-underline focus-visible:ring-inset **:data-[slot=accordion-trigger-icon]:hidden lg:gap-0 lg:px-0 lg:group-data-open/item:items-center">
               <span aria-hidden className="hidden w-[17px] shrink-0 text-b1 text-brand lg:block">
                 {String(i + 1).padStart(2, "0")}
               </span>{" "}
-              <Icon name={item.icon} className="size-6 shrink-0 text-brand lg:ml-[46px]" />
+              {iconPaths[i] ? (
+                <SvgPathIcon d={iconPaths[i]} className="size-6 shrink-0 text-brand lg:ml-[46px]" />
+              ) : null}
               <span className="flex min-w-0 flex-1 flex-col gap-2 lg:ml-14">
                 {/* Full title always shown: wraps on narrow screens (was `truncate`, which cut long
                     names to "Hire Dedicated Acc…" at 320–390px; client report 2026-10-22). */}
@@ -67,7 +83,10 @@ export function ServicesAccordionList({ data }: { data: ServicesContent }) {
                 <RemoveIcon className="hidden size-6 text-brand group-data-open/item:block" />
               </span>
             </AccordionTrigger>
-            <AccordionContent forceMount className="px-0 pb-6 lg:pb-8 lg:pl-[143px] [&_a]:no-underline [&_a]:hover:text-white [&_p:not(:last-child)]:mb-0">
+            <AccordionContent
+              forceMount
+              className="px-0 pb-6 lg:pb-8 lg:pl-[143px] [&_a]:no-underline [&_a]:hover:text-white [&_p:not(:last-child)]:mb-0"
+            >
               <div className="flex flex-col gap-6 border-t border-white/10 pt-6">
                 {item.keyItems?.length ? (
                   <div className="flex flex-col gap-4">
@@ -83,21 +102,55 @@ export function ServicesAccordionList({ data }: { data: ServicesContent }) {
                   </div>
                 ) : null}
                 {item.groups?.length ? (
-                  // Grouped tasks (service pages): long sentences, so one column per group.
-                  <div className="grid gap-6 lg:max-w-[880px] lg:grid-cols-2 lg:gap-x-10">
-                    {item.groups.map((g) => (
-                      <div key={g.title} className="flex flex-col gap-3">
-                        <p className="text-b2 font-semibold text-white">{g.title}</p>
-                        <ul className="flex flex-col gap-2 text-b2 text-on-dark">
-                          {g.items.map((k) => (
-                            <li key={k} className="flex gap-2">
-                              <span aria-hidden className="mt-1.5 size-2 shrink-0 rounded-full bg-brand" />
-                              {k}
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-                    ))}
+                  // Grouped tasks (service pages): long sentences, so one column per group. Each
+                  // group is a card in the Home "Key Challenges" colours (Studio → Card colour,
+                  // user request 2026-10-26), borderless, no hover; empty colour =
+                  // challenges order.
+                  <div className="grid gap-4 lg:max-w-[880px] lg:grid-cols-2 lg:gap-6">
+                    {item.groups.map((g, gi) => {
+                      const tone = g.tone ?? defaultToneCycle[gi % defaultToneCycle.length];
+                      const t = tone === "transparent" ? null : cardTones[tone];
+                      return (
+                        <div
+                          key={g.title}
+                          className={cn(
+                            // No border and no hover effect (user requests 2026-10-26). Tint a little
+                            // stronger than the Key Challenges cards (`groupBg`, card-tones.ts).
+                            "flex flex-col gap-3 rounded-md p-4 lg:p-6",
+                            t ? t.groupBg : "bg-transparent",
+                          )}
+                        >
+                          <p
+                            className={cn(
+                              "text-b2 font-semibold",
+                              t ? "text-heading" : "text-white",
+                            )}
+                          >
+                            {g.title}
+                          </p>
+                          <ul
+                            className={cn(
+                              "flex flex-col gap-2 text-b2",
+                              t ? "text-body" : "text-on-dark",
+                            )}
+                          >
+                            {g.items.map((k) => (
+                              <li key={k} className="flex gap-2">
+                                {/* Bullet in the card's ink colour (brand green on transparent). */}
+                                <span
+                                  aria-hidden
+                                  className={cn(
+                                    "mt-1.5 size-2 shrink-0 rounded-full",
+                                    t ? ["bg-current", t.icon] : "bg-brand",
+                                  )}
+                                />
+                                {k}
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      );
+                    })}
                   </div>
                 ) : null}
                 {item.cta ? (

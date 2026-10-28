@@ -26,7 +26,7 @@ export function IndustriesGalleryTemplate({ content }: { content: IndustriesGall
       <Industries data={content.industries} headingAlign="center" className="pt-0 lg:pt-0" />
       {/* FAQ is white in this design, like the industry pages. */}
       <Faq data={content.faq} className="bg-white" introClassName="lg:max-w-[416px]" />
-      <CtaBand data={content.ctaBand} titleClassName="max-w-[657px]" />
+      <CtaBand data={content.ctaBand} />
     </>
   );
 }

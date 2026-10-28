@@ -1,6 +1,7 @@
 import { BookIcon } from "@sanity/icons/Book";
 import { defineArrayMember, defineField, defineType } from "sanity";
 
+import { iconPreview } from "../../../components/icon-picker-input";
 import { anchorIdField, badgeField, hiddenField, iconField, sectionPreview, subtitleField } from "../fields";
 
 /**
@@ -48,7 +49,7 @@ export default defineType({
               description: "Optional. Rises in under the title on scroll.",
             }),
           ],
-          preview: { select: { title: "title", subtitle: "body" } },
+          preview: iconPreview({ title: "title", subtitle: "body" }),
         }),
       ],
       validation: (Rule) => Rule.required().min(1),

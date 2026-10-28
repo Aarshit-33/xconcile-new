@@ -5,6 +5,7 @@ import { useState } from "react";
 
 import { useCalendly } from "@/components/calendly/calendly-provider";
 import { NavIcon } from "@/components/icons/nav-icons";
+import { SvgPathIcon } from "@/components/icons/svg-path-icon";
 import { Button } from "@/components/ui/button";
 import {
   NavigationMenu,
@@ -82,7 +83,11 @@ export function DesktopNav({ items, promo }: { items: MenuGroup[]; promo: MenuPr
                             className="group/item flex items-start gap-4 rounded-lg p-3 transition-colors hover:bg-[#fafafa] focus:bg-[#fafafa]"
                           >
                             <span className="mt-1 rounded-lg bg-brand-50 p-2 text-brand transition-colors group-hover/item:bg-brand-100">
-                              <NavIcon name={link.icon} className="size-6!" />
+                              {link.iconPath ? (
+                                <SvgPathIcon d={link.iconPath} className="size-6!" />
+                              ) : (
+                                <NavIcon name={link.icon} className="size-6!" />
+                              )}
                             </span>
                             <span className="flex flex-col">
                               <span className="text-base font-bold text-[#171717] transition-colors group-hover/item:text-brand">

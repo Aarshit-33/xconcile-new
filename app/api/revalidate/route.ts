@@ -2,14 +2,14 @@ import { revalidateTag } from "next/cache";
 import { type NextRequest, NextResponse } from "next/server";
 import { parseBody } from "next-sanity/webhook";
 
-import { revalidateSecret } from "@/sanity/env";
+import { revalidateSecret } from "@/sanity/env.server";
 
 type WebhookPayload = { _type?: string; slug?: { current?: string } };
 
 /**
  * Sanity webhook target. Configure in sanity.io/manage -> API -> Webhooks:
  *   URL:        https://<domain>/api/revalidate
- *   Dataset:    the site dataset (and the blog dataset, if blog posts live elsewhere)
+ *   Dataset:    the site dataset (NEXT_PUBLIC_SANITY_DATASET)
  *   Trigger on: Create, Update, Delete
  *   Projection: { _type, slug }
  *   Secret:     SANITY_REVALIDATE_SECRET (same value in Vercel -> Settings -> Environment Variables)
@@ -27,10 +27,7 @@ export async function POST(req: NextRequest) {
       return new NextResponse("Missing SANITY_REVALIDATE_SECRET", { status: 500 });
     }
 
-    const { isValidSignature, body } = await parseBody<WebhookPayload>(
-      req,
-      revalidateSecret,
-    );
+    const { isValidSignature, body } = await parseBody<WebhookPayload>(req, revalidateSecret);
 
     if (!isValidSignature) {
       return new NextResponse("Invalid signature", { status: 401 });

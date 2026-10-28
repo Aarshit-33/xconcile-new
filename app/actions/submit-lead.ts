@@ -5,7 +5,7 @@ import { z } from "zod";
 
 import { leadSchema, serviceLabel, type LeadField, type LeadFormInput } from "@/lib/lead-schema";
 import { isMailConfigured, leadEmailHtml, sendAdminMail } from "@/lib/mail";
-import { writeToken } from "@/sanity/env";
+import { writeToken } from "@/sanity/env.server";
 import { writeClient } from "@/sanity/lib/client";
 
 export type LeadResult =
@@ -58,7 +58,9 @@ export async function submitLead(input: LeadFormInput): Promise<LeadResult> {
       console.error("[submitLead] Sanity save failed", error);
     }
   } else {
-    console.warn("[submitLead] SANITY_API_TOKEN is not set; submission not stored");
+    console.warn(
+      "[submitLead] No Sanity write token (SANITY_API_WRITE_TOKEN or SANITY_API_TOKEN); submission not stored",
+    );
   }
 
   if (isMailConfigured()) {

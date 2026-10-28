@@ -37,7 +37,7 @@ export function IndustryPageTemplate({ content }: { content: IndustryPageContent
       <WhyChoose data={content.whyChoose} />
       {/* FAQ is white on this page. */}
       <Faq data={content.faq} className="bg-white" introClassName="lg:max-w-[416px]" />
-      <CtaBand data={content.ctaBand} titleClassName="max-w-[657px]" />
+      <CtaBand data={content.ctaBand} />
     </>
   );
 }

@@ -1,6 +1,7 @@
 import { CreditCardIcon } from "@sanity/icons/CreditCard";
 import { defineArrayMember, defineField, defineType } from "sanity";
 
+import { OptionalIconPickerInput, iconMedia } from "../../../components/icon-picker-input";
 import { anchorIdField, badgeField, hiddenField, iconOptions, sectionPreview, subtitleField, titleField } from "../fields";
 
 /**
@@ -47,6 +48,7 @@ export default defineType({
               title: "Icon",
               type: "string",
               options: { list: iconOptions },
+              components: { input: OptionalIconPickerInput },
               description: "Top-right glyph on light cards. The featured card shows the pill instead.",
             }),
             defineField({
@@ -89,10 +91,11 @@ export default defineType({
             }),
           ],
           preview: {
-            select: { number: "number", title: "title", featured: "featured" },
-            prepare: ({ number, title, featured }) => ({
+            select: { number: "number", title: "title", featured: "featured", icon: "icon" },
+            prepare: ({ number, title, featured, icon }) => ({
               title: [number, title].filter(Boolean).join(" · "),
               subtitle: featured ? "Featured" : undefined,
+              media: iconMedia(icon),
             }),
           },
         }),
