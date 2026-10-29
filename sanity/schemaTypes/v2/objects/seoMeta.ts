@@ -43,7 +43,8 @@ export default defineType({
       name: "ogImage",
       title: "Social share image",
       type: "image",
-      description: "Optional. 1200×630 recommended.",
+      description:
+        "Optional. Upload exactly 1200×630 px (1.91:1), JPG or PNG under ~300 KB. Used in link previews (LinkedIn, WhatsApp, X), not on the page.",
     }),
     defineField({
       name: "canonicalUrl",
@@ -51,7 +52,7 @@ export default defineType({
       type: "string",
       description:
         "Leave empty (recommended): the page's own address is used. Fill in only when this page duplicates another page and Google should index that one instead, e.g. https://xconcile.com/outsourced-tax-preparation or /outsourced-tax-preparation.",
-      validation: (Rule) =>
+      validation: (Rule) => [
         Rule.custom((v: string | undefined) => {
           const value = v?.trim();
           if (!value) return true;
@@ -59,6 +60,18 @@ export default defineType({
             ? true
             : "Use a full URL (https://…) or a site path starting with /.";
         }),
+        // 2026-10-29: 14 pages had canonicals pointing at URLs that didn't exist (404) or ended in
+        // "/" (this site's URLs never do), telling Google to index a missing page instead.
+        Rule.custom((v: string | undefined) => {
+          const value = v?.trim();
+          if (!value) return true;
+          const path = value.replace(/^https?:\/\/[^/]+/, "");
+          if (path.length > 1 && path.endsWith("/")) {
+            return "Remove the trailing “/”: this site's addresses never end with one, so Google would see a different page.";
+          }
+          return "Google will index the address above INSTEAD of this page. Open it in a browser first: if it isn't a live page, clear this field.";
+        }).warning(),
+      ],
     }),
     defineField({
       name: "metaTags",

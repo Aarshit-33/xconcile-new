@@ -139,8 +139,8 @@
   --text-h1: 56px;
   --text-h1--line-height: 72px;
   --text-h1--font-weight: 700;
-  --text-h1-m: 28px; /* client note 2026-10-27: no 36px headings on mobile (was 36/42) */
-  --text-h1-m--line-height: 36px;
+  --text-h1-m: 36px;
+  --text-h1-m--line-height: 42px;
   --text-h1-m--font-weight: 700;
 
   --text-h2: 40px;

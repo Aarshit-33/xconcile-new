@@ -2,7 +2,13 @@ import Link from "next/link";
 
 import { Button } from "@/components/ui/button";
 
-import { CtaContent, ctaClassName, ctaLabelTone, type CtaVariant } from "./cta-styles";
+import {
+  CtaContent,
+  ctaClassName,
+  ctaLabelTone,
+  MOBILE_SOLID_ARROW,
+  type CtaVariant,
+} from "./cta-styles";
 
 type PillOptions = {
   children: React.ReactNode;
@@ -39,7 +45,15 @@ type PillAsButton = PillOptions & { href?: undefined } & Omit<
  * Calendly popup); `CtaLink`, `ScheduleCta` and `ScheduleMeetingButton` all render this.
  */
 export function CtaPill(props: PillAsLink | PillAsButton) {
-  const { children, variant = "solid", block, mobileSolid = false, arrow, className, ...rest } = props;
+  const {
+    children,
+    variant = "solid",
+    block,
+    mobileSolid = false,
+    arrow,
+    className,
+    ...rest
+  } = props;
   const showArrow = arrow ?? (variant === "solid" || mobileSolid);
   const swap = variant === "solid" && !mobileSolid && showArrow;
   const cls = ctaClassName({ variant, block, mobileSolid, swap, className });
@@ -47,7 +61,7 @@ export function CtaPill(props: PillAsLink | PillAsButton) {
     <CtaContent
       arrow={showArrow}
       swap={swap}
-      arrowClassName={mobileSolid ? "lg:hidden" : undefined}
+      arrowClassName={mobileSolid ? MOBILE_SOLID_ARROW : undefined}
       labelClassName={ctaLabelTone({ variant, mobileSolid, swap })}
     >
       {children}

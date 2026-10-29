@@ -28,8 +28,10 @@ export const routes = {
   team: () => "/about#team",
   /** Contact page (design page-updated/newShit/contact.svg, 2026-10-27; same URL as the old site). */
   contact: () => "/contact",
-  /** Privacy Policy page (/privacy-policy, same URL as the old site). */
+  /** Privacy Policy (design pages/Privacy Policy.svg, 2026-10-29; same URL as the old site). */
   privacy: () => "/privacy-policy",
+  /** Terms of Use (design pages/Terms of Use.svg, 2026-10-29; new, the old site had none). */
+  terms: () => "/terms-of-use",
 } as const;
 
 /** Absolute canonical URL: `absoluteUrl("/")` = `https://xconcile.com/`, `absoluteUrl("/about")` = `https://xconcile.com/about`. */

@@ -90,7 +90,18 @@ const nextConfig: NextConfig = {
   },
   images: {
     formats: ["image/avif", "image/webp"],
+    // Quality 90 for every optimized image (user request 2026-10-29: Studio uploads looked soft
+    // at the default 75). Next 16 serves any image without a `quality` prop at the closest
+    // allowed value, so this one entry sets it site-wide; it is also the only quality the
+    // /_next/image endpoint accepts. Images are still resized per screen and sent as AVIF/WebP.
+    qualities: [90],
     remotePatterns: [{ protocol: "https", hostname: "cdn.sanity.io" }],
+    // Local dev only: on some networks (NAT64 / IPv6 tunnels) cdn.sanity.io resolves to an
+    // IPv4-mapped IPv6 address (64:ff9b::…) that Next.js classifies as private. This flag
+    // re-enables image optimisation for that address space in dev. It has no effect in
+    // production because prod servers reach cdn.sanity.io via a real public IP.
+    dangerouslyAllowSVG: false,
+    ...(process.env.NODE_ENV !== "production" ? { dangerouslyAllowLocalIP: true } : {}),
   },
   async headers() {
     return [
@@ -121,12 +132,15 @@ const nextConfig: NextConfig = {
         destination: "https://xconcile.com/:path*",
         permanent: true,
       },
-      { source: "/services/:slug", destination: "/:slug", permanent: true },
-      { source: "/hire-staff/:slug", destination: "/:slug", permanent: true },
+      // Old /services/<slug> and /hire-staff/<slug>: handled by app/(website)/services/[slug] and
+      // hire-staff/[slug], which 301 straight to the page's live URL in one hop (2026-10-29: a
+      // rule here sent them to /<old-slug>, which then redirected again to the renamed slug).
       // Old-site pages that are sections on the new site (2026-10-27 audit).
       // /contact is a real page again since 2026-10-27 (app/(website)/contact).
       { source: "/contact-us", destination: "/contact", permanent: true },
       { source: "/team", destination: "/about#team", permanent: true },
+      // Old /solutions page (list of services) was a 404 on the new site (audit 2026-10-29).
+      { source: "/solutions", destination: "/#services", permanent: true },
       // The old /meeting page only embedded Calendly.
       {
         source: "/meeting",

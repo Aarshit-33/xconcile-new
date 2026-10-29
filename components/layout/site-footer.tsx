@@ -9,6 +9,7 @@ import {
   YouTubeIcon,
 } from "@/components/icons/brand-icons";
 import { CallIcon, MailIcon } from "@/components/icons/material-symbols";
+import { routes } from "@/lib/routes";
 import { getSiteSettings, type SocialPlatform } from "@/sanity/lib/site-settings";
 import { CopyrightYear } from "./copyright-year";
 
@@ -180,10 +181,30 @@ export async function SiteFooter() {
           </ul>
         </div>
 
-        {/* Row 3: copyright. */}
+        {/* Row 3: copyright + legal links ("© 2026 Xconcile Inc. All rights reserved. | Privacy
+            Policy | Terms of Use", design pages/Privacy Policy.svg + Terms of Use.svg, 2026-10-29).
+            Phones: the links wrap onto their own centred line. */}
         <div className="border-t border-[rgb(242_242_242/0.2)] py-6 text-center">
-          <p className="text-b2 leading-[18px] font-medium text-on-dark">
-            © <CopyrightYear /> {footer.copyrightName} All rights reserved.
+          <p className="flex flex-wrap items-center justify-center gap-x-1.5 gap-y-2 text-b2 leading-[18px] font-medium text-on-dark">
+            <span>
+              © <CopyrightYear /> {footer.copyrightName} All rights reserved.
+            </span>
+            <span className="flex items-center gap-x-1.5">
+              <span aria-hidden>|</span>
+              <Link
+                href={routes.privacy()}
+                className="relative transition-colors before:absolute before:inset-x-0 before:-inset-y-3 hover:text-brand"
+              >
+                Privacy Policy
+              </Link>
+              <span aria-hidden>|</span>
+              <Link
+                href={routes.terms()}
+                className="relative transition-colors before:absolute before:inset-x-0 before:-inset-y-3 hover:text-brand"
+              >
+                Terms of Use
+              </Link>
+            </span>
           </p>
         </div>
       </div>

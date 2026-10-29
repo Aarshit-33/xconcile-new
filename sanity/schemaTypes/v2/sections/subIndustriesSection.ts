@@ -46,7 +46,8 @@ export default defineType({
               name: "groups",
               title: "Details (accordion panel)",
               type: "array",
-              description: "Shown when the row's “+” is opened. Leave empty for a static row without “+”.",
+              description:
+                "Shown when the row's “+” is opened. Leave empty for a static row without “+”.",
               of: [
                 defineArrayMember({
                   name: "detailGroup",
@@ -57,7 +58,8 @@ export default defineType({
                       name: "title",
                       title: "Group title",
                       type: "string",
-                      description: "e.g. Bookkeeping, Accounting, Payroll, Tax Preparation, Software Stack",
+                      description:
+                        "e.g. Bookkeeping, Accounting, Payroll, Tax Preparation, Software Stack",
                       validation: (Rule) => Rule.required(),
                     }),
                     defineField({
@@ -70,7 +72,10 @@ export default defineType({
                   ],
                   preview: {
                     select: { title: "title", items: "items" },
-                    prepare: ({ title, items }) => ({ title, subtitle: `${items?.length ?? 0} points` }),
+                    prepare: ({ title, items }) => ({
+                      title,
+                      subtitle: `${items?.length ?? 0} points`,
+                    }),
                   },
                 }),
               ],

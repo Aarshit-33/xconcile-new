@@ -9,6 +9,8 @@ import { hrefRule } from "../fields";
 export const articleImage = defineType({
   name: "articleImage",
   title: "Image",
+  description:
+    "Upload about 2000 px wide, any shape: shown whole at full text width, never cropped. JPG for photos, PNG for charts and screenshots.",
   type: "image",
   icon: ImageIcon,
   options: { hotspot: true },

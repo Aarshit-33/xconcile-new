@@ -1,9 +1,11 @@
 "use client";
 
+import Link from "next/link";
 import { useEffect, useState } from "react";
 
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
+import { routes } from "@/lib/routes";
 
 export const CONSENT_KEY = "xc-consent";
 type Consent = "granted" | "denied";
@@ -63,7 +65,11 @@ export function CookieConsent() {
     >
       <p className="text-b2 text-body">
         We use cookies to analyse traffic and improve your experience. You can accept or decline
-        non-essential cookies.
+        non-essential cookies. See our{" "}
+        <Link href={routes.privacy()} className="link-inline">
+          Privacy Policy
+        </Link>
+        .
       </p>
       <div className="flex gap-3">
         <Button

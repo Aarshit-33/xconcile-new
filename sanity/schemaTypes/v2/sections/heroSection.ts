@@ -58,7 +58,8 @@ export default defineType({
       name: "checks",
       title: "Check Items",
       type: "array",
-      description: "Short trust points with a check icon under the buttons. Each one shows on every screen size.",
+      description:
+        "Short trust points with a check icon under the buttons. Each one shows on every screen size.",
       of: [
         defineArrayMember({
           name: "heroCheck",

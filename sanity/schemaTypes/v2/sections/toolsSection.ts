@@ -35,7 +35,8 @@ export default defineType({
               name: "logo",
               title: "Logo",
               type: "image",
-              description: "PNG or SVG. The tool name is used as alt text.",
+              description:
+                "SVG, or a square transparent PNG ~120×120 px (shown whole in a 40px box). The tool name is used as alt text.",
               validation: (Rule) => Rule.required(),
             }),
           ],

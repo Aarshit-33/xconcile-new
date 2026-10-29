@@ -22,7 +22,7 @@ export default defineType({
       type: "image",
       group: "content",
       description:
-        "The picture above the heading (563×285 on desktop). SVG or PNG. Decorative, so no alt text. Empty = the default “404” illustration.",
+        "The picture above the heading, shown whole up to 563px wide. Upload: SVG preferred, else a compressed PNG 1126×570 px (≈2:1). Decorative, so no alt text. Empty = the default “404” illustration.",
       options: { accept: "image/svg+xml,image/png,image/webp,image/jpeg" },
     }),
     defineField({
@@ -38,7 +38,8 @@ export default defineType({
       title: "First line",
       type: "string",
       group: "content",
-      description: "Short first sentence. On desktop the second line starts on a new line below it.",
+      description:
+        "Short first sentence. On desktop the second line starts on a new line below it.",
       validation: (Rule) => Rule.required().max(80),
     }),
     defineField({
@@ -66,7 +67,8 @@ export default defineType({
       title: "SEO",
       type: "object",
       group: "seo",
-      description: "Browser tab title and description. The page is always hidden from Google (noindex).",
+      description:
+        "Browser tab title and description. The page is always hidden from Google (noindex).",
       options: { collapsible: false },
       fields: [
         defineField({

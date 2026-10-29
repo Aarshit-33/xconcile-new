@@ -22,7 +22,7 @@ export default defineType({
       name: "photo",
       title: "Photo",
       type: "image",
-      description: "Square headshot (shown as a small circle). Empty = the author's initials.",
+      description: "Square headshot, at least 200×200 px, face centred (shown as a 48px circle). Empty = the author's initials.",
       options: { hotspot: true },
     }),
   ],

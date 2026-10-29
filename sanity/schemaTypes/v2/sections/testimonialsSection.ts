@@ -81,7 +81,8 @@ export default defineType({
               name: "poster",
               title: "Poster image",
               type: "image",
-              description: "Shown before the video is played (16:9).",
+              description:
+                "Shown before the video is played. Upload: 1920×1080 px (16:9), JPG. A dark gradient covers it; the play button is top-left and the name bottom-left.",
               options: { hotspot: true },
               validation: (Rule) => Rule.required(),
             }),

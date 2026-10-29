@@ -2,7 +2,15 @@ import { CreditCardIcon } from "@sanity/icons/CreditCard";
 import { defineArrayMember, defineField, defineType } from "sanity";
 
 import { OptionalIconPickerInput, iconMedia } from "../../../components/icon-picker-input";
-import { anchorIdField, badgeField, hiddenField, iconOptions, sectionPreview, subtitleField, titleField } from "../fields";
+import {
+  anchorIdField,
+  badgeField,
+  hiddenField,
+  iconOptions,
+  sectionPreview,
+  subtitleField,
+  titleField,
+} from "../fields";
 
 /**
  * "Choose Accounting Support That Fits Your Workload": three pricing-style cards; the featured
@@ -49,7 +57,8 @@ export default defineType({
               type: "string",
               options: { list: iconOptions },
               components: { input: OptionalIconPickerInput },
-              description: "Top-right glyph on light cards. The featured card shows the pill instead.",
+              description:
+                "Top-right glyph on light cards. The featured card shows the pill instead.",
             }),
             defineField({
               name: "title",

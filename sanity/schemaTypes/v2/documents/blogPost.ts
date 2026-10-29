@@ -69,7 +69,7 @@ export default defineType({
       title: "Cover image",
       type: "image",
       group: "content",
-      description: "Shown on the blog cards and at the top of the article. 16:9 works best.",
+      description: "Upload: 1920×1080 px (16:9), JPG. Shown on the blog cards (cropped to 16:9) and at the top of the article. With “Text on the cover” on, text covers the left side: keep the subject on the right.",
       options: { hotspot: true },
       fields: [defineField({ name: "alt", title: "Alternative text", type: "string", validation: (Rule) => Rule.required() })],
       validation: (Rule) => Rule.required(),

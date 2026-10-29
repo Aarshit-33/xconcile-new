@@ -45,28 +45,33 @@ export default defineType({
       validation: (Rule) =>
         Rule.custom((value, context) => {
           const parent = context.parent as { showCta?: boolean } | undefined;
-          return parent?.showCta === false || value ? true : "Required while \"Show main button\" is on.";
+          return parent?.showCta === false || value
+            ? true
+            : 'Required while "Show main button" is on.';
         }),
     }),
     defineField({
       name: "showSecondaryCta",
       title: "Show second button",
       type: "boolean",
-      description: "Off = no second (outline) button, even if one is filled in below or set in code.",
+      description:
+        "Off = no second (outline) button, even if one is filled in below or set in code.",
       initialValue: true,
     }),
     defineField({
       name: "secondaryCta",
       title: "Second button (optional)",
       type: "ctaLink",
-      description: "Outline button next to the main one (e.g. RCM page \"Get Started\"). Leave empty for one button.",
+      description:
+        'Outline button next to the main one (e.g. RCM page "Get Started"). Leave empty for one button.',
       hidden: ({ parent }) => parent?.showSecondaryCta === false,
     }),
     defineField({
       name: "image",
       title: "Background photo",
       type: "image",
-      description: "Decorative: shown under a 90% navy overlay, so no alt text is needed.",
+      description:
+        "Decorative: shown under a 90% navy overlay, so no alt text is needed. Upload: 2400×800 px (3:1), JPG, max 2560 px wide; cropped from the centre.",
       options: { hotspot: true },
       validation: (Rule) => Rule.required(),
     }),

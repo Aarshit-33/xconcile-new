@@ -94,7 +94,7 @@ export default defineType({
       title: "Cover image",
       type: "image",
       group: "content",
-      description: "Top of the article and the Related Posts cards. 16:9 works best.",
+      description: "Upload: 1920×1080 px (16:9), JPG. Shown at the top of the article and on the Related Posts cards (cropped to 16:9).",
       options: { hotspot: true },
       fields: [
         defineField({

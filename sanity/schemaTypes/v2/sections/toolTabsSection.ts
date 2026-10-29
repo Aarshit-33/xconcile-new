@@ -2,7 +2,15 @@ import { WrenchIcon } from "@sanity/icons/Wrench";
 import { defineArrayMember, defineField, defineType } from "sanity";
 
 import { iconMedia } from "../../../components/icon-picker-input";
-import { anchorIdField, badgeField, hiddenField, iconField, sectionPreview, subtitleField, titleField } from "../fields";
+import {
+  anchorIdField,
+  badgeField,
+  hiddenField,
+  iconField,
+  sectionPreview,
+  subtitleField,
+  titleField,
+} from "../fields";
 
 /**
  * Service pages' "Your Tools, Our Expertise": vertical category tabs + logo chips (mirrors
@@ -67,7 +75,8 @@ export default defineType({
                       name: "logo",
                       title: "Logo",
                       type: "image",
-                      description: "Optional. PNG or SVG; shown 24px tall before the name.",
+                      description:
+                        "Optional. SVG, or a transparent PNG 48px tall and at most 112px wide; shown 24px tall (max 56px wide) before the name.",
                     }),
                   ],
                   preview: { select: { title: "name", media: "logo" } },

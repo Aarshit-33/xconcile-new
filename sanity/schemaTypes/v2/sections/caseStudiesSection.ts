@@ -115,13 +115,16 @@ export default defineType({
               name: "image",
               title: "Image (desktop)",
               type: "altImage",
+              description:
+                "Upload: 1080×760 px (≈7:5), JPG. Cropped from the centre (the box grows taller with long text); the results card covers the bottom-left.",
               validation: (Rule) => Rule.required(),
             }),
             defineField({
               name: "mobileImage",
               title: "Image (mobile)",
               type: "image",
-              description: "Optional different photo for mobile. Uses the desktop alt text.",
+              description:
+                "Optional different photo for mobile. Uses the desktop alt text. Upload: 720×533 px (≈4:3), JPG, cropped from the centre; the results card covers the bottom.",
               options: { hotspot: true },
             }),
             defineField({

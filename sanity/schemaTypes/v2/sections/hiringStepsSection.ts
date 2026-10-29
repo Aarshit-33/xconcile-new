@@ -1,7 +1,14 @@
 import { OlistIcon } from "@sanity/icons/Olist";
 import { defineArrayMember, defineField, defineType } from "sanity";
 
-import { anchorIdField, badgeField, hiddenField, sectionPreview, subtitleField, titleField } from "../fields";
+import {
+  anchorIdField,
+  badgeField,
+  hiddenField,
+  sectionPreview,
+  subtitleField,
+  titleField,
+} from "../fields";
 
 /**
  * "Hire your Dedicated Accounting Team in 5 Steps": numbered timeline, two photos with a flag
@@ -52,7 +59,8 @@ export default defineType({
       name: "photos",
       title: "Photos",
       type: "array",
-      description: "Exactly two photos, shown side by side.",
+      description:
+        "Exactly two photos, shown side by side. Upload: 800×1000 px each (4:5 portrait), JPG. Cropped from the centre; the flag chip sits on the bottom-left.",
       of: [defineArrayMember({ type: "altImage" })],
       validation: (Rule) => Rule.required().length(2),
     }),
@@ -72,7 +80,8 @@ export default defineType({
           name: "flag",
           title: "Flag",
           type: "image",
-          description: "Decorative round flag before the label.",
+          description:
+            "Decorative round flag before the label. Upload a SQUARE image, ~100×100 px (PNG or SVG): non-square files get stretched.",
           validation: (Rule) => Rule.required(),
         }),
       ],
@@ -101,7 +110,8 @@ export default defineType({
           name: "avatars",
           title: "Avatars",
           type: "array",
-          description: "Decorative faces before the number (the text carries the meaning).",
+          description:
+            "Decorative faces before the number (the text carries the meaning). Upload square photos ~150×150 px, face centred (shown as 48px circles).",
           of: [defineArrayMember({ type: "image" })],
           validation: (Rule) => Rule.max(5),
         }),

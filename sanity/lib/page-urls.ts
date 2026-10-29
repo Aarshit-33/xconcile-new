@@ -164,6 +164,17 @@ export async function resolveLinks<T>(value: T): Promise<T> {
   return (await getPageUrls()).resolveLinks(value);
 }
 
+/**
+ * The live URL for a page path: the path itself when a page lives there, else the live URL its
+ * old slug now points to (`undefined` = no such page). Used by the old-site URL prefixes
+ * (/services/<slug>, /hire-staff/<slug>) so they 301 straight to the final page in one hop,
+ * even after a slug is renamed in Studio (2026-10-29: they used to hop via /<old-slug>).
+ */
+export async function liveUrlFor(path: string): Promise<string | undefined> {
+  const urls = await getPageUrls();
+  return urls.byPath(path) ? path : urls.redirectFor(path);
+}
+
 /** Wraps a page loader so everything it returns has its page links resolved. */
 export function withResolvedLinks<A extends unknown[], R>(load: (...args: A) => Promise<R>) {
   return async (...args: A): Promise<R> => resolveLinks(await load(...args));

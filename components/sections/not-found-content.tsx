@@ -66,7 +66,7 @@ export async function NotFoundContent() {
           <div className="flex flex-col gap-4 lg:gap-6">
             <h1
               id="not-found-title"
-              className="text-h2-m text-heading lg:text-h1 lg:leading-[62px]"
+              className="text-h1-m text-heading lg:text-h1 lg:leading-[62px]"
             >
               {title}
             </h1>

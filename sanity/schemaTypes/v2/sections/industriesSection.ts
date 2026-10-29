@@ -41,13 +41,15 @@ export default defineType({
               name: "href",
               title: "Link",
               type: "string",
-              description: "e.g. /industries/healthcare-accounting-services. Leave empty for a plain card.",
+              description:
+                "e.g. /industries/healthcare-accounting-services. Leave empty for a plain card.",
               validation: (Rule) => Rule.custom(hrefRule),
             }),
             defineField({
               name: "image",
               title: "Image",
               type: "altImage",
+              description: "Upload: 600×320 px (≈15:8), JPG. Cropped from the centre.",
               validation: (Rule) => Rule.required(),
             }),
           ],

@@ -61,7 +61,7 @@ export function CtaBand({
         </div>
         {data.cta && data.secondaryCta ? (
           <div className="flex w-full flex-col items-stretch gap-4 md:w-auto md:flex-row md:items-center md:justify-center">
-            <CtaLink href={data.cta.href} className="w-full justify-center md:w-auto">
+            <CtaLink href={data.cta.href} block>
               {data.cta.label}
             </CtaLink>
             <CtaLink

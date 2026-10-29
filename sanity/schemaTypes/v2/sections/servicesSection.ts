@@ -80,7 +80,8 @@ export default defineType({
               name: "groups",
               title: "Grouped lists",
               type: "array",
-              description: "Service pages: task lists under small headings, shown when the row is open.",
+              description:
+                "Service pages: task lists under small headings, shown when the row is open.",
               // Home rows use the flat list above; only service pages render groups.
               hidden: ({ document }) => document?._type === "home",
               of: [

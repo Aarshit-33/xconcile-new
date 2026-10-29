@@ -89,7 +89,7 @@ export default defineType({
       type: "image",
       group: "content",
       description:
-        "Shown on the cards and at the top of the page (857×400 on desktop). Landscape photos work best.",
+        "Upload: 1800×900 px (2:1), JPG. Shown at the top of the page (≈856×400) and on the cards (≈416×358, much squarer), cropped from the centre both times: keep the subject in the middle half. The card's bottom-left has a dark wash with the title.",
       options: { hotspot: true },
       fields: [
         defineField({

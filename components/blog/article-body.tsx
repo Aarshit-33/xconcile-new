@@ -14,6 +14,50 @@ type Table = {
 type BodyImage = { src?: string; alt?: string; caption?: string; width?: number; height?: number };
 
 /**
+ * An empty line in the Studio editor: a text block (not a list item) with no visible text and no
+ * inline objects. Rendered as one blank line of body height.
+ */
+function isBlankBlock(block: ArticleBlock | undefined) {
+  if (!block || block._type !== "block" || block.listItem) return false;
+  const children: { _type?: string; text?: string }[] = Array.isArray(block.children)
+    ? block.children
+    : [];
+  return children.every((c) => (c._type ?? "span") === "span" && !(c.text ?? "").trim());
+}
+
+/** Blank lines at the very start or end of the body (usually accidental) are dropped. */
+function trimBlankBlocks(body: ArticleBlock[]) {
+  let start = 0;
+  let end = body.length;
+  while (start < end && isBlankBlock(body[start])) start++;
+  while (end > start && isBlankBlock(body[end - 1])) end--;
+  return start === 0 && end === body.length ? body : body.slice(start, end);
+}
+
+/** One empty line (16/24 body type), exactly where the editor left one. */
+const blankLine = (
+  <p aria-hidden className="text-b1">
+    {"\u00A0"}
+  </p>
+);
+
+/**
+ * Built-in spacing (user requests 2026-10-29). Top padding only on text blocks, scaled by size
+ * so each heading sits closer to its own text than to the text above it. Boxed blocks (quote,
+ * image, table, case-study boxes) get room on both sides via a transparent wrapper, so the
+ * box's own background doesn't grow. Empty lines typed in Studio add 24px on top of these.
+ */
+export const SPACE = {
+  h2: "pt-4", // 16px
+  h3: "pt-3", // 12px
+  h4: "pt-2", // 8px (also H5, H6)
+  p: "pt-2", // 8px
+  list: "pt-2 gap-1", // 8px above the list, 4px between items
+  quote: "py-3", // 12px above and below
+  box: "py-4", // 16px above and below: images, tables, case-study boxes
+} as const;
+
+/**
  * Renders the article body (Portable Text) in the design's type (pages/blog/page.svg): 16/24
  * body copy, 32px section headings, 20px sub-headings, green round bullets, empty-box
  * checklists. Any mix and order of blocks works:
@@ -25,6 +69,15 @@ type BodyImage = { src?: string; alt?: string; caption?: string; width?: number;
  * cell bordered). Header row and header column (Studio "First column is the header") are the
  * same light green on both tones (user request 2026-10-28): opaque `brand-100`, not a transparent
  * green, so the header column doesn't pick up the alternating row colours underneath.
+ *
+ * Spacing (user requests 2026-10-29): no gaps or margins between blocks. The only built-in space
+ * is the `SPACE` scale above (H2 16px, H3 12px, H4–H6 and paragraphs 8px above; lists 8px above
+ * with 4px between items; quotes 12px and images / tables 16px above and below). Everything else
+ * is what the editor typed in Studio: every empty
+ * line there is one empty line here (`isBlankBlock`), and Shift+Enter line breaks render as line
+ * breaks. (Before, a 16/24px gap between every block plus 40/64px above each H2 turned one empty
+ * line before a heading into ~112px.) Padding inside a block's own box (quote, table cells, image
+ * caption) is part of that block and stays.
  */
 export function ArticleBody({
   body,
@@ -43,7 +96,7 @@ export function ArticleBody({
   const sectionHeading = (key: string | undefined, children: React.ReactNode) => (
     <h2
       id={key ? headingIds[key] : undefined}
-      className="mt-10 text-h2-m font-semibold text-heading first:mt-0 lg:mt-16 lg:text-[32px] lg:leading-10"
+      className={`${SPACE.h2} text-h2-m font-semibold text-heading lg:text-[32px] lg:leading-10`}
     >
       {children}
     </h2>
@@ -51,26 +104,58 @@ export function ArticleBody({
 
   const components: PortableTextComponents = {
     block: {
-      normal: ({ children }) => <p className="text-b1 text-body">{children}</p>,
-      h1: ({ children, value }) => sectionHeading(value._key, children),
-      h2: ({ children, value }) => sectionHeading(value._key, children),
-      h3: ({ children }) => (
-        <h3 className="mt-4 text-h4-m text-heading lg:mt-6 lg:text-h5">{children}</h3>
-      ),
-      h4: ({ children }) => <h4 className="mt-2 text-b1 font-semibold text-heading">{children}</h4>,
-      h5: ({ children }) => <h5 className="mt-2 text-b1 font-semibold text-heading">{children}</h5>,
-      h6: ({ children }) => <h6 className="mt-2 text-b1 font-semibold text-heading">{children}</h6>,
-      blockquote: ({ children }) => (
-        <blockquote className="border-l-4 border-brand bg-brand-50 py-4 pr-4 pl-5 text-b1 text-heading italic">
-          {children}
-        </blockquote>
-      ),
+      normal: ({ children, value }) =>
+        isBlankBlock(value) ? (
+          blankLine
+        ) : (
+          <p className={`${SPACE.p} text-b1 text-body`}>{children}</p>
+        ),
+      h1: ({ children, value }) =>
+        isBlankBlock(value) ? blankLine : sectionHeading(value._key, children),
+      h2: ({ children, value }) =>
+        isBlankBlock(value) ? blankLine : sectionHeading(value._key, children),
+      h3: ({ children, value }) =>
+        isBlankBlock(value) ? (
+          blankLine
+        ) : (
+          <h3 className={`${SPACE.h3} text-h4-m text-heading lg:text-h5`}>{children}</h3>
+        ),
+      h4: ({ children, value }) =>
+        isBlankBlock(value) ? (
+          blankLine
+        ) : (
+          <h4 className={`${SPACE.h4} text-b1 font-semibold text-heading`}>{children}</h4>
+        ),
+      h5: ({ children, value }) =>
+        isBlankBlock(value) ? (
+          blankLine
+        ) : (
+          <h5 className={`${SPACE.h4} text-b1 font-semibold text-heading`}>{children}</h5>
+        ),
+      h6: ({ children, value }) =>
+        isBlankBlock(value) ? (
+          blankLine
+        ) : (
+          <h6 className={`${SPACE.h4} text-b1 font-semibold text-heading`}>{children}</h6>
+        ),
+      blockquote: ({ children, value }) =>
+        isBlankBlock(value) ? (
+          blankLine
+        ) : (
+          <div className={SPACE.quote}>
+            <blockquote className="border-l-4 border-brand bg-brand-50 py-4 pr-4 pl-5 text-b1 text-heading italic">
+              {children}
+            </blockquote>
+          </div>
+        ),
     },
     list: {
-      bullet: ({ children }) => <ul className="flex flex-col gap-4">{children}</ul>,
-      check: ({ children }) => <ul className="flex flex-col gap-4">{children}</ul>,
+      bullet: ({ children }) => <ul className={`${SPACE.list} flex flex-col`}>{children}</ul>,
+      check: ({ children }) => <ul className={`${SPACE.list} flex flex-col`}>{children}</ul>,
       number: ({ children }) => (
-        <ol className="flex list-decimal flex-col gap-4 pl-6 text-b1 text-body marker:font-semibold marker:text-brand">
+        <ol
+          className={`${SPACE.list} flex list-decimal flex-col pl-6 text-b1 text-body marker:font-semibold marker:text-brand`}
+        >
           {children}
         </ol>
       ),
@@ -121,7 +206,7 @@ export function ArticleBody({
     types: {
       articleImage: ({ value }: { value: BodyImage }) =>
         value?.src ? (
-          <figure className="flex flex-col gap-2">
+          <figure className={`${SPACE.box} flex flex-col gap-2`}>
             <Image
               src={value.src}
               alt={value.alt ?? ""}
@@ -143,7 +228,7 @@ export function ArticleBody({
         return (
           // Scrolls sideways on phones instead of squeezing the columns.
           <div
-            className="-mx-4 overflow-x-auto px-4 md:mx-0 md:px-0"
+            className={`${SPACE.box} -mx-4 overflow-x-auto px-4 md:mx-0 md:px-0`}
             tabIndex={0}
             role="region"
             aria-label={value.caption || "Table"}
@@ -229,8 +314,8 @@ export function ArticleBody({
   };
 
   return (
-    <div className={className ?? "flex flex-col gap-4 lg:gap-6"}>
-      <PortableText value={body} components={components} />
+    <div className={className ?? "flex flex-col"}>
+      <PortableText value={trimBlankBlocks(body)} components={components} />
     </div>
   );
 }

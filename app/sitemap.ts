@@ -16,6 +16,8 @@ const SINGLETON_IDS = [
   "caseStudiesPage",
   "industriesPage",
   "contactPage",
+  "privacyPolicyPage",
+  "termsOfUsePage",
 ] as const;
 
 /**
@@ -105,6 +107,18 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       ...lastMod(singletonUpdated.get("contactPage")),
       changeFrequency: "yearly",
       priority: 0.7,
+    },
+    {
+      url: absoluteUrl(routes.privacy()),
+      ...lastMod(singletonUpdated.get("privacyPolicyPage")),
+      changeFrequency: "yearly",
+      priority: 0.3,
+    },
+    {
+      url: absoluteUrl(routes.terms()),
+      ...lastMod(singletonUpdated.get("termsOfUsePage")),
+      changeFrequency: "yearly",
+      priority: 0.3,
     },
   ];
 

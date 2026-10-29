@@ -70,7 +70,7 @@ export default defineType({
           name: "image",
           title: "Background photo",
           type: "image",
-          description: "Shown under the dark overlay, like the CTA bands. Empty = the CTA Band photo.",
+          description: "Shown under the dark overlay, like the CTA bands. Empty = the CTA Band photo. Upload: 2400×800 px (3:1), JPG, max 2560 px wide; cropped from the centre and barely visible under the overlay.",
           options: { hotspot: true },
         }),
       ],

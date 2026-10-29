@@ -2,7 +2,14 @@ import { BookIcon } from "@sanity/icons/Book";
 import { defineArrayMember, defineField, defineType } from "sanity";
 
 import { iconPreview } from "../../../components/icon-picker-input";
-import { anchorIdField, badgeField, hiddenField, iconField, sectionPreview, subtitleField } from "../fields";
+import {
+  anchorIdField,
+  badgeField,
+  hiddenField,
+  iconField,
+  sectionPreview,
+  subtitleField,
+} from "../fields";
 
 /**
  * "Our Accounting Professionals Have Expertise In": dark grid of icon + title tiles (mirrors

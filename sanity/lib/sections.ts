@@ -73,12 +73,28 @@ export const img = (i: Img) =>
     ? { src: i.url, alt: i.alt ?? "", width: i.width, height: i.height }
     : undefined;
 
-/** Portable Text (paragraphs + link annotations) → `RichText` (`(string | { text, href })[]`). */
+/**
+ * Portable Text (paragraphs + link annotations) → `RichText` (`(string | { text, href })[]`).
+ *
+ * Line structure is kept exactly as typed in Studio (user request 2026-10-29), with no added
+ * spacing: each new paragraph (Enter) starts on the next line, and each empty paragraph is one
+ * empty line. Encoded as "\n" parts, which `<RichText>` renders as line breaks. (Before, all
+ * paragraphs were merged into one with spaces.) Empty lines at the start/end are dropped.
+ */
 export function richText(blocks: Raw): RichText | undefined {
-  if (!Array.isArray(blocks) || blocks.length === 0) return undefined;
+  if (!Array.isArray(blocks)) return undefined;
+  const isBlank = (block: Raw) =>
+    !(block?.children ?? []).some((span: Raw) => (span?.text ?? "").trim());
+  let start = 0;
+  let end = blocks.length;
+  while (start < end && isBlank(blocks[start])) start++;
+  while (end > start && isBlank(blocks[end - 1])) end--;
+  if (start === end) return undefined;
+
   const out: RichText = [];
-  blocks.forEach((block: Raw, i: number) => {
-    if (i > 0) out.push(" ");
+  blocks.slice(start, end).forEach((block: Raw, i: number) => {
+    if (i > 0) out.push("\n");
+    if (isBlank(block)) return; // the "\n" before the next paragraph makes the empty line
     for (const span of block.children ?? []) {
       const href = (block.markDefs ?? []).find((m: Raw) => span.marks?.includes(m._key))?.href;
       out.push(href ? { text: span.text ?? "", href } : (span.text ?? ""));

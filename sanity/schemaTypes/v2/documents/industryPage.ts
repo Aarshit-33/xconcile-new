@@ -54,7 +54,8 @@ export default defineType({
       title: "Page name",
       type: "string",
       group: "page",
-      description: "Used in the breadcrumb and the Service structured data (not shown on the page).",
+      description:
+        "Used in the breadcrumb and the Service structured data (not shown on the page).",
       validation: (Rule) => Rule.required(),
     }),
     ...pageUrlFields("industry"),

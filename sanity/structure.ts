@@ -4,6 +4,7 @@
  */
 import { BookIcon } from "@sanity/icons/Book";
 import { CaseIcon } from "@sanity/icons/Case";
+import { ClipboardIcon } from "@sanity/icons/Clipboard";
 import { CogIcon } from "@sanity/icons/Cog";
 import { DocumentsIcon } from "@sanity/icons/Documents";
 import { DocumentTextIcon } from "@sanity/icons/DocumentText";
@@ -12,6 +13,7 @@ import { EnvelopeIcon } from "@sanity/icons/Envelope";
 import { ErrorOutlineIcon } from "@sanity/icons/ErrorOutline";
 import { HomeIcon } from "@sanity/icons/Home";
 import { InfoOutlineIcon } from "@sanity/icons/InfoOutline";
+import { LockIcon } from "@sanity/icons/Lock";
 import { UsersIcon } from "@sanity/icons/Users";
 import type { StructureResolver } from "sanity/structure";
 
@@ -30,6 +32,8 @@ export const singletons = [
   { type: "siteSettings", id: "siteSettings", title: "Site Settings", icon: CogIcon },
   { type: "notFoundPage", id: "notFoundPage", title: "404 Page", icon: ErrorOutlineIcon },
   { type: "contactPage", id: "contactPage", title: "Contact Page", icon: EnvelopeIcon },
+  { type: "privacyPolicyPage", id: "privacyPolicyPage", title: "Privacy Policy", icon: LockIcon },
+  { type: "termsOfUsePage", id: "termsOfUsePage", title: "Terms of Use", icon: ClipboardIcon },
 ];
 
 export const singletonTypes = new Set(singletons.map((s) => s.type));

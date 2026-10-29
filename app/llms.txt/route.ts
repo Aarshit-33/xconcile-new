@@ -66,6 +66,12 @@ async function buildLlmsTxt(): Promise<string> {
     link("Contact", routes.contact(), "Send an enquiry or schedule a free consultation."),
     link("Case studies", routes.caseStudies()),
     link("Blog", routes.blog()),
+    link(
+      "Privacy Policy",
+      routes.privacy(),
+      "How we collect, use and protect personal information.",
+    ),
+    link("Terms of Use", routes.terms(), "The terms that govern use of this website."),
     ...(caseStudies.length
       ? [
           "",

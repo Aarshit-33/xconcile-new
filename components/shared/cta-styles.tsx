@@ -23,21 +23,30 @@ const base =
 // Outline hover = brand-100 (#E7F6E2): a visibly darker tint than brand-50 (client request
 // 2026-10-14: "Know more about us" / "Explore all blogs" should highlight on hover).
 const variants: Record<CtaVariant, string> = {
-  solid: "border-transparent bg-brand pr-2 pl-4 text-white hover:bg-brand/90 hover:text-white dark:hover:bg-brand/90",
-  outline: "border-brand bg-transparent px-6 text-brand hover:bg-brand-100 hover:text-brand dark:hover:bg-brand-100",
+  solid:
+    "border-transparent bg-brand pr-2 pl-4 text-white hover:bg-brand/90 hover:text-white dark:hover:bg-brand/90",
+  outline:
+    "border-brand bg-transparent px-6 text-brand hover:bg-brand-100 hover:text-brand dark:hover:bg-brand-100",
   "outline-dark":
     "border-brand bg-transparent px-6 text-brand hover:bg-white/10 hover:text-brand dark:hover:bg-white/10",
 };
 
 // md:w-auto: tablets get a label-sized pill instead of a 700px bar (audit L4, 2026-10-18);
-// phones keep the full-width pill from the mobile design.
+// phones keep the full-width pill from the mobile design. Phones: label centred, the arrow
+// pinned to the right edge (see `MOBILE_SOLID_ARROW`) and 50px padding on both sides so the label
+// stays centred and clear of the arrow (user request 2026-10-29). md–lg: label-sized, label + arrow.
 const mobileSolidCls =
-  "w-full justify-between border-transparent bg-brand pr-2 pl-4 text-white hover:bg-brand/90 hover:text-white dark:hover:bg-brand/90 md:w-auto lg:justify-center lg:border-brand lg:bg-transparent lg:px-6 lg:text-brand lg:hover:bg-brand-100 lg:hover:text-brand lg:dark:hover:bg-brand-100";
+  "relative w-full justify-center border-transparent bg-brand px-[50px] text-white hover:bg-brand/90 hover:text-white dark:hover:bg-brand/90 md:w-auto md:justify-between md:pr-2 md:pl-4 lg:justify-center lg:border-brand lg:bg-transparent lg:px-6 lg:text-brand lg:hover:bg-brand-100 lg:hover:text-brand lg:dark:hover:bg-brand-100";
 
-// Full-width pills: on very narrow phones (320px) a long label wraps (left-aligned, arrow kept
-// right) instead of overflowing. At the 390 design width labels fit on one line -> drawn 48px pill.
-const wrapNarrow = "h-auto min-h-12 py-2 text-left whitespace-normal";
-const wrapNarrowMobile = "max-lg:h-auto max-lg:min-h-12 max-lg:py-2 max-lg:text-left max-lg:whitespace-normal";
+/** `mobileSolid` arrow: pinned to the right edge on phones (in the flow from md, hidden from lg). */
+export const MOBILE_SOLID_ARROW =
+  "max-md:absolute max-md:top-1/2 max-md:right-2 max-md:-translate-y-1/2 lg:hidden";
+
+// Full-width pills: on very narrow phones (320px) a long label wraps (centred, arrow kept right)
+// instead of overflowing. At the 390 design width labels fit on one line -> drawn 48px pill.
+const wrapNarrow = "h-auto min-h-12 py-2 text-center whitespace-normal";
+const wrapNarrowMobile =
+  "max-lg:h-auto max-lg:min-h-12 max-lg:py-2 max-lg:text-center max-lg:whitespace-normal";
 
 export function ctaClassName({
   variant = "solid",
@@ -58,8 +67,11 @@ export function ctaClassName({
     base,
     mobileSolid ? mobileSolidCls : variants[variant],
     (mobileSolid || block === true) && wrapNarrowMobile,
-    block === true && "w-full justify-between md:w-auto lg:justify-center",
-    block === "always" && cn("w-full justify-between", wrapNarrow),
+    // Full width = label centred (user request 2026-10-29: was label left, arrow far right, which
+    // didn't line up with the centred outline buttons under it). Arrow pills (`swap`: the arrow is
+    // absolutely positioned on the right) mirror its 50px on the left so the label is truly centred.
+    block === true && cn("w-full justify-center md:w-auto", swap && "max-md:pl-[50px]"),
+    block === "always" && cn("w-full justify-center", swap && "pl-[50px]", wrapNarrow),
     swap && swapButton,
     className,
   );

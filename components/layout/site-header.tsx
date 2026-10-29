@@ -22,7 +22,7 @@ import { SidePanel } from "./side-panel";
 export async function SiteHeader() {
   const { header, sidePanel, social } = await getSiteSettings();
   return (
-    <header className="sticky top-0 z-50 bg-white shadow-[0_4px_20px_rgb(19_33_44/0.14)] lg:fixed lg:inset-x-0 lg:top-8 lg:bg-transparent lg:shadow-none">
+    <header className="sticky top-0 z-50 bg-white shadow-[0_4px_12px_rgb(19_33_44/0.08)] lg:fixed lg:inset-x-0 lg:top-8 lg:bg-transparent lg:shadow-none">
       {/* Mobile bar */}
       <div className="flex h-[68px] items-center justify-between pr-2 pl-4 md:pr-6 md:pl-8 lg:hidden">
         {/* before:*: invisible 44px-tall tap area around the 40px logo (no visual change). */}

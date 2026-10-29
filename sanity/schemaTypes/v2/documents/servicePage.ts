@@ -63,13 +63,17 @@ export default defineType({
       title: "Service name",
       type: "string",
       group: "page",
-      description: "Used in the breadcrumb and the Service structured data (not shown on the page).",
+      description:
+        "Used in the breadcrumb and the Service structured data (not shown on the page).",
       validation: (Rule) => Rule.required(),
     }),
     ...pageUrlFields("root"),
   ],
   preview: {
     select: { title: "name", slug: "slug.current" },
-    prepare: ({ title, slug }) => ({ title: title || "Service page", subtitle: slug ? `/${slug}` : undefined }),
+    prepare: ({ title, slug }) => ({
+      title: title || "Service page",
+      subtitle: slug ? `/${slug}` : undefined,
+    }),
   },
 });

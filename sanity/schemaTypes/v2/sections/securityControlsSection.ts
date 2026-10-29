@@ -2,7 +2,15 @@ import { LockIcon } from "@sanity/icons/Lock";
 import { defineArrayMember, defineField, defineType } from "sanity";
 
 import { iconPreview } from "../../../components/icon-picker-input";
-import { anchorIdField, badgeField, hiddenField, iconField, sectionPreview, subtitleField, titleField } from "../fields";
+import {
+  anchorIdField,
+  badgeField,
+  hiddenField,
+  iconField,
+  sectionPreview,
+  subtitleField,
+  titleField,
+} from "../fields";
 
 /**
  * Hire "Security & Data Protection" (2026-10-17 design): badge + subtitle, a rose banner with
@@ -24,7 +32,8 @@ export default defineType({
       name: "shield",
       title: "Banner illustration",
       type: "image",
-      description: "Decorative shield beside the heading (SVG or PNG), shown 112px wide on desktop.",
+      description:
+        "Decorative shield beside the heading, shown whole 112px wide on desktop. Upload: SVG, or a transparent PNG 224px wide.",
       validation: (Rule) => Rule.required(),
     }),
     defineField({

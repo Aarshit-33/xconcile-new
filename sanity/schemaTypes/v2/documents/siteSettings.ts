@@ -227,6 +227,8 @@ const footer = defineField({
               name: "image",
               title: "Image",
               type: "altImage",
+              description:
+                "Upload a square SVG or transparent PNG at 2× the display size below (200×200 px for 100). Shown whole.",
               validation: (Rule) => Rule.required(),
             }),
             defineField({

@@ -66,7 +66,10 @@ export function InquirySection({
           <RevealText
             as={titleAs}
             id="inquiry-title"
-            className="mb-6 text-[28px] leading-[1.1] font-bold tracking-tight text-white md:text-5xl"
+            className={cn(
+              "mb-6 tracking-tight text-white md:text-5xl",
+              titleAs === "h1" ? "text-h1-m" : "text-[28px] leading-[1.1] font-bold",
+            )}
           >
             <HighlightText text={data.title} />
           </RevealText>
