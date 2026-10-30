@@ -21,7 +21,7 @@ function canonicalOrigin(raw: string): string {
  * site's Sanity `settings` document. Never reintroduce the old site's placeholder data.
  * The footer blurb, contact details, offices, social links and Calendly link are edited in
  * Sanity Site Settings (sanity/lib/site-settings.ts); the values here are the fallbacks for when
- * Sanity is empty or down, and the seed source (scripts/seed-site-settings-sanity.ts).
+ * Sanity is empty or down, and the seed source (scripts/seed-site-settings-sanity.ts, removed 2026-10-30, in git history).
  */
 export const siteConfig = {
   name: "Xconcile",

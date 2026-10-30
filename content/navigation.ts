@@ -1,6 +1,6 @@
 /**
  * Site navigation + service catalog (single source for header, footer, home accordion,
- * lead-form options). Labels come from the Figma header/footer; URLs follow the CURRENT
+ * contact form options). Labels come from the Figma header/footer; URLs follow the CURRENT
  * LIVE slugs (lib/routes.ts) so existing rankings are kept.
  *
  * NOTE: pages for these URLs are built in later phases; until then they 404 locally.
@@ -353,12 +353,3 @@ export const footerNav: { title: string; links: NavLink[] }[] = [
     ],
   },
 ];
-
-/** Lead form "Service of Interest" options. */
-export const leadServiceOptions = [
-  ...services.map(({ value, label }) => ({ value, label })),
-  { value: "dedicated-staff", label: "Hire Dedicated Accounting Professionals" },
-  { value: "other", label: "Other" },
-] as const;
-
-export type LeadServiceValue = (typeof leadServiceOptions)[number]["value"];

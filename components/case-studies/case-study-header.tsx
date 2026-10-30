@@ -37,6 +37,10 @@ export function CaseStudyHero({ title, badge }: { title: string; badge: string }
 /**
  * Photo + the Client / Service / Project Goal card (design: 857×400 photo, 416px card beside
  * it, top-aligned). Phones and tablets: photo, then the card under it.
+ * Desktop with a photo: the card's wrapper has zero height, so the row is only as tall as the
+ * photo and the content starts right under it (client request 2026-10-30: "reduce the gap
+ * between the banner image and Client Overview"). The taller card hangs into the empty column
+ * beside the text (CaseStudyContent keeps text to the photo's width).
  */
 export function CaseStudyOverview({ study }: { study: CaseStudyPage }) {
   if (!study.image && !study.facts.length) return null;
@@ -55,23 +59,25 @@ export function CaseStudyOverview({ study }: { study: CaseStudyPage }) {
         </div>
       ) : null}
       {study.facts.length ? (
-        <dl className="flex flex-col rounded-md border border-hairline bg-surface-muted px-6 py-2">
-          {study.facts.map((f, i) => (
-            <div
-              key={i}
-              className="grid grid-cols-[24px_minmax(0,1fr)] gap-x-4 border-b border-hairline py-6 last:border-b-0"
-            >
-              <Icon name={iconName(f.icon)} aria-hidden className="size-6 text-brand" />
-              <dt className="text-b2 text-body">{f.label}</dt>
-              <dd className="col-start-2 mt-2 flex flex-col gap-2">
-                <span className="font-display text-h4-m font-medium text-heading-alt lg:text-h5">
-                  {f.title}
-                </span>
-                {f.text ? <p className="text-b1 text-body">{f.text}</p> : null}
-              </dd>
-            </div>
-          ))}
-        </dl>
+        <div className={study.image ? "lg:h-0" : undefined}>
+          <dl className="flex flex-col rounded-md border border-hairline bg-surface-muted px-6 py-2">
+            {study.facts.map((f, i) => (
+              <div
+                key={i}
+                className="grid grid-cols-[24px_minmax(0,1fr)] gap-x-4 border-b border-hairline py-6 last:border-b-0"
+              >
+                <Icon name={iconName(f.icon)} aria-hidden className="size-6 text-brand" />
+                <dt className="text-b2 text-body">{f.label}</dt>
+                <dd className="col-start-2 mt-2 flex flex-col gap-2">
+                  <span className="font-display text-h4-m font-medium text-heading-alt lg:text-h5">
+                    {f.title}
+                  </span>
+                  {f.text ? <p className="text-b1 text-body">{f.text}</p> : null}
+                </dd>
+              </div>
+            ))}
+          </dl>
+        </div>
       ) : null}
     </div>
   );

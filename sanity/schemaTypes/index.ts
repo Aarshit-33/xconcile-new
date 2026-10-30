@@ -1,6 +1,6 @@
 import { type SchemaTypeDefinition } from 'sanity'
 
-// Written by the lead / inquiry forms (app/actions/submit-lead.ts, submit-inquiry.ts)
+// Written by the contact form (app/actions/submit-inquiry.ts)
 import contactSubmission from './contactSubmission'
 
 // Site page types, designed from scratch for the redesign

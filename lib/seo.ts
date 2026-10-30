@@ -112,8 +112,13 @@ export function buildMetadata({
   path: string;
   noindex?: boolean;
 }): Metadata {
-  const metaTitle = stripBrandSuffix(seo?.metaTitle || title);
-  const metaDescription = seo?.metaDescription || description || siteConfig.defaultDescription;
+  // Trimmed: Studio text can carry stray spaces (audit SEO8: a description ended in " ").
+  const metaTitle = stripBrandSuffix((seo?.metaTitle || title)?.trim() || undefined);
+  const metaDescription = (
+    seo?.metaDescription?.trim() ||
+    description?.trim() ||
+    siteConfig.defaultDescription
+  ).trim();
   const image = seo?.openGraphImage || siteConfig.ogImage;
   // Studio custom tags win over the generated values.
   const { og, twitter: tw, other } = splitMetaTags(seo?.metaTags);
@@ -322,6 +327,14 @@ export function itemListJsonLd(items: { name: string; path: string }[]): WithCon
   };
 }
 
+/**
+ * Full ISO 8601 date-time for article dates (audit N-SEO15): Studio "date" fields are day-only
+ * ("2026-03-21"), which Google accepts but recommends with a time and zone. Day-only values
+ * become midnight UTC; anything else is passed through unchanged.
+ */
+const isoDateTime = (value?: string | null) =>
+  value && /^\d{4}-\d{2}-\d{2}$/.test(value) ? `${value}T00:00:00Z` : value || undefined;
+
 /** One blog article (`/blog/<slug>`). */
 export function blogPostingJsonLd(input: {
   title: string;
@@ -332,6 +345,8 @@ export function blogPostingJsonLd(input: {
   dateModified?: string | null;
   authorName?: string | null;
 }): WithContext<BlogPosting> {
+  const datePublished = isoDateTime(input.datePublished);
+  const dateModified = isoDateTime(input.dateModified);
   return {
     "@context": "https://schema.org",
     "@type": "BlogPosting",
@@ -340,12 +355,13 @@ export function blogPostingJsonLd(input: {
     mainEntityOfPage: absoluteUrl(input.path),
     url: absoluteUrl(input.path),
     ...(input.image ? { image: input.image } : {}),
-    ...(input.datePublished ? { datePublished: input.datePublished } : {}),
-    ...(input.dateModified ? { dateModified: input.dateModified } : {}),
+    ...(datePublished ? { datePublished } : {}),
+    ...(dateModified ? { dateModified } : {}),
+    // Organization author/publisher = the Organization node every page carries (#organization).
     author: input.authorName
       ? { "@type": "Person", name: input.authorName }
-      : { "@type": "Organization", name: siteConfig.name },
-    publisher: { "@type": "Organization", name: siteConfig.name, url: absoluteUrl("/") },
+      : { "@id": absoluteUrl("/#organization") },
+    publisher: { "@id": absoluteUrl("/#organization") },
   };
 }
 
@@ -358,6 +374,8 @@ export function caseStudyJsonLd(input: {
   datePublished?: string | null;
   dateModified?: string | null;
 }): WithContext<Article> {
+  const datePublished = isoDateTime(input.datePublished);
+  const dateModified = isoDateTime(input.dateModified);
   return {
     "@context": "https://schema.org",
     "@type": "Article",
@@ -366,8 +384,8 @@ export function caseStudyJsonLd(input: {
     mainEntityOfPage: absoluteUrl(input.path),
     url: absoluteUrl(input.path),
     ...(input.image ? { image: input.image } : {}),
-    ...(input.datePublished ? { datePublished: input.datePublished } : {}),
-    ...(input.dateModified ? { dateModified: input.dateModified } : {}),
+    ...(datePublished ? { datePublished } : {}),
+    ...(dateModified ? { dateModified } : {}),
     author: { "@id": absoluteUrl("/#organization") },
     publisher: { "@id": absoluteUrl("/#organization") },
   };

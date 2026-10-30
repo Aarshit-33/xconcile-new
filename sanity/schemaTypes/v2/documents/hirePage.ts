@@ -7,7 +7,7 @@ import { pageUrlFields } from "../page-url-fields";
  * Sections in the same order as components/templates/hire-page.tsx. Each one is a field (with
  * its own Studio tab) whose type lives in ../sections and mirrors the matching block of
  * `HirePageContent` (content/hire/types.ts). Field names match the content keys, so the
- * mapper (sanity/lib/hire-page.ts) and the seed (scripts/seed-hire-sanity.ts) stay 1:1.
+ * mapper (sanity/lib/hire-page.ts) and the seed (scripts/seed-hire-sanity.ts, removed 2026-10-30, in git history) stay 1:1.
  * Hero, Intro, Key Benefits (challenges), Why Choose, Tools, FAQ and CTA Band reuse the
  * Home/service section types.
  */

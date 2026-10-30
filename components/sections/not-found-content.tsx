@@ -16,7 +16,11 @@ export async function generateNotFoundMetadata(): Promise<Metadata> {
   return {
     title: seo.title,
     description: seo.description,
-    robots: { index: false, follow: true },
+    // Same value Next adds itself to 404 responses, so the page has no conflicting robots tags.
+    robots: { index: false },
+    // Audit N-SEO11: don't inherit the root layout's Home canonical / og:url on a 404.
+    alternates: { canonical: null },
+    openGraph: { title: seo.title, description: seo.description, siteName: "Xconcile" },
   };
 }
 

@@ -57,7 +57,6 @@ export type HomeContent = {
   testimonials: TestimonialsContent;
   blog: BlogContent;
   faq: FaqContent;
-  contact: typeof home.contact;
   inquiry: typeof home.inquiry;
 };
 
@@ -112,9 +111,6 @@ async function loadHome(): Promise<HomeContent> {
     testimonials: mapTestimonials(d.testimonials, f.testimonials),
     blog: mapBlog(d.blog, f.blog),
     faq: mapFaq(d.faq, f.faq),
-
-    // Figma contact section: not used on Home (see app/(website)/page.tsx), stays code-driven.
-    contact: f.contact,
 
     inquiry: mapInquiry(d.contact, f.inquiry),
   };

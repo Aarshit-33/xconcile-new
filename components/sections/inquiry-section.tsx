@@ -113,7 +113,11 @@ export function InquirySection({
         </div>
 
         {/* Right: form card */}
-        <InquiryForm copy={data.form} contactEmail={contactEmail} />
+        <InquiryForm
+          copy={data.form}
+          contactEmail={contactEmail}
+          titleAs={titleAs === "h1" ? "h2" : "h3"}
+        />
       </div>
     </section>
   );

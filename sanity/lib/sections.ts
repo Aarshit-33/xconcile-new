@@ -108,7 +108,7 @@ export const link = (l: Raw) =>
 /**
  * Heading (`headingTitle`): one string with `*green*` markup (lib/highlight.ts). Documents saved
  * before 2026-10-24 may still hold the old `{ before, highlight, after }` object; it is converted
- * to the same string until scripts/migrate-heading-titles.ts has been run.
+ * to the same string until scripts/migrate-heading-titles.ts (removed 2026-10-30, in git history) has been run.
  */
 export const heading = (t: Raw): string | undefined => toHighlightString(t);
 /** Decorative image (flags, avatars, illustrations): alt is always empty. */

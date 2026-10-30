@@ -51,7 +51,6 @@ import heroSection from "./sections/heroSection";
 import hiringStepsSection from "./sections/hiringStepsSection";
 import industriesSection from "./sections/industriesSection";
 import introSection from "./sections/introSection";
-import leadContactSection from "./sections/leadContactSection";
 import processSection from "./sections/processSection";
 import securityControlsSection from "./sections/securityControlsSection";
 import servicesSection from "./sections/servicesSection";
@@ -114,7 +113,6 @@ export const v2Types: SchemaTypeDefinition[] = [
   // About page (/about)
   founderSection,
   teamSection,
-  leadContactSection,
   // Blog gallery (/blog)
   blogPostsSection,
 

@@ -650,41 +650,11 @@ export const home = {
     ] satisfies { q: string; a: RichText }[],
   },
 
-  contact: {
-    id: "contact",
-    title: "Ready to Simplify Your Accounting?",
-    body: "Tell us about your accounting needs and we'll help you find the right outsourcing model for your business.",
-    checks: [
-      "Free, no-obligation consultation",
-      "Response within one business day",
-      "A clear proposal with scope, team and pricing",
-    ],
-    form: {
-      // COPY FIX: every placeholder in the design reads "Your name", and the message textarea
-      // is labelled "Company".
-      fields: {
-        name: { label: "Name", placeholder: "Your name", required: true },
-        email: { label: "Email", placeholder: "you@company.com", required: true },
-        company: { label: "Company", placeholder: "Company name", required: false },
-        service: { label: "Service of Interest", placeholder: "Select a service", required: true },
-        message: {
-          label: "Message",
-          placeholder: "Tell us about your accounting needs",
-          required: false,
-        },
-      },
-      submit: "Get a Free Consultation",
-      submitting: "Sending…",
-      success:
-        "Thank you! Your message has been sent. We'll get back to you within one business day.",
-      error: "Sorry, your message could not be sent. Please try again or email us at",
-    },
-  },
-
   /**
-   * Contact section in the OLD SITE's look (client request 2026-10-15), replacing `contact` on
-   * Home. Copy from old-code/xconcile-website/components/services/ServiceInquiryForm.tsx.
-   * `contact` above is kept so the Figma version can be restored in app/(website)/page.tsx.
+   * Contact section in the OLD SITE's look (client request 2026-10-15), used on Home, About,
+   * Contact and the legal pages. Copy from
+   * old-code/xconcile-website/components/services/ServiceInquiryForm.tsx. (The Figma "Ready to
+   * Simplify Your Accounting?" version it replaced was removed on 2026-10-30; it's in git history.)
    */
   inquiry: {
     id: "contact", // hero / challenges CTAs link to #contact

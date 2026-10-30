@@ -186,7 +186,8 @@ export function ArticleBody({
       link: ({ children, value }) => {
         const href: string = value?.href ?? "#";
         const external = /^https?:\/\//.test(href);
-        const cls = "font-medium text-brand underline underline-offset-2 hover:text-heading";
+        // Site-wide inline link style (globals.css `link-inline`; client request 2026-10-30).
+        const cls = "link-inline";
         return external || value?.blank ? (
           <a
             href={href}

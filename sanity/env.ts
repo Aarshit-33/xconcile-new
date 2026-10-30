@@ -1,6 +1,6 @@
 // Same env var names as the old site. Everything (pages, blog posts, form submissions) lives in
 // this ONE dataset; the old site's `production` dataset is no longer read (posts migrated
-// 2026-10-27 by scripts/migrate-legacy-blog-sanity.ts).
+// 2026-10-27 by scripts/migrate-legacy-blog-sanity.ts, removed 2026-10-30, in git history).
 export const apiVersion = process.env.NEXT_PUBLIC_SANITY_API_VERSION || "2024-01-01";
 
 export const dataset = process.env.NEXT_PUBLIC_SANITY_DATASET || "v2_xconcile";

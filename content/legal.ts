@@ -3,7 +3,7 @@ import type { RichText } from "./types";
 /**
  * Legal pages (design pages/Privacy Policy.svg + pages/Terms of Use.svg, 2026-10-29): code
  * fallback for Studio → Privacy Policy / Terms of Use (sanity/lib/legal-page.ts), and the source
- * for scripts/seed-legal-pages-sanity.ts. Any field left empty in Studio shows this copy.
+ * for scripts/seed-legal-pages-sanity.ts, removed 2026-10-30, in git history. Any field left empty in Studio shows this copy.
  *
  * Studio edits each page's text in one "Content" box, the same rich text editor as blog posts
  * (user request 2026-10-29): Heading 2 per section, paragraphs, bold, lists, links, images,

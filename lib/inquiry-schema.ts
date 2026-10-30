@@ -2,6 +2,12 @@ import { z } from "zod";
 
 import { inquiryServiceOptions } from "@/lib/inquiry-options";
 
+// No JIT (security audit S6, 2026-10-30): zod probes `new Function("")` to decide whether it may
+// compile validators. The site's Content-Security-Policy has no 'unsafe-eval', so the probe
+// fails (zod catches it and validates the same way without JIT) but the browser still sends a
+// CSP violation report for it. `jitless` skips the probe; validation results are identical.
+z.config({ jitless: true });
+
 const serviceValues: readonly string[] = inquiryServiceOptions.map((o) => o.value);
 
 /**

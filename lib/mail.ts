@@ -78,6 +78,34 @@ const escapeHtml = (value: string) =>
     (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]!,
   );
 
+/**
+ * Visitor text used in an email subject (security audit N-S5): control characters and line
+ * breaks become spaces, runs of spaces collapse, and it is capped at `max` characters, so a
+ * long or multi-line "name" can't turn the subject into a message of its own.
+ */
+export function subjectText(value: string, max = 80) {
+  const clean = value
+    .replace(/[\u0000-\u001f\u007f\u2028\u2029]+/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+  return clean.length > max ? `${clean.slice(0, max - 1)}…` : clean;
+}
+
+/**
+ * The page a form was sent from, for the admin email. The browser's Referer header can be set
+ * to anything by a script, so it is only shown when it is a URL on the host that received the
+ * request (this site, its preview, or localhost); otherwise it is left out (audit N-S5).
+ */
+export function sameSitePage(referer: string | null | undefined, host: string | null | undefined) {
+  if (!referer || !host) return undefined;
+  try {
+    const url = new URL(referer);
+    return url.host === host && /^https?:$/.test(url.protocol) ? url.href : undefined;
+  } catch {
+    return undefined;
+  }
+}
+
 /** Minimal, inline-styled admin email. Every user-supplied value is HTML-escaped. */
 export function leadEmailHtml(
   rows: [label: string, value: string | undefined][],

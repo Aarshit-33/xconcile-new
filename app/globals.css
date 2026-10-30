@@ -1,7 +1,6 @@
 @import "tailwindcss" source(none);
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
-@plugin "@tailwindcss/typography";
 
 /* Scan only the app's own code. Automatic detection also read the agent-skill docs in
    .agents/ and docs/ (thousands of example classes) and inflated the CSS from ~40KB to 170KB.
@@ -295,14 +294,18 @@
   }
 }
 
-/* Inline links inside body copy (RichText, form notices, cookie banner). Design used #2C00A1;
-   the normalization spec replaced it with dark text + a green underline. Client request
-   2026-10-22: no underline, the whole link in brand green. Hover goes to a DARKER green
-   (client note 2026-10-27, page-updated/newShit/27-10-2026.svg: was opacity 0.8, which read
-   lighter). */
+/* Inline links inside body copy (RichText, blog / case study / legal text, form notices, cookie
+   banner). Design used #2C00A1; the normalization spec replaced it with dark text + a green
+   underline. Client request 2026-10-22: no underline, the whole link in brand green.
+   Client request 2026-10-30 (screenshot of the case study link "outsourced audit support"): every
+   inline link looks like that one: brand green, medium weight, underlined. Hover goes to a
+   slightly DARKER green, underline kept (client note 2026-10-27,
+   page-updated/newShit/27-10-2026.svg: was opacity 0.8, which read lighter). */
 @utility link-inline {
   color: var(--color-brand);
-  text-decoration-line: none;
+  font-weight: 500;
+  text-decoration-line: underline;
+  text-underline-offset: 2px;
   transition: color 150ms;
   &:hover {
     color: var(--color-brand-hover);

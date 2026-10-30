@@ -8,7 +8,7 @@
  * the only difference is that the Security & Data Protection section was removed. The
  * design's "Show more services (3)" button is not used: the real-estate page has no such
  * component. Editable in Studio → Industry Pages (`industryPage-medical-health`); this file is
- * the fallback and the seed source (scripts/seed-industry-sanity.ts).
+ * the fallback and the seed source (scripts/seed-industry-sanity.ts, removed 2026-10-30, in git history).
  *
  * Every deviation from the drawn copy is marked `COPY FIX`; text that is not in the design at
  * all is marked `NOT IN DESIGN` and needs client confirmation.

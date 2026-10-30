@@ -11,7 +11,7 @@
  * every screen. An unmatched `*` is shown as a literal asterisk.
  *
  * Pure functions, no React: used by components, the Sanity mappers, the Studio schema and the
- * migration script (scripts/migrate-heading-titles.ts).
+ * migration script (scripts/migrate-heading-titles.ts, removed 2026-10-30, in git history).
  */
 
 export type HighlightSegment = { text: string; highlight: boolean };

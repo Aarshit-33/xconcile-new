@@ -26,8 +26,8 @@ function formatDate(iso: string) {
  *     lines exactly as typed in Studio. Card padding 32px; the first heading's own 16px top
  *     spacing is absorbed by a smaller top padding so it still starts 32px in.
  *  3. The shared contact section (Studio → Home Page → Contact), then the footer (layout).
- * Inline links in the intro use the site-wide `link-inline` style (green, no underline; client
- * request 2026-10-22).
+ * Inline links in the intro use the site-wide `link-inline` style (green, underlined, darker
+ * green on hover; client request 2026-10-30).
  */
 export function LegalPageTemplate({
   content,

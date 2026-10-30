@@ -17,9 +17,14 @@ export default function robots(): MetadataRoute.Robots {
     rules: [
       { userAgent: "*", allow: "/", disallow: ["/studio/", "/api/"] },
       // AI crawlers: allowed for GEO/AEO visibility (report §8.3). Change to disallow if the client opts out.
-      { userAgent: ["GPTBot", "OAI-SearchBot", "ClaudeBot", "PerplexityBot", "Google-Extended"], allow: "/" },
+      // A named group REPLACES the `*` group for those bots, so it repeats the disallows (audit N-SEO5).
+      {
+        userAgent: ["GPTBot", "OAI-SearchBot", "ClaudeBot", "PerplexityBot", "Google-Extended"],
+        allow: "/",
+        disallow: ["/studio/", "/api/"],
+      },
     ],
     sitemap: absoluteUrl("/sitemap.xml"),
-    host: absoluteUrl("/"),
+    // No `host`: a Yandex-only directive (dropped in 2018) that expects a bare hostname.
   };
 }

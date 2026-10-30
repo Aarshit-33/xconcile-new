@@ -2,6 +2,8 @@ import type { NextConfig } from "next";
 
 /** Only the live deployment sets NEXT_PUBLIC_SITE_ENV=production (see app/robots.ts). */
 const isProduction = process.env.NEXT_PUBLIC_SITE_ENV === "production";
+/** `next dev`: React's dev build needs eval, and HMR uses a websocket. */
+const isDev = process.env.NODE_ENV === "development";
 
 /**
  * Security headers (audit 2026-10-27, S6). Sent on every response, Studio included.
@@ -18,41 +20,112 @@ const securityHeaders = [
     key: "Permissions-Policy",
     value: "camera=(), microphone=(), geolocation=(), browsing-topics=()",
   },
-  // Enforced CSP limited to directives that cannot break third-party scripts.
-  {
-    key: "Content-Security-Policy",
-    value: [
-      "frame-ancestors 'self'",
-      "base-uri 'self'",
-      "form-action 'self'",
-      "object-src 'none'",
-      // Production only: on http://localhost it would upgrade the page's own assets to https.
-      ...(isProduction ? ["upgrade-insecure-requests"] : []),
-    ].join("; "),
-  },
 ];
 
-/**
- * Full CSP, REPORT-ONLY for now: browsers log violations in the console but block nothing. GTM
- * can inject any tag configured in its container, so check the console on the live site (and GTM's
- * tag list) and add missing hosts here before switching the header name to
- * `Content-Security-Policy`. `'unsafe-inline'` is needed for Next's inline bootstrap scripts
- * unless nonces are added (which would make every page dynamic). Not applied to /studio.
- */
-const reportOnlyCsp = [
-  "default-src 'self'",
-  "script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://*.google-analytics.com https://salesiq.zohopublic.in https://*.zohopublic.in https://static.zohocdn.com https://assets.calendly.com https://va.vercel-scripts.com",
-  "style-src 'self' 'unsafe-inline' https://static.zohocdn.com https://*.zohopublic.in https://assets.calendly.com",
-  "img-src 'self' data: blob: https:",
-  "font-src 'self' data: https://static.zohocdn.com https://*.zohopublic.in",
-  "connect-src 'self' https://*.google-analytics.com https://*.analytics.google.com https://www.googletagmanager.com https://*.zohopublic.in wss://*.zohopublic.in https://vitals.vercel-insights.com",
-  "frame-src 'self' https://www.youtube-nocookie.com https://www.youtube.com https://calendly.com https://*.zohopublic.in https://www.googletagmanager.com",
-  "media-src 'self' https:",
+/** Directives that can't break any third-party script; enforced everywhere, Studio included. */
+const baseCsp = [
   "frame-ancestors 'self'",
   "base-uri 'self'",
   "form-action 'self'",
   "object-src 'none'",
+  // Production only: on http://localhost it would upgrade the page's own assets to https.
+  ...(isProduction ? ["upgrade-insecure-requests"] : []),
+];
+
+/**
+ * Full CSP for the website (not /studio), ENFORCED since 2026-10-30 (audit S6: "add a reporting
+ * endpoint, review the reports, then enforce"). Hosts come from:
+ * - the live GTM container GTM-WRRFT9ZZ (checked 2026-10-30): GA4 G-CXWJ1X8BEM, and a Custom
+ *   HTML tag that loads Apollo.io's tracker (assets.apollo.io → aplo-evnt.com), which loads
+ *   LiveIntent (d-code.liadm.com → *.liadm.com);
+ * - Zoho SalesIQ, Calendly, YouTube (nocookie), Vercel Analytics / Speed Insights;
+ * - a headless-Chrome crawl of the production build with consent denied and granted, opening
+ *   Calendly, the chat widget, a video and the contact CAPTCHA: 0 violations.
+ * `'unsafe-inline'` scripts are needed for Next's inline bootstrap and GTM's Custom HTML tag
+ * (nonces would make every page dynamic).
+ *
+ * Violations are reported to /api/csp-report (app/api/csp-report/route.ts) and logged as
+ * `[csp] {...}` lines. If marketing adds a GTM tag that loads a new host, its requests are
+ * blocked and logged there: add the host below.
+ * Emergency switch, no code change: set CSP_REPORT_ONLY=true in Vercel and redeploy; the
+ * policy is then only reported, never enforced.
+ */
+const googleHosts = [
+  "https://*.googletagmanager.com",
+  "https://*.google-analytics.com",
+  "https://*.analytics.google.com",
+  "https://www.google.com",
+  "https://www.googleadservices.com",
+  "https://googleads.g.doubleclick.net",
+  "https://pagead2.googlesyndication.com",
+];
+const zohoHosts = ["https://*.zohopublic.in", "https://*.zohocdn.com"];
+const vercelToolbar = isProduction
+  ? { script: [], style: [], font: [], connect: [], frame: [] }
+  : {
+      // Vercel's preview toolbar (preview deployments only).
+      script: ["https://vercel.live"],
+      style: ["https://vercel.live"],
+      font: ["https://vercel.live", "https://assets.vercel.com"],
+      connect: ["https://vercel.live", "wss://ws-us3.pusher.com"],
+      frame: ["https://vercel.live"],
+    };
+
+const websiteCsp = [
+  "default-src 'self'",
+  [
+    "script-src 'self' 'unsafe-inline'",
+    ...(isDev ? ["'unsafe-eval'"] : []),
+    ...googleHosts,
+    ...zohoHosts,
+    "https://assets.calendly.com",
+    "https://assets.apollo.io",
+    "https://*.liadm.com",
+    "https://va.vercel-scripts.com",
+    ...vercelToolbar.script,
+  ].join(" "),
+  [
+    "style-src 'self' 'unsafe-inline'",
+    ...zohoHosts,
+    "https://assets.calendly.com",
+    ...vercelToolbar.style,
+  ].join(" "),
+  "img-src 'self' data: blob: https:",
+  ["font-src 'self' data:", ...zohoHosts, ...vercelToolbar.font].join(" "),
+  [
+    "connect-src 'self'",
+    ...(isDev ? ["ws:", "wss:"] : []),
+    ...googleHosts,
+    "https://*.google.com",
+    "https://*.doubleclick.net",
+    ...zohoHosts,
+    "wss://*.zohopublic.in",
+    "https://aplo-evnt.com",
+    "https://*.apollo.io",
+    "https://*.liadm.com",
+    "https://calendly.com",
+    "https://vitals.vercel-insights.com",
+    ...vercelToolbar.connect,
+  ].join(" "),
+  [
+    "frame-src 'self'",
+    "https://www.youtube-nocookie.com",
+    "https://www.youtube.com",
+    "https://calendly.com",
+    "https://*.zohopublic.in",
+    "https://www.googletagmanager.com",
+    "https://td.doubleclick.net",
+    "https://*.liadm.com",
+    ...vercelToolbar.frame,
+  ].join(" "),
+  "media-src 'self' blob: https:",
+  "worker-src 'self' blob:",
+  "manifest-src 'self'",
+  ...baseCsp,
+  "report-uri /api/csp-report",
 ].join("; ");
+
+const cspReportOnly = process.env.CSP_REPORT_ONLY === "true";
 
 const nextConfig: NextConfig = {
   cacheComponents: true,
@@ -68,16 +141,6 @@ const nextConfig: NextConfig = {
     // agents are nudged only about security releases. Dev-tooling only; no effect on the site.
     agentUpgrade: "security",
   },
-  // `npm run share` (ngrok) / `npm run share:cf` (Cloudflare quick tunnel): let the dev server
-  // serve its dev-only assets/HMR to tunnel URLs.
-  allowedDevOrigins: [
-    "*.ngrok-free.app",
-    "*.ngrok-free.dev",
-    "*.ngrok.app",
-    "*.ngrok.dev",
-    "*.ngrok.io",
-    "*.trycloudflare.com",
-  ],
   // Note: experimental.inlineCss was A/B tested on Home: no Lighthouse gain, HTML 422KB -> 792KB
   // (CSS duplicated in the RSC payload) and no cross-page CSS caching. Keep linked CSS.
   turbopack: {
@@ -95,20 +158,35 @@ const nextConfig: NextConfig = {
     // allowed value, so this one entry sets it site-wide; it is also the only quality the
     // /_next/image endpoint accepts. Images are still resized per screen and sent as AVIF/WebP.
     qualities: [90],
-    remotePatterns: [{ protocol: "https", hostname: "cdn.sanity.io" }],
-    // Local dev only: on some networks (NAT64 / IPv6 tunnels) cdn.sanity.io resolves to an
-    // IPv4-mapped IPv6 address (64:ff9b::…) that Next.js classifies as private. This flag
-    // re-enables image optimisation for that address space in dev. It has no effect in
-    // production because prod servers reach cdn.sanity.io via a real public IP.
-    dangerouslyAllowSVG: false,
-    ...(process.env.NODE_ENV !== "production" ? { dangerouslyAllowLocalIP: true } : {}),
+    // Only this Sanity project's images (audit N-S8: any cdn.sanity.io path was accepted, so
+    // anyone could use this site's billed optimizer for other Sanity customers' images).
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "cdn.sanity.io",
+        pathname: `/images/${process.env.NEXT_PUBLIC_SANITY_PROJECT_ID || "3fkk9bs9"}/**`,
+      },
+    ],
   },
   async headers() {
     return [
-      { source: "/:path*", headers: securityHeaders },
+      {
+        source: "/:path*",
+        headers: [
+          ...securityHeaders,
+          { key: "Content-Security-Policy", value: baseCsp.join("; ") },
+        ],
+      },
+      // Website pages: the full policy. Same header name in enforce mode, so it replaces the base
+      // one above (Next keeps the last match); in report-only mode both are sent.
       {
         source: "/:path((?!studio(?:/|$)).*)",
-        headers: [{ key: "Content-Security-Policy-Report-Only", value: reportOnlyCsp }],
+        headers: [
+          {
+            key: cspReportOnly ? "Content-Security-Policy-Report-Only" : "Content-Security-Policy",
+            value: websiteCsp,
+          },
+        ],
       },
       // Preview/staging deployments (xconcile-new.vercel.app, ...): never indexed, even when a
       // URL is linked from elsewhere (robots.txt alone only stops crawling). Audit SEO6.
@@ -150,6 +228,14 @@ const nextConfig: NextConfig = {
       },
       // Old industry with no page in the redesign.
       { source: "/industries/industrial-niche", destination: "/industries", permanent: true },
+      // Older iOS/Android versions probe these names when a page doesn't declare its icon
+      // (audit N-SEO13: they were 404s). The site's touch icon is app/apple-icon.png.
+      { source: "/apple-touch-icon.png", destination: "/apple-icon.png", permanent: true },
+      {
+        source: "/apple-touch-icon-precomposed.png",
+        destination: "/apple-icon.png",
+        permanent: true,
+      },
     ];
   },
 };

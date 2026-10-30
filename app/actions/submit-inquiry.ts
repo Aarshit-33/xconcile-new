@@ -6,7 +6,13 @@ import { z } from "zod";
 import { verifyCaptcha } from "@/lib/captcha";
 import { inquiryServiceLabel } from "@/lib/inquiry-options";
 import { inquirySchema, type InquiryField, type InquirySubmission } from "@/lib/inquiry-schema";
-import { isMailConfigured, leadEmailHtml, sendAdminMail } from "@/lib/mail";
+import {
+  isMailConfigured,
+  leadEmailHtml,
+  sameSitePage,
+  sendAdminMail,
+  subjectText,
+} from "@/lib/mail";
 import { writeToken } from "@/sanity/env.server";
 import { writeClient } from "@/sanity/lib/client";
 
@@ -43,7 +49,7 @@ export async function submitInquiry(input: InquirySubmission): Promise<InquiryRe
   const { website, captchaAnswer, captchaToken, ...lead } = parsed.data;
   if (website) return { ok: true }; // honeypot filled: pretend success, store nothing
 
-  const captcha = verifyCaptcha(captchaToken, captchaAnswer);
+  const captcha = await verifyCaptcha(captchaToken, captchaAnswer);
   if (captcha !== "ok") {
     return {
       ok: false,
@@ -58,7 +64,8 @@ export async function submitInquiry(input: InquirySubmission): Promise<InquiryRe
   }
 
   const submittedAt = new Date().toISOString();
-  const pageUrl = (await headers()).get("referer") ?? undefined;
+  const requestHeaders = await headers();
+  const pageUrl = sameSitePage(requestHeaders.get("referer"), requestHeaders.get("host"));
   let saved = false;
   let mailed = false;
 
@@ -88,7 +95,7 @@ export async function submitInquiry(input: InquirySubmission): Promise<InquiryRe
   if (isMailConfigured()) {
     try {
       await sendAdminMail({
-        subject: `New enquiry: ${lead.name} (${inquiryServiceLabel(lead.service)})`,
+        subject: `New enquiry: ${subjectText(lead.name, 60)} (${inquiryServiceLabel(lead.service)})`,
         replyTo: lead.email,
         html: leadEmailHtml(
           [

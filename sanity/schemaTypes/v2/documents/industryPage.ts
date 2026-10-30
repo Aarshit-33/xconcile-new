@@ -7,7 +7,7 @@ import { pageUrlFields } from "../page-url-fields";
  * Sections in the same order as components/templates/industry-page.tsx. Each one is a field (with
  * its own Studio tab) whose type lives in ../sections and mirrors the matching block of
  * `IndustryPageContent` (content/industries/types.ts). Field names match the content keys, so the
- * mapper (sanity/lib/industry-page.ts) and the seed (scripts/seed-industry-sanity.ts) stay 1:1.
+ * mapper (sanity/lib/industry-page.ts) and the seed (scripts/seed-industry-sanity.ts, removed 2026-10-30, in git history) stay 1:1.
  * Only Sub-Industries is industry-specific; the rest reuse the Home/service/hire section types.
  */
 const sections: { name: string; title: string; type: string; required?: boolean }[] = [

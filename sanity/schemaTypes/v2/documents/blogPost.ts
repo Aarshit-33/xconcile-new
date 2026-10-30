@@ -6,7 +6,7 @@ import { RelatedPostSelect } from "../../../components/related-post-select";
 /**
  * Blog post (`/blog/<slug>`, app/(website)/blog/[slug]/page.tsx). Every published post appears
  * automatically on the Blog gallery and Home's blog section; no page has to be created in code.
- * The old site's posts were copied in as Blog Posts (scripts/migrate-legacy-blog-sanity.ts), same URLs.
+ * The old site's posts were copied in as Blog Posts (scripts/migrate-legacy-blog-sanity.ts, removed 2026-10-30, in git history), same URLs.
  */
 export default defineType({
   name: "blogPost",

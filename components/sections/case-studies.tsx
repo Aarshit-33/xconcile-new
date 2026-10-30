@@ -112,7 +112,14 @@ export function CaseStudies({ data }: { data: CaseStudiesContent }) {
                 // (client note 2026-10-28, 28-10-2026.svg): inactive panels are display:none so the
                 // card is only as tall as its own copy, and the button sits 32px (gap-8) below it.
                 <div className="self-end lg:mt-10">
-                  <CtaLink href={item.cta.href} variant="outline" mobileSolid>
+                  {/* aria-label: a descriptive name for screen readers and crawlers (audit N-SEO9:
+                      several identical "View Case Study" links); starts with the visible text. */}
+                  <CtaLink
+                    href={item.cta.href}
+                    variant="outline"
+                    mobileSolid
+                    aria-label={`${item.cta.label}: ${item.title}`}
+                  >
                     {item.cta.label}
                   </CtaLink>
                 </div>

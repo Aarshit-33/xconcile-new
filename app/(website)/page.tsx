@@ -81,18 +81,15 @@ export default async function HomePage() {
       <WhyChoose data={home.whyChoose} />
       <Tools data={home.tools} />
       <Testimonials data={home.testimonials} />
-      {/* Suspense: blog posts come from another dataset (sanity/lib/queries.ts). When that cache
-          entry is cold (after a deploy/edit) or the query is slow, Next would otherwise block the
+      {/* Suspense: the blog posts query (sanity/lib/queries.ts) is a separate cache entry. When it
+          is cold (after a deploy/edit) or the query is slow, Next would otherwise block the
           whole route ("uncached data during prerendering", 2026-10-26). Cached = still in the
           prerendered HTML; otherwise it streams in. Below the fold, so no visible placeholder. */}
       <Suspense fallback={null}>
         <BlogTeaser data={home.blog} />
       </Suspense>
       <Faq data={home.faq} />
-      {/*
-        Old-site contact section (client request 2026-10-15). To restore the Figma design:
-        <ContactSection data={home.contact} className="lg:mt-20" /> from @/components/shared/contact-section
-      */}
+      {/* Old-site contact section (client request 2026-10-15). */}
       <InquirySection data={home.inquiry} contactEmail={settings.contact.email} />
     </>
   );

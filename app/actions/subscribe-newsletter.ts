@@ -3,7 +3,7 @@
 import { headers } from "next/headers";
 import { z } from "zod";
 
-import { isMailConfigured, leadEmailHtml, sendAdminMail } from "@/lib/mail";
+import { isMailConfigured, leadEmailHtml, sameSitePage, sendAdminMail } from "@/lib/mail";
 import { writeToken } from "@/sanity/env.server";
 import { writeClient } from "@/sanity/lib/client";
 
@@ -23,9 +23,11 @@ const schema = z.object({
  * 1. Validate the email; silently accept honeypot hits.
  * 2. Existing active subscriber → "already"; unsubscribed → reactivated.
  * 3. Otherwise create a `newsletterSubscription` document (Studio → Newsletter Subscribers).
- * 4. New or reactivated subscriber: notify connect@xconcile.com (lib/mail.ts; user request
- *    2026-10-28, option A). The subscriber gets no email. A failed notification never fails the
- *    sign-up: the subscriber is already saved.
+ * 4. Every accepted sign-up notifies the admin inbox (lib/mail.ts; user request 2026-10-28,
+ *    option A), including repeat sign-ups from an email that's already subscribed. Repeat
+ *    sign-ups used to skip the email, so a re-test with an existing address looked like a mail
+ *    failure (bug report 2026-10-30). The subscriber gets no email. A failed notification never
+ *    fails the sign-up: the subscriber is already saved.
  */
 export async function subscribeNewsletter(input: {
   email: string;
@@ -57,12 +59,16 @@ export async function subscribeNewsletter(input: {
     );
     const subscribedAt = new Date().toISOString();
 
-    const source = (await headers()).get("referer") ?? undefined;
+    const requestHeaders = await headers();
+    const source = sameSitePage(requestHeaders.get("referer"), requestHeaders.get("host"));
 
     if (existing) {
-      if (existing.status !== "unsubscribed") return { ok: true, status: "already" };
+      if (existing.status !== "unsubscribed") {
+        await notifyAdmin(email, subscribedAt, source, "repeat");
+        return { ok: true, status: "already" };
+      }
       await writeClient.patch(existing._id).set({ status: "active", subscribedAt }).commit();
-      await notifyAdmin(email, subscribedAt, source, true);
+      await notifyAdmin(email, subscribedAt, source, "returning");
       return { ok: true, status: "subscribed" };
     }
 
@@ -73,7 +79,7 @@ export async function subscribeNewsletter(input: {
       status: "active",
       source,
     });
-    await notifyAdmin(email, subscribedAt, source, false);
+    await notifyAdmin(email, subscribedAt, source, "new");
     return { ok: true, status: "subscribed" };
   } catch (error) {
     console.error("[subscribeNewsletter] Sanity save failed", error);
@@ -81,18 +87,30 @@ export async function subscribeNewsletter(input: {
   }
 }
 
-/** Email connect@xconcile.com about a new (or returning) subscriber; logs instead of throwing. */
+const NOTICE = {
+  new: { heading: "New newsletter subscriber", status: "New subscriber" },
+  returning: {
+    heading: "Newsletter subscriber is back",
+    status: "Re-subscribed (had unsubscribed before)",
+  },
+  repeat: {
+    heading: "Newsletter sign-up (already subscribed)",
+    status: "Signed up again; already on the list, nothing changed",
+  },
+} as const;
+
+/** Email the admin inbox about a newsletter sign-up; logs instead of throwing. */
 async function notifyAdmin(
   email: string,
   subscribedAt: string,
   source: string | undefined,
-  returning: boolean,
+  kind: keyof typeof NOTICE,
 ) {
   if (!isMailConfigured()) {
     console.warn("[subscribeNewsletter] Graph mail env vars are not set; admin email not sent");
     return;
   }
-  const heading = returning ? "Newsletter subscriber is back" : "New newsletter subscriber";
+  const { heading, status } = NOTICE[kind];
   try {
     await sendAdminMail({
       subject: `${heading}: ${email}`,
@@ -100,7 +118,7 @@ async function notifyAdmin(
       html: leadEmailHtml(
         [
           ["Email", email],
-          ["Status", returning ? "Re-subscribed (had unsubscribed before)" : "New subscriber"],
+          ["Status", status],
           ["Page", source],
         ],
         new Date(subscribedAt).toUTCString(),

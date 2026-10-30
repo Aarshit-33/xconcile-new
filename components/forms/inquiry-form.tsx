@@ -56,11 +56,18 @@ const lazyZodResolver: Resolver<InquiryFormInput, unknown, InquiryFormOutput> = 
 export function InquiryForm({
   copy,
   contactEmail = siteConfig.contact.email,
+  titleAs: Title = "h3",
   className,
 }: {
   copy: Copy;
   /** From Sanity Site Settings (passed by the server parent); code value otherwise. */
   contactEmail?: string;
+  /**
+   * Card heading level: one below the section title ("h2" on /contact, where the section title
+   * is the page's h1; audit N-SEO10). Every heading level is styled the same, so it looks
+   * identical.
+   */
+  titleAs?: "h2" | "h3";
   className?: string;
 }) {
   const [status, setStatus] = useState<"idle" | "success" | "error">("idle");
@@ -129,7 +136,7 @@ export function InquiryForm({
       )}
     >
       <div className="mb-8">
-        <h3 className="text-2xl font-bold text-[#171717]">{copy.title}</h3>
+        <Title className="text-2xl font-bold text-[#171717]">{copy.title}</Title>
         <p className="mt-1 text-sm text-[#737373]">{copy.note}</p>
       </div>
 

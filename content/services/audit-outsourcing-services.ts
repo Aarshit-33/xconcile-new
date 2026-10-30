@@ -7,7 +7,7 @@
  *    (2026-10-25: only the case study changed).
  *  - Sanity (since 2026-10-17): the whole page is editable in Studio → Service Pages
  *    (`servicePage` document, slug `audit-outsourcing-services`, seeded from this file by
- *    scripts/seed-service-sanity.ts). This file is the fallback for any section or field left
+ *    scripts/seed-service-sanity.ts, removed 2026-10-30, in git history). This file is the fallback for any section or field left
  *    empty there (see sanity/lib/service-page.ts).
  *
  * Every deviation from the drawn copy is marked `COPY FIX`; text that is not in the design at

@@ -61,7 +61,9 @@ function AccordionContent({
   ...props
 }: React.ComponentProps<typeof AccordionPrimitive.Content>) {
   const innerClassName = cn(
-    "pt-0 pb-2.5 [&_a]:underline [&_a]:underline-offset-3 [&_a]:hover:text-foreground [&_p:not(:last-child)]:mb-4",
+    // No `[&_a]` link styles here: links in answers use the site-wide `link-inline` style
+    // (globals.css; client request 2026-10-30).
+    "pt-0 pb-2.5 [&_p:not(:last-child)]:mb-4",
     className
   )
 

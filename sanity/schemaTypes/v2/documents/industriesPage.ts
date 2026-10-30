@@ -5,7 +5,7 @@ import { defineField, defineType } from "sanity";
  * Sections in the same order as components/templates/industries-gallery.tsx; each mirrors the
  * matching block of `IndustriesGalleryContent` (content/industries/types.ts). Field names match
  * the content keys, so the mapper (sanity/lib/industries-gallery.ts) and the seed
- * (scripts/seed-industries-gallery-sanity.ts) stay 1:1.
+ * (scripts/seed-industries-gallery-sanity.ts, removed 2026-10-30, in git history) stay 1:1.
  */
 const sections: { name: string; title: string; type: string; required?: boolean }[] = [
   { name: "hero", title: "Hero", type: "heroSection", required: true },

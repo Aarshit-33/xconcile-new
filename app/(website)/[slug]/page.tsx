@@ -154,16 +154,19 @@ export default async function SlugPage({ params }: PageProps<"/[slug]">) {
             { name: content.name, path },
           ]),
           faqLd(content.faq.items),
-          ...(content.testimonials?.videos ?? []).map((v) =>
-            videoJsonLd({
-              youtubeId: v.youtubeId,
-              title: v.title,
-              description: `${v.name}, ${v.company}, on working with Xconcile.`,
-              thumbnail: v.poster.src,
-              uploadDate: v.uploadDate,
-              duration: v.duration,
-            }),
-          ),
+          // One VideoObject per distinct video (audit N-SEO7: the slider may repeat a video).
+          ...(content.testimonials?.videos ?? [])
+            .filter((v, i, all) => all.findIndex((o) => o.youtubeId === v.youtubeId) === i)
+            .map((v) =>
+              videoJsonLd({
+                youtubeId: v.youtubeId,
+                title: v.title,
+                description: `${v.name}, ${v.company}, on working with Xconcile.`,
+                thumbnail: v.poster.src,
+                uploadDate: v.uploadDate,
+                duration: v.duration,
+              }),
+            ),
         ]}
       />
       <ServicePageTemplate content={content} />

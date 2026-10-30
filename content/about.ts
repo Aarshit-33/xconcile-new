@@ -3,8 +3,8 @@
  *
  * Sources:
  *  - Copy: the design. Sections that repeat an existing block with the same copy reuse it
- *    (Businesses We Work With + Security = the hire bookkeeper page; the contact form = Home's
- *    Figma contact section, including its field-label COPY FIXes).
+ *    (Businesses We Work With + Security = the hire bookkeeper page). The contact section is
+ *    Home's (components/templates/about-page.tsx renders InquirySection with Home's copy).
  *  - Sanity: the `aboutPage` singleton (Studio → About Page) wins; this file is the fallback for
  *    any section or field left empty there (sanity/lib/about-page.ts).
  *
@@ -12,7 +12,6 @@
  * all is marked `NOT IN DESIGN` and needs client confirmation.
  */
 import { hireBookkeeperAccountant } from "@/content/hire/hire-bookkeeper-accountant";
-import { home } from "@/content/home";
 import type {
   AudienceCardsContent,
   CardGridContent,
@@ -38,7 +37,6 @@ export type AboutPageContent = {
   values: FeatureCardsContent;
   security: SecurityControlsContent;
   expertise: CardGridContent;
-  contact: typeof home.contact;
 };
 
 export const about: AboutPageContent = {
@@ -217,8 +215,4 @@ export const about: AboutPageContent = {
       { icon: "query_stats", title: "Virtual CFO & FP&A" },
     ],
   },
-
-  // Same heading, text, checks and form as Home's Figma contact section (incl. its COPY FIXes:
-  // the design labels the message box "Company" and every placeholder "Your name").
-  contact: home.contact,
 };

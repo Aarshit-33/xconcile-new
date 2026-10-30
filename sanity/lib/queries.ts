@@ -1,6 +1,6 @@
 /**
  * Blog posts: `blogPost` documents in this site's dataset (Studio → Blog Posts). The old site's
- * posts were copied here on 2026-10-27 (scripts/migrate-legacy-blog-sanity.ts, same slugs).
+ * posts were copied here on 2026-10-27 (scripts/migrate-legacy-blog-sanity.ts, removed 2026-10-30, in git history, same slugs).
  * Cards: Home blog teaser, Blog gallery, Related Blog.
  */
 import { sanityFetch } from "./fetch";

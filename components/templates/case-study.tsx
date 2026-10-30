@@ -26,7 +26,7 @@ export function CaseStudyTemplate({
         aria-labelledby="case-study-title"
         className="bg-white pt-6 pb-12 md:pt-8 md:pb-16 lg:pb-10"
       >
-        <div className="container-site flex flex-col gap-10 lg:gap-[88px]">
+        <div className="container-site flex flex-col gap-10">
           <CaseStudyOverview study={study} />
           <CaseStudyContent body={study.body} />
         </div>

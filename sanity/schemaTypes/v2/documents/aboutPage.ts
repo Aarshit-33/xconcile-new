@@ -4,7 +4,7 @@ import { defineField, defineType } from "sanity";
 /**
  * Sections in the same order as components/templates/about-page.tsx; each mirrors the matching
  * block of `AboutPageContent` (content/about.ts). Field names match the content keys, so the
- * mapper (sanity/lib/about-page.ts) and the seed (scripts/seed-about-sanity.ts) stay 1:1.
+ * mapper (sanity/lib/about-page.ts) and the seed (scripts/seed-about-sanity.ts, removed 2026-10-30, in git history) stay 1:1.
  */
 const sections: { name: string; title: string; type: string; required?: boolean }[] = [
   { name: "hero", title: "Hero", type: "heroSection", required: true },
@@ -16,7 +16,8 @@ const sections: { name: string; title: string; type: string; required?: boolean 
   { name: "values", title: "Core Values", type: "featureCardsSection" },
   { name: "security", title: "Security", type: "securityControlsSection" },
   { name: "expertise", title: "Expertise", type: "cardGridSection" },
-  { name: "contact", title: "Contact Form", type: "leadContactSection" },
+  // No "Contact Form" field: the page shows Home's contact section (Studio → Home Page → Contact
+  // Form). The old light form (`leadContactSection`) was never rendered; removed 2026-10-30.
 ];
 
 /** About page (`/about`, singleton `_id: "aboutPage"`). */
