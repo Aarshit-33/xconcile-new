@@ -188,6 +188,18 @@ const nextConfig: NextConfig = {
           },
         ],
       },
+      // Sitemap and robots.txt: must never be served from Vercel's edge CDN cache because the
+      // webhook invalidates the Next.js origin cache but Vercel edge would re-cache immediately
+      // and keep serving the stale XML until its own TTL expires.  `s-maxage=0` stops edge
+      // caching; `must-revalidate` ensures browsers also re-check on every load.
+      {
+        source: "/sitemap.xml",
+        headers: [{ key: "Cache-Control", value: "public, s-maxage=0, must-revalidate" }],
+      },
+      {
+        source: "/robots.txt",
+        headers: [{ key: "Cache-Control", value: "public, s-maxage=0, must-revalidate" }],
+      },
       // Preview/staging deployments (xconcile-new.vercel.app, ...): never indexed, even when a
       // URL is linked from elsewhere (robots.txt alone only stops crawling). Audit SEO6.
       ...(isProduction
