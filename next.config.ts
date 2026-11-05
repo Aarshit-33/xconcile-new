@@ -63,13 +63,13 @@ const zohoHosts = ["https://*.zohopublic.in", "https://*.zohocdn.com"];
 const vercelToolbar = isProduction
   ? { script: [], style: [], font: [], connect: [], frame: [] }
   : {
-      // Vercel's preview toolbar (preview deployments only).
-      script: ["https://vercel.live"],
-      style: ["https://vercel.live"],
-      font: ["https://vercel.live", "https://assets.vercel.com"],
-      connect: ["https://vercel.live", "wss://ws-us3.pusher.com"],
-      frame: ["https://vercel.live"],
-    };
+    // Vercel's preview toolbar (preview deployments only).
+    script: ["https://vercel.live"],
+    style: ["https://vercel.live"],
+    font: ["https://vercel.live", "https://assets.vercel.com"],
+    connect: ["https://vercel.live", "wss://ws-us3.pusher.com"],
+    frame: ["https://vercel.live"],
+  };
 
 const websiteCsp = [
   "default-src 'self'",
@@ -190,15 +190,16 @@ const nextConfig: NextConfig = {
       },
       // Sitemap and robots.txt: must never be served from Vercel's edge CDN cache because the
       // webhook invalidates the Next.js origin cache but Vercel edge would re-cache immediately
-      // and keep serving the stale XML until its own TTL expires.  `s-maxage=0` stops edge
-      // caching; `must-revalidate` ensures browsers also re-check on every load.
+      // and keep serving the stale XML until its own TTL expires.
+      // `no-store` is the ONLY header that fully disables Vercel edge caching for a route —
+      // `s-maxage=0` alone still allows stale-while-revalidate at the edge PoP.
       {
         source: "/sitemap.xml",
-        headers: [{ key: "Cache-Control", value: "public, s-maxage=0, must-revalidate" }],
+        headers: [{ key: "Cache-Control", value: "no-store" }],
       },
       {
         source: "/robots.txt",
-        headers: [{ key: "Cache-Control", value: "public, s-maxage=0, must-revalidate" }],
+        headers: [{ key: "Cache-Control", value: "public, max-age=3600" }],
       },
       // Preview/staging deployments (xconcile-new.vercel.app, ...): never indexed, even when a
       // URL is linked from elsewhere (robots.txt alone only stops crawling). Audit SEO6.
