@@ -1,4 +1,5 @@
 import type { MetadataRoute } from "next";
+import { connection } from "next/server";
 
 import { sanityFetch } from "@/sanity/lib/fetch";
 import { getAllCaseStudySlugs } from "@/sanity/lib/case-studies";
@@ -33,6 +34,7 @@ const SINGLETON_IDS = [
  * before its Sanity document exists; `_updatedAt` is added when it does.
  */
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  await connection();
   const [urls, blog, singletons, caseStudies, articles] = await Promise.all([
     getPageUrls(),
     // Blog posts from Studio → Blog Posts.
